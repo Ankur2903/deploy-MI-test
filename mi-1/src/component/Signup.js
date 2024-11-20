@@ -27,7 +27,7 @@ function Signup() {
       return handleError('Name, Email, or, password are required')
     }
     try {
-      const url = "http://localhost:8080/auth/signup";
+      const url = "https://deploy-mi-test-api.vercel.app//auth/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {

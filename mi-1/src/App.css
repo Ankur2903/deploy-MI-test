@@ -1,0 +1,278 @@
+@media (max-width: 768px) {
+  .heading {
+    margin-bottom: 15px;
+    font-size: 22px;
+  }
+  .output-text {
+    font-size: 15px;
+  }
+  .container1 {
+    padding: 15px;
+  }
+  .container {
+    padding: 10px;
+    gap: 15px;
+    flex-direction: column;
+  }
+  .heading {
+    margin-bottom: 15px;
+    font-size: 22px;
+  }
+  .button-wrapper {
+    margin-bottom: 15px;
+    max-width: 120px;
+  }
+  .button-text {
+    font-size: 13px;
+  }
+  .Image{
+    width: 100px;
+    height: 100px;
+    }
+    .button-wrapper-container {
+      gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+  .heading {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  .output-text {
+    font-size: 14px;
+  }
+  .container1 {
+    padding: 10px;
+    gap: 5px;
+  }
+  .input-field {
+    padding: 8px;
+    font-size: 14px;
+  }
+  .label {
+    margin-right: 5px;
+    font-size: 14px;
+  }
+  .container {
+    padding: 5px;
+    gap: 10px;
+  }
+  .heading {
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  .button-wrapper {
+    margin-bottom: 10px;
+    max-width: 100%;
+  }
+  .button-text {
+    font-size: 12px;
+  }
+  .Image{
+    width: 80px;
+    height: 80px;
+  }
+  .button-container {
+    padding: 10px;
+  }
+  .button-wrapper-container {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+
+.output-text {
+  font-size: 16px;
+}
+
+.container1 {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+}
+
+.input-field {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+:root {
+  --box-1-width: 29%; /* Default width for box 1 */
+  --box-2-width: 47%; /* Default width for box 2 */
+  --box-3-width: 20%; /* Default width for box 3 */
+}
+.box {
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  overflow: auto;
+  max-height: 100vh;
+}
+.box:nth-child(1) {
+  text-align: center;
+  width: var(--box-1-width);
+  overflow-y: auto;
+  max-height: 73vh;
+}
+.box:nth-child(2) {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: var(--box-2-width);
+  overflow-y: auto;
+  max-height: 73vh;
+}
+.box:nth-child(3) {
+  width: var(--box-3-width);
+  overflow-y: auto;
+  max-height: 73vh;
+}
+@media (max-width: 768px) {
+  .box {
+    width: 100%; /* Full width for each box on smaller screens */
+    max-height: none; /* Remove height restriction on mobile */
+  }
+  .box:nth-child(1) {
+    width: 100%; /* Full width for each box on smaller screens */
+    max-height: none; /* Remove height restriction on mobile */
+  }
+  .box:nth-child(2) {
+    width: 100%; /* Full width for each box on smaller screens */
+    max-height: none; /* Remove height restriction on mobile */
+  }
+  .box:nth-child(3) {
+    width: 100%; /* Full width for each box on smaller screens */
+    max-height: none; /* Remove height restriction on mobile */
+  }
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 20px;
+  box-sizing: border-box;
+  max-width: 1600px;
+}
+
+.heading {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 24px;
+}
+
+.button-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  max-width: 150px; /* Adjust button wrapper width for smaller screens */
+}
+
+.button-text {
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.button-wrapper-container {
+  display: flex;
+  flex-wrap: wrap; /* Allows buttons to wrap to the next line on smaller screens */
+  justify-content: center;
+  gap: 20px; /* Space between buttons */
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.Image {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 8px; /* Adjust margin for better spacing on smaller screens */
+}
+
+.Button {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #ccc;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+  width: 100%; /* Ensures the button takes full width on small screens */
+}
+
+.Button:hover {
+  border-color: #000000;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}

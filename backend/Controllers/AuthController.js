@@ -7,9 +7,9 @@ const signup = async (req, res) => {
         const { name, email, password } = req.body;
         const user = await UserModel.findOne({ email });
         if (user) {
-            console.log("signup working 1");
+            console.log("signup working 1 in login in authcontrolle");
             return res.status(409)
-            .json({ message: 'User is already exist, you can login' , success: false } ) ;
+            .json({ message: 'User is already exist, you can login in login in authcontrolle' , success: false } ) ;
         }
         const userModel = new UserModel({name, email, password}) ;
         userModel.password = await bcrypt.hash(password, 10);
@@ -19,9 +19,9 @@ const signup = async (req, res) => {
             message: "Signup successfully ",
             success: true
         })
-        console.log("signup working 2");
+        console.log("signup working 2 in login in authcontrolle");
     } catch (err){
-        console.log("signup working 3");
+        console.log("signup working 3 in login in authcontrolle");
         res.status(500)
         .json({
             message: "Internal server error in signup AuthController",
@@ -35,14 +35,18 @@ const login = async (req, res) => {
         const { name, email, password } = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) {
+            console.log("login working 1 in login in authcontrolle");
             return res.status(403)
             .json({ message: 'Auth failed email or password is wrong' , success: false } ) ;
         }
+        console.log("login working 2");
        const isPassEqual = await bcrypt.compare(password, user.password)
        if(!isPassEqual){
+           console.log("login working 3");
             return res.status(403)
-            .json({ message: 'Auth failed email or password is wrong' , success: false } ) ;
+            .json({ message: 'Auth failed email or password is wrong in login in authcontrolle' , success: false } ) ;
        }
+        console.log("login working 4");
        const jwtToke = jwt.sign(
         { email: user.email, _id: user.id },
         process.env.JWT_SECRET,
@@ -50,16 +54,17 @@ const login = async (req, res) => {
        )
         res.status(200)
         .json({
-            message: "Signup successfully ",
+            message: "Signup successfully in login in authcontroller",
             success: true,
             jwtToke,
             email,
             name: user.name
         })
     } catch (err){
+        console.log("login working 1 in login in authcontrolle");
         res.status(500)
         .json({
-            message: "Internal server error",
+            message: "Internal server error in login in authcontroller",
             success: false
         })
     }

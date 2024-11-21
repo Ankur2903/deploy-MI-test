@@ -7,5 +7,7 @@ console.log("AuthRouteris working...")
 
 router.post('/login', loginvalidation, login)
 router.post('/signup', signupvalidation, signup)
+console.log("AuthRouteris working...")
+console.log("AuthRouteris working...")
 
 module.exports = router;

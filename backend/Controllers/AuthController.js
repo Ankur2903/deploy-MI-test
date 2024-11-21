@@ -54,7 +54,7 @@ const login = async (req, res) => {
        )
         res.status(200)
         .json({
-            message: "Signup successfully in login in authcontroller",
+            message: "Login successfully in login in authcontroller",
             success: true,
             jwtToke,
             email,

@@ -7,6 +7,7 @@ const signup = async (req, res) => {
         const { name, email, password } = req.body;
         const user = await UserModel.findOne({ email });
         if (user) {
+            console.log("signup working 1");
             return res.status(409)
             .json({ message: 'User is already exist, you can login' , success: false } ) ;
         }
@@ -18,10 +19,12 @@ const signup = async (req, res) => {
             message: "Signup successfully ",
             success: true
         })
+        console.log("signup working 2");
     } catch (err){
+        console.log("signup working 3");
         res.status(500)
         .json({
-            message: "Internal server error",
+            message: "Internal server error in signup AuthController",
             success: false
         })
     }

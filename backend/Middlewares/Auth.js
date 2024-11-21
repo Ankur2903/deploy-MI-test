@@ -7,7 +7,7 @@ const ensureAuthenticated = (req, res, next) => {
         .json({ message: 'Unauthorized, JWT token is require in auth'})
     }
     try{
-        console.log(is working in auth);
+        console.log("is working in auth");
         const decoded = jwt.verify(auth, process.env.JWT_SECRET);
         req.user = decoded;
         next();

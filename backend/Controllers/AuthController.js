@@ -22,7 +22,7 @@ const signup = async (req, res) => {
         console.log("signup working 2 in login in authcontrolle");
     } catch (err){
         console.log("signup working 3 in login in authcontrolle");
-        res.status(500)
+        res.status(0)
         .json({
             message: "Internal server error in signup AuthController",
             success: false
@@ -62,7 +62,7 @@ const login = async (req, res) => {
         })
     } catch (err){
         console.log("login working 1 in login in authcontrolle");
-        res.status(500)
+        res.status(0)
         .json({
             message: "Internal server error in login in authcontroller",
             success: false

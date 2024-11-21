@@ -13,7 +13,7 @@ function Signup() {
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
+    console.log("hello")
     const copySignupInfo = {...signupInfo};
     copySignupInfo[name] = value;
     setSignupInfo(copySignupInfo)

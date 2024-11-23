@@ -4,7 +4,7 @@ const UserModel = require('../Models/User')
 
 const signup = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, company, department, designation} = req.body;
         const user = await UserModel.findOne({ email });
         if (user) {
             console.log("signup working 1 in login in authcontrolle");

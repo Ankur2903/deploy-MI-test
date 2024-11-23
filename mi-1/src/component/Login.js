@@ -63,25 +63,25 @@ function Login() {
         <form onSubmit={handleSubmit}>
           <fieldset>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+              <label htmlFor="email" className="form-label style={{fontWeight: 'bold'}}">Email</label>
               <input
                 type="email"
                 name="email"
                 id="email"
                 className="form-control"
-                placeholder="Enter Your Email"
+                style={{border: '1px solid black'}}
                 value={loginInfo.email}
                 onChange={handleChange}
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
+              <label htmlFor="password" className="form-label" style={{fontWeight: 'bold'}}>Password</label>
               <input
                 type="password"
                 name="password"
                 id="password"
                 className="form-control"
-                placeholder="Enter Your Password"
+                style={{border: '1px solid black'}}
                 value={loginInfo.password}
                 onChange={handleChange}
               />

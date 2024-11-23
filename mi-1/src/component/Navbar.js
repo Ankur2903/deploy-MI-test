@@ -28,23 +28,13 @@ function Navbar() {
       <nav className="navbar navbar-white bg-white">
         <div className="container-fluid d-flex align-items-center justify-content-between flex-lg-row flex-column text-lg-start text-center">
           {/* Links Section */}
-          <div className="d-flex align-items-center mb-2 mb-lg-0">
-            {currentPath!=='/login' && currentPath!=='/signup' && <Link className="nav-link active me-3" aria-current="page" to="/">Home</Link>}
-            {currentPath!=='/login' && currentPath!=='/signup' && <button className="nav-link active me-3" onClick={handleLogout}>Logout</button>}
-            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/login">Login</Link>}
-            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/signup">Sign Up</Link>}
-            <Link
-              className="nav-link active"
-              aria-current="page"
-              to="/"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(-1);
-              }}
-            >
-              Back
-            </Link>
-            
+         <div className="d-flex align-items-center mb-2 mb-lg-0">
+            {currentPath!=='/login' && currentPath!=='/signup' && <Link className="nav-link active me-3" aria-current="page" to="/" style={{fontWeight: "bold"}}>Home</Link>}
+            <Link className="nav-link active me-3" aria-current="page" to="/" onClick={(e) => {e.preventDefault();navigate(-1);}}  style={{fontWeight: "bold"}}>Back</Link>
+           
+            {currentPath!=='/login' && currentPath!=='/signup' && <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}>Logout</button>}
+            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/login"  style={{fontWeight: "bold"}}>Login</Link>}
+            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/signup"  style={{fontWeight: "bold"}}>Sign Up</Link>}
           </div>
           
           {/* Centered Title */}

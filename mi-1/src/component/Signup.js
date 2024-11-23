@@ -75,7 +75,7 @@ function Signup() {
                 name="name"
                 id="name"
                 className="form-control"
-                placeholder="Enter Your Name"
+                style={{border: '1px solid black'}}
                 autoFocus
                 value={signupInfo.name}
                 onChange={handleChange}

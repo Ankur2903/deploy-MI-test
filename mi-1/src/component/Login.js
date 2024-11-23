@@ -57,8 +57,8 @@ function Login() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow-sm p-4" style={{ width: '100%', maxWidth: '400px' }}>
+    <div className="d-flex justify-content-center align-items-center vh-99">
+      <div className="card shadow-3d p-4"  style={{position: 'absolute', top: '25vh', width: '100%', maxWidth: '400px', backgroundColor: 'white', borderRadius: '15px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)'}}>
         <h1 className="text-center mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
           <fieldset>

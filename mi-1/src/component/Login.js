@@ -86,7 +86,7 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-dark w-100">Login</button>
+            <button type="submit" className="btn btn-dark w-40">Login</button>
           </fieldset>
         </form>
         <ToastContainer/>

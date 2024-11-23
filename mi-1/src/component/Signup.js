@@ -126,7 +126,7 @@ function Signup() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label style={{fontWeight: 'bold'}}">Email</label>
+              <label htmlFor="email" className="form-label" style={{fontWeight: 'bold'}}>Email</label>
               <input
                 type="email"
                 name="email"

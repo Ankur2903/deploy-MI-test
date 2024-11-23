@@ -124,7 +124,7 @@ function Signup() {
                 name="email"
                 id="email"
                 className="form-control"
-                placeholder="Enter Your Email"
+                style={{border: '1px solid black'}}
                 value={signupInfo.email}
                 onChange={handleChange}
               />
@@ -136,7 +136,7 @@ function Signup() {
                 name="password"
                 id="password"
                 className="form-control"
-                placeholder="Enter Your Password"
+                style={{border: '1px solid black'}}
                 value={signupInfo.password}
                 onChange={handleChange}
               />

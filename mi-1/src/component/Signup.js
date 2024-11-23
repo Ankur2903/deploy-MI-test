@@ -26,15 +26,17 @@ function Signup() {
   const handleSubmit = async(e) => {
     e.preventDefault();
      const {name, email, password, company, department, designation} = signupInfo;
-    console.log("hello:")
+    console.log("hello1")
     if(!name || !email || !password){
       return handleError('Name, Email, or, password are required')
     }
     if(password !== confirmPassword){
       return handleError('password and confirm Password are not equil')
     }
+    console.log("hello2")
     try {
       const url = "https://deploy-mi-test-api.vercel.app/auth/signup";
+      console.log("hello3")
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -42,22 +44,28 @@ function Signup() {
         },
         body: JSON.stringify(signupInfo)
       })
+      console.log("hello4")
       const result = await response.json();
       const {success, message, error} = result;
+      console.log("hello5")
       if(success){
+        console.log("hello6")
         handleSuccess(message);
         setTimeout(()=>{
           navigate('/login')
         },500)
       }else if(error){
+        console.log("hello7")
           const details = error?.details[0].message;
           handleError(details)
       }else if(!success){
+        console.log("hello8")
         handleError(message)
       }
       console.log(result)
     }
     catch(err) {
+      console.log("hello9")
       handleError(err);
     }
   };

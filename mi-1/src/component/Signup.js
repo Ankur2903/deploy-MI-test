@@ -7,8 +7,12 @@ function Signup() {
   const [signupInfo, setSignupInfo] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    company: '',
+    department: '',
+    designation: '',
   })
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -21,10 +25,13 @@ function Signup() {
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    const {name, email, password} = signupInfo;
+     const {name, email, password, company, department, designation} = signupInfo;
     console.log("hello:")
     if(!name || !email || !password){
       return handleError('Name, Email, or, password are required')
+    }
+    if(password !== confirmPassword){
+      return handleError('password and confirm Password are not equil')
     }
     try {
       const url = "https://deploy-mi-test-api.vercel.app/auth/signup";
@@ -57,7 +64,7 @@ function Signup() {
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow-sm p-4" style={{ width: '100%', maxWidth: '400px' }}>
+       <div className="card shadow-3d p-4" style={{position: 'absolute', top: '25vh', width: '100%', maxWidth: '400px',  backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)',}}>
         <h1 className="text-center mb-4">Signup</h1>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -71,6 +78,42 @@ function Signup() {
                 placeholder="Enter Your Name"
                 autoFocus
                 value={signupInfo.name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="company" className="form-label" style={{fontWeight: 'bold'}}>Company Name*</label>
+              <input
+                type="text"
+                name="company"
+                id="company"
+                className="form-control"
+                style={{border: '1px solid black'}}
+                value={signupInfo.company}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="department" className="form-label" style={{fontWeight: 'bold'}}>Department</label>
+              <input
+                type="text"
+                name="department"
+                id="department"
+                className="form-control"
+                style={{border: '1px solid black'}}
+                value={signupInfo.department}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="designation" className="form-label" style={{fontWeight: 'bold'}}>Designation</label>
+              <input
+                type="text"
+                name="designation"
+                id="designation"
+                className="form-control"
+                style={{border: '1px solid black'}}
+                value={signupInfo.designation}
                 onChange={handleChange}
               />
             </div>
@@ -98,7 +141,19 @@ function Signup() {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-dark w-100">Sign Up</button>
+            <div className="mb-3">
+              <label htmlFor="confirmPassword" className="form-label" style={{fontWeight: 'bold'}}>Confirm Password*</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                id="confirmPassword"
+                className="form-control"
+                style={{border: '1px solid black'}}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <button type="submit" className="btn btn-dark w-40 my-4">Sign Up</button>
           </fieldset>
         </form>
         <ToastContainer/>

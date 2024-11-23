@@ -14,7 +14,19 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: true,
-    }
+    },
+    company: {
+        type: String,
+        required: true,
+    },
+    department: {
+        type: String,
+        required: false,
+    },
+    designation: {
+        type: String,
+        required: false,
+    },
 });
 
 console.log("User is working...")

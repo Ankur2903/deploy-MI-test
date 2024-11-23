@@ -69,7 +69,7 @@ function Signup() {
         <form onSubmit={handleSubmit}>
           <fieldset>
             <div className="mb-3">
-              <label htmlFor="name" className="form-label">Name</label>
+              <label htmlFor="name" className="form-label" style={{fontWeight: 'bold'}}>Name</label>
               <input
                 type="text"
                 name="name"
@@ -118,7 +118,7 @@ function Signup() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="email" className="form-label">Email</label>
+              <label htmlFor="email" className="form-label style={{fontWeight: 'bold'}}">Email</label>
               <input
                 type="email"
                 name="email"
@@ -130,7 +130,7 @@ function Signup() {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="password" className="form-label">Password</label>
+              <label htmlFor="password" className="form-label" style={{fontWeight: 'bold'}}>Password</label>
               <input
                 type="password"
                 name="password"

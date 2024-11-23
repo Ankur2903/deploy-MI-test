@@ -11,7 +11,7 @@ const signup = async (req, res) => {
             return res.status(409)
             .json({ message: 'User is already exist, you can login in login in authcontrolle' , success: false } ) ;
         }
-        const userModel = new UserModel({name, email, password}) ;
+        const userModel = new UserModel({name, email, password, company, department, designation}) ;
         userModel.password = await bcrypt.hash(password, 10);
         await userModel.save();
         res.status(201)

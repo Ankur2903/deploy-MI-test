@@ -36,7 +36,7 @@ function Signup() {
       return handleError('password and confirm Password are not equil')
     }
     try {
-      const url = "https://deploy-mi-test-4uaq62xeo-ankur2903s-projects.vercel.app/auth/signup";
+      const url = "https://deploy-mi-test-api.vercel.app/auth/signup";
       const response = await fetch(url, {
         method: "POST",
         headers: {

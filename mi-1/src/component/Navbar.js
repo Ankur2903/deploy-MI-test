@@ -28,8 +28,9 @@ function Navbar() {
       <nav className="navbar navbar-white bg-white">
         <div className="container-fluid d-flex align-items-center justify-content-between flex-lg-row flex-column text-lg-start text-center">
           {/* Links Section */}
-         <div className="d-flex align-items-center mb-2 mb-lg-0">
+          <div className="d-flex align-items-center mb-2 mb-lg-0">
             {currentPath!=='/login' && currentPath!=='/signup' && <Link className="nav-link active me-3" aria-current="page" to="/" style={{fontWeight: "bold"}}>Home</Link>}
+            {currentPath!=='/login' && currentPath!=='/signup' && <Link className="nav-link active me-3" aria-current="page" to="/manager_deshboard" style={{fontWeight: "bold"}}>Deshboard</Link>}
             <Link className="nav-link active me-3" aria-current="page" to="/" onClick={(e) => {e.preventDefault();navigate(-1);}}  style={{fontWeight: "bold"}}>Back</Link>
            
             {currentPath!=='/login' && currentPath!=='/signup' && <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}>Logout</button>}
@@ -66,3 +67,4 @@ function Navbar() {
 }
 
 export default Navbar;
+

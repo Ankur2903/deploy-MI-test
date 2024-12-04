@@ -24,7 +24,7 @@ function Login() {
       return handleError('Email, or, password are required')
     }
     try {
-      const url = "http://localhost:8080/auth/login";
+      const url = "https://deploy-mi-test-4uaq62xeo-ankur2903s-projects.vercel.app/auth/login";
       const response = await fetch(url, {
         method: "POST",
         headers: {

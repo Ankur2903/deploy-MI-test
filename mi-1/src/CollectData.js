@@ -5,7 +5,7 @@ function CollectData({setUsers} ) {
         const fetchUsers = async () => {
           try {
             const token = localStorage.getItem('token')
-            const response = await fetch("https://deploy-mi-test-4uaq62xeo-ankur2903s-projects.vercel.app/data", {
+            const response = await fetch("https://deploy-mi-test-api.vercel.app/data", {
               method: "GET", // default method, can be omitted
               headers: {
                  'Authorization': `Bearer ${token}`,

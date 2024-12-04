@@ -12,7 +12,6 @@ function Login() {
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
-    
     const copySignupInfo = {...loginInfo};
     copySignupInfo[name] = value;
     setLoginInfo(copySignupInfo)
@@ -21,12 +20,11 @@ function Login() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     const {email, password} = loginInfo;
-    console.log(loginInfo)
     if(!email || !password){
       return handleError('Email, or, password are required')
     }
     try {
-      const url = "https://deploy-mi-test-api.vercel.app/auth/login";
+      const url = "http://localhost:8080/auth/login";
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -35,11 +33,13 @@ function Login() {
         body: JSON.stringify(loginInfo)
       })
       const result = await response.json();
-      const {success, message, jwtToken, name, error} = result;
+      const {success, message, jwtToken, name, email,  error} = result;
+      console.log(result)
       if(success){
         handleSuccess(message);
         localStorage.setItem('token', jwtToken);
-        localStorage.setItem('loggedInUser', name)
+        localStorage.setItem('loggedInUserName', name)
+        localStorage.setItem('loggedINUserEmail', email)
         setTimeout(()=>{
           navigate('/')
         },500)
@@ -52,20 +52,20 @@ function Login() {
       console.log(result)
     }
     catch(err) {
-      handleError("hello");
+      handleError(err);
     }
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-99">
-      <div className="card shadow-3d p-4"  style={{position: 'absolute', top: '25vh', width: '100%', maxWidth: '400px', backgroundColor: 'white', borderRadius: '15px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)'}}>
+      <div className="card shadow-3d p-4" style={{position: 'absolute', top: '25vh', width: '100%', maxWidth: '400px', backgroundColor: 'white', borderRadius: '15px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)'}}>
         <h1 className="text-center mb-4">Login</h1>
         <form onSubmit={handleSubmit}>
           <fieldset>
             <div className="mb-3">
               <label htmlFor="email" className="form-label" style={{fontWeight: 'bold'}}>Email</label>
               <input
-                type="email"
+                type="text"
                 name="email"
                 id="email"
                 className="form-control"
@@ -86,11 +86,11 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-dark w-40">Login</button>
+            <button type="submit" className="btn btn-dark w-40 my-4">Login</button>
           </fieldset>
         </form>
         <ToastContainer/>
-        <p className="text-center mt-3 my-4">
+        <p className="text-center mt-3">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>
       </div>

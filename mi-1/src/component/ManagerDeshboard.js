@@ -36,14 +36,14 @@ const ManagerDashboard = () => {
       <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}></table>
       <thead>
         <tr>
-          <th style={{ padding: "0 4.5vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Name</th>
-          <th style={{ padding: "0 9vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Email</th>
-          <th style={{ padding: "0 5.4vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Company</th>
-          <th style={{ padding: "0 5.4vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Department</th>
-          <th style={{ padding: "0 6vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Designation</th>
-          <th style={{ padding: "0 2.2vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Status</th>
-          <th style={{ padding: "0 0.1vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Approve</th>
-          <th style={{ padding: "0 0.1vw", border: "1px solid black", backgroundColor: 'black', color: 'white'}}>Reject</th>
+          <th style={{ width: "10vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Name</th>
+          <th style={{ width: "18vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Email</th>
+          <th style={{ width: "20vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Company</th>
+          <th style={{ width: "20vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Department</th>
+          <th style={{ width: "18vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Designation</th>
+          <th style={{ width: "6vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Status</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Approve</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: 'black', color: 'white',textAlign: "center"}}>Reject</th>
         </tr>
       </thead>
       <tbody>

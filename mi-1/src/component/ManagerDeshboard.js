@@ -8,7 +8,7 @@ const ManagerDashboard = () => {
   const updateUserStatus = async (id, newStatus) => {
     try {
       
-      const response = await fetch(`https://deploy-mi-test-4uaq62xeo-ankur2903s-projects.vercel.app//update-status/${id}`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status/${id}`, {
         method: "PUT", // default method, can be omitted
           headers: {
             "Content-Type": "application/json", // Ensure correct content type

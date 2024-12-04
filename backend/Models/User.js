@@ -27,6 +27,12 @@ const UserSchema = new Schema({
         type: String,
         required: false,
     },
+    status: {
+        type: String, eum: ["pending", "approved",  "rejected"], default: "pending"
+    },
+    manager: {
+        type: Boolean, default: false,
+    }
 });
 
 console.log("User is working...")

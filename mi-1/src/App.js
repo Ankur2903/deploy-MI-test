@@ -30,26 +30,38 @@ import Round_3 from './component/shap/Round-3';
 import Signup from './component/Signup';
 import Login from './component/Login';
 import RefrshHandler from './RefrshHandler';
+import ManagerDashboard from './component/ManagerDeshboard';
+import { element } from 'three/webgpu';
 
 
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{
-    return isAuthenticated ? element : <Navigate to='/login'/>
+    if(isAuthenticated){
+      return element;
+    }
+    else{
+      return <Navigate to='/login'/>
+    }
   }
 
 
+
   return (
+    
     <div>
       <Router>
-        <RefrshHandler setlsAuthenticated={setIsAuthenticated}/>
+        <RefrshHandler setlsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <Navbar/>
+        {!loading && 
         <Routes>
           <Route exact path="/" element={<PrivateRoute element={<Home/>}/>}/>
-          <Route exact path="/signup" element={<Signup/>}/>
+          <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>
           <Route exact path="/login" element={<Login/>}/>
+          <Route exact path="/signup" element={<Signup/>}/>
           <Route exact path="/from-temp" element={<PrivateRoute element={<FromTemp/>}/>}/>
           <Route exact path="/from_scratch" element={<PrivateRoute element={<FromScratch/>}/>}/>
           <Route exact path="/rectangle" element={<PrivateRoute element={<Rectangle/>}/>}/>
@@ -75,7 +87,7 @@ function App() {
           <Route exact path='/l-angle-3' element={<PrivateRoute element={<L_angle_3/>}/>}/>
           <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4/>}/>}/>
           <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
-        </Routes>
+        </Routes>}
       </Router>
       
     </div>
@@ -83,3 +95,4 @@ function App() {
 }
 
 export default App
+

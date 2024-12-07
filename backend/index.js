@@ -68,7 +68,7 @@ app.post("/forgot-password", async(req, res)=>{
       from: `${process.env.email}`,
       to: `${email}`,
       subject: "Reset your Password",
-      text: `https://deploy-mi-test-ui.app/reset-password/${user._id}/${token}`,
+      text: `https://deploy-mi-test-ui.vercel.app/reset-password/${user._id}/${token}`,
     }
 
     transporter.sendMail(mailOptions, function(error, info){

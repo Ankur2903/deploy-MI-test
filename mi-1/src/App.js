@@ -32,11 +32,16 @@ import Login from './component/Login';
 import RefrshHandler from './RefrshHandler';
 import ManagerDashboard from './component/ManagerDeshboard';
 import { element } from 'three/webgpu';
+import CollectData from './CollectData';
+import ForgotPassword from './component/ForgotPassword';
+import ResetPassword from './component/ResetPassword';
 
 
 function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [permission,setPermission] = useState(false)
   const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{
@@ -55,13 +60,16 @@ function App() {
     <div>
       <Router>
         <RefrshHandler setlsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
+        <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
         {!loading && 
         <Routes>
           <Route exact path="/" element={<PrivateRoute element={<Home/>}/>}/>
-          <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>
+          {permission && <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>}
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup" element={<Signup/>}/>
+          <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
+          <Route exact path="/reset-password/:id/:token" element={<ResetPassword/>}/>
           <Route exact path="/from-temp" element={<PrivateRoute element={<FromTemp/>}/>}/>
           <Route exact path="/from_scratch" element={<PrivateRoute element={<FromScratch/>}/>}/>
           <Route exact path="/rectangle" element={<PrivateRoute element={<Rectangle/>}/>}/>
@@ -95,4 +103,5 @@ function App() {
 }
 
 export default App
+
 

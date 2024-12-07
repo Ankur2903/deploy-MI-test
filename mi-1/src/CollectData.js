@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-function CollectData({setUsers} ) {
+function CollectData({setUsers, setPermission} ) {
     useEffect(() => {
         const fetchUsers = async () => {
           try {
@@ -12,11 +12,14 @@ function CollectData({setUsers} ) {
                 "Content-Type": "application/json", // Ensure correct content type
               },
             });
-            const datas = await response.json();
-            const data = datas.Users;
-            const permission = datas.permission;
-            console.log("permission", permission)
-            setUsers(data);
+            const data = await response.json();
+            if(data){
+              console.log("welcome")
+              setUsers(data);
+              setPermission(true);
+            }
+            else setPermission(false)
+            
           } catch (err) {
             console.error("Error fetching users:", err.message);
           }

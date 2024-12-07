@@ -21,8 +21,8 @@ function ForgotPassword() {
         )
         const result = await response.json();
         const {success, message} = result;
+        console.log(result)
         if(success){
-            console.log("email", email)
           handleSuccess(message);
         }
         else{

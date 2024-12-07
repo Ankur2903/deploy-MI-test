@@ -91,6 +91,9 @@ function Login() {
         </form>
         <ToastContainer/>
         <p className="text-center mt-3">
+          <Link to="/forgot-password">Forgot your password</Link>
+        </p>
+        <p className="text-center">
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>
       </div>
@@ -99,3 +102,4 @@ function Login() {
 }
 
 export default Login;
+

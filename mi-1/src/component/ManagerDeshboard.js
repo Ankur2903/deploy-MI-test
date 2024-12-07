@@ -3,11 +3,9 @@ import CollectData from "../CollectData";
 
 const ManagerDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const updateUserStatus = async (id, newStatus) => {
     try {
-      
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status/${id}`, {
         method: "PUT", // default method, can be omitted
           headers: {
@@ -65,3 +63,4 @@ const ManagerDashboard = () => {
 };
 
 export default ManagerDashboard;
+

@@ -77,7 +77,7 @@ app.post("/forgot-password", async(req, res)=>{
 
     transporter.sendMail(mailOptions, function(error, info){
       if (error) console.log(error);
-      else  return res.send({Status: "Success", message: "Link send to mail"})
+      else  return res.send({success: true, message: "Link send to mail"})
     });
 })
 

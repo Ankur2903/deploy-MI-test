@@ -9,6 +9,7 @@ function ForgotPassword() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(!email)  return handleError("Email is required");
+        console.log(email)
         try{
           const url = "https://deploy-mi-test-api.vercel.app/forgot-password";
           const response = await fetch(url, {

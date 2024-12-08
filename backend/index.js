@@ -50,11 +50,13 @@ app.post('/reset-password/:id/:token', async (req, res) => {
 app.post("/forgot-password", async(req, res)=>{
   const {email} = req.body;
   const user = await User.findOne({ email });
+     console.log("hello1")
       if (!user) {
           return res.status(403)
           .json({ message: 'User not existed please signup first' , success: false}) ;
       }
-    console.log(user)
+    console.log("hello2")
+     console.log("user", user)
     const token = jwt.sign({email: user.email, id: user._id,  hash: user.password }, process.env.JWT_SECRET, { expiresIn: '15m'})
 
     var transporter = nodemailer.createTransport({

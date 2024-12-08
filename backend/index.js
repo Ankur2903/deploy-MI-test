@@ -63,6 +63,10 @@ app.post("/forgot-password", async(req, res)=>{
         pass: `${process.env.password}`
       },
     })
+
+    console.log(process.env.email)
+     console.log(process.env.password)
+    
     
     var mailOptions = {
       from: `${process.env.email}`,

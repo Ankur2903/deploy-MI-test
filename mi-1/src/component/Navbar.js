@@ -12,6 +12,8 @@ function Navbar() {
   const [loggedInUser, setLoggedInUser] = useState('');
   const [users, setUsers] = useState([]);
   const [permission,setPermission] = useState(false)
+
+  const isResetPasswordRoute = location.pathname.includes("/reset-password");
   useEffect(() => {
     console.log("permission", permission)
     setLoggedInUser(localStorage.getItem('loggedInUser'))
@@ -34,13 +36,13 @@ function Navbar() {
         <div className="container-fluid d-flex align-items-center justify-content-between flex-lg-row flex-column text-lg-start text-center">
           {/* Links Section */}
           <div className="d-flex align-items-center mb-2 mb-lg-0">
-            {currentPath!=='/login' && currentPath!=='/signup' && <Link className="nav-link active me-3" aria-current="page" to="/" style={{fontWeight: "bold"}}>Home</Link>}
-            {currentPath!=='/login' && currentPath!=='/signup' && permission && <Link className="nav-link active me-3" aria-current="page" to="/manager_deshboard" style={{fontWeight: "bold"}}>Deshboard</Link>}
+            {currentPath!=='/login' && currentPath!=='/signup' && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/" style={{fontWeight: "bold"}}>Home</Link>}
+            {currentPath!=='/login' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/manager_deshboard" style={{fontWeight: "bold"}}>Deshboard</Link>}
             <Link className="nav-link active me-3" aria-current="page" to="/" onClick={(e) => {e.preventDefault();navigate(-1);}}  style={{fontWeight: "bold"}}>Back</Link>
            
-            {currentPath!=='/login' && currentPath!=='/signup' && <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}>Logout</button>}
-            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/login"  style={{fontWeight: "bold"}}>Login</Link>}
-            {(currentPath==='/login' || currentPath === '/signup') && <Link className="nav-link active me-3" aria-current="page" to="/signup"  style={{fontWeight: "bold"}}>Sign Up</Link>}
+            {currentPath!=='/login' && currentPath!=='/signup' && currentPath!=='/forgot-password' && !isResetPasswordRoute &&  <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}>Logout</button>}
+            {(currentPath==='/login' || currentPath === '/signup' || currentPath === '/forgot-password' || isResetPasswordRoute) && <Link className="nav-link active me-3" aria-current="page" to="/login"  style={{fontWeight: "bold"}}>Login</Link>}
+            {(currentPath==='/login' || currentPath === '/signup' || currentPath === '/forgot-password' || isResetPasswordRoute) && <Link className="nav-link active me-3" aria-current="page" to="/signup"  style={{fontWeight: "bold"}}>Sign Up</Link>}
           </div>
           
           {/* Centered Title */}

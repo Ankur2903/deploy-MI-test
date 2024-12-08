@@ -48,19 +48,15 @@ app.post('/reset-password/:id/:token', async (req, res) => {
 
 
 app.post("/forgot-password", async(req, res)=>{
-    console.log("welcome")
-    console.log(req.body)
   const {email} = req.body;
-    console.log(email)
   const user = await User.findOne({ email });
-     console.log("hello1")
       if (!user) {
           return res.status(403)
           .json({ message: 'User not existed please signup first' , success: false}) ;
       }
-    console.log("hello2")
-     console.log("user", user)
     const token = jwt.sign({email: user.email, id: user._id,  hash: user.password }, process.env.JWT_SECRET, { expiresIn: '15m'})
+
+    console.log("token", token)
 
     var transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -69,6 +65,8 @@ app.post("/forgot-password", async(req, res)=>{
         pass: `${process.env.password}`
       },
     })
+
+    console.log("transporter", transporter)
     
     var mailOptions = {
       from: `${process.env.email}`,
@@ -77,7 +75,10 @@ app.post("/forgot-password", async(req, res)=>{
       text: `https://deploy-mi-test-ui.vercel.app/reset-password/${user._id}/${token}`,
     }
 
+    console.log("mailoptions", mailOptions)
+
     transporter.sendMail(mailOptions, function(error, info){
+        console.log("end");
       if (error) console.log(error);
       else  return res.send({Status: "Success", message: "Link send to mail"})
     });

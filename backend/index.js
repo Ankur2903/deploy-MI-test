@@ -48,7 +48,10 @@ app.post('/reset-password/:id/:token', async (req, res) => {
 
 
 app.post("/forgot-password", async(req, res)=>{
+    console.log("welcome")
+    console.log(req.body)
   const {email} = req.body;
+    console.log(email)
   const user = await User.findOne({ email });
      console.log("hello1")
       if (!user) {

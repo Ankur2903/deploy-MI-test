@@ -14,7 +14,6 @@ function ForgotPassword() {
           const url = "https://deploy-mi-test-api.vercel.app/forgot-password";
           const response = await fetch(url, {
             method: "POST",
-              mode: 'no-cors',
             headers: {
               'Content-Type' : 'application/json'
             },

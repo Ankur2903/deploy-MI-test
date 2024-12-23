@@ -10,11 +10,11 @@ import Round_3_graph from '../Graph/Round-3';
 import Result from './Result';
 
 function Round_3() {
-  const [side1, setSide1] = useState(50);
+  const [side1, setSide1] = useState(30);
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
-  const [side2, setSide2] = useState(60);
+  const [side2, setSide2] = useState(15);
   const side2Change = (event) => {
     setSide2(parseFloat(event.target.value));
   };
@@ -46,20 +46,24 @@ function Round_3() {
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
 
+  
+
   const submitClick = () => {
-    setWeightPerLength(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001).toFixed(3));
+    const angle = Math.asin((side2/2 + outerRadius)/(diameter/2 - outerRadius))* (180 / Math.PI);
 
-    setTotalWeight(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2))*thickness*7850*0.000001).toFixed(3));
 
-    setStripWidth((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2)).toFixed(3));
+    setTotalWeight(((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2))*thickness*7850*0.000001*length).toFixed(3));
 
-    setArea((2*(side1 - side2)*thickness + Math.PI*(Math.pow(side2/2,2) - Math.pow(side2/2 - thickness,2))).toFixed(3))
+    setStripWidth((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2)).toFixed(3));
 
-    setOutLine((2*Math.PI*(side2/2) +  4*(side1 - side2) + 2*Math.PI*(side2/2 - thickness) + 2*thickness).toFixed(3))
+    setArea((thickness*(2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness)) + 2*(Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))/2 + 2*(Math.PI/2 + angle*Math.PI/180)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))/2 + (2*Math.PI - 2*angle*Math.PI/180)*(Math.pow(diameter/2,2) - Math.pow(diameter/2 - thickness,2))/2).toFixed(3))
 
-    setInertiaX(((((Math.PI/4)*(Math.pow(side2/2,4) - Math.pow((side2-2*thickness)/2,4))) + ((side1 - side2)*thickness*(Math.pow(thickness,2) + Math.pow(-thickness + side2/2,2)))/6)*0.0001).toFixed(2))
+    setOutLine((4*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + 2*(side2 - 2*(outerRadius - thickness)) + 2*(Math.PI/2)*(2*outerRadius - thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(2*outerRadius - thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter - thickness) + 2* thickness).toFixed(3))
 
-    setInertiaY(((  2*((Math.pow(side2/2,4) - Math.pow(side2/2 - thickness),4)*(Math.PI/8 - 8/(9*Math.PI)) + ((Math.PI*side2/2)/2)*Math.pow(side1/2 - side2/2 + (4*side2/2)/(3*Math.PI),2) + ((Math.PI*(side2-2*thickness)/2)/2)*Math.pow(side1/2 - (side2-2*thickness)/2 + (4*(side2-2*thickness)/2)/(3*Math.PI),2))  +  (thickness*Math.pow(side1 - side2,3))/6)*0.0001).toFixed(2))
+    // setInertiaX(((((Math.PI/4)*(Math.pow(side2/2,4) - Math.pow((side2-2*thickness)/2,4))) + ((side1 - side2)*thickness*(Math.pow(thickness,2) + Math.pow(-thickness + side2/2,2)))/6)*0.0001).toFixed(2))
+
+    // setInertiaY(((  2*((Math.pow(side2/2,4) - Math.pow(side2/2 - thickness),4)*(Math.PI/8 - 8/(9*Math.PI)) + ((Math.PI*side2/2)/2)*Math.pow(side1/2 - side2/2 + (4*side2/2)/(3*Math.PI),2) + ((Math.PI*(side2-2*thickness)/2)/2)*Math.pow(side1/2 - (side2-2*thickness)/2 + (4*(side2-2*thickness)/2)/(3*Math.PI),2))  +  (thickness*Math.pow(side1 - side2,3))/6)*0.0001).toFixed(2))
   };
 
   const resetClick = () => {
@@ -215,3 +219,4 @@ function Round_3() {
 }
 
 export default Round_3;
+

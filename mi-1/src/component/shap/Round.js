@@ -10,8 +10,9 @@ import 'jspdf-autotable';
 import Result from './Result';
 
 function Round() {
+  const [isFormDirty, setIsFormDirty] = useState(true);
   const [length, setLength] = useState(1);
-  const [thickness, setThickness] = useState(20);
+  const [thickness, setThickness] = useState(10);
   const [diameter, setDiameter] = useState(100);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
@@ -22,10 +23,13 @@ function Round() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  const submitClick = () => {
-    setWeightPerLength((7850*thickness*(Math.PI*(diameter - thickness))*0.000001).toFixed(3));
+  
 
-    setTotalWeight((7850 * (((22/7) * ((diameter * diameter) / 4) - (22/7) * ((diameter - 2 * thickness) * (diameter - 2 * thickness)) / 4) * 0.000001)*length).toFixed(3));
+
+  const submitClick = () => {
+    setWeightPerLength((7850*((22/7)*((diameter*diameter)/4) - (22/7)*((diameter - 2*thickness)*(diameter - 2*thickness))/4)*0.000001).toFixed(3));
+
+    setTotalWeight((7850*((22/7)*((diameter*diameter)/4) - (22/7)*((diameter - 2*thickness)*(diameter - 2*thickness))/4)*0.000001*length).toFixed(3));
 
     setStripWidth((Math.PI*(diameter - thickness)).toFixed(3));
 
@@ -43,7 +47,6 @@ function Round() {
     setWeightPerLength(0);
     setTotalWeight(0);
   };
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -86,11 +89,6 @@ function Round() {
     groupRef.current.clear();
     create3DShapes();
   }, [diameter, thickness, length]);
-
-  
-
-
-
 
   const roundGraphRef = useRef();
 
@@ -140,7 +138,7 @@ function Round() {
   return (
     <>
     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Round</h1>
+      <h1 className="heading">Round Tube</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -181,6 +179,11 @@ function Round() {
 }
 
 export default Round;
+
+
+
+
+
 
 
 

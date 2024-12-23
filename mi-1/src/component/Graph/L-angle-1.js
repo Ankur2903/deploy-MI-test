@@ -153,7 +153,7 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
       <div style={{ position: 'relative' }}>
         <div  className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg 
         viewBox={viewBox}
@@ -210,3 +210,4 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
 }
 
 export default L_angle_1_graph;
+

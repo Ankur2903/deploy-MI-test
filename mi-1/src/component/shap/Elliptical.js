@@ -23,6 +23,8 @@ function Elliptical() {
   const [inertiay, setInertiaY] = useState(0);
 
 
+
+
   const submitClick = () => {
     setWeightPerLength((7850*(Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness))))*thickness* 0.000001).toFixed(3));
 
@@ -34,9 +36,9 @@ function Elliptical() {
 
     setArea((Math.PI*(side1/2)*(side2/2) - Math.PI*(side1/2 - thickness)*(side2/2 - thickness)).toFixed(3))
 
-    setInertiaX((((Math.PI/4)*(((side1/2)*(Math.pow(side2/2,3))) - (((side1 - 2*thickness)/2)*(Math.pow((side2 - 2*thickness)/2,3)))))*0.0001).toFixed(2))
+    // setInertiaX((((Math.PI/4)*(((side1/2)*(Math.pow(side2/2,3))) - (((side1 - 2*thickness)/2)*(Math.pow((side2 - 2*thickness)/2,3)))))*0.0001).toFixed(2))
 
-    setInertiaY((((Math.PI/4)*(((side2/2)*(Math.pow(side1/2,3))) - (((side2 - 2*thickness)/2)*(Math.pow((side1 - 2*thickness)/2,3)))))*0.0001).toFixed(2))
+    // setInertiaY((((Math.PI/4)*(((side2/2)*(Math.pow(side1/2,3))) - (((side2 - 2*thickness)/2)*(Math.pow((side1 - 2*thickness)/2,3)))))*0.0001).toFixed(2))
 
   };
 
@@ -196,3 +198,4 @@ function Elliptical() {
 }
 
 export default Elliptical;
+

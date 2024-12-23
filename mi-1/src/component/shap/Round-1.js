@@ -25,6 +25,7 @@ function Round_1() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
     setOuterRadius(parseFloat(2*event.target.value));
@@ -32,17 +33,17 @@ function Round_1() {
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const submitClick = () => {
-    setWeightPerLength((7850*thickness*(Math.PI*(diameter - thickness))*0.000001).toFixed(3));
+    setWeightPerLength((7850*(thickness*(2*((diameter/2 - outerRadius)*(Math.cos(aa*angle/2))/Math.sin(aa*angle/2)) + (180 - angle)*(Math.PI/180)*(outerRadius - 0.596*thickness)) + (180 + angle)*(Math.PI/180)*(Math.pow(diameter/2,2) -Math.pow(diameter/2 - thickness,2))/2)*0.000001).toFixed(3));
 
-    setTotalWeight((7850 * (((22/7) * ((diameter * diameter) / 4) - (22/7) * ((diameter - 2 * thickness) * (diameter - 2 * thickness)) / 4) * 0.000001)*length).toFixed(3));
+    setTotalWeight((7850*((thickness*(2*((diameter/2 - outerRadius)*(Math.cos(aa*angle/2))/Math.sin(aa*angle/2)) + (180 - angle)*(Math.PI/180)*(outerRadius - 0.596*thickness)) +  + (180 + angle)*(Math.PI/180)*(Math.pow(diameter/2,2) -Math.pow(diameter/2 - thickness,2))/2)*0.000001)*length).toFixed(3));
 
-    setStripWidth((Math.PI*(diameter - thickness)).toFixed(3));
+    setStripWidth((2*((diameter/2 - outerRadius)*(Math.cos(aa*angle/2))/Math.sin(aa*angle/2)) + (180 - angle)*(Math.PI/180)*(outerRadius - 0.596*thickness) + (180 + angle)*(Math.PI/180)*(diameter/2 - thickness/2)).toFixed(3));
 
-    setArea((Math.PI*Math.pow(diameter/2,2) - Math.PI*Math.pow(diameter/2 - thickness,2)).toFixed(3))
+    setArea((thickness*2*((diameter/2 - outerRadius)*(Math.cos(aa*angle/2))/Math.sin(aa*angle/2)) + (180 + angle)*(Math.PI/180)*(Math.pow(diameter/2,2) -Math.pow(diameter/2 - thickness,2))/2 + (180 - angle)*(Math.PI/180)*(Math.pow(outerRadius,2) -Math.pow(outerRadius - thickness,2))/2).toFixed(3))
 
-    setOutLine((Math.PI*(diameter) + Math.PI*(diameter - 2*thickness) + 2*thickness).toFixed(3));
+    setOutLine((4*((diameter/2 - outerRadius)*(Math.cos(aa*angle/2))/Math.sin(aa*angle/2)) + (180 - angle)*(Math.PI/180)*(2*outerRadius - thickness) + (180 + angle)*(Math.PI/180)*(diameter - thickness) + 2*thickness).toFixed(3));
 
-    setInertia(((Math.PI/4)*(Math.pow(diameter/2,4) - Math.pow((diameter-2*thickness)/2,4))*0.0001).toFixed(3))
+    // setInertia(((Math.PI/4)*(Math.pow(diameter/2,4) - Math.pow((diameter-2*thickness)/2,4))*0.0001).toFixed(3))
   };
 
   const resetClick = () => {
@@ -202,6 +203,11 @@ function Round_1() {
 }
 
 export default Round_1;
+
+
+
+
+
 
 
 

@@ -155,7 +155,7 @@ function L_angle_2_graph({ thickness1, side11, side22, side33, side44, side55, s
       <div style={{ position: 'relative' }}>
         <div  className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg 
         viewBox={viewBox}
@@ -206,7 +206,7 @@ function L_angle_2_graph({ thickness1, side11, side22, side33, side44, side55, s
         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>{/*Arrow for side1 */}
         <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>{/*Arrow for side3 */}
         <Liney x1={55 + side2} x2={55 + side2} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>{/*Arrow for side4 */}
-        <Linex x1={50 + side2 - side6} x2={50 + side2} y1={145 - side4} y2={145 - side4} text={'C'} val={side33} textHeight={-5}/>{/*Arrow for sid4 */}
+        <Linex x1={50 + side2 - side6} x2={50 + side2} y1={145 - side4} y2={145 - side4} text={'F'} val={side66} textHeight={-5}/>
 
         
         </svg>
@@ -218,3 +218,4 @@ function L_angle_2_graph({ thickness1, side11, side22, side33, side44, side55, s
 }
 
 export default L_angle_2_graph;
+

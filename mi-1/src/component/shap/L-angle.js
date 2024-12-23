@@ -25,6 +25,8 @@ function L_angle() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
+
   const handleComx = (e) => {
     setComx(e);
   };
@@ -158,7 +160,7 @@ function L_angle() {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">L angle</h1>
+      <h1 className="heading">L-Shape Profile</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -207,3 +209,4 @@ function L_angle() {
 }
 
 export default L_angle;
+

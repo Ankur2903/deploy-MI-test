@@ -4,12 +4,14 @@ import '../../App.css'
 function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area, inertiax, inertiay}) {
   return (
     <>
-    <div style={{ fontWeight: 'bold', textAlign: 'center'}}>Output</div>
-        <p className="output-text"><b>Weight per meter:</b><p>{weightPerLength}Kg/m</p></p>
+    <div style={{ fontWeight: 'bold', textAlign: 'center'}}>Standard Output</div>
+        <p className="output-text"><b>Weight per meter:</b><p>{weightPerLength} Kg/m</p></p>
         <p className="output-text"><b>Weight of {length}m length:</b><p>{totalWeight} Kg</p></p>
         <p className="output-text"><b>Calculated strip width:</b><p> {stripWidth} mm</p></p>
         <p className="output-text" ><b>Outline length:</b><p>{outLine} mm</p></p>
         <p className="output-text" ><b>Area of cross section:</b><p>{area} mm^2</p></p>
+        <br/>
+    <div style={{ fontWeight: 'bold', textAlign: 'center'}}>Advanced Output</div>
         <p className="output-text" ><b>Center of mass (x):</b><p> 0.00 mm from origin</p></p>
         <p className="output-text" ><b>Center of mass (y):</b><p> 0.00 mm from origin</p></p>
         <p className="output-text" ><b>Moment of inertia I(x):</b><p> {inertiax} cm^4</p></p>
@@ -32,3 +34,4 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
 }
 
 export default Result
+

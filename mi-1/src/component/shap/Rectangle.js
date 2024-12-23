@@ -44,6 +44,8 @@ function Rectangle() {
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
 
+  
+
 
 
   const submitClick = () => {
@@ -212,7 +214,7 @@ function Rectangle() {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Rectangle</h1>
+      <h1 className="heading">Rectangular Tube</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -261,3 +263,4 @@ function Rectangle() {
 }
 
 export default Rectangle;
+

@@ -149,7 +149,7 @@ function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  send
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
         viewBox={viewBox}
@@ -218,3 +218,4 @@ function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  send
 }
 
 export default Top_hat_graph;
+

@@ -154,7 +154,7 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
       <div style={{ position: 'relative' }}>
         <div  className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg 
         viewBox={viewBox}
@@ -199,11 +199,11 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
         
         <Linex x1={50 + thickness - (thickness + 5)/Math.sqrt(2)} x2={50 + thickness - (thickness + 5)/Math.sqrt(2) + side3/Math.sqrt(2)} y1={150 - side1 + thickness/Math.sqrt(2) - (thickness + 5)/Math.sqrt(2)} y2={150 - side1 + thickness/Math.sqrt(2) - (thickness + 5)/Math.sqrt(2) - side3/Math.sqrt(2)} text={'C'} val={side33} textHeight={-17}/>
 
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>{/*Arrow for side1 */}
+        <Liney x1={45} x2={45} y1={150 - side1 + thickness*(1/Math.sqrt(2))} y2={150} text={'A'} val={side11} textHeight={-17}/>{/*Arrow for side1 */}
 
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>{/*Arrow for side3 */}
+        <Linex x1={50} x2={50 + side2 - thickness*(1/Math.sqrt(2))} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>{/*Arrow for side3 */}
 
-        <Liney x1={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2)} x2={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2) + side4/Math.sqrt(2)} y1={150 - thickness + (thickness + 5)/Math.sqrt(2)} y2={150 - thickness + (thickness + 5)/Math.sqrt(2) - side3/Math.sqrt(2)} text={'D'} val={side44} textHeight={17}/>Arrow for side4
+        <Liney x1={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2)} x2={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2) + side4/Math.sqrt(2)} y1={150 - thickness + (thickness + 5)/Math.sqrt(2)} y2={150 - thickness + (thickness + 5)/Math.sqrt(2) - side3/Math.sqrt(2)} text={'D'} val={side44} textHeight={17}/>{/* Arrow for side4 */}
 
         
         </svg>
@@ -215,3 +215,4 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
 }
 
 export default L_angle_5_graph;
+

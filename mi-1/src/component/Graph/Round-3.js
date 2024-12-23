@@ -13,7 +13,7 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
   const radius = (radius1/mx)*100;
   const thickness = (thickness1/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
-  const angle = Math.asin(((side2/2) - outerRadius)/(radius - outerRadius));
+  const angle = Math.asin((side2/2 + outerRadius)/(radius - outerRadius))* (180 / Math.PI);
   
   
   const [viewBox, setViewBox] = useState('0 0 200 200');
@@ -149,7 +149,7 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
         {/* Define grid pattern */}
@@ -176,31 +176,31 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* Add X and Y axis ticks and labels */}
-        <rect x={100 - (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} y={100 - side2/2} width={side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))} height={thickness} fill="black"/>
+        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness} y={100 - (radius - outerRadius)*Math.cos(angle*aa)} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
 
-        <rect x={100 - (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} y={100 + side2/2 - thickness} width={side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))} height={thickness} fill="black"/>
+        <rect x={100 + (radius - outerRadius)*Math.sin(angle*aa) - outerRadius} y={100 - (radius - outerRadius)*Math.cos(angle*aa)} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
+
+        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness} y={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness} width={side2 - 2*(outerRadius - thickness)} height={thickness} fill="black"/>
 
         {/* Circle */}
-        <CircleSector radius={radius} centerX={100 - Math.abs(2*radius - side1)/2} centerY={100} angle={2*angle*180/Math.PI} rotation={-angle*180/Math.PI} thickness={thickness} />
+        <CircleSector radius={radius} centerX={100} centerY={100} angle={360 - 2*angle} rotation={angle - 90} thickness={thickness} />
 
-        <CircleSector radius={radius} centerX={100 + Math.abs(2*radius - side1)/2} centerY={100} angle={2*angle*180/Math.PI} rotation={180 - angle*180/Math.PI} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa)} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa)} angle={90 + angle} rotation={180} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 + (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} centerY={100 - side2/2 + outerRadius} angle={90 - angle*180/Math.PI} rotation={270} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa)} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa)} angle={90 + angle} rotation={-angle-90} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 + (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} centerY={100 + side2/2 - outerRadius} angle={90 - angle*180/Math.PI} rotation={angle*180/Math.PI} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness} centerY={100 + radius  - side1 - (outerRadius - thickness)} angle={90} rotation={0} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 - (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} centerY={100 + side2/2 - outerRadius} angle={90 - angle*180/Math.PI} rotation={90} thickness={thickness} />
-
-        <CircleSector radius={outerRadius} centerX={100 - (side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))/2} centerY={100 - side2/2 + outerRadius} angle={90 - angle*180/Math.PI} rotation={180 + angle*180/Math.PI} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness} centerY={100 + radius  - side1 - (outerRadius - thickness)} angle={90} rotation={90} thickness={thickness} />
         
         {/* Horizontal Arrow for side1 */}
-        <Linex x1={100 - side1/2} x2={100 + side1/2} y1={155} y2={155} text={'A'} val={side11} textHeight={5} />
+        <Linex x1={100 - radius} x2={100 + radius} y1={155} y2={155} text={'D'} val={diameter1} textHeight={5} />
 
         {/* Horizontal Arrow for side2 */}
-        <Liney x1={155} x2={155} y1={100 - side2/2} y2={100 + side2/2} text={'B'} val={side22} textHeight={17} />
+        <Liney x1={155} x2={155} y1={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness} y2={150} text={'A'} val={side11} textHeight={17} />
 
         {/* Horizontal Arrow for radius */}
-        <Linex x1={100 + side1/2 - radius} x2={100 + side1/2} y1={100} y2={100} text={'R'} val={radius1} textHeight={5} />
+        <Linex x1={100 - side2/2} x2={100 + side2/2} y1={45} y2={45} text={'B'} val={side22} textHeight={-5} />
 
 
       </svg>
@@ -212,3 +212,4 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
 }
 
 export default Round_3_graph;
+

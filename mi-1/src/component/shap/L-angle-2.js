@@ -59,11 +59,11 @@ function L_angle_2() {
 
     setOutLine((5*Math.PI*(2*outerRadius - thickness)/2 + 2*(side2 - 2*outerRadius) +  2*(side1 - 2*outerRadius) + 2*(side3 - 2*outerRadius) +  2*(side4 - 2*outerRadius) + 2*(side5 - outerRadius) + 2*(side6 - outerRadius) + 2* thickness).toFixed(3));
 
-    setArea((thickness*((side2 - 2*outerRadius) +  (side1 - 2*outerRadius) + (side3 - 2*outerRadius) +  (side4 - 2*outerRadius)) + (side5 - outerRadius) + (side6 - outerRadius) + 5*(Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
+    setArea((thickness*((side2 - 2*outerRadius) +  (side1 - 2*outerRadius) + (side3 - 2*outerRadius) +  (side4 - 2*outerRadius) + (side5 - outerRadius) + (side6 - outerRadius)) + 5*(Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
 
-    setInertiax((((Math.pow(outerRadius,4) - Math.pow(outerRadius - thickness,4))*(Math.PI/16 - 4/(9*Math.PI)) +  ((Math.PI*outerRadius)/4)*Math.pow(comx + thickness/2 - outerRadius + (4*outerRadius)/(3*Math.PI),2) - ((Math.PI*(outerRadius - thickness))/4)*Math.pow(comx + thickness/2 - outerRadius + (4*(outerRadius - thickness))/(3*Math.PI),2)    +   ((side2 - outerRadius)*Math.pow(thickness,3))/12 + (side2-outerRadius)*(thickness)*Math.pow(comx,2)  +  ((side1 - outerRadius)*Math.pow(side1-outerRadius,3))/12 + (side1 - outerRadius)*thickness*Math.pow(side1/2 + outerRadius -comx -thickness/2,2))*0.0001).toFixed(2));
+    // setInertiax((((Math.pow(outerRadius,4) - Math.pow(outerRadius - thickness,4))*(Math.PI/16 - 4/(9*Math.PI)) +  ((Math.PI*outerRadius)/4)*Math.pow(comx + thickness/2 - outerRadius + (4*outerRadius)/(3*Math.PI),2) - ((Math.PI*(outerRadius - thickness))/4)*Math.pow(comx + thickness/2 - outerRadius + (4*(outerRadius - thickness))/(3*Math.PI),2)    +   ((side2 - outerRadius)*Math.pow(thickness,3))/12 + (side2-outerRadius)*(thickness)*Math.pow(comx,2)  +  ((side1 - outerRadius)*Math.pow(side1-outerRadius,3))/12 + (side1 - outerRadius)*thickness*Math.pow(side1/2 + outerRadius -comx -thickness/2,2))*0.0001).toFixed(2));
 
-    setInertiay((((Math.pow(outerRadius,4) - Math.pow(outerRadius - thickness,4))*(Math.PI/16 - 4/(9*Math.PI)) +  ((Math.PI*outerRadius)/4)*Math.pow(comy + thickness/2 - outerRadius + (4*outerRadius)/(3*Math.PI),2) - ((Math.PI*(outerRadius - thickness))/4)*Math.pow(comy + thickness/2 - outerRadius + (4*(outerRadius - thickness))/(3*Math.PI),2)    +   ((side1 - outerRadius)*Math.pow(thickness,3))/12 + (side1-outerRadius)*(thickness)*Math.pow(comy,2)  +  ((side2 - outerRadius)*Math.pow(side2-outerRadius,3))/12 + (side2 - outerRadius)*thickness*Math.pow(side2/2 + outerRadius -comy -thickness/2,2))*0.0001).toFixed(2))
+    // setInertiay((((Math.pow(outerRadius,4) - Math.pow(outerRadius - thickness,4))*(Math.PI/16 - 4/(9*Math.PI)) +  ((Math.PI*outerRadius)/4)*Math.pow(comy + thickness/2 - outerRadius + (4*outerRadius)/(3*Math.PI),2) - ((Math.PI*(outerRadius - thickness))/4)*Math.pow(comy + thickness/2 - outerRadius + (4*(outerRadius - thickness))/(3*Math.PI),2)    +   ((side1 - outerRadius)*Math.pow(thickness,3))/12 + (side1-outerRadius)*(thickness)*Math.pow(comy,2)  +  ((side2 - outerRadius)*Math.pow(side2-outerRadius,3))/12 + (side2 - outerRadius)*thickness*Math.pow(side2/2 + outerRadius -comy -thickness/2,2))*0.0001).toFixed(2))
   };
 
   const resetClick = () => {
@@ -172,7 +172,7 @@ function L_angle_2() {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">L angle 2</h1>
+      <h1 className="heading">Double U-Channel</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -238,3 +238,4 @@ function L_angle_2() {
 }
 
 export default L_angle_2;
+

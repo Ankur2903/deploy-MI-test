@@ -72,9 +72,9 @@ function T_shap() {
 
     setArea((2*Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (side2 - 2*outerRadius)*thickness + 2*(side3 - 2*outerRadius)*thickness + 2*((side2 - side4)/2 - 2*outerRadius + thickness)*thickness + 2*(side1 - side3 - 2*outerRadius + thickness)*thickness + (side4 - 2*outerRadius)*thickness).toFixed(3))
 
-    setInertiax(((1)*0.0001).toFixed(2))
+    // setInertiax(((1)*0.0001).toFixed(2))
 
-    setInertiay(((1)*0.0001).toFixed(2));
+    // setInertiay(((1)*0.0001).toFixed(2));
 
   }
 

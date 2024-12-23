@@ -41,6 +41,8 @@ function Square() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
+
 
   const submitClick = () => {
     setWeightPerLenght(((2*Math.PI*(outerRadius - thickness*0.6) + 4*(side - 2*outerRadius))*thickness*7850*0.000001).toFixed(3));
@@ -206,7 +208,7 @@ function Square() {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Square</h1>
+      <h1 className="heading">Square Tube</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -251,3 +253,4 @@ function Square() {
 }
 
 export default Square;
+

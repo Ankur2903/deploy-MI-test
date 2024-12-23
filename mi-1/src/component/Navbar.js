@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate, useLocation} from 'react-router-dom';
 import logo from './Image/logo.192.jpg';
 import { handleSuccess } from '../ulits';
 import { ToastContainer } from 'react-toastify';
@@ -14,8 +14,8 @@ function Navbar() {
   const [permission,setPermission] = useState(false)
 
   const isResetPasswordRoute = location.pathname.includes("/reset-password");
+
   useEffect(() => {
-    console.log("permission", permission)
     setLoggedInUser(localStorage.getItem('loggedInUser'))
   },[])
   
@@ -37,7 +37,7 @@ function Navbar() {
           {/* Links Section */}
           <div className="d-flex align-items-center mb-2 mb-lg-0">
             {currentPath!=='/login' && currentPath!=='/signup' && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/" style={{fontWeight: "bold"}}>Home</Link>}
-            {currentPath!=='/login' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/manager_deshboard" style={{fontWeight: "bold"}}>Deshboard</Link>}
+            {currentPath!=='/login' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/manager_deshboard" style={{fontWeight: "bold"}}>Dashboard</Link>}
             <Link className="nav-link active me-3" aria-current="page" to="/" onClick={(e) => {e.preventDefault();navigate(-1);}}  style={{fontWeight: "bold"}}>Back</Link>
            
             {currentPath!=='/login' && currentPath!=='/signup' && currentPath!=='/forgot-password' && !isResetPasswordRoute &&  <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}>Logout</button>}
@@ -74,5 +74,6 @@ function Navbar() {
 }
 
 export default Navbar;
+
 
 

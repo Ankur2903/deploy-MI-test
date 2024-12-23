@@ -37,7 +37,7 @@ function Round() {
 
     setOutLine((Math.PI*(diameter) + Math.PI*(diameter - 2*thickness) + 2*thickness).toFixed(3));
 
-    setInertia(((Math.PI/4)*(Math.pow(diameter/2,4) - Math.pow((diameter-2*thickness)/2,4))*0.0001).toFixed(3))
+    // setInertia(((Math.PI/4)*(Math.pow(diameter/2,4) - Math.pow((diameter-2*thickness)/2,4))*0.0001).toFixed(3))
   };
 
   const resetClick = () => {

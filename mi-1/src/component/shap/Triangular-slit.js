@@ -38,6 +38,7 @@ function Triangular_slit() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
 
   const handleComy = (e) => {
     setComy(e);
@@ -53,9 +54,9 @@ function Triangular_slit() {
 
     setOutLine((4*(side2 - outerRadius) + 2*thickness + 4*(side1 - 2*outerRadius) + 2*Math.PI*(outerRadius) + 2*Math.PI*(outerRadius - thickness)).toFixed(3))
 
-    setInertiax(((2*(side2 - outerRadius)*thickness*(Math.pow(thickness,2)/12 + Math.pow(comy - thickness,2)) + 2*(side1 - 2*outerRadius)*thickness*(Math.pow(thickness,2)*(Math.sqrt(3)/2)/12 + Math.pow(comy - outerRadius - (outerRadius-thickness)/2 - (side1 - 2*outerRadius)*(Math.sqrt(3)/2),2))   +   2*((Math.pow(outerRadius,2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - outerRadius)) - 2*((Math.pow((outerRadius - thickness),2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - outerRadius)) + ((Math.PI*Math.pow(outerRadius,2)/12) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - outerRadius - (side1 - 2*outerRadius)*(Math.sqrt(3)/2))) + ((Math.PI*Math.pow(outerRadius - thickness,2)/12) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - outerRadius - (side1 - 2*outerRadius)*(Math.sqrt(3)/2))) )*0.0001).toFixed(2))
+    // setInertiax(((2*(side2 - outerRadius)*thickness*(Math.pow(thickness,2)/12 + Math.pow(comy - thickness,2)) + 2*(side1 - 2*outerRadius)*thickness*(Math.pow(thickness,2)*(Math.sqrt(3)/2)/12 + Math.pow(comy - outerRadius - (outerRadius-thickness)/2 - (side1 - 2*outerRadius)*(Math.sqrt(3)/2),2))   +   2*((Math.pow(outerRadius,2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - outerRadius)) - 2*((Math.pow((outerRadius - thickness),2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - outerRadius)) + ((Math.PI*Math.pow(outerRadius,2)/12) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - outerRadius - (side1 - 2*outerRadius)*(Math.sqrt(3)/2))) + ((Math.PI*Math.pow(outerRadius - thickness,2)/12) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - outerRadius - (side1 - 2*outerRadius)*(Math.sqrt(3)/2))) )*0.0001).toFixed(2))
 
-    setInertiay((((side1 - 2*outerRadius)*thickness*(Math.pow(side1 - 2*outerRadius,2)/12) - (side1 - 2*side2 - 2*outerRadius)*thickness*(Math.pow(side1 -  side2 - 2*outerRadius,2)/12) + 2*(side1 - 2*outerRadius)*thickness*(Math.pow(thickness,2)*(1/2)/12 + Math.pow(comy - (side1 - 2*outerRadius)/2,2))   +   2*((Math.pow(outerRadius,2)/4)*(Math.PI/3 - Math.sqrt(3)/8)) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - (side1-2*outerRadius)/2) - 2*((Math.pow((outerRadius - thickness),2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - (side1-2*outerRadius)/2)) + (Math.pow(outerRadius,2)*(Math.PI/3 - Math.sqrt(3)/8)/4) +  (Math.pow(outerRadius,2)*(Math.PI/3 - Math.sqrt(3)/4)/4))*0.0001).toFixed(2))
+    // setInertiay((((side1 - 2*outerRadius)*thickness*(Math.pow(side1 - 2*outerRadius,2)/12) - (side1 - 2*side2 - 2*outerRadius)*thickness*(Math.pow(side1 -  side2 - 2*outerRadius,2)/12) + 2*(side1 - 2*outerRadius)*thickness*(Math.pow(thickness,2)*(1/2)/12 + Math.pow(comy - (side1 - 2*outerRadius)/2,2))   +   2*((Math.pow(outerRadius,2)/4)*(Math.PI/3 - Math.sqrt(3)/8)) + (Math.PI*Math.pow(outerRadius,2)/3)*(comy - (side1-2*outerRadius)/2) - 2*((Math.pow((outerRadius - thickness),2)/4)*(Math.PI/3 - Math.sqrt(3)/8) + (Math.PI*Math.pow(outerRadius - thickness,2)/3)*(comy - (side1-2*outerRadius)/2)) + (Math.pow(outerRadius,2)*(Math.PI/3 - Math.sqrt(3)/8)/4) +  (Math.pow(outerRadius,2)*(Math.PI/3 - Math.sqrt(3)/4)/4))*0.0001).toFixed(2))
   };
 
   const resetClick = () => {
@@ -166,7 +167,7 @@ function Triangular_slit() {
   return (
     <>
      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Triangular slit</h1>
+      <h1 className="heading">Triangular Slit</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -217,3 +218,4 @@ function Triangular_slit() {
 }
 
 export default Triangular_slit;
+

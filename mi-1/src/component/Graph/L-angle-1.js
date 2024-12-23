@@ -211,3 +211,4 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
 
 export default L_angle_1_graph;
 
+

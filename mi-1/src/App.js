@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate,  useLocation} from 'react-router-dom';
 import Navbar from './component/Navbar'
 import Home from './component/Home'
 import FromTemp from './component/FromTemp';
@@ -31,10 +31,10 @@ import Signup from './component/Signup';
 import Login from './component/Login';
 import RefrshHandler from './RefrshHandler';
 import ManagerDashboard from './component/ManagerDeshboard';
-import { element } from 'three/webgpu';
 import CollectData from './CollectData';
 import ForgotPassword from './component/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
+import PageNotFound from './component/PageNotFound';
 
 
 function App() {
@@ -53,15 +53,14 @@ function App() {
     }
   }
 
-
-
   return (
     
     <div>
       <Router>
-        <RefrshHandler setlsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
+        <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
+       
         {!loading && 
         <Routes>
           <Route exact path="/" element={<PrivateRoute element={<Home/>}/>}/>
@@ -95,6 +94,7 @@ function App() {
           <Route exact path='/l-angle-3' element={<PrivateRoute element={<L_angle_3/>}/>}/>
           <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4/>}/>}/>
           <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
+          <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>
       
@@ -103,5 +103,6 @@ function App() {
 }
 
 export default App
+
 
 

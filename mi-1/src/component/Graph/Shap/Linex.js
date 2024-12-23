@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Linex = ({x1, x2,y1,y2,text,val, textHeight}) => {
+const Linex = ({x1, x2,y1,y2,text,val, textHeight, unit}) => {
     const arrowSize = 2;
   return (
     <>
@@ -35,10 +35,11 @@ const Linex = ({x1, x2,y1,y2,text,val, textHeight}) => {
           fontSize= {5}
           textAnchor="middle"
         >
-          {text} = {val} mm
+          {text} = {val} {unit ? unit: 'mm'}
         </text>
     </>
   );
 };
 
 export default Linex;
+

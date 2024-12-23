@@ -4,7 +4,6 @@ import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
-import Flat_oval_graph from '../Graph/Flat-oval';
 import '../../App.css'
 import 'jspdf-autotable';
 import Round_2_graph from '../Graph/Round-2';
@@ -47,20 +46,24 @@ function Round_2() {
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
 
+  
+
   const submitClick = () => {
-    setWeightPerLength(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001).toFixed(3));
+    const angle = Math.asin(((side2/2) - outerRadius)/(radius - outerRadius));
 
-    setTotalWeight(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((thickness*(2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness))) + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2)*7850*0.000001).toFixed(3));
 
-    setStripWidth((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2)).toFixed(3));
+    setTotalWeight(((thickness*(2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness))) + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2)*7850*0.000001*length).toFixed(3));
 
-    setArea((2*(side1 - side2)*thickness + Math.PI*(Math.pow(side2/2,2) - Math.pow(side2/2 - thickness,2))).toFixed(3))
+    setStripWidth((2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness)) + 2*(2*angle)*(radius - thickness/2)).toFixed(3));
 
-    setOutLine((2*Math.PI*(side2/2) +  4*(side1 - side2) + 2*Math.PI*(side2/2 - thickness) + 2*thickness).toFixed(3))
+    setArea((2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))*thickness + 4*((Math.PI/2 - angle)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)))/2 + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2).toFixed(3))
 
-    setInertiaX(((((Math.PI/4)*(Math.pow(side2/2,4) - Math.pow((side2-2*thickness)/2,4))) + ((side1 - side2)*thickness*(Math.pow(thickness,2) + Math.pow(-thickness + side2/2,2)))/6)*0.0001).toFixed(2))
+    setOutLine((4*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(2*outerRadius - thickness)) + 2*(2*angle)*(2*radius - thickness) + 2*thickness).toFixed(3))
 
-    setInertiaY(((  2*((Math.pow(side2/2,4) - Math.pow(side2/2 - thickness),4)*(Math.PI/8 - 8/(9*Math.PI)) + ((Math.PI*side2/2)/2)*Math.pow(side1/2 - side2/2 + (4*side2/2)/(3*Math.PI),2) + ((Math.PI*(side2-2*thickness)/2)/2)*Math.pow(side1/2 - (side2-2*thickness)/2 + (4*(side2-2*thickness)/2)/(3*Math.PI),2))  +  (thickness*Math.pow(side1 - side2,3))/6)*0.0001).toFixed(2))
+    // setInertiaX(((((Math.PI/4)*(Math.pow(side2/2,4) - Math.pow((side2-2*thickness)/2,4))) + ((side1 - side2)*thickness*(Math.pow(thickness,2) + Math.pow(-thickness + side2/2,2)))/6)*0.0001).toFixed(2))
+
+    // setInertiaY(((  2*((Math.pow(side2/2,4) - Math.pow(side2/2 - thickness),4)*(Math.PI/8 - 8/(9*Math.PI)) + ((Math.PI*side2/2)/2)*Math.pow(side1/2 - side2/2 + (4*side2/2)/(3*Math.PI),2) + ((Math.PI*(side2-2*thickness)/2)/2)*Math.pow(side1/2 - (side2-2*thickness)/2 + (4*(side2-2*thickness)/2)/(3*Math.PI),2))  +  (thickness*Math.pow(side1 - side2,3))/6)*0.0001).toFixed(2))
   };
 
   const resetClick = () => {
@@ -238,3 +241,4 @@ function Round_2() {
 }
 
 export default Round_2;
+

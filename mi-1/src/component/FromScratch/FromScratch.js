@@ -6,6 +6,7 @@ import CircleSector from '../Graph/Shap/Circle';
 import 'jspdf-autotable';
 import logo from '../Image/logo.192.jpg'
 import LineAtTheta from '../Graph/Shap/LineAtθ';
+import Result from '../shap/Result';
 
 const FromScratch = () => {
   const [viewBox, setViewBox] = useState('0 0 200 200');
@@ -40,6 +41,12 @@ const FromScratch = () => {
   const [length, setLength] = useState(6);
   const [totalWeight, setTotalWeight] = useState(0)
   const [outLine, setOutLine] = useState(0)
+  const [area, setArea] = useState(0);
+  const [inertiax, setInertiax] = useState(0);
+  const [inertiay, setInertiay] = useState(0);
+
+  
+
 
   const handleSVGClick = (event) => {
     if(!dimensioning) return;
@@ -89,11 +96,11 @@ const FromScratch = () => {
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos((Math.PI/180)*(shapes[shapes.length - 1].anglefromx))  - newShapeRadius*Math.sin((Math.PI/180)*(shapes[shapes.length - 1].anglefromx)):
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos((Math.PI/180)*(shapes[shapes.length - 1].anglefromx))  + (newShapeRadius - thickness)*Math.sin((Math.PI/180)*(shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].x + shapes[shapes.length - 1].radius*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) :
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x :
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - newShapeRadius)*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))):
       (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + newShapeRadius - thickness)*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) :
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - thickness)*Math.cos((Math.PI/180)*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + newShapeRadius - thickness)*Math.cos((Math.PI/180)*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x : 0,
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - newShapeRadius)*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
       
 
       y: (shapes.length ===0) ? 30 : 
@@ -101,11 +108,11 @@ const FromScratch = () => {
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin((Math.PI/180)*(shapes[shapes.length - 1].anglefromx))  + newShapeRadius*Math.cos((Math.PI/180)*(shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin((Math.PI/180)*(shapes[shapes.length - 1].anglefromx))  - (newShapeRadius - thickness)*Math.cos((Math.PI/180)*(shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].y - shapes[shapes.length - 1].radius*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) : 
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y :
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - newShapeRadius)*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) : 
       (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius + newShapeRadius - thickness)*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) : 
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius - thickness)*Math.sin((Math.PI/180)*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius + newShapeRadius - thickness)*Math.sin((Math.PI/180)*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y : 0,
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - newShapeRadius)*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
     };
 
     newShape.startx = 
@@ -128,6 +135,9 @@ const FromScratch = () => {
 
     setShapes([...shapes, newShape]);
     console.log(shapes.length);
+
+    // console.log("in other function",shapes.length, newShape, newShape.starty, newShape.endx, newShape.endy)
+
 
     setStartX(Math.min(startX,newShape.startx));
     setStartY(Math.min(startY,newShape.starty));
@@ -154,12 +164,11 @@ const FromScratch = () => {
   useEffect(() => {
     const newWidth =  (endX - startX)/ scale;
     const newHeight = (endY - startY)/ scale;
+    console.log("in third function", startX, startY, endX,endY)
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
 
-  const thicknessChange = async(e) => {
-    setThickness(parseFloat(e.target.value));
-  }
+  
 
   useEffect(() => {
     for (let i = 0; i < shapes.length; i++) {
@@ -168,22 +177,22 @@ const FromScratch = () => {
         (shapes[i - 1].type === "Line" && shapes[i].type === "clockwise") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos((Math.PI / 180) * (shapes[i - 1].anglefromx)) - newShapeRadius * Math.sin((Math.PI / 180) * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "anticlockwise") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos((Math.PI / 180) * (shapes[i - 1].anglefromx)) + (newShapeRadius - thickness) * Math.sin((Math.PI / 180) * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].x + shapes[i - 1].radius * Math.cos((Math.PI / 180) * (90 - (shapes[i - 1].anglefromx + shapes[i - 1].angle))) :
-        (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[i - 1].x :
+        (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - newShapeRadius)*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].x + (shapes[i - 1].radius + newShapeRadius - thickness) * Math.cos((Math.PI / 180) * (90 - (shapes[i - 1].anglefromx + shapes[i - 1].angle))) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "Line") ? shapes[i - 1].x + (shapes[i - 1].radius - thickness) * Math.cos((Math.PI / 180) * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "clockwise") ? shapes[i - 1].x + (shapes[i - 1].radius + newShapeRadius - thickness) * Math.cos((Math.PI / 180) * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
-        (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].x : 0;
+        (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - newShapeRadius)*Math.cos((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) : 0;
 
       shapes[i].y = (i === 0) ? 50 :
         (shapes[i - 1].type === "Line" && shapes[i].type === "Line") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin((Math.PI / 180) * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "clockwise") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin((Math.PI / 180) * (shapes[i - 1].anglefromx)) + newShapeRadius * Math.cos((Math.PI / 180) * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "anticlockwise") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin((Math.PI / 180) * (shapes[i - 1].anglefromx)) - (newShapeRadius - thickness) * Math.cos((Math.PI / 180) * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].y - shapes[i - 1].radius * Math.sin((Math.PI / 180) * (90 - (shapes[i - 1].anglefromx + shapes[i - 1].angle))) :
-        (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[i - 1].y :
+        (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - newShapeRadius)*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle)))  :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].y - (shapes[i - 1].radius + newShapeRadius - thickness) * Math.sin((Math.PI / 180) * (90 - (shapes[i - 1].anglefromx + shapes[i - 1].angle))) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "Line") ? shapes[i - 1].y + (shapes[i - 1].radius - thickness) * Math.sin((Math.PI / 180) * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "clockwise") ? shapes[i - 1].y + (shapes[i - 1].radius + newShapeRadius - thickness) * Math.sin((Math.PI / 180) * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
-        (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].y : 0;
+        (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "anticlockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - newShapeRadius)*Math.sin((Math.PI/180)*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))) : 0;
 
         shapes[i].startx = 
         (shapes[i].type === 'Line') ? Math.min(startX , shapes[i].x + shapes[i].length*Math.cos((Math.PI/180)*(shapes[i].anglefromx))) : 
@@ -200,6 +209,7 @@ const FromScratch = () => {
         shapes[i].endy = 
         (shapes[i].type === 'Line') ? Math.max(endY , shapes[i].y + shapes[i].length*Math.sin((Math.PI/180)*(shapes[i].anglefromx))) : 
         (shapes[i].type === 'clockwise' && (shapes[i].anglefromx<=180 && shapes[i].angle + shapes[i].anglefromx >= 180)) ?  Math.max(endY , shapes[i].y + shapes[i].radius) : Math.max(endY , shapes[i].y + shapes[i].radius*Math.cos((Math.PI/180)*(90 - shapes[i].anglefromx - shapes[i].angle)));
+
 
         setStartX(Math.min(startX,shapes[i].startx));
         setStartY(Math.min(startY,shapes[i].starty));
@@ -396,9 +406,9 @@ const FromScratch = () => {
   return (
     <>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">1</h1>
+      <h1 className="heading">From Scratch</h1>
       <button style={{marginLeft: 'auto', transform: 'translateX(-35%)'}} onClick={handleDownload}>
-      <i class="fa-solid fa-download"></i>
+      <i className="fa-solid fa-download"></i>
     </button>
     </div>
       <div className = "container">
@@ -409,7 +419,7 @@ const FromScratch = () => {
         <>
         <div className="container1">
           <lable className="label">Thickness: (t) mm</lable>
-          <input className="input-field" type="number" value={thickness} onChange={thicknessChange}/>
+          <input className="input-field" type="number" value={thickness} onChange={(e)=>setThickness(Number(e.target.value))}/>
         </div>
         <div className="container1">
           <lable className="label">Length: (L) mm</lable>
@@ -491,7 +501,7 @@ const FromScratch = () => {
 
       <div>    
       <button disabled={shapes.length===0 ? true : false} type="button" className="btn btn-dark mx-2 my-4" onClick={submitClick}>Submit</button>
-      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-2 my-4" onClick={removeShape}>Remove Shape</button>
+      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-2 my-4" onClick={removeShape}>Remove Last Shape</button>
       <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-2 my-4">Reset</button>
       </div>   
       </div>
@@ -503,7 +513,7 @@ const FromScratch = () => {
         <div style={{ position: 'relative' }}>
         <div className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
           <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
               {/* Define grid pattern */}
@@ -545,12 +555,7 @@ const FromScratch = () => {
           </div>
         </div>
         <div className='box'>
-        <div style={{ fontWeight: 'bold', textAlign: 'center'}}><h3>Output</h3></div>
-        <p className="output-text"><b>Weight per meter:</b> {weightPerLength} Kg/m</p>
-        <p className="output-text"><b>Weight of {length}m length:</b> {totalWeight} Kg</p>
-        <p className="output-text"><b>Calculated strip width:</b> {stripWidth} mm</p>
-        <p className="output-text"><b>Outline length:</b> {outLine} mm</p>
-        <p className="output-text"><b>Area of cross section:</b> {crossSection} mm^2</p>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
     </>

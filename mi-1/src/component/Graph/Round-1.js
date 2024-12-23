@@ -147,7 +147,7 @@ function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
         {/* Define grid pattern */}
@@ -185,6 +185,9 @@ function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
         
         {/* Horizontal Arrow for Diameter */}
         <Linex x1={100 - radius} x2={100 + radius} y1={155} y2={155} text={'D'} val={2 * radius1} textHeight={5} />
+
+        {/* Horizontal Arrow for Angle */}
+        <Linex x1={100 - outerRadius*(Math.tan(aa*angle/2) + Math.cos(aa*angle/2))} x2={100 + outerRadius*(Math.tan(aa*angle/2) + Math.cos(aa*angle/2))} y1={50 + 2*outerRadius} y2={50 + 2*outerRadius} text={'θ'} val={angle} textHeight={10} unit={"°"}/>
       </svg>
       <button className='mx-2 my-2' onClick={zoomIn}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='mx-2 my-2' onClick={resetZoom}><i className="fa-solid fa-maximize"></i> </button>
@@ -194,3 +197,4 @@ function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
 }
 
 export default Round_1_graph;
+

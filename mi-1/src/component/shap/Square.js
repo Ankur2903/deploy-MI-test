@@ -55,7 +55,7 @@ function Square() {
 
     setArea((thickness*4*(side - 2*outerRadius) + Math.PI*Math.pow(outerRadius,2) - Math.PI*Math.pow(outerRadius - thickness,2)).toFixed(3))
 
-    setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
+    // setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
 
   }
 

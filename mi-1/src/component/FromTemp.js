@@ -23,10 +23,10 @@ import image19 from './Image/Image-19.jpg';
 import image20 from './Image/Image-20.jpg';
 import image21 from './Image/Image-21.jpg';
 import image22 from './Image/Image-22.jpg';
-// import image23 from './Image/Image-23.jpg';
+import image23 from './Image/Image-23.jpg';
 
 const Button = styled.button`
-  padding: 10px 20px;
+  padding: 10px 15px;
   display: flex;
   align-items: center;
   border: 2px solid #ccc;
@@ -127,26 +127,49 @@ const ButtonWrapper = styled.div`
 `;
 
 function FromTemp() {
+
+    const containerStyle = {
+      display: "flex",
+      height: "100vh", // Full viewport height
+      // margin: 0,
+      // padding: 0,
+    };
+  
+    const leftStyle = {
+      flex: 1, // Takes half the space
+      padding: "10px"
+    };
+  
+    const rightStyle = {
+      flex: 1, // Takes half the space
+      padding: "10px"
+    };
+
+    const dividerStyle = {
+      width: "2px", // Thin vertical line
+      backgroundColor: 'black', // Black color for the line
+      height: "100%", // Full height
+    };
+
   return (
     <ButtonContainer>
+      <div style={containerStyle}>
+      <div style={leftStyle}>
       <Heading>Close Shapes</Heading>
-      <ButtonWrapperContainer className='col-md-11'>
-
-
-      
+      <ButtonWrapperContainer className='col-md-12'>      
         {/* <!-- Button trigger modal --> */}
         <ButtonWrapper>
           <Button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <Image src={image3} alt="Description of Image" />
           </Button>
-          <ButtonText>Round</ButtonText>
+          <ButtonText>Round Tube</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
               <div class="modal-header">
-                <h3>Round</h3>
+                <h3>Round Tube</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -189,7 +212,7 @@ function FromTemp() {
                   <ButtonWrapper>
                     <Link to="/round-3">
                       <Button data-bs-dismiss="modal">
-                        <Image src={image21} alt="Description of Image" />
+                        <Image src={image23} alt="Description of Image" />
                       </Button>
                     </Link>
                   </ButtonWrapper>
@@ -209,7 +232,7 @@ function FromTemp() {
               <Image src={image4} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Square</ButtonText>
+          <ButtonText>Square Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/rectangle">
@@ -217,7 +240,7 @@ function FromTemp() {
               <Image src={image2} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Rectangle</ButtonText>
+          <ButtonText>Rectangle Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/triangular">
@@ -225,7 +248,7 @@ function FromTemp() {
               <Image src={image11} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Triangular</ButtonText>
+          <ButtonText>Triangular Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/d_shap">
@@ -233,7 +256,7 @@ function FromTemp() {
               <Image src={image13} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>D shap</ButtonText>
+          <ButtonText>D-Shaped Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/t_shap">
@@ -241,7 +264,7 @@ function FromTemp() {
               <Image src={image14} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>T shap</ButtonText>
+          <ButtonText>Guide Rail Sections</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/figure_of_eight">
@@ -249,25 +272,29 @@ function FromTemp() {
               <Image src={image15} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Figure of eight profiles</ButtonText>
+          <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
+      </div>
+
+      <div style={dividerStyle}></div>
+
+
+      <div style={rightStyle}>
       <Heading>Open Shapes</Heading>
       <ButtonWrapperContainer>
-
-
       <ButtonWrapper>
           <Button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
             <Image src={image1} alt="Description of Image" />
           </Button>
-          <ButtonText>L angle</ButtonText>
+          <ButtonText>Angle Profile</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
         <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
               <div class="modal-header">
-                <h3>L angle</h3>
+                <h3>L-Angle</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -317,7 +344,7 @@ function FromTemp() {
                 </ButtonWrapperContainer>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Angle Profile</button>
               </div>
             </div>
           </div>
@@ -328,7 +355,7 @@ function FromTemp() {
               <Image src={image5} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>C_channel</ButtonText>
+          <ButtonText>Lip Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/u-channel">
@@ -336,7 +363,7 @@ function FromTemp() {
               <Image src={image6} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>U_channel</ButtonText>
+          <ButtonText>U-Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/triangular-slit">
@@ -344,7 +371,7 @@ function FromTemp() {
               <Image src={image7} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Triangular_Slit</ButtonText>
+          <ButtonText>Triangular Slit</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/Door_channel">
@@ -352,7 +379,7 @@ function FromTemp() {
               <Image src={image8} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Door channel</ButtonText>
+          <ButtonText>Door Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/top_hat">
@@ -360,11 +387,14 @@ function FromTemp() {
               <Image src={image12} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Top hat</ButtonText>
+          <ButtonText>Top Hat Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
+      </div>
+    </div>
     </ButtonContainer>
   );
 }
 
 export default FromTemp;
+

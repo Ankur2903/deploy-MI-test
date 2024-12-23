@@ -45,6 +45,8 @@ function U_channel() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
+
   const handleComy = (e) => {
     setComy(e);
   };
@@ -62,9 +64,9 @@ function U_channel() {
 
     setArea((thickness*(2*(side2 - outerRadius) + (side1 - 2*outerRadius)) + (Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
 
-    setInertiax(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*outerRadius)/4)*(Math.pow((side2-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side2 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side2 - outerRadius)*(thickness)*(Math.pow(side2-outerRadius,2)/12))   +  ((side1 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side2 - comy -thickness/2,2))))*0.0001).toFixed(2))
+    // setInertiax(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*outerRadius)/4)*(Math.pow((side2-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side2 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side2 - outerRadius)*(thickness)*(Math.pow(side2-outerRadius,2)/12))   +  ((side1 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side2 - comy -thickness/2,2))))*0.0001).toFixed(2))
 
-    setInertiay(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side2 - outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side1/2 - thickness/2),2))))   +   ((side1 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12)))*0.0001).toFixed(2));
+    // setInertiay(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side2 - outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side1/2 - thickness/2),2))))   +   ((side1 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12)))*0.0001).toFixed(2));
 
 
   };
@@ -171,7 +173,7 @@ function U_channel() {
   return (
     <>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Round</h1>
+      <h1 className="heading">U-Channel</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -222,3 +224,4 @@ function U_channel() {
 }
 
 export default U_channel;
+

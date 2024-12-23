@@ -141,7 +141,7 @@ const mx = 2*radius1;
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch">
             <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" for="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
         {/* Define grid pattern */}
@@ -186,3 +186,4 @@ const mx = 2*radius1;
 }
 
 export default Round_graph;
+

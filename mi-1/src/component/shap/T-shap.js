@@ -55,6 +55,8 @@ function T_shap() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
+  
+
   const handleComy = (e) => {
     setComy(e);
   };
@@ -62,7 +64,7 @@ function T_shap() {
   const submitClick = () => {
     setWeightPerLenght((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))*thickness*0.000001*length).toFixed(2));
+    setTotalWeight((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))*thickness*0.000001*length).toFixed(3));
 
     setStripWidth((4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius)).toFixed(3));
 
@@ -208,7 +210,7 @@ function T_shap() {
   return (
     <>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">D sahp</h1>
+      <h1 className="heading">Guide Rail Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -265,3 +267,4 @@ function T_shap() {
 }
 
 export default T_shap;
+

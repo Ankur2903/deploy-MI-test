@@ -56,6 +56,8 @@ function Figure_of_eight() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
+  
+
   const aa = Math.PI/180
   const angle1 = 180 - angle
 
@@ -238,9 +240,9 @@ function Figure_of_eight() {
     
     setArea((1.5*Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + aa*(90 - angle/2)*(Math.pow(r1,2) - Math.pow(r1 - thickness,2)) + aa*(angle/2)*(Math.pow(r2,2) - Math.pow(r2 - thickness,2)) + (2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(len1) + 2*(len2))*thickness).toFixed(3))
 
-    setInertiax(((1)*0.0001).toFixed(2))
+    // setInertiax(((1)*0.0001).toFixed(2))
 
-    setInertiay(((1)*0.0001).toFixed(2));
+    // setInertiay(((1)*0.0001).toFixed(2));
 
   }
 
@@ -261,7 +263,7 @@ function Figure_of_eight() {
   return (
     <>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Figure of eight</h1>
+      <h1 className="heading">Butterfly  Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>

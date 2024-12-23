@@ -65,9 +65,9 @@ function C_channel() {
 
     setArea((thickness*(2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius) + 2*(side3 - outerRadius)) + Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
 
-    setInertiax(((2*(2*(Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((comy-outerRadius + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*outerRadius)/4)*(Math.pow((side1-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side1 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side1 - 2*outerRadius)*(thickness)*(Math.pow(side1-2*outerRadius,2)/12))   +  ((side2 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side1 - comy -thickness/2,2)))   +   2*((side3 - outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(comy -thickness/2,2))))*0.0001).toFixed(2))
+    // setInertiax(((2*(2*(Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((comy-outerRadius + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*outerRadius)/4)*(Math.pow((side1-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side1 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side1 - 2*outerRadius)*(thickness)*(Math.pow(side1-2*outerRadius,2)/12))   +  ((side2 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side1 - comy -thickness/2,2)))   +   2*((side3 - outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(comy -thickness/2,2))))*0.0001).toFixed(2))
 
-    setInertiay(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side1 - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side2/2 - thickness/2),2))))   +   ((side2 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12))   +   2*((thickness*Math.pow(side3-outerRadius,3))/12 + (side3 -outerRadius)*thickness*Math.pow(side2/2 - side3 + (side3 - outerRadius)/2,2)))*0.0001).toFixed(2));
+    // setInertiay(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side1 - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side2/2 - thickness/2),2))))   +   ((side2 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12))   +   2*((thickness*Math.pow(side3-outerRadius,3))/12 + (side3 -outerRadius)*thickness*Math.pow(side2/2 - side3 + (side3 - outerRadius)/2,2)))*0.0001).toFixed(2));
 
   }
 
@@ -180,7 +180,7 @@ function C_channel() {
   return (
     <>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">C channel</h1>
+      <h1 className="heading">Lip Channel</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
         <i className="fa-solid fa-download"></i>
@@ -233,3 +233,4 @@ function C_channel() {
 }
 
 export default C_channel;
+

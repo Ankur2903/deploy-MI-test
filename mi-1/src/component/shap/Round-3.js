@@ -48,6 +48,8 @@ function Round_3() {
 
   
 
+  
+
   const submitClick = () => {
     const angle = Math.asin((side2/2 + outerRadius)/(diameter/2 - outerRadius))* (180 / Math.PI);
 
@@ -89,21 +91,35 @@ function Round_3() {
     link.click();
   };
 
-  const angle = Math.asin(((side2/2) - outerRadius)/(diameter - outerRadius));
+ 
   // Manually create 3D shapes to export, without displaying them
   const create3DShapes = () => {
+    const angle = Math.asin((side2/2 + outerRadius)/(diameter/2 - outerRadius))* (180 / Math.PI);
+    const aa = Math.PI/180;
+    const radius = diameter/2;
     const shapes = [];
 
     const shape1 = new THREE.Shape();
-    shape1.moveTo(0,0);
-    shape1.lineTo(side1 - 2*(diameter - (diameter - outerRadius)*Math.cos(angle)),0)
-    shape1.lineTo(side1 - 2*(diameter - (diameter - outerRadius)*Math.cos(angle)),thickness)
-    shape1.lineTo(0,thickness);
-    shape1.lineTo(0,0)
+    shape1.moveTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness,(radius - outerRadius)*Math.cos(angle*aa) - 100);
+    shape1.lineTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius,(radius - outerRadius)*Math.cos(angle*aa) - 100)
+    shape1.absarc(100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness,side1 + outerRadius - radius - thickness - 100,outerRadius - thickness,2*Math.PI/2,3*Math.PI/2,false);
+    shape1.absarc(100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness,side1 + outerRadius - radius - thickness - 100,outerRadius - thickness,3*Math.PI/2,0*Math.PI/2,false);
+    shape1.absarc(100 + (radius - outerRadius)*Math.sin(angle*aa),(radius - outerRadius)*Math.cos(angle*aa) - 100,outerRadius,2*Math.PI/2,1*Math.PI/2 - angle*aa,true);
+    shape1.absarc(100 + (radius - outerRadius)*Math.sin(angle*aa),(radius - outerRadius)*Math.cos(angle*aa) - 100,outerRadius - thickness,1*Math.PI/2 - angle*aa,2*Math.PI/2,false);
+    shape1.absarc(100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness,side1 + outerRadius - radius - thickness - 100,outerRadius,0*Math.PI/2,3*Math.PI/2,true);
+    shape1.absarc(100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness,side1 + outerRadius - radius - thickness - 100,outerRadius,3*Math.PI/2,2*Math.PI/2,true);
+    shape1.lineTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness,(radius - outerRadius)*Math.cos(angle*aa) - 100)
     shapes.push(shape1)
     
-
-   
+    const shape2 = new THREE.Shape();
+    shape2.moveTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness,(radius - outerRadius)*Math.cos(angle*aa) - 100)
+    shape2.lineTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius,(radius - outerRadius)*Math.cos(angle*aa) - 100)
+    shape2.absarc(100 - (radius - outerRadius)*Math.sin(angle*aa),(radius - outerRadius)*Math.cos(angle*aa) - 100,outerRadius,0*Math.PI/2,1*Math.PI/2 + angle*aa,false);
+    shape2.absarc(100,0 - 100,radius,1*Math.PI/2 + angle*aa,1*Math.PI/2 - angle*aa,false);
+    shape2.absarc(100,0 - 100,radius - thickness,1*Math.PI/2 - angle*aa,1*Math.PI/2 + angle*aa,true);
+    shape2.absarc(100 - (radius - outerRadius)*Math.sin(angle*aa),(radius - outerRadius)*Math.cos(angle*aa) - 100,outerRadius - thickness,1*Math.PI/2 + angle*aa,0*Math.PI/2,true);
+    shape2.lineTo(100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness,(radius - outerRadius)*Math.cos(angle*aa) - 100)
+    shapes.push(shape2)
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -219,4 +235,5 @@ function Round_3() {
 }
 
 export default Round_3;
+
 

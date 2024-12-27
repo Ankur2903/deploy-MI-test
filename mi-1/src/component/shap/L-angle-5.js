@@ -88,17 +88,17 @@ function L_angle_5() {
   const create3DShapes = () => {
     const shapes = [];
     const shape1 = new THREE.Shape();
-    shape1.moveTo(side3 ,side1 - thickness);
-    shape1.lineTo(side3,side1)
-    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius,1*Math.PI/2,2*Math.PI/2,false);
+    shape1.moveTo(outerRadius - (outerRadius - thickness)/Math.sqrt(2) + side3/Math.sqrt(2),side1 +  (outerRadius - thickness)/Math.sqrt(2) + side3/Math.sqrt(2));
+    shape1.lineTo(outerRadius - outerRadius/Math.sqrt(2) + side3/Math.sqrt(2),side1 +  outerRadius/Math.sqrt(2) + side3/Math.sqrt(2))
+    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius,3*Math.PI/4,2*Math.PI/2,false);
     shape1.absarc(outerRadius,outerRadius,outerRadius,2*Math.PI/2,3*Math.PI/2,false);
-    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius,3*Math.PI/2,0*Math.PI/2,false);
-    shape1.lineTo(side1,side4)
-    shape1.lineTo(side1 - thickness,side4)
-    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius - thickness,0*Math.PI/2,3*Math.PI/2,true);
+    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius,3*Math.PI/2,7*Math.PI/4,false);
+    shape1.lineTo(side2 + outerRadius/Math.sqrt(2) + side4/Math.sqrt(2),outerRadius - outerRadius/Math.sqrt(2) + side3/Math.sqrt(2))
+    shape1.lineTo(side2 + (outerRadius - thickness)/Math.sqrt(2) + side4/Math.sqrt(2), outerRadius - (outerRadius - thickness)/Math.sqrt(2) + side4/Math.sqrt(2))
+    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius - thickness,7*Math.PI/4,3*Math.PI/2,true);
     shape1.absarc(outerRadius,outerRadius,outerRadius - thickness,3*Math.PI/2,2*Math.PI/2,true);
-    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius - thickness,2*Math.PI/2,1*Math.PI/2,true);
-    shape1.lineTo(side3,side1 - thickness)
+    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius - thickness,2*Math.PI/2,3*Math.PI/4,true);
+    shape1.lineTo(outerRadius - (outerRadius - thickness)/Math.sqrt(2) + side3/Math.sqrt(2),side1 +  (outerRadius - thickness)/Math.sqrt(2) + side3/Math.sqrt(2))
     shapes.push(shape1)
 
     shapes.forEach((shape) => {
@@ -220,4 +220,5 @@ function L_angle_5() {
 }
 
 export default L_angle_5;
+
 

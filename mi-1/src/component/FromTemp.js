@@ -42,7 +42,7 @@ const Button = styled.button`
 const ButtonWrapperContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 20px;
 
   @media (max-width: 1024px) {
@@ -51,6 +51,10 @@ const ButtonWrapperContainer = styled.div`
 
   @media (max-width: 768px) {
     gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 10px; /* Tight spacing for mobile */
   }
 `;
 
@@ -91,7 +95,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
 `;
 
@@ -119,10 +123,12 @@ const ButtonWrapper = styled.div`
 
   @media (max-width: 768px) {
     max-width: 50%; /* Adjust for smaller screens */
+    margin-bottom: 15px;
   }
 
   @media (max-width: 480px) {
     max-width: 100%; /* Adjust for mobile screens */
+     margin-bottom: 10px; /* Add bottom spacing */
   }
 `;
 
@@ -282,7 +288,7 @@ function FromTemp() {
 
       <div style={rightStyle}>
       <Heading>Open Shapes</Heading>
-      <ButtonWrapperContainer>
+      <ButtonWrapperContainer  className='col-md-12'>
       <ButtonWrapper>
           <Button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
             <Image src={image1} alt="Description of Image" />
@@ -294,7 +300,7 @@ function FromTemp() {
           <div class="modal-dialog modal-xl">
             <div class="modal-content">
               <div class="modal-header">
-                <h3>L-Angle</h3>
+                <h3>Angle Profile</h3>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">
@@ -397,4 +403,5 @@ function FromTemp() {
 }
 
 export default FromTemp;
+
 

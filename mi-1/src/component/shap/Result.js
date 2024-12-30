@@ -34,4 +34,3 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
 }
 
 export default Result
-

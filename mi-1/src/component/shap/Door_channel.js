@@ -251,8 +251,8 @@ function Door_channel() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..."/>
           </div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
           <div ref={doorChannelGraphRef}><Door_channel_graph side11 = {side2} side22={side1} side33={side3} side44={side4} lip11={lip} thickness1={thickness} outerRadius1={outerRadius} sendValuex={handleComx} sendValuey={handleComy}/></div>
@@ -266,4 +266,3 @@ function Door_channel() {
 }
 
 export default Door_channel;
-

@@ -205,8 +205,8 @@ function Top_hat() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Enter length" />
           </div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
           <div ref={topHatGraphRef}><Top_hat_graph side11={side1} side22 = {side3} side33 = {side2} outerRadius1 = {outerRadius} thickness1 = {thickness}  sendValuey={handleComy}/></div>
@@ -220,4 +220,3 @@ function Top_hat() {
 }
 
 export default Top_hat;
-

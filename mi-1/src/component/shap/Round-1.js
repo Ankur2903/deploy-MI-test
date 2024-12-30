@@ -188,8 +188,8 @@ function Round_1() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="Type something..." />
           </div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
         </div>
         <div className='box' >
           <div ref={roundGraphRef}><Round_1_graph radius1 = {diameter/2} angle1 = {angle} thickness1 = {thickness} outerRadius1={outerRadius}/></div>
@@ -203,11 +203,6 @@ function Round_1() {
 }
 
 export default Round_1;
-
-
-
-
-
 
 
 

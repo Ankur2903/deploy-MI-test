@@ -208,8 +208,8 @@ function U_channel() {
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
           </div>
           <div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
           </div>
         </div>
         <div className='box'>
@@ -224,4 +224,3 @@ function U_channel() {
 }
 
 export default U_channel;
-

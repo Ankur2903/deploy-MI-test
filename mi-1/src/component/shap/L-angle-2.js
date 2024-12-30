@@ -222,8 +222,8 @@ function L_angle_2() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Enter length" />
           </div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
           <div ref={lAngleGraphRef}>
@@ -238,4 +238,3 @@ function L_angle_2() {
 }
 
 export default L_angle_2;
-

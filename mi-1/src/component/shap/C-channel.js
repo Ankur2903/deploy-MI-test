@@ -233,4 +233,3 @@ function C_channel() {
 }
 
 export default C_channel;
-

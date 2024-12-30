@@ -218,8 +218,8 @@ function C_channel() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
           </div>
-          <button type="button" className="btn btn-primary mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
           <div ref={cChannelGraphRef}><C_channel_graph side1={side2} side2={side1} lip1={side3} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>

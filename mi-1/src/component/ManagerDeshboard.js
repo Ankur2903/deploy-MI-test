@@ -4,21 +4,54 @@ import CollectData from "../CollectData";
 const ManagerDashboard = () => {
   const [users, setUsers] = useState([]);
 
-  const updateUserStatus = async (id, newStatus) => {
+  const updateUserStatus = async (id) => {
     try {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status/${id}`, {
         method: "PUT", // default method, can be omitted
           headers: {
             "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ status: newStatus })
+          }
         });
       // Update the user list after successful update
+     setUsers((prevUsers) =>
+        prevUsers.map((user) =>
+          user._id === id ? { ...user, status: user.status === 'approved' ? 'rejected': 'approved'} : user
+        ));
+      const message = await response.json();
+      alert(message.message);
+    } catch (error) {
+      alert("Failed to update status");
+    }
+  };
+
+  const changeType = async (id) => {
+    try {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type/${id}`, {
+        method: "PUT", // default method, can be omitted
+          headers: {
+            "Content-Type": "application/json", // Ensure correct content type
+          }
+        });
       setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === id ? { ...user, status: newStatus } : user
-        )
-      );
+          user._id === id ? { ...user, manager: !user.manager } : user
+        ));
+      const message = await response.json();
+      alert(message.message);
+    } catch (error) {
+      alert("Failed to change user type");
+    }
+  }
+
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/delete/${id}`, {
+        method: "DELETE", // default method, can be omitted
+          headers: {
+            "Content-Type": "application/json", // Ensure correct content type
+          }
+        });
+        setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
       const message = await response.json();
       alert(message.message);
     } catch (error) {

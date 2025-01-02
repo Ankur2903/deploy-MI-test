@@ -481,24 +481,23 @@ const FromScratch = () => {
 
 
   return (
-    <>
+    <div style={{transform: 'translateY(-30px)'}}>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">From Scratch</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
-          <li><a className="dropdown-item" onClick={handleDownload}>export as PDF</a></li>
+          <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li> 
           
         </ul>
       </div>
     </div>
       <div className = "container">
-        
       <div className="box">
-        <h3>Input</h3>
+        <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
         {shapes.length !==0 && 
         <>
         <div className="container1">
@@ -528,7 +527,7 @@ const FromScratch = () => {
               <lable className="label">Angle: (θ) degree</lable>
               <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
             </div>
-            <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape}>Add Shape</button>
+            <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
 
           </>
         )}
@@ -538,7 +537,7 @@ const FromScratch = () => {
               <lable className="label">Length: (l) mm</lable>
               <input className="input-field" type="number" value={newShapeLength} step="0.01" onChange={(e) => setNewShapeLength(Number(e.target.value))}/>
             </div>
-            <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape}>Add Shape</button>
+            <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
 
           </>
           
@@ -553,7 +552,7 @@ const FromScratch = () => {
             <lable className="label">Angle: (θ) degree</lable>
             <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
           </div>
-          <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape}>Add Shape</button>
+          <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
         </>
         )}
         
@@ -579,14 +578,14 @@ const FromScratch = () => {
             </div>
           )}
 
-          <button type='button' className="btn btn-dark mx-2 my-4" onClick={updateDimensions}>Update Shape</button>
+          <button type='button' className="btn btn-dark mx-2 my-4" onClick={updateDimensions} style={{color: 'white', backgroundColor: '#1b065c'}}>Update Shape</button>
         </div>
       )}
 
       <div>    
-      <button disabled={shapes.length===0 ? true : false} type="button" className="btn btn-dark mx-2 my-4" onClick={submitClick}>Submit</button>
-      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-2 my-4" onClick={removeShape}>Remove Last Shape</button>
-      <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-2 my-4">Reset</button>
+      <button disabled={shapes.length===0 ? true : false} type="button" className="btn btn-dark mx-2 my-4" onClick={submitClick}  style={{color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
+      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-2 my-4" onClick={removeShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Remove Last Shape</button>
+      <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-2 my-4"  style={{color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
       </div>   
       </div>
       
@@ -595,8 +594,8 @@ const FromScratch = () => {
         <div className='box'>
         <div ref={cChannelGraphRef}>
         <div style={{ position: 'relative' }}>
-        <div className="form-check form-switch">
-            <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
+        <div className="form-check form-switch"  style={{color: 'white', backgroundColor: '#1b065c'}}>
+            <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
           <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
@@ -632,9 +631,9 @@ const FromScratch = () => {
             {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="4"> {distance} mm</text>}
 
             </svg>
-            <button className='mx-2 my-2' onClick={zoomIn}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-            <button className='mx-2 my-2' onClick={resetZoom}><i className="fa-solid fa-maximize"></i> </button>
-            <button className='mx-2 my-2' onClick={zoomOut}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+            <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+            <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
           </div>
           </div>
         </div>
@@ -642,18 +641,11 @@ const FromScratch = () => {
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
 export default FromScratch
-
-
-
-
-
-
-
 
 
 

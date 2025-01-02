@@ -7,6 +7,7 @@ function Signup() {
   const [signupInfo, setSignupInfo] = useState({
     name: '',
     email: '',
+    phoneNo: '',
     password: '',
     company: '',
     department: '',
@@ -26,11 +27,11 @@ function Signup() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log("working")
-    const {name, email, password, company, department, designation} = signupInfo;
+    const {name, email, phoneNo, password, company, department, designation} = signupInfo;
    
     console.log(signupInfo)
-    if(!name || !email || !password){
-      return handleError('Name, Email, or, password are required')
+    if(!name || !email || !password || !company){
+      return handleError('Name, Email, Company or, password are required')
     }
     if(password !== confirmPassword){
       return handleError('password and confirm Password are not equil')
@@ -116,6 +117,18 @@ function Signup() {
                 className="form-control"
                 style={{border: '1px solid black'}}
                 value={signupInfo.designation}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="mb-3">
+              <label htmlFor="phoneNo" className="form-label" style={{fontWeight: 'bold'}}>Phone Number</label>
+              <input
+                type="number"
+                name="phoneNo"
+                id="phoneNo"
+                className="form-control"
+                style={{border: '1px solid black'}}
+                value={signupInfo.phoneNo}
                 onChange={handleChange}
               />
             </div>

@@ -95,7 +95,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  padding: 10px;
+  padding: 0px;
   box-sizing: border-box;
 `;
 
@@ -403,5 +403,3 @@ function FromTemp() {
 }
 
 export default FromTemp;
-
-

@@ -140,8 +140,8 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
 
   return (
     <div style={{ position: 'relative' }}>
-      <div className="form-check form-switch">
-            <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
+      <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
+            <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
@@ -194,12 +194,11 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
         <Linex x1={50} x2={thickness + 50} y1={45 + (100-sidey)/2} y2={45 + (100-sidey)/2} text={'t'} val={thickness1} textHeight={-5}/>
         
       </svg>
-      <button className='mx-2 my-2' onClick={zoomIn}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='mx-2 my-2' onClick={resetZoom}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='mx-2 my-2' onClick={zoomOut}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }
 
 export default Flat_oval_graph;
-

@@ -134,7 +134,7 @@
   text-align: center;
   width: var(--box-1-width);
   overflow-y: auto;
-  max-height: 73vh;
+  max-height: 77vh;
 }
 .box:nth-child(2) {
   text-align: center;
@@ -142,12 +142,12 @@
   align-items: center;
   width: var(--box-2-width);
   overflow-y: auto;
-  max-height: 73vh;
+  max-height: 77vh;
 }
 .box:nth-child(3) {
   width: var(--box-3-width);
   overflow-y: auto;
-  max-height: 73vh;
+  max-height: 77vh;
 }
 @media (max-width: 768px) {
   .box {

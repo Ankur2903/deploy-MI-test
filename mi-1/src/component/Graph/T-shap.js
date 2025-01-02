@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { backgroundBlurriness } from 'three/webgpu';
 
 function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1, sendValuey}) {
   const mx = Math.max(side22,side11);
@@ -152,23 +153,15 @@ function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1
 
   return (
     <div style={{ position: 'relative' }}>
-      <div className="form-check form-switch">
-            <input onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault"/>
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+      <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
+            <input onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
-      <svg
-        viewBox={viewBox}
-        style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart} onClick={handleSVGClick}
-      >
-
-{points.map((point, index) => (
+      <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
+      {points.map((point, index) => (
               <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
             ))}
-
             {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
-
             {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="5"> {(distance*mx/100).toFixed(3)} mm</text>}
           {/* Define grid pattern */}
           <defs>
@@ -176,14 +169,11 @@ function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
           </pattern>
         </defs>
-
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
-
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
-
         {/* L Shape */}
         <rect x={100 - side2/2} y={100-comy + outerRadius} width={thickness} height={side3-2*outerRadius} fill="black" />
         <rect x={100 + side2/2 - thickness} y={100-comy + outerRadius} width={thickness} height={side3-2*outerRadius} fill="black" />
@@ -217,12 +207,11 @@ function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1
         <Liney x1={105 + side2/2} x2={105 + side2/2} y1={100-comy} y2={100-comy + side3} text={'C'} val={side33} textHeight={17}/>
       
       </svg>
-      <button className='mx-2 my-2' onClick={zoomIn}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='mx-2 my-2' onClick={resetZoom}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='mx-2 my-2' onClick={zoomOut}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }
 
 export default T_shap_graph;
-

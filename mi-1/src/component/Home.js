@@ -6,8 +6,8 @@ import '../App.css'
 
 function Home() {
   return (
-    <div className='button-container'>
-      <h1>MI Lib</h1>
+    <div className='button-container' style={{transform: 'translateY(-30px)'}}>
+      <h1 className='mb-4'>MI Profile Generator</h1>
       <div className='button-wrapper-container'>
         <div className="button-wrapper mx-2">
         <Link to="/from_scratch">

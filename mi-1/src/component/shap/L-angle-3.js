@@ -160,22 +160,22 @@ function L_angle_3() {
   };
 
   return (
-    <>
+    <div style={{transform: 'translateY(-30px)'}}>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Step Beam</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
-          <li><a className="dropdown-item" onClick={handleDownload}>export as PDF</a></li>
+          <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
       </div>
     </div>
       <div className = "container">
         <div className='box'>
-          <div style={{ fontWeight: 'bold' }}>Input</div>
+          <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
             <lable className="label" htmlFor="side">Side (A) mm</lable>
             <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Enter side" />
@@ -204,8 +204,8 @@ function L_angle_3() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Enter length" />
           </div>
-          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
+          <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
           <div ref={lAngleGraphRef}>
@@ -215,7 +215,7 @@ function L_angle_3() {
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

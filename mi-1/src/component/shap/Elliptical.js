@@ -151,22 +151,22 @@ function Elliptical() {
   };
 
   return (
-    <>
+    <div style={{transform: 'translateY(-30px)'}}>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Elliptical</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
-          <li><a className="dropdown-item" onClick={handleDownload}>export as PDF</a></li>
+          <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
       </div>
     </div>
       <div className = "container">
          <div className='box'>
-          <div style={{ fontWeight: 'bold' }}>Input</div>
+          <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
          <div className="container1">
             <lable className="label" htmlFor="width">Width (w) mm</lable>
              <input className="input-field" id="width" type="number" value={side1} onChange={(e) => setside1(parseFloat(e.target.value))} placeholder="Type something..." />
@@ -183,8 +183,8 @@ function Elliptical() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
              <input className="input-field" id="length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="Type something..." />
           </div>
-          <button type="button" className="btn btn-dark mx-2" onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn-dark mx-2" onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
+          <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
          <div className='box'>
           <div ref={ellipticalGraphRef}><Elliptical_graph side11={side1} side22 = {side2}  thickness1={thickness}/></div>
@@ -193,7 +193,7 @@ function Elliptical() {
          <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

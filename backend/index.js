@@ -96,23 +96,56 @@ app.get("/data",ensureAuthenticated,async (req, res) => {
 app.put("/update-status/:id", async (req, res) => {
   const userId = req.params.id; // Get the user ID from the URL
   const { status } = req.body; // Get the new status from the request body
-  
   try {
-    // Find the user by ID and update the status
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { status }, // Update the status field
-      { new: true } // Return the updated document
-    );
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
+     // Find the user by ID and update the status
+     const user = await User.findById(userId);
+     if (!user) {
+       return res.status(404).json({ message: "User not found" });
+     }
+     user.status = (user.status === 'approved') ?  'rejected' : 'approved';
+     const updatedUser = await user.save();
+     
     res.json({
       message: "User status updated successfully",
       user: updatedUser,
     });
   } catch (error) {
     res.status(500).json({ message: "Error updating user status", error });
+  }
+});
+
+app.delete("/delete/:id", async (req, res) => {
+  try {
+    const userId = req.params.id; // Get the user ID from the URL
+    const deleteID = await User.findByIdAndDelete(userId);
+    if (!deleteID) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json({
+      message: "User remove successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error delete user status", error });
+  }
+})
+
+app.put("/change-type/:id", async (req, res) => {
+  const userId = req.params.id; // Get the user ID from the URL
+  try {
+    // Find the user by ID and update the status
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.manager = !user.manager;
+    const updatedUser = await user.save();
+    
+    res.json({
+      message: "User type updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error in updating user Type", error });
   }
 });
 

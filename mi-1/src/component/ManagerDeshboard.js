@@ -61,7 +61,7 @@ const ManagerDashboard = () => {
 
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
       <CollectData setUsers = {setUsers}/>
       <h2 style={{textAlign: "center"}}>User Details</h2>
       <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}></table>

@@ -35,6 +35,8 @@ import CollectData from './CollectData';
 import ForgotPassword from './component/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
 import PageNotFound from './component/PageNotFound';
+import Start from './component/Start';
+import Beam_window_frame from './component/shap/Beam-window-frame';
 
 
 function App() {
@@ -63,7 +65,8 @@ function App() {
        
         {!loading && 
         <Routes>
-          <Route exact path="/" element={<PrivateRoute element={<Home/>}/>}/>
+          <Route exact path="/" element={<Start/>}/>
+          <Route exact path="/home" element={<PrivateRoute element={<Home/>}/>}/>
           {permission && <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>}
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup" element={<Signup/>}/>
@@ -94,6 +97,7 @@ function App() {
           <Route exact path='/l-angle-3' element={<PrivateRoute element={<L_angle_3/>}/>}/>
           <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4/>}/>}/>
           <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
+          <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>
@@ -103,6 +107,3 @@ function App() {
 }
 
 export default App
-
-
-

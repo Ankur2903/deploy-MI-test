@@ -16,8 +16,8 @@ function RefrshHandler({ setIsAuthenticated, setLoading }) {
             if (decodedToken.exp && decodedToken.exp > currentTime) {
                 // Token is valid
                 setIsAuthenticated(true);
-                if (location.pathname === '/login' || location.pathname === '/signup') {
-                    navigate('/', { replace: true });
+                if (location.pathname === '/login' || location.pathname === '/signup' || location.pathname === '/') {
+                    navigate('/home', { replace: true });
                 }
             } else {
                 // Token is expired

@@ -152,7 +152,7 @@ function Round_1() {
   };
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
     <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Round</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>

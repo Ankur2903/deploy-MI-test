@@ -171,7 +171,7 @@ function L_angle_4() {
   };
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Track Profile</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>

@@ -203,7 +203,7 @@ function Door_channel() {
   }, [side1, side2,side3, side4, lip, outerRadius, thickness, length]);
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Door Channel</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>

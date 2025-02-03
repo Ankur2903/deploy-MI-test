@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css'
+import Image2 from './Image/HomeImage-2.jpg'
 
 
 
 function Home() {
   return (
-    <div className='button-container' style={{transform: 'translateY(-30px)'}}>
+    <div className='button-container'>
       <h1 className='mb-4'>MI Profile Generator</h1>
       <div className='button-wrapper-container'>
         <div className="button-wrapper mx-2">
@@ -18,18 +19,18 @@ function Home() {
             />
           </button>
           </Link>
-          <div className='button-text'>From Scratch</div>
+          <div className='button-text'>Start From Scratch</div>
         </div>
         <div className="button-wrapper mx-2">
           <Link to="/from-temp">
             <button className='Button'>
               <img className='Image'
-                src="https://cdn0.iconfinder.com/data/icons/metal-and-steel-products-elasto-font-next-2020/16/14_i-beam-bar-512.png"
+                src={Image2}
                 alt="Button Icon"
               />
             </button>
           </Link>
-          <div className='button-text'>From Temp</div>
+          <div className='button-text'>Generate From Template</div>
         </div>
         <div className="button-wrapper mx-2">
           <button className='Button'>

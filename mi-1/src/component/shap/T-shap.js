@@ -208,7 +208,7 @@ function T_shap() {
   };
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Guide Rail Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -225,19 +225,19 @@ function T_shap() {
         <div className='box'>
           <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> side (A) mm</lable>
+            <lable className="label" htmlFor="side1"> Side (A) mm</lable>
             <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> side (B) mm</lable>
+            <lable className="label" htmlFor="side1"> Side (B) mm</lable>
             <input className="input-field" id="side1" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> side (C) mm</lable>
+            <lable className="label" htmlFor="side1"> Side (C) mm</lable>
             <input className="input-field" id="side1" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> side (D) mm</lable>
+            <lable className="label" htmlFor="side1"> Side (D) mm</lable>
             <input className="input-field" id="side1" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
           </div>
           <div className="container1">

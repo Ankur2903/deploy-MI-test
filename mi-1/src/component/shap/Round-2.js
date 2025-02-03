@@ -186,7 +186,7 @@ function Round_2() {
   };
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Round 2</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -211,7 +211,7 @@ function Round_2() {
              <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="Radius">radius (R) mm</lable>
+            <lable className="label" htmlFor="Radius">Radius (R) mm</lable>
              <input className="input-field" id="Radius" type="number" value={radius} onChange={radiusChange} placeholder="Type something..." />
           </div>
            <div className="container1">

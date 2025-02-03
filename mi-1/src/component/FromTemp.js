@@ -24,6 +24,7 @@ import image20 from './Image/Image-20.jpg';
 import image21 from './Image/Image-21.jpg';
 import image22 from './Image/Image-22.jpg';
 import image23 from './Image/Image-23.jpg';
+import image24 from './Image/Image-24.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -95,7 +96,7 @@ const ButtonContainer = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  padding: 0px;
+  padding: 10px;
   box-sizing: border-box;
 `;
 
@@ -165,20 +166,20 @@ function FromTemp() {
       <ButtonWrapperContainer className='col-md-12'>      
         {/* <!-- Button trigger modal --> */}
         <ButtonWrapper>
-          <Button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <Image src={image3} alt="Description of Image" />
           </Button>
           <ButtonText>Round Tube</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
+        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h3>Round Tube</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <ButtonWrapperContainer className='col-md-11'>
                   <ButtonWrapper>
                     <Link to="/round">
@@ -224,8 +225,8 @@ function FromTemp() {
                   </ButtonWrapper>
                 </ButtonWrapperContainer>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>
@@ -280,6 +281,14 @@ function FromTemp() {
           </Link>
           <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/beam-window-frame">
+            <Button>
+              <Image src={image24} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Beam Window Frame</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>
 
@@ -290,20 +299,20 @@ function FromTemp() {
       <Heading>Open Shapes</Heading>
       <ButtonWrapperContainer  className='col-md-12'>
       <ButtonWrapper>
-          <Button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+          <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">
             <Image src={image1} alt="Description of Image" />
           </Button>
           <ButtonText>Angle Profile</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
-        <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
+        <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
                 <h3>Angle Profile</h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <div class="modal-body">
+              <div className="modal-body">
                 <ButtonWrapperContainer className='col-md-11'>
                   <ButtonWrapper>
                     <Link to="/l-angle">
@@ -349,8 +358,8 @@ function FromTemp() {
                   </ButtonWrapper>        
                 </ButtonWrapperContainer>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
             </div>
           </div>

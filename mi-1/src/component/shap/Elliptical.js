@@ -67,15 +67,15 @@ function Elliptical() {
 
     const outerEllipse = new THREE.EllipseCurve(
       0, 0,            // Center of the ellipse (X, Y)
-      side1,         // X radius
-      side2,         // Y radius
+      side1/2,         // X radius
+      side2/2,         // Y radius
       0, 2 * Math.PI,  // Start angle, end angle (full ellipse)
       false            // Clockwise or not
     );
     const innerEllipse = new THREE.EllipseCurve(
       0, 0,
-      side1 - thickness, // X radius reduced by thickness
-      side2 - thickness, // Y radius reduced by thickness
+      side1/2 - thickness, // X radius reduced by thickness
+      side2/2 - thickness, // Y radius reduced by thickness
       0, 2 * Math.PI,
       true                 // Reverse the direction for proper winding
     );
@@ -151,7 +151,7 @@ function Elliptical() {
   };
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Elliptical</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>

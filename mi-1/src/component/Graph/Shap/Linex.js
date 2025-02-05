@@ -42,4 +42,3 @@ const Linex = ({x1, x2,y1,y2,text,val, textHeight, unit}) => {
 };
 
 export default Linex;
-

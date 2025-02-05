@@ -25,6 +25,7 @@ import image21 from './Image/Image-21.jpg';
 import image22 from './Image/Image-22.jpg';
 import image23 from './Image/Image-23.jpg';
 import image24 from './Image/Image-24.png';
+import image25 from './Image/Image-25.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -155,7 +156,7 @@ function FromTemp() {
     const dividerStyle = {
       width: "2px", // Thin vertical line
       backgroundColor: 'black', // Black color for the line
-      height: "100%", // Full height
+      height: `${document.documentElement.scrollHeight - 60}px`
     };
 
   return (
@@ -288,6 +289,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Beam Window Frame</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/stiffner">
+            <Button>
+              <Image src={image25} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Stiffner</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

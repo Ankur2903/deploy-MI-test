@@ -37,6 +37,8 @@ import ResetPassword from './component/ResetPassword';
 import PageNotFound from './component/PageNotFound';
 import Start from './component/Start';
 import Beam_window_frame from './component/shap/Beam-window-frame';
+import FromDxf from './component/FromDxf';
+import Stiffner from './component/shap/Stiffner';
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{
+    return element;
     if(isAuthenticated){
       return element;
     }
@@ -74,6 +77,7 @@ function App() {
           <Route exact path="/reset-password/:id/:token" element={<ResetPassword/>}/>
           <Route exact path="/from-temp" element={<PrivateRoute element={<FromTemp/>}/>}/>
           <Route exact path="/from_scratch" element={<PrivateRoute element={<FromScratch/>}/>}/>
+          <Route exact path="/from-dxf" element={<PrivateRoute element={<FromDxf/>}/>}/>
           <Route exact path="/rectangle" element={<PrivateRoute element={<Rectangle/>}/>}/>
           <Route exact path="/round" element={<PrivateRoute element={<Round/>}/>}/>
           <Route exact path="/round-1" element={<PrivateRoute element={<Round_1/>}/>}/>
@@ -98,6 +102,7 @@ function App() {
           <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4/>}/>}/>
           <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
           <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
+          <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

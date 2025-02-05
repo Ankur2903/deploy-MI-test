@@ -49,7 +49,6 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{
-    return element;
     if(isAuthenticated){
       return element;
     }

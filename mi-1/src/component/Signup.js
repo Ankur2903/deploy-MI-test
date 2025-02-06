@@ -70,7 +70,7 @@ function Signup() {
     <div className="d-flex justify-content-center align-items-center">
      <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "1100px"}}/>
       <div className="card shadow-3d p-4" style={{position: 'absolute', top: '20vh', width: '100%', maxWidth: '400px',  backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)',}}>
-        <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}>(Beta-2)</text></h2>
+        <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}>(Beta-1)</text></h2>
         <h2 className="text-center mb-4">Signup</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>

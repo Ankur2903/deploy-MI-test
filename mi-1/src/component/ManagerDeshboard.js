@@ -83,7 +83,7 @@ const ManagerDashboard = () => {
           <th style={{ width: "6vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Status</th>
           <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Change Status</th>
           <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Remove</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Time</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Signup Time</th>
           <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Last Activity</th>
         </tr>
       </thead>

@@ -10,6 +10,8 @@ const signupvalidation = (req, res, next) => {
         department: Joi.optional(),
         designation: Joi.optional(),
         manager: Joi.optional(),
+        signupTime: Joi.optional(),
+        lastactivity: Joi.optional(),
     });
     const {error} = schema.validate(req.body);
     if (error) {

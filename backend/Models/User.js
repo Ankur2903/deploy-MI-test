@@ -1,3 +1,4 @@
+const { required } = require('joi');
 const mongoose = require( 'mongoose');
 const Schema = mongoose.Schema;
 
@@ -11,7 +12,7 @@ const UserSchema = new Schema({
         required: true,
         unique: true
     },
-     phoneNo: {
+    phoneNo: {
         type: Number,
         required: false,
     },
@@ -35,7 +36,16 @@ const UserSchema = new Schema({
         type: String, eum: ["pending", "approved",  "rejected"], default: "pending"
     },
     manager: {
-        type: Boolean, default: false,
+        type: Boolean,
+        default: false,
+    },
+    signupTime: {
+        type: String,
+        required: false,
+    },
+    lastactivity: {
+        type: String,
+        required: false,
     }
 });
 

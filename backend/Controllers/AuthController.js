@@ -1,6 +1,17 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../Models/User')
+var nodemailer = require('nodemailer')
+require('dotenv').config();
+
+var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: `${process.env.email}`,
+      pass: `${process.env.password}`
+    },
+  })
+
 
 const signup = async (req, res) => {
     try {
@@ -11,9 +22,38 @@ const signup = async (req, res) => {
             return res.status(409)
             .json({ message: 'User is already exist, you can login' , success: false } ) ;
         }
-        const userModel = new UserModel({name, email, phoneNo, password, company, department, designation, manager}) ;
+
+        let now = new Date();
+        now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
+        const date = now.toISOString().slice(0,10);
+        const signupTime = date;
+        const userModel = new UserModel({name, email, phoneNo, password, company, department, designation, manager, signupTime}) ;
         userModel.password = await bcrypt.hash(password, 10);
+        console.log(userModel.signupTime)
         await userModel.save();
+          
+        var mailOptions = {
+            from: `${process.env.email}`,
+            to: `${process.env.email}`,
+            subject: "Approvel request",
+            text: `${name} ${email} want asscess for MI Profile Generator \n\nThanks and Regards, \nMother India`,
+        }
+
+        var mailOptions1 = {
+            from: `${process.env.email}`,
+            to: `${email}`,
+            subject: "Approvel request",
+            text: `Dear ${name} \n\n Thank you for signing up on Mother India \n\n Your account is currently under review. We will notify you once it is approved. This process typically takes 24 hours. \n\n If you have any questions, feel free to contact us at ${process.env.email}. \n\nThanks and Regards, \nMother India`,
+        }
+
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) console.log(error);
+            else  return res.send({success: true, message: "message send to mail"})
+        });
+        transporter.sendMail(mailOptions1, function(error, info){
+            if (error) console.log(error);
+            else  return res.send({success: true, message: "message send to mail"})
+        });
         res.status(201)
         .json({
             message: "You can signup after approvel",
@@ -55,6 +95,12 @@ const login = async (req, res) => {
         process.env.JWT_SECRET,
         { expiresIn: '24h'}
        )
+       let now = new Date();
+       now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
+       const date = now.toISOString().slice(0,10);
+       const lastactivity = date;
+       user.lastactivity = lastactivity;
+       user.save();
         res.status(200)
         .json({
             message: "Signup successfully ",
@@ -71,7 +117,6 @@ const login = async (req, res) => {
         })
     }
 }
-
 
 
 console.log("AuthController is working...")

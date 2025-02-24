@@ -23,7 +23,6 @@ const ManagerDashboard = () => {
           user._id === id ? { ...user, status: user.status === 'approved' ? 'rejected': 'approved'} : user
         ));
       const message = await response.json();
-      alert(message.message);
     } catch (error) {
       alert("Failed to update status");
     }
@@ -42,7 +41,6 @@ const ManagerDashboard = () => {
           user._id === id ? { ...user, manager: !user.manager } : user
         ));
       const message = await response.json();
-      alert(message.message);
     } catch (error) {
       alert("Failed to change user type");
     }
@@ -58,7 +56,6 @@ const ManagerDashboard = () => {
         });
         setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
       const message = await response.json();
-      alert(message.message);
     } catch (error) {
       alert("Failed to update status");
     }

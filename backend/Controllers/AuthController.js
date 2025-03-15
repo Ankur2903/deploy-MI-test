@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserModel = require('../Models/User')
-var nodemailer = require('nodemailer')
 require('dotenv').config();
 const { Client } = require("@microsoft/microsoft-graph-client");
 const { ClientSecretCredential } = require("@azure/identity");
@@ -34,10 +33,10 @@ const signup = async (req, res) => {
           
         const email1 = {
             message: {
-                subject: "Test Email via Microsoft Graph API",
+                subject: "Approval request",
                 body: {
                     contentType: "Text",
-                    content: "This is a test email sent using Microsoft Graph API in Node.js."
+                    content: `Dear ${name}\n\nThank you for signing up on MI Profile Generator\n Your account is currently under review. We will notify you once it is approved. This process typically takes 24 hours.\n If you have any questions, feel free to contact us at ${process.env.USER_EMAIL}.\n\n`
                 },
                 toRecipients: [
                     { emailAddress: { address: `${email}` } }
@@ -45,7 +44,21 @@ const signup = async (req, res) => {
             },
             saveToSentItems: true
         };
-        const response = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
+        const email2 = {
+            message: {
+                subject: "Approval request",
+                body: {
+                    contentType: "Text",
+                    content: `A user has attempted to sign up to MI Profile Generator and request an update to their status within the next 24 hours. Below are their details:\n\nName: ${name}\nEmail: ${email}\nCompany Name: ${company}\n\n`
+                },
+                toRecipients: [
+                    { emailAddress: { address: `${process.env.USER_EMAIL}` } }
+                ],
+            },
+            saveToSentItems: true
+        };
+        const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
+        const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
 
         res.status(201)
         .json({

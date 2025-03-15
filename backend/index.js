@@ -7,7 +7,15 @@ const AuthRouter = require('./Routes/AuthRouter');
 const User = require('./Models/User');
 const jwt = require('jsonwebtoken');
 const ensureAuthenticated = require('./Middlewares/Auth');
-var nodemailer = require('nodemailer')
+const { Client } = require("@microsoft/microsoft-graph-client");
+const { ClientSecretCredential } = require("@azure/identity");
+
+const credential = new ClientSecretCredential(process.env.TENANT_ID, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+
+const client = Client.initWithMiddleware({ authProvider: { getAccessToken: async () => {
+    const tokenResponse = await credential.getToken("https://graph.microsoft.com/.default");
+    return tokenResponse.token;
+}}});
 
 require('dotenv').config();
 require('./Models/db');
@@ -55,30 +63,20 @@ app.post("/forgot-password", async(req, res)=>{
           .json({ message: 'User not existed please signup first' , success: false}) ;
       }
     const token = jwt.sign({email: user.email, id: user._id,  hash: user.password }, process.env.JWT_SECRET, { expiresIn: '15m'})
-    
-    var transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: `${process.env.email}`,
-        pass: `${process.env.password}`
+    const email1 = {
+      message: {
+          subject: "Reset your Password",
+          body: {
+              contentType: "Text",
+              content: `https://deploy-mi-test-ui.vercel.app/reset-password/${user._id}/${token}`
+          },
+          toRecipients: [
+              { emailAddress: { address: `${email}` } }
+          ],
       },
-    })
-
-    console.log(process.env.email)
-     console.log(process.env.password)
-    
-    
-    var mailOptions = {
-      from: `${process.env.email}`,
-      to: `${email}`,
-      subject: "Reset your Password",
-      text: `https://deploy-mi-test-ui.vercel.app/reset-password/${user._id}/${token}`,
-    }
-
-    transporter.sendMail(mailOptions, function(error, info){
-      if (error) console.log(error);
-      else  return res.send({success: true, message: "Link send to mail"})
-    });
+      saveToSentItems: true
+  };
+  const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
 })
 
 app.get("/data",ensureAuthenticated,async (req, res) => {

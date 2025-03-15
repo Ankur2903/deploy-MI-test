@@ -9,18 +9,19 @@ const ManagerDashboard = () => {
     setSelectedUserId(id);
   };
 
-  const updateUserStatus = async (id) => {
+  const updateUserStatus = async (id,status) => {
     try {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status/${id}`, {
         method: "PUT", // default method, can be omitted
           headers: {
             "Content-Type": "application/json", // Ensure correct content type
           }
+        body: JSON.stringify({ status: status })
         });
       // Update the user list after successful update
      setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === id ? { ...user, status: user.status === 'approved' ? 'rejected': 'approved'} : user
+         user._id === id ? { ...user, status: status} : user
         ));
       const message = await response.json();
     } catch (error) {
@@ -129,7 +130,8 @@ const ManagerDashboard = () => {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUserId)}>Update</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUserId,"approved")}>Approve</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUserId,"rejected")}>Reject</button>
                 </div>
               </div>
             </div>

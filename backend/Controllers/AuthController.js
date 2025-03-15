@@ -3,14 +3,15 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../Models/User')
 var nodemailer = require('nodemailer')
 require('dotenv').config();
+const { Client } = require("@microsoft/microsoft-graph-client");
+const { ClientSecretCredential } = require("@azure/identity");
 
-var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: `${process.env.email}`,
-      pass: `${process.env.password}`
-    },
-  })
+const credential = new ClientSecretCredential(process.env.TENANT_ID, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
+
+const client = Client.initWithMiddleware({ authProvider: { getAccessToken: async () => {
+    const tokenResponse = await credential.getToken("https://graph.microsoft.com/.default");
+    return tokenResponse.token;
+}}});
 
 
 const signup = async (req, res) => {
@@ -29,31 +30,23 @@ const signup = async (req, res) => {
         const signupTime = date;
         const userModel = new UserModel({name, email, phoneNo, password, company, department, designation, manager, signupTime}) ;
         userModel.password = await bcrypt.hash(password, 10);
-        console.log(userModel.signupTime)
         await userModel.save();
           
-        var mailOptions = {
-            from: `${process.env.email}`,
-            to: `${process.env.email}`,
-            subject: "Approvel request",
-            text: `${name} ${email} want asscess for MI Profile Generator \n\nThanks and Regards, \nMother India`,
-        }
+        const email1 = {
+            message: {
+                subject: "Test Email via Microsoft Graph API",
+                body: {
+                    contentType: "Text",
+                    content: "This is a test email sent using Microsoft Graph API in Node.js."
+                },
+                toRecipients: [
+                    { emailAddress: { address: `${email}` } }
+                ],
+            },
+            saveToSentItems: true
+        };
+        const response = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
 
-        var mailOptions1 = {
-            from: `${process.env.email}`,
-            to: `${email}`,
-            subject: "Approvel request",
-            text: `Dear ${name} \n\n Thank you for signing up on Mother India \n\n Your account is currently under review. We will notify you once it is approved. This process typically takes 24 hours. \n\n If you have any questions, feel free to contact us at ${process.env.email}. \n\nThanks and Regards, \nMother India`,
-        }
-
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) console.log(error);
-            else  return res.send({success: true, message: "message send to mail"})
-        });
-        transporter.sendMail(mailOptions1, function(error, info){
-            if (error) console.log(error);
-            else  return res.send({success: true, message: "message send to mail"})
-        });
         res.status(201)
         .json({
             message: "You can signup after approvel",
@@ -118,8 +111,6 @@ const login = async (req, res) => {
     }
 }
 
-
-console.log("AuthController is working...")
 module.exports = {
     signup,login
 }

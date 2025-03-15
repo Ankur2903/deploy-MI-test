@@ -106,7 +106,7 @@ app.put("/update-status/:id", async (req, res) => {
 
       let string;
      if(user.status === 'approved'){
-      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}.`
+      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account on https://miforming.com/login.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}.`
      }
      else if(user.status === 'rejected'){
       string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe regret to inform you that your login request has not been approved at this time. If you believe this is an error or require further assistance, please feel free to contact us at ${process.env.USER_EMAIL}.`

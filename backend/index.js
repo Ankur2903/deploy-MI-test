@@ -93,15 +93,39 @@ app.get("/data",ensureAuthenticated,async (req, res) => {
 
 app.put("/update-status/:id", async (req, res) => {
   const userId = req.params.id; // Get the user ID from the URL
-  const { status } = req.body; // Get the new status from the request body
+   const status = req.body; // Get the new status from the request body
+  console.log(status.status)
   try {
      // Find the user by ID and update the status
      const user = await User.findById(userId);
      if (!user) {
        return res.status(404).json({ message: "User not found" });
      }
-     user.status = (user.status === 'approved') ?  'rejected' : 'approved';
+     user.status = status.status;
      const updatedUser = await user.save();
+
+      let string;
+     if(user.status === 'approved'){
+      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}.`
+     }
+     else if(user.status === 'rejected'){
+      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe regret to inform you that your login request has not been approved at this time. If you believe this is an error or require further assistance, please feel free to contact us at ${process.env.USER_EMAIL}.`
+     }
+     
+     const email1 = {
+      message: {
+          subject: "Status Updatet",
+          body: {
+              contentType: "Text",
+              content: `${string}\n\n`
+          },
+          toRecipients: [
+              { emailAddress: { address: `${user.email}` } }
+          ],
+      },
+      saveToSentItems: true
+  };
+  const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
      
     res.json({
       message: "User status updated successfully",

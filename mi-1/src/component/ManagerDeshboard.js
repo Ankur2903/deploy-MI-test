@@ -15,7 +15,7 @@ const ManagerDashboard = () => {
         method: "PUT", // default method, can be omitted
           headers: {
             "Content-Type": "application/json", // Ensure correct content type
-          }
+          },
         body: JSON.stringify({ status: status })
         });
       // Update the user list after successful update

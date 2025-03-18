@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../ulits';
 import Image from './Image/background.png'
+import ReCAPTCHA from "react-google-recaptcha"
 
 function Signup() {
   const [signupInfo, setSignupInfo] = useState({
@@ -15,6 +16,7 @@ function Signup() {
     designation: '',
   })
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [capVal, setCapVal] = useState(null)
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -171,12 +173,13 @@ function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
+            <ReCAPTCHA sitekey='6Ld_MvMqAAAAAGVcZwC6VbsWSgAsO61kPvOGyQCa' onChange={val => setCapVal(val)}/>
             <button type="submit" className="btn btn-dark w-40 my-4">Sign Up</button>
           </fieldset>
         </form>
         <ToastContainer/>
         <p className="text-center mt-3">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login" disabled={!capVal}>Login</Link>
         </p>
       </div>
     </div>

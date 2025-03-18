@@ -16,7 +16,7 @@ function Signup() {
     designation: '',
   })
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [capVal, setCapVal] = useState(null)
+  const [capVal, setCapVal] = useState(true)
 
   const navigate = useNavigate();
   const handleChange = (e) => {

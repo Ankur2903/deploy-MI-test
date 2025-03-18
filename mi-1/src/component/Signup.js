@@ -174,12 +174,12 @@ function Signup() {
               />
             </div>
             <ReCAPTCHA sitekey='6Ld_MvMqAAAAAGVcZwC6VbsWSgAsO61kPvOGyQCa' onChange={val => setCapVal(val)}/>
-            <button type="submit" className="btn btn-dark w-40 my-4">Sign Up</button>
+            <button type="submit" className="btn btn-dark w-40 my-4"  disabled={!capVal}>Sign Up</button>
           </fieldset>
         </form>
         <ToastContainer/>
         <p className="text-center mt-3">
-          Already have an account? <Link to="/login" disabled={!capVal}>Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

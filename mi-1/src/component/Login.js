@@ -3,12 +3,14 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError, handleSuccess } from '../ulits';
 import Image from './Image/background.png'
+import ReCAPTCHA from "react-google-recaptcha"
 
 function Login() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: ''
   })
+  const [capVal, setCapVal] = useState(null)
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -89,7 +91,8 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            <button type="submit" className="btn btn-dark w-40 my-4">Login</button>
+            <ReCAPTCHA sitekey='6Ld_MvMqAAAAAGVcZwC6VbsWSgAsO61kPvOGyQCa' onChange={val => setCapVal(val)}/>
+            <button type="submit" className="btn btn-dark w-40 my-4" disabled={!capVal}>Login</button>
           </fieldset>
         </form>
         <ToastContainer/>

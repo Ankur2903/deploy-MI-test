@@ -26,6 +26,7 @@ import image22 from './Image/Image-22.jpg';
 import image23 from './Image/Image-23.jpg';
 import image24 from './Image/Image-24.png';
 import image25 from './Image/Image-25.png';
+import image26 from './Image/Image-26.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -297,6 +298,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Stiffner</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/good-knight-tube">
+            <Button>
+              <Image src={image26} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Good Knight Tube</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

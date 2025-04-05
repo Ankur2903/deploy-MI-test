@@ -39,6 +39,7 @@ import Start from './component/Start';
 import Beam_window_frame from './component/shap/Beam-window-frame';
 import FromDxf from './component/FromDxf';
 import Stiffner from './component/shap/Stiffner';
+import Good_knight_tube from './component/shap/Good-knight-tube';
 
 
 function App() {
@@ -102,6 +103,7 @@ function App() {
           <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
           <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
           <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner/>}/>}/>
+          <Route exact path='/good-knight-tube' element={<PrivateRoute element={<Good_knight_tube/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

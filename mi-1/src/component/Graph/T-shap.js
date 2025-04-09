@@ -2,24 +2,29 @@ import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
-import { backgroundBlurriness } from 'three/webgpu';
+import LineAtTheta from './Shap/LineAtθ';
 
-function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1, sendValuey}) {
+function T_shap_graph({ side11, side22, side33, side44, angle1, thickness1, outerRadius1, sendValuey}) {
   const mx = Math.max(side22,side11);
   const thickness = (thickness1/mx)*100;
   const side1 = (side11/mx)*100;
   const side2 = (side22/mx)*100;
   const side3 = (side33/mx)*100;
   const side4 = (side44/mx)*100;
+  const angle = angle1;
   const outerRadius = (outerRadius1/mx)*100;
+  const aa = Math.PI/180;
 
-  const  comy = parseFloat((((2*Math.PI*(outerRadius - thickness/2))*(side3/2) + ((2*Math.PI*(outerRadius - thickness/2)))*((side1 + side3 - thickness)/2) + (side2 - 2*outerRadius)*(thickness/2) + 2*(side3 - 2*outerRadius)*(side3/2) + 2*((side2 - side4)/2 - 2*outerRadius + thickness)*(side3 - thickness/2) + 2*(side1 - side3 - 2*outerRadius + thickness)*((side1 + side3 - thickness)/2) + (side4 - 2*outerRadius)*(side1 - thickness/2))/(2*(2*Math.PI*(outerRadius - thickness)) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))).toFixed(2))
+  const l = ((side2 - side4)/2 + thickness - thickness*Math.sin(angle*aa) - 2*outerRadius + 2*outerRadius*Math.sin(angle*aa))/(Math.cos(aa*angle));
+
+  const x = side1 - side3 - 2*outerRadius*Math.cos(aa*angle) - outerRadius - l*Math.sin(aa*angle) + outerRadius*Math.tan(Math.PI/4 - aa*angle/2) + thickness*Math.cos(aa*angle)
+
+  const  comy = 50; 
+  // parseFloat((((2*Math.PI*(outerRadius - thickness/2))*(side3/2) + ((2*Math.PI*(outerRadius - thickness/2)))*((side1 + side3 - thickness)/2) + (side2 - 2*outerRadius)*(thickness/2) + 2*(side3 - 2*outerRadius)*(side3/2) + 2*((side2 - side4)/2 - 2*outerRadius + thickness)*(side3 - thickness/2) + 2*(side1 - side3 - 2*outerRadius + thickness)*((side1 + side3 - thickness)/2) + (side4 - 2*outerRadius)*(side1 - thickness/2))/(2*(2*Math.PI*(outerRadius - thickness)) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))).toFixed(2))
 
   React.useEffect(() => {
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
-
-  
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -173,24 +178,26 @@ function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
         {/* L Shape */}
-        <rect x={100 - side2/2} y={100-comy + outerRadius} width={thickness} height={side3-2*outerRadius} fill="black" />
-        <rect x={100 + side2/2 - thickness} y={100-comy + outerRadius} width={thickness} height={side3-2*outerRadius} fill="black" />
+        <rect x={100 - side2/2} y={100-comy + outerRadius} width={thickness} height={side3-outerRadius-outerRadius*(Math.tan(Math.PI/4 - aa*angle/2))} fill="black" />
+        <rect x={100 + side2/2 - thickness} y={100-comy + outerRadius} width={thickness} height={side3-outerRadius-outerRadius*(Math.tan(Math.PI/4 - aa*angle/2))} fill="black" />
         <rect x={100 - side2/2 + outerRadius} y={100-comy} width={side2-2*outerRadius} height={thickness} fill="black" />
-        <rect x={100 + (side4)/2 + outerRadius -thickness} y={100-comy + side3-thickness} width={(side2 - side4)/2 -2*outerRadius + thickness} height={thickness} fill="black" />
-        <rect x={100 - side2/2 + outerRadius} y={100-comy + side3-thickness} width={(side2 - side4)/2 -2*outerRadius + thickness} height={thickness} fill="black" />
-        <rect x={100 - side4/2} y={100-comy + side3 + outerRadius - thickness} width={thickness} height={side1-side3-2*outerRadius + thickness} fill="black" />
-        <rect x={100 + side4/2 - thickness} y={100-comy + side3 + outerRadius - thickness} width={thickness} height={side1-side3-2*outerRadius + thickness} fill="black" />
+        <LineAtTheta x={100 + (side2)/2 - outerRadius + outerRadius*Math.cos(Math.PI/2 - angle*aa)} y = {50 + side3 - outerRadius*Math.tan(Math.PI/4 - angle*aa/2) + outerRadius*Math.sin(Math.PI/2 - aa*angle)} w={l} h={thickness} angle={180 - angle}/>
+
+        <LineAtTheta x={100 - (side2)/2 + outerRadius - (outerRadius - thickness)*Math.cos(Math.PI/2 - angle*aa)} y = {50 + side3 - outerRadius*Math.tan(Math.PI/4 - angle*aa/2) + (outerRadius - thickness)*Math.sin(Math.PI/2 - aa*angle)} w={l} h={thickness} angle={angle}/>
+
+        <rect x={100 - side4/2} y={100-comy + side1 - outerRadius - x} width={thickness} height={x} fill="black" />
+        <rect x={100 + side4/2 - thickness} y={100-comy + side1 - outerRadius - x} width={thickness} height={x} fill="black" />
         <rect x={100 - side4/2 + outerRadius} y={100-comy + side1 - thickness} width={side4-2*outerRadius} height={thickness} fill="black" />
 
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={100 - side2/2 + outerRadius} centerY={100-comy +  outerRadius} angle={90} rotation={180} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={100 + side2/2 - outerRadius} centerY={100-comy + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 + side2/2 - outerRadius} centerY={100-comy + side3-outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 - side2/2 + outerRadius} centerY={100-comy + side3-outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 - side4/2 - outerRadius + thickness} centerY={100-comy + side3 - thickness + outerRadius} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side2/2 - outerRadius} centerY={100-comy + side3-outerRadius*Math.tan(Math.PI/4 - aa*angle/2)} angle={90 - angle} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side2/2 + outerRadius} centerY={100-comy + side3-outerRadius*Math.tan(Math.PI/4 - aa*angle/2)} angle={90 - angle} rotation={90 + angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side4/2 - outerRadius + thickness} centerY={100-comy + side3 - outerRadius*Math.tan(Math.PI/4 - angle*aa/2) + (outerRadius - thickness)*Math.cos(aa*angle) + l*Math.sin(aa*angle) + outerRadius*Math.cos(aa*angle)} angle={90 - angle} rotation={270 + angle} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={100 + side4/2 - outerRadius} centerY={100-comy + side1 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={100 - side4/2 + outerRadius} centerY={100-comy + side1 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 + side4/2 + outerRadius - thickness} centerY={100-comy + side3 + outerRadius - thickness} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side4/2 + outerRadius - thickness} centerY={100-comy + side3 - outerRadius*Math.tan(Math.PI/4 - angle*aa/2) + (outerRadius - thickness)*Math.cos(aa*angle) + l*Math.sin(aa*angle) + outerRadius*Math.cos(aa*angle)} angle={90 - angle} rotation={180} thickness={thickness}/>
 
         {/* Horizontal Arrow for side2 */}
         <Linex x1={100 - side2/2} x2={100 + side2/2} y1={95-comy} y2={95-comy} text={'B'} val={side22} textHeight={-5}/>
@@ -201,7 +208,7 @@ function T_shap_graph({ side11, side22, side33, side44, thickness1, outerRadius1
         {/* Vertical Arrow for A */}
         <Liney x1={95 - side2/2} x2={95 - side2/2} y1={100-comy} y2={100-comy + side1} text={'A'} val={side11} textHeight={-17}/>
 
-        {/* Vertical Arrow for D */}
+        {/* Vertical Arrow for C */}
         <Liney x1={105 + side2/2} x2={105 + side2/2} y1={100-comy} y2={100-comy + side3} text={'C'} val={side33} textHeight={17}/>
       
       </svg>

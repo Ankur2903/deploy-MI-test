@@ -41,10 +41,21 @@ function T_shap() {
     setSide4(parseFloat(event.target.value));
   };
 
+  const [angle, setAngle] = useState(45);
+  const angleChange = (event) => {
+    setAngle(parseFloat(event.target.value));
+  };
+
+
   const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
+
+  const aa = Math.PI/180;
+  const l = ((side2 - side4)/2 + thickness - thickness*Math.sin(angle*aa) - 2*outerRadius + 2*outerRadius*Math.sin(angle*aa))/(Math.cos(aa*angle));
+
+  const x = side1 - side3 - 2*outerRadius*Math.cos(aa*angle) - outerRadius - l*Math.sin(aa*angle) + outerRadius*Math.tan(Math.PI/4 - aa*angle/2) + thickness*Math.cos(aa*angle)
 
   const [weightPerLength, setWeightPerLenght] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
@@ -55,27 +66,24 @@ function T_shap() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
   const handleComy = (e) => {
     setComy(e);
   };
 
   const submitClick = () => {
-    setWeightPerLenght((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 4*aa*angle*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius))*thickness*0.000001*length).toFixed(3));
+    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 4*aa*angle*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))*thickness*0.000001*length).toFixed(3));
 
-    setStripWidth((4*Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*((side2 - side4)/2 - 2*outerRadius + thickness) + 2*(side1 - side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius)).toFixed(3));
+    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 4*aa*angle*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2))).toFixed(3));
 
-    setOutLine((4*Math.PI*(2*outerRadius - thickness) + 2*(side2 - 2*outerRadius) + 4*(side3 - 2*outerRadius) + 4*((side2 - side4)/2 - 2*outerRadius + thickness) + 4*(side1 - side3 - 2*outerRadius + thickness) + 2*(side4 - 2*outerRadius) + 2* thickness).toFixed(3))
+    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 4*aa*angle*(2*outerRadius - thickness) + 2*(side2 - 2*outerRadius) + 2*(side4 - 2*outerRadius) + 4*x + 4*l + 4*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)) + 2* thickness).toFixed(3))
 
-    setArea((2*Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (side2 - 2*outerRadius)*thickness + 2*(side3 - 2*outerRadius)*thickness + 2*((side2 - side4)/2 - 2*outerRadius + thickness)*thickness + 2*(side1 - side3 - 2*outerRadius + thickness)*thickness + (side4 - 2*outerRadius)*thickness).toFixed(3))
+    setArea((Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + 2*aa*angle*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + thickness*((side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))).toFixed(3))
 
     // setInertiax(((1)*0.0001).toFixed(2))
 
     // setInertiay(((1)*0.0001).toFixed(2));
-
   }
 
   const resetClick = () => {
@@ -86,6 +94,7 @@ function T_shap() {
     setSide2(0);
     setSide3(0);
     setSide4(0);
+    setAngle(45);
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
@@ -108,35 +117,24 @@ function T_shap() {
     shape1.moveTo(outerRadius, side1); //start with upper line
     shape1.lineTo(side2 - outerRadius,side1);
     shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius, 1*Math.PI/2,0*Math.PI/2,true);
-    shape1.lineTo(side2,side1 - side3 + outerRadius)
-    shape1.absarc(side2 - outerRadius,side1 - side3 + outerRadius , outerRadius, 0*Math.PI/2,3*Math.PI/2,true);
-    shape1.lineTo(side2/2 + side4/2 + outerRadius - thickness,side1 - side3)
-    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1 - side3 - outerRadius + thickness , outerRadius - thickness, 1*Math.PI/2,2*Math.PI/2,false);
-    shape1.lineTo(side2/2 + side4/2,outerRadius)
+    shape1.absarc(side2 - outerRadius,side1 - side3 + outerRadius*Math.tan(Math.PI/4 - aa*angle/2) , outerRadius, 0*Math.PI/2,3*Math.PI/2 + angle*aa,true);
+    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1  - side3 + outerRadius*Math.tan(Math.PI/4 - angle*aa/2) - (outerRadius - thickness)*Math.cos(aa*angle) - l*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle), outerRadius - thickness, 1*Math.PI/2 + angle*aa,2*Math.PI/2,false);
     shape1.absarc(side2/2 + side4/2 - outerRadius,outerRadius , outerRadius, 0*Math.PI/2,3*Math.PI/2,true);
-    shape1.lineTo(side2/2 - side4/2 + outerRadius,0)
     shape1.absarc(side2/2 - side4/2 + outerRadius,outerRadius , outerRadius, 3*Math.PI/2,2*Math.PI/2,true);
-    shape1.lineTo(side2/2 - side4/2,side1 - side3 - outerRadius + thickness)
-    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1 - side3 - outerRadius + thickness , outerRadius - thickness, 0*Math.PI/2,1*Math.PI/2,false);
-    shape1.lineTo(outerRadius,side1 - side3)
-    shape1.absarc(outerRadius,side1 - side3 + outerRadius , outerRadius, 3*Math.PI/2,2*Math.PI/2,true);
+    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1  - side3 + outerRadius*Math.tan(Math.PI/4 - angle*aa/2) - (outerRadius - thickness)*Math.cos(aa*angle) - l*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle), outerRadius - thickness, 0*Math.PI/2,1*Math.PI/2 - angle*aa,false);
+    shape1.absarc(outerRadius,side1 - side3 + outerRadius*Math.tan(Math.PI/4 - aa*angle/2),outerRadius, 3*Math.PI/2 - angle*aa,2*Math.PI/2,true);
     shape1.lineTo(0,side1 -outerRadius)
     shape1.lineTo(thickness,side1 - outerRadius);
-    shape1.lineTo(thickness, side1 - side3 + outerRadius)
-    shape1.absarc(outerRadius,side1 - side3 + outerRadius , outerRadius - thickness, 2*Math.PI/2,3*Math.PI/2,false);
-    shape1.lineTo(side2/2 - side4/2 - outerRadius + thickness, side1 - side3 + thickness)
-    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1 - side3 - outerRadius + thickness , outerRadius, 1*Math.PI/2,0*Math.PI/2,true);
-    shape1.lineTo(side2/2 - side4/2 + thickness,outerRadius)
-    shape1.absarc(side2/2 - side4/2 + outerRadius,outerRadius , outerRadius - thickness, 2*Math.PI/2,3*Math.PI/2,false);
-    shape1.lineTo(side2/2 + side4/2 - outerRadius,thickness)
-    shape1.absarc(side2/2 + side4/2 - outerRadius,outerRadius , outerRadius - thickness, 3*Math.PI/2,0*Math.PI/2,false);
-    shape1.lineTo(side2/2 + side4/2 - thickness,side1 - side3 - outerRadius + thickness)
-    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1 - side3 - outerRadius + thickness , outerRadius, 2*Math.PI/2,1*Math.PI/2,true);
-    shape1.lineTo(side2 - outerRadius, side1 - side3 + thickness)
-    shape1.absarc(side2 - outerRadius,side1 - side3 + outerRadius , outerRadius - thickness, 3*Math.PI/2,0*Math.PI/2,false);
-    shape1.lineTo(side2 - thickness,side1 - outerRadius)
-    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius - thickness, 0*Math.PI/2,1*Math.PI/2,false);
-    shape1.lineTo(outerRadius,side1 - thickness)
+    shape1.absarc(outerRadius,side1 - side3 + outerRadius*Math.tan(Math.PI/4 - aa*angle/2),outerRadius - thickness,2*Math.PI/2, 3*Math.PI/2 - angle*aa,false);
+    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1  - side3 + outerRadius*Math.tan(Math.PI/4 - angle*aa/2) - (outerRadius - thickness)*Math.cos(aa*angle) - l*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle), outerRadius,1*Math.PI/2 - angle*aa, 0*Math.PI/2,true);
+    shape1.absarc(side2/2 - side4/2 + outerRadius,outerRadius , outerRadius - thickness,2*Math.PI/2, 3*Math.PI/2,false);
+    shape1.absarc(side2/2 + side4/2 - outerRadius,outerRadius , outerRadius - thickness,3*Math.PI/2, 0*Math.PI/2,false);
+    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1  - side3 + outerRadius*Math.tan(Math.PI/4 - angle*aa/2) - (outerRadius - thickness)*Math.cos(aa*angle) - l*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle), outerRadius,2*Math.PI/2, 1*Math.PI/2 + angle*aa,true);
+    shape1.absarc(side2 - outerRadius,side1 - side3 + outerRadius*Math.tan(Math.PI/4 - aa*angle/2) , outerRadius - thickness,3*Math.PI/2 + angle*aa, 0*Math.PI/2,false);
+    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius - thickness,0*Math.PI/2, 1*Math.PI/2,false);
+    shape1.lineTo(side2 - outerRadius,side1 - thickness);
+    shape1.lineTo(outerRadius, side1 - thickness)
+    
     shapes.push(shape1)
 
     const shape2 = new THREE.Shape();
@@ -146,8 +144,6 @@ function T_shap() {
     shape2.lineTo(outerRadius,side1)
     shape2.absarc(outerRadius,side1 - outerRadius,outerRadius,1*Math.PI/2,2*Math.PI/2,false)
     shapes.push(shape2)
-
-    
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -160,7 +156,7 @@ function T_shap() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1,side2 ,side3, side4, outerRadius, thickness, length]);
+  }, [side1,side2 ,side3, side4, angle, outerRadius, thickness, length]);
   
   const tShapGraphRef = useRef()
 
@@ -172,7 +168,7 @@ function T_shap() {
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`side1(A): ${side1}   side1(B): ${side2}   side1(C): ${side3}   side1(D): ${side4}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`side1(A): ${side1}   side1(B): ${side2}   side1(C): ${side3}   side1(D): ${side4}   angle(D): ${angle}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -241,6 +237,10 @@ function T_shap() {
             <input className="input-field" id="side1" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
           </div>
           <div className="container1">
+            <lable className="label" htmlFor="angle">Angle (θ) degree</lable>
+            <input className="input-field" id="angle" type="number" value={angle} onChange={angleChange} placeholder="Type something..." />
+          </div>
+          <div className="container1">
             <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
             <input className="input-field" id="thickness" type="number" value={thickness} onChange={thicknessChange} placeholder="Type something..." />
           </div>
@@ -256,7 +256,7 @@ function T_shap() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><T_shap_graph side11 = {side1} side22={side2} side33={side3} side44={side4} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={tShapGraphRef}><T_shap_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle1={angle} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -51,9 +51,6 @@ function Signup() {
       const {success, message, error} = result;
       if(success){
         handleSuccess(message);
-        setTimeout(()=>{
-          navigate('/login')
-        },500)
       }else if(error){
           const details = error?.details[0].message;
           handleError(details)

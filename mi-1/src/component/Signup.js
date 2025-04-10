@@ -16,7 +16,6 @@ function Signup() {
     designation: '',
   })
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [capVal, setCapVal] = useState(null)
 
   const navigate = useNavigate();
   const handleChange = (e) => {
@@ -173,8 +172,7 @@ function Signup() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </div>
-            <ReCAPTCHA sitekey='6Ld_MvMqAAAAAGVcZwC6VbsWSgAsO61kPvOGyQCa' onChange={val => setCapVal(val)}/>
-            <button type="submit" className="btn btn-dark w-40 my-4"  disabled={!capVal}>Sign Up</button>
+            <button type="submit" className="btn btn-dark w-40 my-4">Sign Up</button>
           </fieldset>
         </form>
         <ToastContainer/>

@@ -171,7 +171,7 @@ function FromTemp() {
           <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <Image src={image3} alt="Description of Image" />
           </Button>
-          <ButtonText>Round Tube</ButtonText>
+          <ButtonText>Circular Tube</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
         <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

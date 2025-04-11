@@ -31,7 +31,7 @@ function Navbar() {
   return (
     <>
       <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
-      <nav className="navbar navbar-white" style={{backgroundColor: "#99FFFF"}}>
+      <nav className="navbar navbar-white" style={{backgroundColor: "#1da1f2"}}>
         <div className="container-fluid d-flex align-items-center justify-content-between flex-lg-row flex-column text-lg-start text-center">
           {/* Links Section */}
           <div className="d-flex align-items-center mb-2 mb-lg-0">

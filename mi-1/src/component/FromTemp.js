@@ -1,4 +1,5 @@
 import React from 'react';
+import { useEffect, useState } from "react";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import image1 from './Image/Image-1.png';
@@ -154,10 +155,25 @@ function FromTemp() {
       padding: "10px"
     };
 
+  const [dividerHeight, setDividerHeight] = useState(0);
+  
+    useEffect(() => {
+      const updateHeight = () => {
+        const height = document.documentElement.scrollHeight - 10;
+        setDividerHeight(height);
+      };
+  
+      requestAnimationFrame(updateHeight); // waits for layout to finish
+  
+      // Optional: add resize listener if height may change dynamically
+      window.addEventListener("resize", updateHeight);
+      return () => window.removeEventListener("resize", updateHeight);
+    }, []); 
+
     const dividerStyle = {
       width: "2px", // Thin vertical line
       backgroundColor: 'black', // Black color for the line
-      height: `${document.documentElement.scrollHeight - 60}px`
+      height: `${dividerHeight - 60}px`
     };
 
   return (

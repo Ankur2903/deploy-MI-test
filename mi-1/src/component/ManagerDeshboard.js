@@ -70,32 +70,32 @@ const ManagerDashboard = () => {
       <table border="1" style={{ borderCollapse: "collapse", width: "100%" }}></table>
       <thead>
         <tr>
-         <th style={{ width: "12vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Name</th>
-          <th style={{ width: "16vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Email</th>
-          <th style={{ width: "20vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Company</th>
-          <th style={{ width: "10vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Department</th>
-          <th style={{ width: "10vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Designation</th>
-          <th style={{ width: "8vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Mobile No.</th>
-          <th style={{ width: "6vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>User Type</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Change User Type</th>
-          <th style={{ width: "6vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Status</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Change Status</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Remove</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Signup Time</th>
-          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center"}}>Last Activity</th>
+         <th style={{ width: "10vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Name</th>
+          <th style={{ width: "14vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Email</th>
+          <th style={{ width: "16vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Company</th>
+          <th style={{ width: "11vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Department</th>
+          <th style={{ width: "11vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Designation</th>
+          <th style={{ width: "6vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Mobile No.</th>
+          <th style={{ width: "5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>User Type</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Change User Type</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Status</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Change Status</th>
+          <th style={{ width: "4vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Remove</th>
+          <th style={{ width: "5.5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Signup Time</th>
+          <th style={{ width: "5.5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Last Activity</th>
         </tr>
       </thead>
       <tbody>
       {users.map((user) => (
         <tr key={user._id}>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.name}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.email}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.company}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.department}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.designation}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.phoneNo}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.manager === true ? 'Admin' : 'User'}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.name}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.email}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.company}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.department}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.designation}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.phoneNo}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.manager === true ? 'Admin' : 'User'}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-1" onClick={() => handleOpenModal(user._id)} style={{backgroundColor: 'green'}}>Change</button>
           <div class="modal fade-dark" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -115,8 +115,8 @@ const ManagerDashboard = () => {
             </div>
           </div>
           </td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.status}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.status}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-2" onClick={() => handleOpenModal(user._id)} style={{backgroundColor: 'green'}}>Change</button>
           <div class="modal fade-dark" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -137,7 +137,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
           </td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" onClick={() => handleOpenModal(user._id)} style={{backgroundColor: 'red'}}>Remove</button>
           <div class="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -157,8 +157,8 @@ const ManagerDashboard = () => {
             </div>
           </div>
           </td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.signupTime}</td>
-          <td style={{textAlign: "center", border: "1px solid black" }}>{user.lastactivity}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.signupTime}</td>
+          <td style={{textAlign: "center", border: "1px solid black" ,fontSize: "13px"}}>{user.lastactivity}</td>
         </tr>
       ))}
       </tbody>

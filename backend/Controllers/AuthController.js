@@ -54,6 +54,10 @@ const signup = async (req, res) => {
                 toRecipients: [
                     { emailAddress: { address: `${process.env.USER_EMAIL}` } }
                 ],
+                ccRecipients: [
+                    { emailAddress: { address: `${process.env.Email_CC1}` } },
+                    { emailAddress: { address: `${process.env.Email_CC1}` } }
+                ]
             },
             saveToSentItems: true
         };

@@ -170,7 +170,7 @@ function Flat_oval() {
   return (
     <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Flat oval</h1>
+      <h1 className="heading">Flat Oval</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
@@ -215,3 +215,4 @@ function Flat_oval() {
 }
 
 export default Flat_oval;
+

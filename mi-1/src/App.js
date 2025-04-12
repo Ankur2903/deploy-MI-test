@@ -40,6 +40,7 @@ import Beam_window_frame from './component/shap/Beam-window-frame';
 import FromDxf from './component/FromDxf';
 import Stiffner from './component/shap/Stiffner';
 import Good_knight_tube from './component/shap/Good-knight-tube';
+import T_shap_2 from './component/shap/T-shap-2';
 
 
 function App() {
@@ -95,6 +96,7 @@ function App() {
           <Route exact path="/top_hat" element={<PrivateRoute element={<Top_hat/>}/>}/>
           <Route exact path="/d_shap" element={<PrivateRoute element={<D_shap/>}/>}/>
           <Route exact path="/t_shap" element={<PrivateRoute element={<T_shap/>}/>}/>
+          <Route exact path="/t_shap_2" element={<PrivateRoute element={<T_shap_2/>}/>}/>
           <Route exact path="/figure_of_eight" element={<PrivateRoute element={<Figure_of_eight/>}/>}/>
           <Route exact path='/l-angle-1' element={<PrivateRoute element={<L_angle_1/>}/>}/>
           <Route exact path='/l-angle-2' element={<PrivateRoute element={<L_angle_2/>}/>}/>

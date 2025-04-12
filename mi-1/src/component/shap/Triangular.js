@@ -13,17 +13,17 @@ function Triangular() {
   const [length, setLength] = useState(1);
   const lengthChange = (event) => setLength(parseFloat(event.target.value));
 
-  const [thickness, setThickness] = useState(20);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value))
   }
 
-  const [side, setSide] = useState(200);
+  const [side, setSide] = useState(50);
   const sideChange = (event) => setSide(parseFloat(event.target.value));
 
 
-  const [outerRadius, setOuterRadius] = useState(40);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const [weightPerLength, setWeightPerLenght] = useState(0);

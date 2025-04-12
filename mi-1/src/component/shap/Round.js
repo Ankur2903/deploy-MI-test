@@ -12,8 +12,8 @@ import Result from './Result';
 function Round() {
   const [isFormDirty, setIsFormDirty] = useState(true);
   const [length, setLength] = useState(1);
-  const [thickness, setThickness] = useState(10);
-  const [diameter, setDiameter] = useState(100);
+  const [thickness, setThickness] = useState(2);
+  const [diameter, setDiameter] = useState(50);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);

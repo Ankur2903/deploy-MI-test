@@ -14,19 +14,19 @@ function Triangular_slit() {
   const [length, setLength] = useState(1);
   const lengthChange = (event) => setLength(parseFloat(event.target.value));
 
-  const [thickness, setThickness] = useState(10);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
   }
 
-  const [side1, setSide1] = useState(100);
+  const [side1, setSide1] = useState(50);
   const side1Change = (event) => setSide1(parseFloat(event.target.value));
 
   const [side2, setSide2] = useState(35);
   const side2Change = (event) => setSide2(parseFloat(event.target.value));
 
-  const [outerRadius, setOuterRadius] = useState(20);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const [weightPerLength, setWeightPerLenght] = useState(0);

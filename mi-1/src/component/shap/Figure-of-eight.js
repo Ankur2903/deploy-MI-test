@@ -15,7 +15,7 @@ function Figure_of_eight() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(3);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
@@ -51,7 +51,7 @@ function Figure_of_eight() {
     setr2(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(6);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };

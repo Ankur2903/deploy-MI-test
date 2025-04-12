@@ -11,12 +11,12 @@ import Result from './Result';
 
 
 function Square() {
-  const [side, setSide] = useState(100);
+  const [side, setSide] = useState(50);
   const sideChange = (event) => {
     setSide(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(10);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(parseFloat(2*event.target.value));
@@ -27,7 +27,7 @@ function Square() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(20);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };

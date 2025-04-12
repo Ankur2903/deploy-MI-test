@@ -23,7 +23,7 @@ function Triangular_slit() {
   const [side1, setSide1] = useState(50);
   const side1Change = (event) => setSide1(parseFloat(event.target.value));
 
-  const [side2, setSide2] = useState(35);
+  const [side2, setSide2] = useState(15);
   const side2Change = (event) => setSide2(parseFloat(event.target.value));
 
   const [outerRadius, setOuterRadius] = useState(4);

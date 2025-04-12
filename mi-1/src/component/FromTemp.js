@@ -302,7 +302,7 @@ function FromTemp() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">
-                <h3>Round Tube</h3>
+                <h3>Guide Rail Sections</h3>
                 <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
               <div className="modal-body">

@@ -31,7 +31,7 @@ function D_shap() {
     setSide2(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(6);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };

@@ -15,7 +15,7 @@ function D_shap() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(3);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));

@@ -41,6 +41,9 @@ import FromDxf from './component/FromDxf';
 import Stiffner from './component/shap/Stiffner';
 import Good_knight_tube from './component/shap/Good-knight-tube';
 import T_shap_2 from './component/shap/T-shap-2';
+import T_shap_3 from './component/shap/T-shap-3';
+import Round_4 from './component/shap/Round-4';
+import Stiffner_front_edge from './component/shap/Stiffner-front-edge';
 
 
 function App() {
@@ -84,12 +87,14 @@ function App() {
           <Route exact path="/round-1" element={<PrivateRoute element={<Round_1/>}/>}/>
           <Route exact path="/round-2" element={<PrivateRoute element={<Round_2/>}/>}/>
           <Route exact path="/round-3" element={<PrivateRoute element={<Round_3/>}/>}/>
+          <Route exact path="/round-4" element={<PrivateRoute element={<Round_4/>}/>}/>
           <Route exact path="/square" element={<PrivateRoute element={<Square/>}/>}/>
           <Route exact path="/l-angle" element={<PrivateRoute element={<L_angle/>}/>}/>
           <Route exact path="/c-channel" element={<PrivateRoute element={<C_channel/>}/>}/>
           <Route exact path="/U-channel" element={<PrivateRoute element={<U_channel/>}/>}/>
           <Route exact path="/triangular-slit" element={<PrivateRoute element={<Triangular_slit/>}/>}/>
           <Route exact path="/door_channel" element={<PrivateRoute element={<Door_channel/>}/>}/>
+          <Route exact path="/stiffner_front_edge" element={<PrivateRoute element={<Stiffner_front_edge/>}/>}/>
           <Route exact path="/elliptical" element={<PrivateRoute element={<Elliptical/>}/>}/>
           <Route exact path="/flat_oval" element={<PrivateRoute element={<Flat_oval/>}/>}/>
           <Route exact path="/triangular" element={<PrivateRoute element={<Triangular/>}/>}/>
@@ -97,6 +102,7 @@ function App() {
           <Route exact path="/d_shap" element={<PrivateRoute element={<D_shap/>}/>}/>
           <Route exact path="/t_shap" element={<PrivateRoute element={<T_shap/>}/>}/>
           <Route exact path="/t_shap_2" element={<PrivateRoute element={<T_shap_2/>}/>}/>
+          <Route exact path="/t_shap_3" element={<PrivateRoute element={<T_shap_3/>}/>}/>
           <Route exact path="/figure_of_eight" element={<PrivateRoute element={<Figure_of_eight/>}/>}/>
           <Route exact path='/l-angle-1' element={<PrivateRoute element={<L_angle_1/>}/>}/>
           <Route exact path='/l-angle-2' element={<PrivateRoute element={<L_angle_2/>}/>}/>

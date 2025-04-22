@@ -29,6 +29,9 @@ import image24 from './Image/Image-24.png';
 import image25 from './Image/Image-25.png';
 import image26 from './Image/Image-26.png';
 import image27 from './Image/Image-27.png';
+import image28 from './Image/Image-28.png';
+import image29 from './Image/Image-29.png';
+import image30 from './Image/Image-30.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -209,6 +212,14 @@ function FromTemp() {
                     <ButtonText>Round Tube</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
+                    <Link to="/round-4">
+                      <Button data-bs-dismiss="modal">
+                        <Image src={image29} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>Pipe Lappet</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
                     <Link to="/elliptical">
                       <Button data-bs-dismiss="modal">
                         <Image src={image9} alt="Description of Image" />
@@ -322,6 +333,14 @@ function FromTemp() {
                       </Button>
                     </Link>
                     <ButtonText>Tube-2</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/t_shap_3">
+                      <Button data-bs-dismiss="modal">
+                        <Image src={image28} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>Tube-3</ButtonText>
                   </ButtonWrapper>
                 </ButtonWrapperContainer>
               </div>
@@ -481,6 +500,14 @@ function FromTemp() {
           <ButtonText>Door Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/stiffner_front_edge">
+            <Button>
+              <Image src={image30} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Stiffner-Front Edge</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/top_hat">
             <Button>
               <Image src={image12} alt="Description of Image" />
@@ -496,4 +523,3 @@ function FromTemp() {
 }
 
 export default FromTemp;
-

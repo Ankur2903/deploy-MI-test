@@ -1,250 +1,210 @@
-import React, { useState,useRef ,useEffect } from 'react';
-import * as THREE from 'three';
-import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
-import logo from '../Image/logo.192.jpg';
-import '../../App.css'
-import T_shap_graph from '../Graph/T-shap';
-import 'jspdf-autotable';
-import Result from './Result';
-import T_shap_graph_3 from '../Graph/T-shap-3';
-import { materialThickness, timerDelta } from 'three/webgpu';
+import React, { useState, useCallback, useEffect } from 'react';
+import CircleSector from './Shap/Circle';
+import Linex from './Shap/Linex';
+import Liney from './Shap/Liney';
+import LineAtTheta from './Shap/LineAtθ';
 
-function T_shap_3() {
-  const [length, setLength] = useState(1);
-  const lengthChange = (event) => {
-    setLength(parseFloat(event.target.value));
-  };
-
-  const [thickness, setThickness] = useState(2);
-  const thicknessChange = (event) => {
-    setThickness(parseFloat(event.target.value));
-    setOuterRadius(2*parseFloat(event.target.value));
-  };
-
-  const [side1, setSide1] = useState(40);
-  const side1Change = (event) => {
-    setSide1(parseFloat(event.target.value));
-  };
-
-  const [side2, setSide2] = useState(50);
-  const side2Change = (event) => {
-    setSide2(parseFloat(event.target.value));
-  };
-
-  const [side3, setSide3] = useState(15);
-  const side3Change = (event) => {
-    setSide3(parseFloat(event.target.value));
-  };
-
-  const [angle, setAngle] = useState(0);
-  const angleChange = (event) => {
-    setAngle(parseFloat(event.target.value));
-  };
-
-
-  const [outerRadius, setOuterRadius] = useState(4);
-  const outerRadiusChange = (event) => {
-    setOuterRadius(parseFloat(event.target.value));
-  };
-
+function T_shap_graph_3({ side11, side22, side33, angle1, thickness1, outerRadius1, sendValuey}) {
+  const mx = Math.max(side22,side11);
+  const thickness = (thickness1/mx)*100;
+  const side1 = (side11/mx)*100;
+  const side2 = (side22/mx)*100;
+  const side3 = (side33/mx)*100;
+  const angle = angle1;
+  const outerRadius = (outerRadius1/mx)*100;
   const aa = Math.PI/180;
-  const l = side2/2 - side3/2 - outerRadius;
-  const x = side1 - thickness - 2*outerRadius
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
-  const [totalWeight, setTotalWeight] = useState(0);
-  const [stripWidth, setStripWidth] = useState(0);
-  const [outLine, setOutLine] = useState(0);
-  const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
-  const [inertiax, setInertiax] = useState(0);
-  const [inertiay, setInertiay] = useState(0);
+  const  comy = 50; 
 
-  const handleComy = (e) => {
-    setComy(e);
-  };
+  React.useEffect(() => {
+    sendValuey((comy/100)*mx);
+  }, [sendValuey]);
 
-  const submitClick = () => {
-    setWeightPerLenght((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*Math.PI*(thickness - 0.596*thickness) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))*thickness*0.000001).toFixed(3));
+  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [isDragging, setIsDragging] = useState(false);
+  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
 
-    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*Math.PI*(thickness - 0.596*thickness) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))*thickness*0.000001*length).toFixed(3));
+  const svgWidth = 200;
+  const svgHeight = 200;
 
-    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 2*Math.PI*(thickness - 0.596*thickness) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2))).toFixed(3));
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*Math.PI*(outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 4*x + 4*l + 4*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)) + 2* thickness).toFixed(3))
-
-    setArea((Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + Math.PI*Math.pow(thickness,2) + thickness*((side2 - 2*outerRadius) + (side3 - 2*outerRadius) + 2*x + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(Math.PI/4 - aa*angle/2)))).toFixed(3))
-
-    // setInertiax(((1)*0.0001).toFixed(2))
-
-    // setInertiay(((1)*0.0001).toFixed(2));
-  }
-
-  const resetClick = () => {
-    setLength(0);
-    setThickness(0);
-    setOuterRadius(parseFloat(0))
-    setSide1(0);
-    setSide2(0);
-    setSide3(0);
-    setAngle(45);
-    setWeightPerLenght(0);
-    setTotalWeight(0);
-  }
-
-  const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
-  const exportToSTL = () => {
-    const exporter = new STLExporter();
-    const stlString = exporter.parse(groupRef.current); // Export the 3D group
-    const blob = new Blob([stlString], { type: 'text/plain' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'rectangles.stl';
-    link.click();
-  };
-  // Manually create 3D shapes to export, without displaying them
-  const create3DShapes = () => {
-    const shapes = [];
-
-    const shape1 = new THREE.Shape();
-    shape1.moveTo(thickness, side1); //start with upper line
-    shape1.lineTo(side2 - thickness,side1);
-    shape1.absarc(side2-thickness, side1-thickness,thickness,Math.PI/2,3*Math.PI/2,true)
-    shape1.absarc(side2/2 + side3/2 + outerRadius - thickness, side1 - thickness - outerRadius, outerRadius -thickness, Math.PI/2, Math.PI, false)
-    shape1.absarc(side2/2 + side3/2 - outerRadius, outerRadius, outerRadius, 0,3*Math.PI/2,true)
-    shape1.absarc(side2/2 - side3/2 + outerRadius, outerRadius, outerRadius,3*Math.PI/2, Math.PI, true)
-    shape1.absarc(side2/2 - side3/2 - outerRadius + thickness, side1 - thickness - outerRadius, outerRadius - thickness, 0, Math.PI/2, false)
-    shape1.lineTo(thickness,side1 - 2*thickness)
-    shape1.lineTo(thickness,side1 - thickness)
-    shape1.absarc(side2/2 - side3/2 - outerRadius + thickness, side1 - thickness - outerRadius, outerRadius, Math.PI/2, 0, true)
-    shape1.absarc(side2/2 - side3/2 + outerRadius, outerRadius, outerRadius - thickness, Math.PI,3*Math.PI/2, false)
-    shape1.absarc(side2/2 + side3/2 - outerRadius, outerRadius, outerRadius - thickness,3*Math.PI/2, 0,false)
-    shape1.absarc(side2/2 + side3/2 + outerRadius - thickness, side1 - thickness - outerRadius, outerRadius, Math.PI, Math.PI/2, true)
-    shape1.lineTo(side2 - thickness, side1 - thickness)
-    shape1.lineTo(thickness, side1 - thickness)
-    shape1.lineTo(thickness, side1)
-    shapes.push(shape1)
-
-    const shape2 = new THREE.Shape();
-    shape2.moveTo(thickness,side1 - thickness)
-    shape2.lineTo(thickness, side1 - 2*thickness)
-    shape2.absarc(thickness,side1- thickness, thickness, 3*Math.PI/2, Math.PI/2, true);
-    shape2.lineTo(thickness,side1 - thickness)
-    shapes.push(shape2)
-
-    shapes.forEach((shape) => {
-      const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
-      const material = new THREE.MeshNormalMaterial();
-      const mesh = new THREE.Mesh(geometry, material);
-      groupRef.current.add(mesh); // Add the created mesh to the group
+  const handlePan = useCallback((dx, dy) => {
+    setViewBox((prevViewBox) => {
+      const [x, y, w, h] = prevViewBox.split(' ').map(Number);
+      return `${x - dx} ${y - dy} ${w} ${h}`;
     });
+  }, []);
+
+  const startDrag = (x, y) => {
+    setIsDragging(true);
+    setStartCoords({ x, y });
   };
-  // Create the shapes as soon as the component mou nts
+
+  const handleDrag = (x, y) => {
+    if (isDragging) {
+      const dx = x - startCoords.x;
+      const dy = y - startCoords.y;
+      handlePan(dx, dy);
+      setStartCoords({ x, y });
+    }
+  };
+
+  const stopDrag = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseDown = (event) => {
+    startDrag(event.clientX, event.clientY);
+  };
+
+  const handleMouseMove = (event) => {
+    handleDrag(event.clientX, event.clientY);
+  };
+
+  const handleMouseUp = () => {
+    stopDrag();
+  };
+
+  const handleTouchStart = (event) => {
+    const touch = event.touches[0];
+    startDrag(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchMove = (event) => {
+    const touch = event.touches[0];
+    handleDrag(touch.clientX, touch.clientY);
+  };
+
+  const handleTouchEnd = () => {
+    stopDrag();
+  };
+
   useEffect(() => {
-    groupRef.current.clear();
-    create3DShapes();
-  }, [side1,side2 ,side3, angle, outerRadius, thickness, length]);
-  
-  const tShapGraphRef = useRef()
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd);
 
-  const handleDownload = () => {
-    const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
-    doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
-    doc.addImage(logo, 'PNG', 75, 2, 60, 10);
-    doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
-    doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
-    doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`side1(A): ${side1}   side1(B): ${side2}   side1(C): ${side3}   angle(D): ${angle}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
-    doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
-    const imgData = canvas.toDataURL('image/png');
-    doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
-    doc.setFontSize(12).setTextColor('blue').text('Standard Output: ', 90,130);
-    const rows1 = [
-      ["Weight per meter", `${weightPerLength} Kg/m`, "Weight of 6m length", `${totalWeight} kg`],
-      ["Calculated strip width", `${stripWidth} mm`, "Outline length", `${outLine} mm`],
-      ["Area of cross-section", `${(stripWidth*thickness).toFixed(2)} mm^2`, "Inner bend radius(r)", `${outerRadius - thickness} mm`],
-    ];
-    doc.autoTable({
-      body: rows1,
-      startY: 135,  // Position from top
-    });
-    doc.setDrawColor("black").setLineWidth(.2).line(0,165,210,165);
-    doc.setFontSize(12).setTextColor('blue').text('Complete Output: ', 90,175);
-    const rows2 = [
-      ["Center of mass (x)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Center of mass (y)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Moment of inertia I(x)", `${inertiax} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
-      ["Moment of inertia I(y)", `${inertiay} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
-      ["Moment of resistance W(v)", `___ cm^3`,"Principal axis angle", "___ deg"],
-      ["Radius of gyration i(v)", `___ cm`, "Moment of resistance W(x)", "___ cm^3"],
-      ["Radius of gyration i(u)", `___ cm`, "Radius of gyration i(x)", "___ cm"],
-      ["Moment of inertia I(u)", `___ cm^4`, "Radius of gyration i(y)", "___ cm"],
-      ["Moment of inertia I(v)", `___ cm^4`, "Moment of resistance W(u)", "___ cm^3"],
-    ];
-    doc.autoTable({
-      body: rows2,
-      startY: 180,  // Position from top
-    });
-    doc.save('file.pdf'); // Specify the file name
-    });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [isDragging, startCoords, handlePan]);
+
+  const zoomIn = () => {
+    setScale((prevScale) => prevScale * 1.2);
+  };
+
+  const zoomOut = () => {
+    setScale((prevScale) => prevScale / 1.2);
+  };
+  const resetZoom = () => {
+    setScale(1); // Reset scale to initial state
+    setViewBox('0 0 200 200');
+  };
+
+  const updateViewBox = () => {
+    const newWidth = svgWidth / scale;
+    const newHeight = svgHeight / scale;
+    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+  };
+
+  useEffect(() => {
+    updateViewBox();
+  }, [scale]);
+
+  const [dimensioning, setDimensioning] = useState(false)
+  const [points, setPoints] = useState([]);
+  const [distance, setDistance] = useState(null);
+
+  const clickOndimensioning = ()=> {
+    setDimensioning(!dimensioning);
+    setPoints([])
+  }
+
+  const handleSVGClick = (event) => {
+    if(!dimensioning) return;
+    const svg = event.target.closest('svg');
+    const { left, top, width, height } = svg.getBoundingClientRect();
+
+    const viewBox = svg.viewBox.baseVal;
+    const scaleX = viewBox.width / width;  
+    const scaleY = viewBox.height / height;
+
+    const newPoint = {
+      x: (event.clientX - left)*scaleX + viewBox.x ,
+      y: (event.clientY - top)*scaleY + viewBox.y,
+    };
+    if (points.length === 1) {
+      const p1 = points[0];
+      const p2 = newPoint;
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const calculatedDistance = Math.sqrt(dx * dx + dy * dy).toFixed(2);
+      setDistance(calculatedDistance);
+    }
+    setPoints((prevPoints) => prevPoints.length === 1 ? [prevPoints[0], newPoint] : [newPoint]);
   };
 
   return (
-    <div>
-       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Guide Rail Section</h1>
-      <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
-        <i className="fa-solid fa-download"></i>
-        </button>
-        <ul className="dropdown-menu">
-          <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
-          <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
-        </ul>
-      </div>
-    </div>
-      <div className = "container">
-        <div className='box'>
-          <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
-          <div className="container1">
-            <lable className="label" htmlFor="side1"> Side (A) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Type something..." />
+    <div style={{ position: 'relative' }}>
+      <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
+            <input onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
-          <div className="container1">
-            <lable className="label" htmlFor="side2"> Side (B) mm</lable>
-            <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="side3"> Side (C) mm</lable>
-            <input className="input-field" id="side3" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
-            <input className="input-field" id="thickness" type="number" value={thickness} onChange={thicknessChange} placeholder="Type something..." />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="outerRadius">Outer Radius (r) mm</lable>
-            <input className="input-field" id="outerRadius" type="number" value={outerRadius} onChange={outerRadiusChange} placeholder="Type something..." />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="length">Length (L) m</lable>
-            <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
-          </div>
-          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
-        </div>
-        <div className='box'>
-        <div ref={tShapGraphRef}><T_shap_graph_3 side11 = {side1} side22={side2} side33={side3} angle1={angle} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
-        </div>
-        <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
-        </div>
-      </div>
+      <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
+      {points.map((point, index) => (
+              <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
+            ))}
+            {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
+            {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="5"> {(distance*mx/100).toFixed(3)} mm</text>}
+          {/* Define grid pattern */}
+          <defs>
+          <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
+          </pattern>
+        </defs>
+         {/* Apply grid pattern as background */}
+         <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
+          {/* Draw X and Y axes */}
+        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
+        {/* L Shape */}
+        <rect x={100 - side2/2 + thickness} y={100-comy} width={side2-2*thickness} height={thickness} fill="black" />
+        <rect x={100 - side2/2 + thickness} y={100-comy+ thickness} width={side2/2 - side3/2 - outerRadius} height={thickness} fill="black"/>
+        <rect x={100 + side3/2 + outerRadius - thickness} y={100-comy+ thickness} width={side2/2 - side3/2 - outerRadius} height={thickness} fill="black"/>
+        <rect x={100 - side3/2} y={100-comy + outerRadius + thickness} width={thickness} height={side1 - thickness - 2*outerRadius} fill="black" />
+        <rect x={100 + side3/2 - thickness} y={100-comy + outerRadius + thickness} width={thickness} height={side1 - thickness - 2*outerRadius} fill="black" />
+        <rect x={100 - side3/2 + outerRadius} y={100-comy + side1 - thickness} width={side3-2*outerRadius} height={thickness} fill="black" />
+        
+
+        {/* outer radius */}
+        <CircleSector radius={thickness} centerX={100 - side2/2 + thickness} centerY={100-comy +  thickness} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={100 + side2/2 - thickness} centerY={100-comy + thickness} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={100 + side2/2 - thickness} centerY={100-comy + thickness} angle={90 - angle} rotation={0} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={100 - side2/2 + thickness} centerY={100-comy + thickness} angle={90 - angle} rotation={90 + angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side3/2 - outerRadius + thickness} centerY={100-comy + thickness + outerRadius} angle={90 - angle} rotation={270 + angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side3/2 - outerRadius} centerY={100-comy + side1 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side3/2 + outerRadius} centerY={100-comy + side1 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side3/2 + outerRadius - thickness} centerY={100-comy + thickness + outerRadius} angle={90 - angle} rotation={180} thickness={thickness}/>
+
+        {/* Horizontal Arrow for side2 */}
+        <Linex x1={100 - side2/2} x2={100 + side2/2} y1={95-comy} y2={95-comy} text={'B'} val={side22} textHeight={-5}/>
+
+        {/* Horizontal Arrow for side3 */}
+        <Linex x1={100 - side3/2} x2={100 + side3/2} y1={105-comy + side1} y2={105-comy + side1} text={'C'} val={side33} textHeight={10}/>
+
+        {/* Vertical Arrow for A */}
+        <Liney x1={95 - side2/2} x2={95 - side2/2} y1={100-comy} y2={100-comy + side1} text={'A'} val={side11} textHeight={-17}/>
+      
+      </svg>
+      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }
 
-export default T_shap_3;
+export default T_shap_graph_3;

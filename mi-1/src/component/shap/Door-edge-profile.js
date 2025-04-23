@@ -5,11 +5,11 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
 import '../../App.css'
-import Stiffner_front_edge_graph from '../Graph/Stiffner-front-edge'
 import 'jspdf-autotable';
 import Result from './Result';
+import Door_edge_profile_graph from '../Graph/Door-edge-profile';
 
-function Stiffner_front_edge() {
+function Door_edge_profile() {
   const [length, setLength] = useState(1);
   const lengthChange = (event) => {
     setLength(parseFloat(event.target.value));
@@ -66,19 +66,19 @@ function Stiffner_front_edge() {
 
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness)  + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness)  + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
 
 
-    setTotalWeight((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001*length).toFixed(3));
+    setTotalWeight((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001*length).toFixed(3));
 
 
-    setStripWidth(((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
+    setStripWidth(((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
 
 
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*thickness + 2*(side1-outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side3-2*outerRadius + 2*thickness) + 2*(side1-4*outerRadius+thickness)).toFixed(3))
+    setOutLine(((3/2)*Math.PI*(2*outerRadius - thickness) + 2*thickness + 2*(side1-outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side1-side4 - 2*outerRadius + thickness) + 2*(side1-4*outerRadius+thickness)).toFixed(3))
 
 
-    setArea((thickness*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) ) + (4*Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
+    setArea((thickness*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) ) + (3*Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
   }
 
 
@@ -112,10 +112,8 @@ function Stiffner_front_edge() {
     shape1.absarc(outerRadius,outerRadius,outerRadius,2*Math.PI/2,3*Math.PI/2,false);
     shape1.absarc(side2 - outerRadius,outerRadius,outerRadius,3*Math.PI/2,0*Math.PI/2,false);
     shape1.absarc(side2 + outerRadius - thickness,side1 - side4 - outerRadius + thickness,outerRadius - thickness,2*Math.PI/2,1*Math.PI/2,true);
-    shape1.absarc(side2 + side3 - outerRadius,side1 - side4 + outerRadius,outerRadius,3*Math.PI/2,0*Math.PI/2,false);
-    shape1.lineTo(side2 + side3, side1)
-    shape1.lineTo(side2 + side3 - thickness, side1)
-    shape1.absarc(side2 + side3 - outerRadius,side1 - side4 + outerRadius,outerRadius - thickness,0*Math.PI/2,3*Math.PI/2,true);
+    shape1.lineTo(side2 + side3, side1 - side4 )
+    shape1.lineTo(side2 + side3, side1 - side4 + thickness)
     shape1.absarc(side2 + outerRadius - thickness,side1 - side4 - outerRadius + thickness,outerRadius,1*Math.PI/2,2*Math.PI/2,false);
     shape1.absarc(side2 - outerRadius,outerRadius,outerRadius - thickness,0*Math.PI/2,3*Math.PI/2,true);
     shape1.absarc(outerRadius,outerRadius,outerRadius - thickness,3*Math.PI/2,2*Math.PI/2,true);
@@ -186,7 +184,7 @@ function Stiffner_front_edge() {
   return (
     <div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Stiffner Front Edge</h1>
+      <h1 className="heading">Door Edge Profile</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
@@ -232,7 +230,7 @@ function Stiffner_front_edge() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={dShapGraphRef}><Stiffner_front_edge_graph side11={side1}  side22={side2} side33={side3} side44={side4} thickness1={thickness}outerRadius1={outerRadius}/>
+        <div ref={dShapGraphRef}><Door_edge_profile_graph side11={side1}  side22={side2} side33={side3} side44={side4} thickness1={thickness}outerRadius1={outerRadius}/>
         </div></div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
@@ -242,4 +240,4 @@ function Stiffner_front_edge() {
   );
 }
 
-export default Stiffner_front_edge;
+export default Door_edge_profile;

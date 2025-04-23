@@ -5,40 +5,36 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
 import '../../App.css'
-import Stiffner_front_edge_graph from '../Graph/Stiffner-front-edge'
 import 'jspdf-autotable';
 import Result from './Result';
+import D_section_graph from '../Graph/D-section';
+import { tab } from '@testing-library/user-event/dist/tab';
 
-function Stiffner_front_edge() {
-  const [length, setLength] = useState(1);
-  const lengthChange = (event) => {
-    setLength(parseFloat(event.target.value));
+function D_section() {
+  const [side1, setSide1] = useState(60);
+  const side1Change = (event) => {
+    setSide1(parseFloat(event.target.value));
+  };
+  const [side2, setSide2] = useState(31);
+  const side2Change = (event) => {
+    setSide2(parseFloat(event.target.value));
+  };
+
+  const [radius, setRadius] = useState(10);
+  const radiusChange = (event) => {
+    setRadius(parseFloat(event.target.value));
   };
 
   const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
-    setOuterRadius(2*parseFloat(event.target.value));
+    setOuterRadius(parseFloat(2*event.target.value));
+
   };
 
-  const [side1, setSide1] = useState(29);
-  const side1Change = (event) => {
-    setSide1(parseFloat(event.target.value));
-  };
-
-  const [side2, setSide2] = useState(17);
-  const side2Change = (event) => {
-    setSide2(parseFloat(event.target.value));
-  };
-
-  const [side3, setSide3] = useState(25);
-  const side3Change = (event) => {
-    setSide3(parseFloat(event.target.value));
-  };
-
-  const [side4, setSide4] = useState(14);
-  const side4Change = (event) => {
-    setSide4(parseFloat(event.target.value));
+  const [length, setLength] = useState(1);
+  const lengthChange = (event) => {
+    setLength(parseFloat(event.target.value));
   };
 
   const [outerRadius, setOuterRadius] = useState(4);
@@ -46,51 +42,40 @@ function Stiffner_front_edge() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
-  const [stripWidth, setStripWidth] = useState(0);
+  const [stripWidth,setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
-  const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
-  const [comx, setComx] = useState(0);
-  const [inertiax, setInertiax] = useState(0);
-  const [inertiay, setInertiay] = useState(0);
+  const [area, setArea] = useState(0)
+  const [inertiax, setInertiaX] = useState(0);
+  const [inertiay, setInertiaY] = useState(0);
 
-  const handleComx = (e) => {
-    setComx(e);
-  };
-  const handleComy = (e) => {
-    setComy(e);
-  };
+  
 
 
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness)  + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
+    setWeightPerLength((((2*side1 - 2*outerRadius - 2*radius) + 2*(side2 - outerRadius - radius) + Math.PI*(outerRadius - 0.6*thickness) + Math.PI*(radius - thickness/2))*thickness*7850*0.000001).toFixed(3));
 
+    setTotalWeight((((2*side1 - 2*outerRadius - 2*radius) + 2*(side2 - outerRadius - radius) + Math.PI*(outerRadius - 0.6*thickness) + Math.PI*(radius - thickness/2))*thickness*7850*0.000001*length).toFixed(3));
 
-    setTotalWeight((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001*length).toFixed(3));
+    setStripWidth(((2*side1 - 2*outerRadius - 2*radius) + 2*(side2 - outerRadius - radius) + Math.PI*(outerRadius - 0.6*thickness) + Math.PI*(radius - thickness/2)).toFixed(3))
 
+    setOutLine((2*(2*side1 - 2*outerRadius - 2*radius) + 4*(side2 - outerRadius - radius) + Math.PI*(outerRadius -thickness) + Math.PI*(outerRadius) + Math.PI*(2*radius - thickness) + 2*thickness).toFixed(3))
 
-    setStripWidth(((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
-
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*thickness + 2*(side1-outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side3-2*outerRadius + 2*thickness) + 2*(side1-4*outerRadius+thickness)).toFixed(3))
-
-
-    setArea((thickness*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) ) + (4*Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-  }
-
+    setArea((thickness*((2*side1 - 2*outerRadius - 2*radius) + 4*(side2 - outerRadius - radius)) + (Math.PI/2)*(Math.pow(radius,2) - Math.pow(radius - thickness,2)) +  (Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
+  };
 
   const resetClick = () => {
-    setLength(6);
-    setThickness(2);
-    setOuterRadius(parseFloat(4))
-    setSide1(20);
-    setSide2(10);
-    setWeightPerLenght(0);
-    setTotalWeight(0);
-  }
+    setLength(parseFloat(0));
+    setThickness(parseFloat(0));
+    setSide1(parseFloat(0));
+    setSide2(parseFloat(0));
+    setRadius(parseFloat(0))
+    setOuterRadius(parseFloat(0));
+    setWeightPerLength(parseFloat(0));
+    setTotalWeight(parseFloat(0));
+  };
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -106,24 +91,30 @@ function Stiffner_front_edge() {
   const create3DShapes = () => {
     const shapes = [];
     const shape1 = new THREE.Shape();
-    shape1.moveTo(thickness,side1);
-    shape1.lineTo(0,side1)
-    shape1.lineTo(0,outerRadius)
-    shape1.absarc(outerRadius,outerRadius,outerRadius,2*Math.PI/2,3*Math.PI/2,false);
-    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius,3*Math.PI/2,0*Math.PI/2,false);
-    shape1.absarc(side2 + outerRadius - thickness,side1 - side4 - outerRadius + thickness,outerRadius - thickness,2*Math.PI/2,1*Math.PI/2,true);
-    shape1.absarc(side2 + side3 - outerRadius,side1 - side4 + outerRadius,outerRadius,3*Math.PI/2,0*Math.PI/2,false);
-    shape1.lineTo(side2 + side3, side1)
-    shape1.lineTo(side2 + side3 - thickness, side1)
-    shape1.absarc(side2 + side3 - outerRadius,side1 - side4 + outerRadius,outerRadius - thickness,0*Math.PI/2,3*Math.PI/2,true);
-    shape1.absarc(side2 + outerRadius - thickness,side1 - side4 - outerRadius + thickness,outerRadius,1*Math.PI/2,2*Math.PI/2,false);
-    shape1.absarc(side2 - outerRadius,outerRadius,outerRadius - thickness,0*Math.PI/2,3*Math.PI/2,true);
-    shape1.absarc(outerRadius,outerRadius,outerRadius - thickness,3*Math.PI/2,2*Math.PI/2,true);
-    shape1.lineTo(thickness,side1)
-    shapes.push(shape1)    
+    shape1.moveTo(0,radius)
+    shape1.lineTo(0,side2 - outerRadius)
+    shape1.absarc(outerRadius,side2 - outerRadius, outerRadius, Math.PI, Math.PI/2, true)
+    shape1.absarc(side1-outerRadius, side2 - outerRadius, outerRadius, Math.PI/2, 0,true)
+    shape1.absarc(side1 - radius, radius, radius, 0, 3*Math.PI/2, true)
+    shape1.lineTo(radius, 0)
+    shape1.lineTo(radius, thickness)
+    shape1.absarc(side1 - radius, radius, radius - thickness, 3*Math.PI/2, 0, false)
+    shape1.absarc(side1-outerRadius, side2 - outerRadius, outerRadius - thickness, 0, Math.PI/2,false)
+    shape1.absarc(outerRadius,side2 - outerRadius, outerRadius - thickness, Math.PI/2, Math.PI, false)
+    shape1.lineTo(thickness,radius)
+    shape1.lineTo(0,radius)
+    shapes.push(shape1)
 
+    const shape2 = new THREE.Shape();
+    shape2.moveTo(0,radius)
+    shape1.lineTo(thickness,radius)
+    shape1.absarc(radius,radius,radius - thickness,Math.PI,3*Math.PI/2, false)
+    shape1.lineTo(radius,thickness)
+    shape1.absarc(radius,radius,radius, 3*Math.PI/2, Math.PI, true)
+    shape1.lineTo(thickness,radius)
+    shapes.push(shape2)
 
-    
+   
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -136,19 +127,20 @@ function Stiffner_front_edge() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1, side2, outerRadius, thickness, length]);
-  
-  const dShapGraphRef = useRef()
+  }, [side1, side2,radius, outerRadius, thickness, length]);
+
+
+  const rectangleGraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(dShapGraphRef.current).then((canvas) => {
+    html2canvas(rectangleGraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   Side(C): ${side3}   Side(D): ${side4}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`Width(w): ${side1}   Height(h): ${side2}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -183,10 +175,11 @@ function Stiffner_front_edge() {
     });
   };
 
+
   return (
     <div>
-       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Stiffner Front Edge</h1>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+      <h1 className="heading">D-Section(Featherlite)</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
@@ -201,20 +194,16 @@ function Stiffner_front_edge() {
         <div className='box'>
           <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
-            <lable className="label" htmlFor="side1">Side (A) mm</lable>
+            <lable className="label" htmlFor="side1">Width (w) mm</lable>
             <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side2">Side (B) mm</lable>
+            <lable className="label" htmlFor="side2">Height (h) mm</lable>
             <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side3">Side (C) mm</lable>
-            <input className="input-field" id="side3" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="side4">Side (D) mm</lable>
-            <input className="input-field" id="side4" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="radius">Radius (R) mm</lable>
+            <input className="input-field" id="radius" type="number" value={radius} onChange={radiusChange} placeholder="Type something..." />
           </div>
           <div className="container1">
             <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
@@ -232,8 +221,8 @@ function Stiffner_front_edge() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={dShapGraphRef}><Stiffner_front_edge_graph side11={side1}  side22={side2} side33={side3} side44={side4} thickness1={thickness}outerRadius1={outerRadius}/>
-        </div></div>
+          <div ref={rectangleGraphRef}><D_section_graph side1={side1} side2={side2} radius1 = {radius} thickness1={thickness} outerRadius1={outerRadius}/></div>
+        </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
@@ -242,4 +231,4 @@ function Stiffner_front_edge() {
   );
 }
 
-export default Stiffner_front_edge;
+export default D_section;

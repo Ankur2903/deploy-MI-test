@@ -32,6 +32,9 @@ import image27 from './Image/Image-27.png';
 import image28 from './Image/Image-28.png';
 import image29 from './Image/Image-29.png';
 import image30 from './Image/Image-30.png';
+import image31 from './Image/Image-31.png';
+import image32 from './Image/Image-32.png';
+import image33 from './Image/Image-33.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -286,6 +289,14 @@ function FromTemp() {
           <ButtonText>Rectangle Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/d_section">
+            <Button>
+              <Image src={image33} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>D Section(Featherlite)</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/triangular">
             <Button>
               <Image src={image11} alt="Description of Image" />
@@ -508,6 +519,14 @@ function FromTemp() {
           <ButtonText>Stiffner-Front Edge</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/door_edge_profile">
+            <Button>
+              <Image src={image31} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Door Edge Profile</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/top_hat">
             <Button>
               <Image src={image12} alt="Description of Image" />
@@ -515,7 +534,16 @@ function FromTemp() {
           </Link>
           <ButtonText>Top Hat Section</ButtonText>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/thcm_m">
+            <Button>
+              <Image src={image32} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>THCM-M Section</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
+      
       </div>
     </div>
     </ButtonContainer>

@@ -47,6 +47,10 @@ import Stiffner_front_edge from './component/shap/Stiffner-front-edge';
 import Door_edge_profile from './component/shap/Door-edge-profile';
 import Thcm_m from './component/shap/THCM-M';
 import D_section from './component/shap/D-section';
+import Al_h_section from './component/shap/Al-h-section';
+import Al_lip_channel from './component/shap/Al-lip-channel';
+import Cover_tray from './component/shap/Cover-tray';
+import Double_center_mullion from './component/shap/Double-center-mullion';
 
 
 function App() {
@@ -118,6 +122,10 @@ function App() {
           <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
           <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner/>}/>}/>
           <Route exact path='/good-knight-tube' element={<PrivateRoute element={<Good_knight_tube/>}/>}/>
+          <Route exact path='/al-h-section' element={<PrivateRoute element={<Al_h_section/>}/>}/>
+          <Route exact path='/al-lip-channel' element={<PrivateRoute element={<Al_lip_channel/>}/>}/>
+          <Route exact path='/cover_tray' element={<PrivateRoute element={<Cover_tray/>}/>}/>
+          <Route exact path='/double_center_mullion' element={<PrivateRoute element={<Double_center_mullion/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

@@ -3,21 +3,28 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
-function Door_edge_profile_graph({ side11, side22, side33, side44, thickness1, outerRadius1}) {
-  const mx = Math.max(side11,(side22 + side33),side44);
+function Al_lip_channel_graph({ side1, side2, lip1, thickness1, outerRadius1, sendValuey}) {
+  const mx = Math.max(side1,side2);
   const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const side3 = (side33/mx)*100;
-  const side4 = (side44/mx)*100;
+  const sidex = (side1/mx)*100;
+  const sidey = (side2/mx)*100;
+  const lip = (lip1/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
+  const comy = 50
 
-  console.log({side1})
+
+  React.useEffect(() => {
+    sendValuey((comy/100)*mx);
+  }, [sendValuey]);
+
+
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
+  const arrowSize = 2; // Arrowhead size relative to the shape
+  const textOffset = 1; // Distance between the arrow and text
 
   const svgWidth = 200;
   const svgHeight = 200;
@@ -170,41 +177,41 @@ function Door_edge_profile_graph({ side11, side22, side33, side44, thickness1, o
 
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
+
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        {/* Line Shape */}
-        <rect x={50} y={150 - side1} width={thickness} height={side1 - outerRadius} fill="black"/>
-        <rect x={50 + outerRadius} y={150 - thickness} width={side2 - 2*outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + side2 - thickness} y={150 -side4 + outerRadius} width={thickness} height={side4 - 2*outerRadius} fill="black"/>
-        <rect x={50 + side2 + outerRadius- thickness} y={150 - side4} width={side3 - outerRadius + thickness} height={thickness} fill="black"/>
-        
-        
+
+
+        {/* L Shape */}
+        <rect x={50} y={150 - sidey + thickness} width={thickness} height={sidey-outerRadius - thickness} fill="black" />
+        <rect x={50 + sidex - thickness} y={150 - sidey + thickness} width={thickness} height={sidey-outerRadius - thickness} fill="black" />
+        <rect x={50+outerRadius} y={150 - thickness} width={sidex-2*outerRadius} height={thickness} fill="black" />
+        <rect x={50+thickness} y={150 - sidey + thickness} width={thickness} height={lip - thickness} fill="black" />
+        <rect x={50 + sidex - 2*thickness} y={150 - sidey + thickness} width={thickness} height={lip - thickness} fill="black" />
+
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness} centerY={150 - side4 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-       
-         {/* Horizontal Arrow for side1*/}
-         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
 
-        {/* Vertical Arrow for side2*/}
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>
+        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
 
-        {/* Vertical Arrow for side2*/}
-        <Linex x1={50 + side2} x2={50 + side2 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>
+        <CircleSector radius={thickness} centerX={50 + thickness} centerY={150 - sidey + thickness} angle={180} rotation={180} thickness={thickness}/>
 
-        {/* Horizontal Arrow for side4*/}
-        <Liney x1={55 + side2 + side3} x2={55 + side2 + side3} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
+        <CircleSector radius={thickness} centerX={50 + sidex - thickness} centerY={150 - sidey + thickness} angle={180} rotation={180} thickness={thickness}/>
 
+        {/* Horizontal Arrow for width */}
+        <Linex x1={50} x2={50 + sidex} y1={155} y2={155} text={'w'} val={side1} textHeight={5}/>
+
+        {/* Vertical Arrow for Height */}
+        <Liney x1={45} x2={45} y1={150 - sidey} y2={150} text={'h'} val={side2} textHeight={-17}/>
 
       </svg>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }
 
-export default Door_edge_profile_graph;
+export default Al_lip_channel_graph;

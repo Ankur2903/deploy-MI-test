@@ -35,6 +35,10 @@ import image30 from './Image/Image-30.png';
 import image31 from './Image/Image-31.png';
 import image32 from './Image/Image-32.png';
 import image33 from './Image/Image-33.png';
+import image34 from './Image/Image-34.png';
+import image35 from './Image/Image-35.png';
+import image36 from './Image/Image-36.png';
+import image37 from './Image/Image-37.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -374,6 +378,14 @@ function FromTemp() {
           <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/double_center_mullion">
+            <Button>
+              <Image src={image37} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Double Center Mullion</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/beam-window-frame">
             <Button>
               <Image src={image24} alt="Description of Image" />
@@ -495,6 +507,14 @@ function FromTemp() {
           <ButtonText>U-Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/al-lip-channel">
+            <Button>
+              <Image src={image35} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>AL-Lip Channel</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/triangular-slit">
             <Button>
               <Image src={image7} alt="Description of Image" />
@@ -535,12 +555,28 @@ function FromTemp() {
           <ButtonText>Top Hat Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/cover_tray">
+            <Button>
+              <Image src={image36} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Cover Tray</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/thcm_m">
             <Button>
               <Image src={image32} alt="Description of Image" />
             </Button>
           </Link>
           <ButtonText>THCM-M Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/al-h-section">
+            <Button>
+              <Image src={image34} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>AL H-Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       

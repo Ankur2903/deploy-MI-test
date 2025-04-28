@@ -25,7 +25,7 @@ const signup = async (req, res) => {
 
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
-        const date = now.toISOString().slice(11,16) + " " + now.toISOString().slice(0,10);;
+        const date = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
         const signupTime = date;
         const userModel = new UserModel({name, email, phoneNo, password, company, department, designation, manager, signupTime}) ;
         userModel.password = await bcrypt.hash(password, 10);
@@ -107,7 +107,7 @@ const login = async (req, res) => {
        )
        let now = new Date();
        now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
-       const date = now.toISOString().slice(11,16) + " " + now.toISOString().slice(0,10);;
+       const date = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
        const lastactivity = date;
        user.lastactivity = lastactivity;
        user.save();

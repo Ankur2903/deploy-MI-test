@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 function CollectData({setUsers, setPermission} ) {
+    const location = useLocation()
     useEffect(() => {
         const fetchUsers = async () => {
           try {
@@ -26,7 +28,7 @@ function CollectData({setUsers, setPermission} ) {
         };
     
         fetchUsers();
-      }, []);  // Runs only once on component mount
+      }, [location]);  // Runs only once on component mount
     
     return(
         null

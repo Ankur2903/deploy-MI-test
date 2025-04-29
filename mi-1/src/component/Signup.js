@@ -9,6 +9,7 @@ function Signup() {
   const [showPopup, setShowPopup] = useState(false);
   const closePopup = () => {
     setShowPopup(false);
+    navigate('/')
   };
   const [signupInfo, setSignupInfo] = useState({
     name: '',

@@ -212,7 +212,7 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
         <Linex x1={50} x2={50 + side4} y1={155} y2={155} text={'D'} val={side44} textHeight={5}/>
 
         {/* Vertical Arrow for A */}
-        <Liney x1={55 + side4} x2={55 + side4} y1={150 - side4} y2={150} text={'A'} val={side11} textHeight={17}/>
+        <Liney x1={55 + side4} x2={55 + side4} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={17}/>
 
         {/* Vertical Arrow for B */}
         <Liney x1={45} x2={45} y1={150 - side1 + side3} y2={150 - side1 + side3 + side2} text={'B'} val={side22} textHeight={-17}/>

@@ -21,7 +21,7 @@ function Double_center_mullion() {
     setOuterRadius(2*parseFloat(event.target.value));
   };
 
-  const [side1, setSide1] = useState(60);
+  const [side1, setSide1] = useState(40);
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
@@ -31,19 +31,19 @@ function Double_center_mullion() {
     setSide2(parseFloat(event.target.value));
   };
 
-  const [side3, setSide3] = useState(20);
+  const [side3, setSide3] = useState(10);
   const side3Change = (event) => {
     setSide3(parseFloat(event.target.value));
   };
 
   const angle = 0;
 
-  const [side4, setSide4] = useState(60);
+  const [side4, setSide4] = useState(80);
   const side4Change = (event) => {
     setSide4(parseFloat(event.target.value));
   };
 
-  const [side5, setSide5] = useState(20);
+  const [side5, setSide5] = useState(40);
   const side5Change = (event) => {
     setSide5(parseFloat(event.target.value));
   };

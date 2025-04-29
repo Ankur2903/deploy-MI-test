@@ -40,7 +40,7 @@ function Signup() {
       return handleError('Name, Email, Company or, password are required')
     }
     if(password !== confirmPassword){
-      return handleError('password and confirm Password are not equil')
+      return handleError('password and confirm Password are not equal')
     }
     try {
       const url = "https://deploy-mi-test-api.vercel.app/auth/signup";

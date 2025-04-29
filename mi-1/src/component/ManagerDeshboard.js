@@ -151,7 +151,7 @@ const ManagerDashboard = () => {
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteUser(selectedUserId)}>Update</button>
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteUser(selectedUserId)}>Remove</button>
                 </div>
               </div>
             </div>

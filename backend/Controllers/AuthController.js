@@ -76,14 +76,15 @@ const signup = async (req, res) => {
         };
         // const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
         const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
-        setTimeout(async() => {
-            try {
-                const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
-                console.log("Email sent after 1 minute:", response3);
-              } catch (error) {
-                console.error("Error sending email:", error);
-              }
-        },5000)
+        const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
+        // setTimeout(async() => {
+        //     try {
+        //         const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
+        //         console.log("Email sent after 1 minute:", response3);
+        //       } catch (error) {
+        //         console.error("Error sending email:", error);
+        //       }
+        // },5000)
         
 
         res.status(201)

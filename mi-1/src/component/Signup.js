@@ -180,7 +180,7 @@ function Signup() {
                   {showPopup && (
           <div style={ {position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', textAlign: 'center'}}>
-              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent. Please note that the approval process may take up to 24 hours.</p>
+              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent.Approval process may take up to 24 hours.</p>
               <button onClick={closePopup} style={{marginTop: '10px', padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', cursor: 'pointer'}}>Close</button>
             </div>
           </div>

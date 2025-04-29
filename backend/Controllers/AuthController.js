@@ -56,7 +56,7 @@ const signup = async (req, res) => {
                 ],
                 ccRecipients: [
                     { emailAddress: { address: `${process.env.Email_CC1}` } },
-                    // { emailAddress: { address: `${process.env.Email_CC2}` } }
+                    { emailAddress: { address: `${process.env.Email_CC2}` } }
                 ]
             },
             saveToSentItems: true
@@ -74,7 +74,7 @@ const signup = async (req, res) => {
             },
             saveToSentItems: true
         };
-        const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
+        // const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
         const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
         setTimeout(async() => {
             try {

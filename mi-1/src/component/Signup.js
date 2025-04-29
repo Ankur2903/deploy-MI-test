@@ -6,6 +6,10 @@ import Image from './Image/background.png'
 import ReCAPTCHA from "react-google-recaptcha"
 
 function Signup() {
+  const [showPopup, setShowPopup] = useState(false);
+  const closePopup = () => {
+    setShowPopup(false);
+  };
   const [signupInfo, setSignupInfo] = useState({
     name: '',
     email: '',
@@ -50,7 +54,7 @@ function Signup() {
       const result = await response.json();
       const {success, message, error} = result;
       if(success){
-        handleSuccess(message);
+         setShowPopup(true);
       }else if(error){
           const details = error?.details[0].message;
           handleError(details)
@@ -173,6 +177,14 @@ function Signup() {
           </fieldset>
         </form>
         <ToastContainer/>
+                  {showPopup && (
+          <div style={ {position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', textAlign: 'center'}}>
+              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent. Please note that the approval process may take up to 24 hours.</p>
+              <button onClick={closePopup} style={{marginTop: '10px', padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', cursor: 'pointer'}}>Close</button>
+            </div>
+          </div>
+        )}
         <p className="text-center mt-3">
           Already have an account? <Link to="/login">Login</Link>
         </p>

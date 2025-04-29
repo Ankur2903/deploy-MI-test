@@ -75,7 +75,7 @@ const signup = async (req, res) => {
             saveToSentItems: true
         };
         const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
-        // const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
+        const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
         const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
         // setTimeout(async() => {
         //     try {

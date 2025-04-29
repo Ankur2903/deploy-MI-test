@@ -61,22 +61,22 @@ const signup = async (req, res) => {
             },
             saveToSentItems: true
         };
-        // const email3 = {
-        //     message: {
-        //         subject: "Approval request",
-        //         body: {
-        //             contentType: "Text",
-        //             content: `Dear ${name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account on https://miforming.com/login.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}. \n\nThanks and Regards,\nIT-Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
-        //         },
-        //         toRecipients: [
-        //             { emailAddress: { address: `${email}` } }
-        //         ]
-        //     },
-        //     saveToSentItems: true
-        // };
+        const email3 = {
+            message: {
+                subject: "Approval request",
+                body: {
+                    contentType: "Text",
+                    content: `Dear ${name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account on https://miforming.com/login.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}. \n\nThanks and Regards,\nIT-Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
+                },
+                toRecipients: [
+                    { emailAddress: { address: `${email}` } }
+                ]
+            },
+            saveToSentItems: true
+        };
         const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
         const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
-        // const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
+        const response3 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email3);
 
         res.status(201)
         .json({

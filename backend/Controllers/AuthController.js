@@ -83,7 +83,7 @@ const signup = async (req, res) => {
               } catch (error) {
                 console.error("Error sending email:", error);
               }
-        },20000)
+        },5000)
         
 
         res.status(201)

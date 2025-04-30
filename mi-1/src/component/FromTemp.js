@@ -39,6 +39,11 @@ import image34 from './Image/Image-34.png';
 import image35 from './Image/Image-35.png';
 import image36 from './Image/Image-36.png';
 import image37 from './Image/Image-37.png';
+import image38 from './Image/Image-38.png';
+import image39 from './Image/Image-39.png';
+import image40 from './Image/Image-40.png';
+import image41 from './Image/Image-41.png';
+
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -394,6 +399,30 @@ function FromTemp() {
           <ButtonText>Beam Window Frame</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/beam-window-frame-1">
+            <Button>
+              <Image src={image38} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>40*20*10*1.0 Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/z-section">
+            <Button>
+              <Image src={image40} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Z Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/waist-rail-section">
+            <Button>
+              <Image src={image39} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Waist Rail Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/stiffner">
             <Button>
               <Image src={image25} alt="Description of Image" />
@@ -408,6 +437,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Good Knight Tube</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/sole-bar-section">
+            <Button>
+              <Image src={image41} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Sole Bar Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

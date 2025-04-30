@@ -51,6 +51,10 @@ import Al_h_section from './component/shap/Al-h-section';
 import Al_lip_channel from './component/shap/Al-lip-channel';
 import Cover_tray from './component/shap/Cover-tray';
 import Double_center_mullion from './component/shap/Double-center-mullion';
+import Beam_window_frame_1 from './component/shap/Beam-window-frame-1';
+import Waist_rail_section from './component/shap/Waist-rail-section';
+import Z_section from './component/shap/Z-section';
+import Sole_bar_section from './component/shap/Sole-bar-section';
 
 
 function App() {
@@ -126,6 +130,10 @@ function App() {
           <Route exact path='/al-lip-channel' element={<PrivateRoute element={<Al_lip_channel/>}/>}/>
           <Route exact path='/cover_tray' element={<PrivateRoute element={<Cover_tray/>}/>}/>
           <Route exact path='/double_center_mullion' element={<PrivateRoute element={<Double_center_mullion/>}/>}/>
+          <Route exact path='/beam-window-frame-1' element={<PrivateRoute element={<Beam_window_frame_1/>}/>}/>
+          <Route exact path='/waist-rail-section' element={<PrivateRoute element={<Waist_rail_section/>}/>}/>
+          <Route exact path='/z-section' element={<PrivateRoute element={<Z_section/>}/>}/>
+          <Route exact path='/sole-bar-section' element={<PrivateRoute element={<Sole_bar_section/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

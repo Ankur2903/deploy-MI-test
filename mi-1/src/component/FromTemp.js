@@ -43,7 +43,7 @@ import image38 from './Image/Image-38.png';
 import image39 from './Image/Image-39.png';
 import image40 from './Image/Image-40.png';
 import image41 from './Image/Image-41.png';
-
+import image42 from './Image/Image-42.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -614,6 +614,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>AL H-Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/sill-pressing">
+            <Button>
+              <Image src={image42} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Sill Pressing</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       

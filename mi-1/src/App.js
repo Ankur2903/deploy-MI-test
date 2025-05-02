@@ -55,6 +55,7 @@ import Beam_window_frame_1 from './component/shap/Beam-window-frame-1';
 import Waist_rail_section from './component/shap/Waist-rail-section';
 import Z_section from './component/shap/Z-section';
 import Sole_bar_section from './component/shap/Sole-bar-section';
+import Sill_pressing from './component/shap/Sill-pressing';
 
 
 function App() {
@@ -134,6 +135,7 @@ function App() {
           <Route exact path='/waist-rail-section' element={<PrivateRoute element={<Waist_rail_section/>}/>}/>
           <Route exact path='/z-section' element={<PrivateRoute element={<Z_section/>}/>}/>
           <Route exact path='/sole-bar-section' element={<PrivateRoute element={<Sole_bar_section/>}/>}/>
+          <Route exact path='/sill-pressing' element={<PrivateRoute element={<Sill_pressing/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

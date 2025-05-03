@@ -44,6 +44,7 @@ import image39 from './Image/Image-39.png';
 import image40 from './Image/Image-40.png';
 import image41 from './Image/Image-41.png';
 import image42 from './Image/Image-42.png';
+import image43 from './Image/Image-43.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -445,6 +446,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Sole Bar Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/trapiz-tube">
+            <Button>
+              <Image src={image43} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Trapiz Tube</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

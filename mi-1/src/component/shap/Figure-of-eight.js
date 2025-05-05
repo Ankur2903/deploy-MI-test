@@ -15,7 +15,7 @@ function Figure_of_eight() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(2);
+  const [thickness, setThickness] = useState(3);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
@@ -51,7 +51,7 @@ function Figure_of_eight() {
     setr2(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(4);
+  const [outerRadius, setOuterRadius] = useState(6);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
@@ -59,40 +59,20 @@ function Figure_of_eight() {
   
 
   const aa = Math.PI/180
-  const angle1 = 180 - angle
+  const angle1 = angle
+  const x1 = side1 + side3 - r1/Math.tan(angle*aa/2)
+  const y1 = r1
 
-  const x1 = side1  + side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) + r1*Math.sin((aa)*angle1);
-  const y1 = r1 -  r1*Math.cos((aa)*angle1);
+  const x2 = x1 + r1*Math.sin(aa*angle) - (side3 - outerRadius - r1/Math.tan(aa*angle/2))*Math.cos(aa*angle) - outerRadius*Math.sin(aa*angle) 
+  const y2 = y1 + r1*Math.cos(aa*angle) + (side3 - outerRadius - r1/Math.tan(aa*angle/2))*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle)
 
-  const x2 = x1 + (side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) - outerRadius)*Math.cos((aa)*angle1) - outerRadius*Math.sin((aa)*angle1);
-  const y2 = y1 + (side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) - outerRadius)*Math.sin((aa)*angle1) + outerRadius*Math.cos((aa)*angle1)
+  const x3 = x2 - (side2 - 2*outerRadius + thickness)*Math.sin(aa*angle) - (2*outerRadius - thickness)*Math.cos(aa*angle)
+  const y3 = y2 - (side2 - 2*outerRadius + thickness)*Math.cos(aa*angle) + (2*outerRadius - thickness)*Math.sin(aa*angle)
 
-  const x3 = x2 + outerRadius*Math.cos(aa*angle1);
-  const y3 = y2 + outerRadius*Math.sin(aa*angle1);
+  const x4 = x3 - (outerRadius - thickness)*Math.sin(aa*angle) - (side1 - 2*outerRadius + thickness)*Math.cos(aa*angle) - outerRadius*Math.sin(aa*angle)
+  const y4 = y3 - (outerRadius - thickness)*Math.cos(aa*angle) + (side1 - 2*outerRadius + thickness)*Math.sin(aa*angle) - outerRadius*Math.cos(aa*angle)
 
-  const x4 = x3 - (side2 - 2*outerRadius + thickness)*Math.sin(aa*angle1) + (outerRadius - thickness)*Math.cos(aa*angle1);
-  const y4 = y3 + (side2 - 2*outerRadius + thickness)*Math.cos(aa*angle1) + (outerRadius - thickness)*Math.sin(aa*angle1);
-
-  const x5 = x4 - (outerRadius - thickness)*Math.sin(aa*angle1);
-  const y5 = y4 + (outerRadius - thickness)*Math.cos(aa*angle1);
-
-  const x6 = x5 + (side1 - 2*outerRadius + thickness)*Math.cos(aa*angle1)  - outerRadius*Math.sin((aa)*angle1);
-  const y6 = y5 + (side1 - 2*outerRadius + thickness)*Math.sin(aa*angle1)  + outerRadius*Math.cos((aa)*angle1);
-
-  const x7 = x6 + outerRadius*Math.cos(aa*angle1);
-  const y7 = y6 + outerRadius*Math.sin(aa*angle1);
-
-  const len = (x7 - r2 - r2*Math.cos(aa*angle1))/(Math.sin(aa*angle1))
-
-  const x8 = x7 - (len)*Math.sin(aa*angle1) - r2*Math.cos(aa*angle1);
-  const y8 = y7 + (len)*Math.cos(aa*angle1) - r2*Math.sin(aa*angle1);
-
-  const x9 = x8 - r2;
-  const y9 = y8 - (len);
-
-  
-  const len1 = ((1-Math.cos(aa*angle))*(side1 + side3 - r2 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle)) + (Math.sin(aa*angle))*(r1 - side2 - outerRadius)))/(Math.sin(aa*angle));
-  const len2 = side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle)) - outerRadius;
+  const l = (x4 - r2  - (outerRadius - r2)*Math.cos(aa*angle))/Math.sin(aa*angle)
 
   const [weightPerLength, setWeightPerLenght] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
@@ -117,39 +97,26 @@ function Figure_of_eight() {
   const create3DShapes = () => {
     const shapes = [];
     const shape1 = new THREE.Shape();
-    shape1.moveTo(outerRadius,-side2);
-    shape1.lineTo(side1 - outerRadius + thickness,-side2)
-    shape1.absarc(side1 - outerRadius + thickness,outerRadius - thickness-side2,outerRadius - thickness,3*Math.PI/2,0*Math.PI/2,false)
-    shape1.lineTo(side1,-outerRadius)
-    shape1.absarc(side1 + outerRadius, - outerRadius,outerRadius,2*Math.PI/2,1*Math.PI/2,true)
-    shape1.lineTo(side1 + outerRadius + side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) - outerRadius,0)
-    shape1.absarc(side1 + (side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1))), - r1,r1,1*Math.PI/2,1*Math.PI/2 - aa*angle1,true)
-    shape1.lineTo(x1 + (side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) - outerRadius)*Math.cos(aa*angle1),- y1 -(side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1)) - outerRadius)*Math.sin(aa*angle1))
-    shape1.absarc(x2,-y2,outerRadius,Math.PI/2 - aa*angle1,2*Math.PI-aa*angle1,true)
-    shape1.lineTo(x3 - (side2 - 2*outerRadius + thickness)*Math.sin(aa*angle1),- (side2 - 2*outerRadius + thickness)*Math.cos(aa*angle1) - y3)
-    shape1.absarc(x4,-y4,outerRadius - thickness,Math.PI - aa*angle1,3*Math.PI/2 - aa*angle1,false)
-    shape1.lineTo(x5 + (side1 - 2*outerRadius + thickness)*Math.cos(aa*angle1),-y5 - (side1 - 2*outerRadius + thickness)*Math.sin(aa*angle1))
-    shape1.absarc(x6,-y6,outerRadius, Math.PI/2  - aa*angle1,4*Math.PI/2 - aa*angle1,true)
-    shape1.lineTo(x7 - len*Math.sin(aa*angle1),-y7 - len*Math.cos(aa*angle1))
-    shape1.absarc(x8,-y8,r2,2*Math.PI - aa*angle1,2*Math.PI/2,true)
-    shape1.lineTo(0, -side2 - outerRadius)
-    shape1.lineTo(thickness,-side2 - outerRadius)
-    shape1.lineTo(thickness,-side2 - outerRadius - len)
-    shape1.absarc(x8,-y8,r2 - thickness,2*Math.PI/2,2*Math.PI - aa*angle1,false)
-    shape1.lineTo(x7 - thickness*Math.cos(aa*angle1),thickness*Math.sin(aa*angle1) - y7)
-    shape1.absarc(x6,-y6,outerRadius - thickness,4*Math.PI/2 - aa*angle1,Math.PI/2  - aa*angle1,false)
-    // shape1.lineTo(x5 - thickness*Math.sin(aa*angle1),-y5 - thickness*Math.sin(aa*angle1))
-    shape1.absarc(x4,-y4,outerRadius,3*Math.PI/2 - aa*angle1,Math.PI - aa*angle1,true)
-    shape1.lineTo(x3- thickness*Math.cos(aa*angle1),thickness*Math.sin(aa*angle1) - y3)
-    shape1.absarc(x2,-y2,outerRadius - thickness,2*Math.PI-aa*angle1,Math.PI/2 - aa*angle1,false)
-    // shape1.lineTo(x1- thickness*Math.sin(aa*angle1),-y1- thickness*Math.sin(aa*angle1))
-    shape1.absarc(side1 + (side3 - r1*Math.sin(Math.min(Math.PI/2, (aa)*angle1))), - r1,r1 - thickness,1*Math.PI/2 - aa*angle1,1*Math.PI/2,false)
-    shape1.lineTo(side1 + outerRadius,-thickness)
-    shape1.absarc(side1 + outerRadius, - outerRadius,outerRadius - thickness,1*Math.PI/2,2*Math.PI/2,false)
-    shape1.lineTo(side1 + thickness, outerRadius - side2)
-    shape1.absarc(side1 - outerRadius + thickness,outerRadius - thickness-side2,outerRadius,0*Math.PI/2,3*Math.PI/2,true)
-    shape1.lineTo(outerRadius,-side2 - thickness)
+    shape1.moveTo(outerRadius, 0 - side2 - thickness)
+    shape1.lineTo(outerRadius, 0 - side2)
+    shape1.absarc(side1 - outerRadius + thickness, 0 - side2  + outerRadius - thickness, outerRadius - thickness,  3*Math.PI/2, 0, false)
+    shape1.absarc(side1 + outerRadius, 0-outerRadius, outerRadius, Math.PI, Math.PI/2, true)
+    shape1.absarc(x1, 0-y1, r1, Math.PI/2, angle*aa - Math.PI/2, true)
+    shape1.absarc(x2,0-y2, outerRadius, angle*aa - Math.PI/2, angle*aa - Math.PI, true )
+    shape1.absarc(x3, 0-y3, outerRadius - thickness, angle*aa, angle*aa + Math.PI/2, false)
+    shape1.absarc(x4, 0 - y4, outerRadius,angle*aa - Math.PI/2, aa*angle - Math.PI, true )
+    shape1.absarc(r2, 0 - side2 - outerRadius - l, r2, aa*angle - Math.PI, Math.PI, true )
+    shape1.lineTo(0, 0 - side2 - outerRadius)
+    shape1.lineTo(thickness, 0 - side2 - outerRadius)
+    shape1.absarc(r2, 0 - side2 - outerRadius - l, r2 - thickness, Math.PI, aa*angle - Math.PI, false )
+    shape1.absarc(x4, 0 - y4, outerRadius - thickness, aa*angle - Math.PI,angle*aa - Math.PI/2, false )
+    shape1.absarc(x3, 0-y3, outerRadius, angle*aa + Math.PI/2 , angle*aa, true)
+    shape1.absarc(x2,0-y2, outerRadius - thickness, angle*aa - Math.PI, angle*aa - Math.PI/2, false )
+    shape1.absarc(x1, 0-y1, r1 - thickness, angle*aa - Math.PI/2, Math.PI/2, false)
+    shape1.absarc(side1 + outerRadius, 0-outerRadius, outerRadius - thickness, Math.PI/2, Math.PI, false)
+    shape1.absarc(side1 - outerRadius + thickness, 0 - side2  + outerRadius - thickness, outerRadius, 0, 3*Math.PI/2, true)
     shapes.push(shape1)
+    shape1.lineTo(outerRadius, 0 - side2 - thickness)
     
 
     const shape2 = new THREE.Shape();
@@ -171,7 +138,7 @@ function Figure_of_eight() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1, side2,side3,r1,r2,angle,angle1, outerRadius, thickness, length]);
+  }, [side1, side2,side3,r1,r2,angle, outerRadius, thickness, length]);
 
 
   const Figure_of_eightGraphRef = useRef()
@@ -225,20 +192,15 @@ function Figure_of_eight() {
   };
 
   const submitClick = () => {
-    setWeightPerLenght((7850*(3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(len1) + 2*(len2))*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*(3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(l) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(len1) + 2*(len2))*thickness*0.000001*length).toFixed(3));
+    setTotalWeight((7850*(3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(l) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness*0.000001*length).toFixed(3));
 
-    setStripWidth((3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(len1) + 2*(len2)).toFixed(3));    
+    setStripWidth((3*Math.PI*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + aa*(angle)*(r2 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(l) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2))).toFixed(3));    
 
-    setOutLine((3*Math.PI*(2*outerRadius - thickness) + aa*(180 - angle)*(2*r1 - thickness) + aa*(angle)*(2*r2 - thickness) + 4*(side1 - 2*outerRadius + thickness) + 4*(side2 - 2*outerRadius + thickness) + 4*(len1) + 4*(len2) + 2* thickness).toFixed(3))
+    setOutLine((3*Math.PI*(2*outerRadius - thickness) + aa*(180 - angle)*(2*r1 - thickness) + aa*(angle)*(2*r2 - thickness) + 4*(side1 - 2*outerRadius + thickness) + 4*(side2 - 2*outerRadius + thickness) + 4*(l) + 4*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)) + 2* thickness).toFixed(3))
     
-    setArea((1.5*Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + aa*(90 - angle/2)*(Math.pow(r1,2) - Math.pow(r1 - thickness,2)) + aa*(angle/2)*(Math.pow(r2,2) - Math.pow(r2 - thickness,2)) + (2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(len1) + 2*(len2))*thickness).toFixed(3))
-
-    // setInertiax(((1)*0.0001).toFixed(2))
-
-    // setInertiay(((1)*0.0001).toFixed(2));
-
+    setArea((1.5*Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + aa*(90 - angle/2)*(Math.pow(r1,2) - Math.pow(r1 - thickness,2)) + aa*(angle/2)*(Math.pow(r2,2) - Math.pow(r2 - thickness,2)) + (2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + 2*(l) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness).toFixed(3))
   }
 
   const resetClick = () => {

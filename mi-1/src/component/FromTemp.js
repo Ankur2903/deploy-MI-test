@@ -45,6 +45,7 @@ import image40 from './Image/Image-40.png';
 import image41 from './Image/Image-41.png';
 import image42 from './Image/Image-42.png';
 import image43 from './Image/Image-43.png';
+import image44 from './Image/Image-44.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -173,7 +174,6 @@ function FromTemp() {
     };
 
     const [dividerHeight, setDividerHeight] = useState(0);
-  
     useEffect(() => {
       const updateHeight = () => {
         const height = document.documentElement.scrollHeight - 10;
@@ -181,7 +181,6 @@ function FromTemp() {
       };
   
       requestAnimationFrame(updateHeight); // waits for layout to finish
-  
       // Optional: add resize listener if height may change dynamically
       window.addEventListener("resize", updateHeight);
       return () => window.removeEventListener("resize", updateHeight);
@@ -454,6 +453,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Trapiz Tube</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/guide-rail">
+            <Button>
+              <Image src={image44} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>40*10 Guide Rail</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

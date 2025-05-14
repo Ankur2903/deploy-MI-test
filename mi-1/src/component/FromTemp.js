@@ -46,6 +46,10 @@ import image41 from './Image/Image-41.png';
 import image42 from './Image/Image-42.png';
 import image43 from './Image/Image-43.png';
 import image44 from './Image/Image-44.png';
+import image45 from './Image/Image-45.png';
+import image46 from './Image/Image-46.png';
+import image47 from './Image/Image-47.png';
+import image48 from './Image/Image-48.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -383,6 +387,14 @@ function FromTemp() {
           <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
+          <Link to="/a-post">
+            <Button>
+              <Image src={image45} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>A-Post</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
           <Link to="/double_center_mullion">
             <Button>
               <Image src={image37} alt="Description of Image" />
@@ -638,6 +650,38 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Sill Pressing</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/lower-frame">
+            <Button>
+              <Image src={image46} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Lower Frame</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/support-tube">
+            <Button>
+              <Image src={image47} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Support Tube</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/al-lip-cover">
+            <Button>
+              <Image src={image48} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Al Lip-Cover Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/craftsman-profile">
+            <Button>
+              <Image src={image48} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Craftsman Profile</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       

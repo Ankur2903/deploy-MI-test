@@ -2,32 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
-import LineAtTheta from './Shap/LineAtθ';
 
-function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thickness1, outerRadius1}) {
-  const aa = Math.PI/180
-  const mx = Math.max(side11 + side33, side11 + side33 - side33*Math.cos(aa*angle1), side11 + side33 - side33*Math.cos(aa*angle1) - side22*Math.sin(aa*angle1) +  - side11*Math.cos(aa*angle1))
-  const side1 = side11*100/mx
-  const side2 = side22*100/mx
-  const side3 = side33*100/mx
-  const r1 = r11*100/mx
-  const r2 = r22*100/mx
-  const thickness = thickness1*100/mx
-  const outerRadius = outerRadius1*100/mx
+function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, side77,thickness1, outerRadius1}) {
+  const mx = Math.max(side11,side22, side33, side11 - 2*outerRadius1 + side66, side11 - 2*outerRadius1 + side77, side11 - 4*outerRadius1 + side66 + side77);
+  const thickness = (thickness1/mx)*100;
+  const side1 = (side11/mx)*100;
+  const side2 = (side22/mx)*100;
+  const side3 = (side33/mx)*100;
+  const side4 = (side44/mx)*100;
+  const side5 = (side55/mx)*100;
+  const side6 = (side66/mx)*100;
+  const side7 = (side77/mx)*100;
+  const outerRadius = (outerRadius1/mx)*100;
 
-  const x1 = 50 + side1 + side3 - r1/Math.tan(angle1*aa/2)
-  const y1 = 50 + r1
 
-  const x2 = x1 + r1*Math.sin(aa*angle1) - (side3 - outerRadius - r1/Math.tan(aa*angle1/2))*Math.cos(aa*angle1) - outerRadius*Math.sin(aa*angle1) 
-  const y2 = y1 + r1*Math.cos(aa*angle1) + (side3 - outerRadius - r1/Math.tan(aa*angle1/2))*Math.sin(aa*angle1) - outerRadius*Math.cos(aa*angle1)
-
-  const x3 = x2 - (side2 - 2*outerRadius + thickness)*Math.sin(aa*angle1) - (2*outerRadius - thickness)*Math.cos(aa*angle1)
-  const y3 = y2 - (side2 - 2*outerRadius + thickness)*Math.cos(aa*angle1) + (2*outerRadius - thickness)*Math.sin(aa*angle1)
-
-  const x4 = x3 - (outerRadius - thickness)*Math.sin(aa*angle1) - (side1 - 2*outerRadius + thickness)*Math.cos(aa*angle1) - outerRadius*Math.sin(aa*angle1)
-  const y4 = y3 - (outerRadius - thickness)*Math.cos(aa*angle1) + (side1 - 2*outerRadius + thickness)*Math.sin(aa*angle1) - outerRadius*Math.cos(aa*angle1)
-
-  const l = (x4 - 50 - r2  - (outerRadius - r2)*Math.cos(aa*angle1))/Math.sin(aa*angle1)
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -190,43 +178,48 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
+
+
         {/* L Shape */}
-        <rect x={50} y={50 + side2 + outerRadius} width={thickness} height={l} fill="black" />
-        <rect x={50 + outerRadius} y={50 + side2} width={side1 - 2*outerRadius + thickness} height={thickness} fill="black" />
-        <rect x={50 + side1} y={50 + outerRadius} width={thickness} height={side2 - 2*outerRadius + thickness} fill="black" />
-        <rect x={50 + side1 + outerRadius} y={50} width={side3 - outerRadius - r1/Math.tan(angle1*aa/2)} height={thickness} fill="black" />
-        <LineAtTheta x={x1 + r1*Math.sin(aa*angle1)} y={y1 + r1*Math.cos(aa*angle1)} w={side3 - outerRadius - r1/Math.tan(angle1*aa/2)} h={thickness} angle={180 - angle1} fill="black" />
-        <LineAtTheta x={x2 - outerRadius*Math.cos(aa*angle1)} y={y2 + outerRadius*Math.sin(aa*angle1)} w={side2 - 2*outerRadius + thickness} h={thickness} angle={270 - angle1} fill="black" />
-        <LineAtTheta x={x3 - (outerRadius - thickness)*Math.sin(aa*angle1)} y={y3 - (outerRadius - thickness)*Math.cos(aa*angle1)} w={side1 - 2*outerRadius +thickness} h={thickness} angle={180 - angle1} fill="black" />
-        <LineAtTheta x={x4 - outerRadius*Math.cos(aa*angle1)} y={y4 + outerRadius*Math.sin(aa*angle1)} w={l} h={thickness} angle={270- angle1} fill="black" />
+        <rect x={100 - side1/2 + outerRadius} y={150 - thickness} width={side1 - 2*outerRadius} height={thickness} fill="black" />
+        <rect x={100 - side1/2} y={150 - side2 + side4 + outerRadius - thickness} width={thickness} height={side2 - side4 - 2*outerRadius + thickness} fill="black" />
+        <rect x={100 + side1/2 - thickness} y={150 - side3 + side5 + outerRadius - thickness} width={thickness} height={side3 - side5 - 2*outerRadius + thickness} fill="black" />
+        <rect x={100 + side1/2 - 2*outerRadius} y={150 - side3 + outerRadius} width={thickness} height={side5 - 2*outerRadius} fill="black" />
+        <rect x={100 - side1/2 + 2*outerRadius - thickness} y={150 - side2 + outerRadius} width={thickness} height={side4 - 2*outerRadius} fill="black" />
+        <rect x={100 - side1/2 + 2*outerRadius - side6} y={150 - side2} width={side6 - outerRadius} height={thickness} fill="black" />
+        <rect x={100 + side1/2 - outerRadius} y={150 - side3} width={side7 - outerRadius} height={thickness} fill="black" />
 
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={50 + side2 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius + thickness} centerY={50 +  side2 - outerRadius+ thickness} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side1 + outerRadius} centerY={50 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={r1} centerX={x1} centerY={y1} angle={180 - angle1} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x2} centerY={y2} angle={90} rotation={90 - angle1} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x3} centerY={y3} angle={90} rotation={270 - angle1} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x4} centerY={y4} angle={90} rotation={90 - angle1} thickness={thickness}/>
-        <CircleSector radius={r2} centerX={50 + r2} centerY={50 + side2 + l + outerRadius} angle={angle1} rotation={180 - angle1} thickness={thickness}/>
-       
+        <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - side2 + side4 + outerRadius - thickness} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - side3 + side5 + outerRadius - thickness} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - side2 + side4 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - side3 + side5 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - side3 +  outerRadius} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - side2 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
+        
 
-        {/*  Horizontal Arrow for side1*/}
-        <Linex x1={50 + side1} x2={50 + side1 + side3} y1={45} y2={45} text={'C'} val={side33} textHeight={-10}/>
+        {/* Horizontal Arrow for Side1 */}
+        <Linex  x1={100 - side1/2} x2={100 + side1/2} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>
 
-        {/* Horizontal Arrow for side1 */}
-        <Linex x1={50} x2={50 + side1} y1={45 + side2} y2={45 + side2} text={'A'} val={side11} textHeight={-10}/>
+        {/* Horizontal Arrow for Side6 */}
+        <Linex  x1={100 - side1/2 + 2*outerRadius - side6} x2={100 - side1/2 + 2*outerRadius} y1={145 - side2} y2={145 - side2} text={'F'} val={side66} textHeight={-5}/>
 
-        {/* Vertical Arrow for side2 */}
-        <Liney x1={57 + side1} x2={57+side1} y1={50} y2={50 + side2} text={'B'} val={side22} textHeight={17}/>
+        {/* Horizontal Arrow for Side7 */}
+        <Linex  x1={100 + side1/2 - 2*outerRadius} x2={100 + side1/2 - 2*outerRadius + side7} y1={145 - side3} y2={145 - side3} text={'G'} val={side77} textHeight={-5}/>
 
-        {/*Vertical Arrow for r2 */}
-        <Linex x1={50} x2={50 + r2} y1={55 + side2 + outerRadius + l + r2} y2={55 + side2 + outerRadius + l + r2} text={'R2'} val={r22} textHeight={10}/>
+        {/* Vertical Arrow for Side2*/}
+        <Liney x1={95 - side1/2 + 2*outerRadius - side6} x2={95 - side1/2 + 2*outerRadius - side6} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={-17}/>   
 
-        {/*Horizontal Arrow for r1 */}
-        <Liney x1={55 + side1 + side3} x2={55 + side1 + side3} y1={50} y2={50 + r1} text={'R1'} val={r11} textHeight={17}/>
+        {/* Vertical Arrow for Side4 */}
+        <Liney x1={105 + side1/2 - 2*outerRadius + side7} x2={105 + side1/2 - 2*outerRadius + side7} y1={150 - side3} y2={150} text={'C'} val={side33} textHeight={17}/>  
 
+         {/* Vertical Arrow for Side4 */}
+        <Liney x1={95 + side1/2 - 2*outerRadius} x2={95 + side1/2 - 2*outerRadius} y1={150 - side3} y2={150 - side3 + side5} text={'E'} val={side55} textHeight={-17}/>   
 
+        {/* Vertical Arrow for Side4 */}
+        <Liney x1={90 - side1/2 + 2*outerRadius - side6} x2={90 - side1/2 + 2*outerRadius - side6} y1={150 - side2} y2={150 - side2 + side4} text={'D'} val={side44} textHeight={-17}/>     
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
@@ -236,4 +229,4 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
   );
 }
 
-export default Figure_of_eight_graph;
+export default Lower_frame_graph;

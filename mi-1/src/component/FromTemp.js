@@ -675,14 +675,6 @@ function FromTemp() {
           </Link>
           <ButtonText>Al Lip-Cover Section</ButtonText>
         </ButtonWrapper>
-        <ButtonWrapper>
-          <Link to="/craftsman-profile">
-            <Button>
-              <Image src={image48} alt="Description of Image" />
-            </Button>
-          </Link>
-          <ButtonText>Craftsman Profile</ButtonText>
-        </ButtonWrapper>
       </ButtonWrapperContainer>
       
       </div>

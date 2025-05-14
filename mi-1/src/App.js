@@ -58,6 +58,10 @@ import Sole_bar_section from './component/shap/Sole-bar-section';
 import Sill_pressing from './component/shap/Sill-pressing';
 import Trapiz_tube from './component/shap/Trapiz-tube';
 import Guide_rail from './component/shap/Guide-rail';
+import A_post from './component/shap/A-post';
+import Lower_frame from './component/shap/Lower-frame';
+import Support_tube from './component/shap/Support-tube';
+import Al_lip_cover from './component/shap/Al-lip-cover';
 
 
 function App() {
@@ -140,6 +144,10 @@ function App() {
           <Route exact path='/sill-pressing' element={<PrivateRoute element={<Sill_pressing/>}/>}/>
           <Route exact path='/trapiz-tube' element={<PrivateRoute element={<Trapiz_tube/>}/>}/> 
           <Route exact path='/guide-rail' element={<PrivateRoute element={<Guide_rail/>}/>}/>
+          <Route exact path='/a-post' element={<PrivateRoute element={<A_post/>}/>}/>
+          <Route exact path='/support-tube' element={<PrivateRoute element={<Support_tube/>}/>}/>
+          <Route exact path='/lower-frame' element={<PrivateRoute element={<Lower_frame/>}/>}/>
+          <Route exact path='/al-lip-cover' element={<PrivateRoute element={<Al_lip_cover/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

@@ -62,7 +62,9 @@ import A_post from './component/shap/A-post';
 import Lower_frame from './component/shap/Lower-frame';
 import Support_tube from './component/shap/Support-tube';
 import Al_lip_cover from './component/shap/Al-lip-cover';
-
+import Niko_bts from './component/shap/Niko-bts';
+import M_diamond_tube from './component/shap/M-diamond-tube';
+import Al_c_section from './component/shap/Al-c-section';
 
 function App() {
 
@@ -148,6 +150,9 @@ function App() {
           <Route exact path='/support-tube' element={<PrivateRoute element={<Support_tube/>}/>}/>
           <Route exact path='/lower-frame' element={<PrivateRoute element={<Lower_frame/>}/>}/>
           <Route exact path='/al-lip-cover' element={<PrivateRoute element={<Al_lip_cover/>}/>}/>
+          <Route exact path='/niko-bts' element={<PrivateRoute element={<Niko_bts/>}/>}/>
+          <Route exact path='/m-diamond-tube' element={<PrivateRoute element={<M_diamond_tube/>}/>}/>
+          <Route exact path='/al-c-section' element={<PrivateRoute element={<Al_c_section/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

@@ -50,6 +50,9 @@ import image45 from './Image/Image-45.png';
 import image46 from './Image/Image-46.png';
 import image47 from './Image/Image-47.png';
 import image48 from './Image/Image-48.png';
+import image49 from './Image/Image-49.png';
+import image50 from './Image/Image-50.png';
+import image51 from './Image/Image-51.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -474,6 +477,14 @@ function FromTemp() {
           </Link>
           <ButtonText>40*10 Guide Rail</ButtonText>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/m-diamond-tube">
+            <Button>
+              <Image src={image50} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>M-Diamond Tube</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>
 
@@ -675,8 +686,23 @@ function FromTemp() {
           </Link>
           <ButtonText>Al Lip-Cover Section</ButtonText>
         </ButtonWrapper>
+         <ButtonWrapper>
+          <Link to="/niko-bts">
+            <Button>
+              <Image src={image49} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Niko BTS</ButtonText>
+        </ButtonWrapper>
+         <ButtonWrapper>
+          <Link to="/al-c-section">
+            <Button>
+              <Image src={image51} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Al C-Section</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
-      
       </div>
     </div>
     </ButtonContainer>

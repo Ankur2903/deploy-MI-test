@@ -7,9 +7,9 @@ import logo from '../Image/logo.192.jpg';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
-import T_shap_1_graph from '../Graph/T-shap-2';
+import Bus_body_section_graph from '../Graph/Bus-body-section';
 
-function T_shap_2() {
+function Bus_body_section() {
   const [length, setLength] = useState(1);
   const lengthChange = (event) => {
     setLength(parseFloat(event.target.value));
@@ -19,7 +19,6 @@ function T_shap_2() {
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
-    setOuterRadius1(2*parseFloat(event.target.value));
   };
 
   const [side1, setSide1] = useState(50);
@@ -32,37 +31,27 @@ function T_shap_2() {
     setSide2(parseFloat(event.target.value));
   };
 
-  const [side3, setSide3] = useState(10);
+  const [side3, setSide3] = useState(50);
   const side3Change = (event) => {
     setSide3(parseFloat(event.target.value));
   };
 
-  const [side4, setSide4] = useState(10);
+  const [side4, setSide4] = useState(20);
   const side4Change = (event) => {
     setSide4(parseFloat(event.target.value));
   };
 
-  const [angle, setAngle] = useState(0);
-  const angleChange = (event) => {
-    setAngle(parseFloat(event.target.value));
+  const [side5, setSide5] = useState(20);
+  const side5Change = (event) => {
+    setSide5(parseFloat(event.target.value));
   };
-
 
   const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
 
-  const [outerRadius1, setOuterRadius1] = useState(4);
-  const outerRadius1Change = (event) => {
-    setOuterRadius1(parseFloat(event.target.value));
-  };
-
   const aa = Math.PI/180;
-  const l = ((side2 - side4)/2 - outerRadius - outerRadius1 + thickness);
-
-  const x = side1 - side3 - outerRadius - outerRadius1 + thickness
-
   const [weightPerLength, setWeightPerLenght] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
@@ -76,28 +65,31 @@ function T_shap_2() {
     setComy(e);
   };
 
+  const angle = Math.asin((Math.sqrt(Math.pow(2*thickness*(side1 - side4 - side5),2) - 4*(Math.pow(side1 - side4 - side5,2) + Math.pow(side3 - side2 + thickness,2))*(thickness*thickness - (side3 - side2 + thickness)*(side3 - side2 + thickness))) -(2*thickness*(side1 - side4 - side5))) /(2*(Math.pow(side1 - side4 - side5,2) + Math.pow(side3 - side2 + thickness,2))))
+
+  const l = (side3 - side2 + thickness - thickness*Math.cos(angle))/Math.sin(angle) - 2*outerRadius*Math.tan(angle/2)
+
   const submitClick = () => {
-    setWeightPerLenght((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))*thickness*0.000001*length).toFixed(3));
+    setTotalWeight(((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001)*length).toFixed(3));
 
-    setStripWidth((3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1)).toFixed(3));
+    setStripWidth(((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2))).toFixed(3));
 
-    setOutLine((3*Math.PI*(2*outerRadius1 - thickness) + Math.PI*(2*outerRadius - thickness) + 2*((side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1)) + 2* thickness).toFixed(3))
+    setOutLine(((2*Math.PI + 2*angle)*(2*outerRadius - thickness) + 2*(side1 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*(side2 - 2*outerRadius) + 2*l + 2*(side5 - outerRadius - outerRadius*Math.tan(angle/2)) + 2*(side4 - outerRadius - outerRadius*Math.tan(angle/2)) +  2*thickness).toFixed(3));
 
-    setArea((1.5*Math.PI*(Math.pow(outerRadius1,2) - Math.pow(thickness,2)) + 0.5*Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + thickness*((side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))).toFixed(3))
+    setArea((thickness*((side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2))) + (angle + Math.PI)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
   }
 
   const resetClick = () => {
     setLength(0);
     setThickness(0);
     setOuterRadius(parseFloat(0))
-    setOuterRadius1(parseFloat(0))
     setSide1(0);
     setSide2(0);
     setSide3(0);
     setSide4(0);
-    setAngle(45);
+    setSide5(0);
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
@@ -115,37 +107,29 @@ function T_shap_2() {
   // Manually create 3D shapes to export, without displaying them
   const create3DShapes = () => {
     const shapes = [];
-
     const shape1 = new THREE.Shape();
-    shape1.moveTo(outerRadius1, side1); //start with upper line
-    shape1.lineTo(side2 - outerRadius1,side1);
-    shape1.absarc(side2 - outerRadius1, side1 - outerRadius1, outerRadius1, 1*Math.PI/2,0*Math.PI/2,true);
-    shape1.absarc(side2 - outerRadius1,side1 - side3 + outerRadius1 , outerRadius1, 0*Math.PI/2,3*Math.PI/2 + angle*aa,true);
-    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1  - side3 - (outerRadius - thickness), outerRadius - thickness, 1*Math.PI/2 + angle*aa,2*Math.PI/2,false);
-    shape1.absarc(side2/2 + side4/2 - outerRadius1,outerRadius1 , outerRadius1, 0*Math.PI/2,3*Math.PI/2,true);
-    shape1.absarc(side2/2 - side4/2 + outerRadius1,outerRadius1 , outerRadius1, 3*Math.PI/2,2*Math.PI/2,true);
-    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1  - side3 - (outerRadius - thickness), outerRadius - thickness, 0*Math.PI/2,1*Math.PI/2 - angle*aa,false);
-    shape1.absarc(outerRadius1,side1 - side3 + outerRadius1,outerRadius1, 3*Math.PI/2 - angle*aa,2*Math.PI/2,true);
-    shape1.lineTo(0,side1 -outerRadius1)
-    shape1.lineTo(thickness,side1 - outerRadius1);
-    shape1.absarc(outerRadius1,side1 - side3 + outerRadius1,outerRadius1 - thickness,2*Math.PI/2, 3*Math.PI/2 - angle*aa,false);
-    shape1.absarc(side2/2 - side4/2 - outerRadius + thickness,side1  - side3  - (outerRadius - thickness), outerRadius,1*Math.PI/2 - angle*aa, 0*Math.PI/2,true);
-    shape1.absarc(side2/2 - side4/2 + outerRadius1,outerRadius1 , outerRadius1 - thickness,2*Math.PI/2, 3*Math.PI/2,false);
-    shape1.absarc(side2/2 + side4/2 - outerRadius1,outerRadius1 , outerRadius1 - thickness,3*Math.PI/2, 0*Math.PI/2,false);
-    shape1.absarc(side2/2 + side4/2 + outerRadius - thickness,side1  - side3 - (outerRadius - thickness), outerRadius,2*Math.PI/2, 1*Math.PI/2 + angle*aa,true);
-    shape1.absarc(side2 - outerRadius,side1 - side3 + outerRadius1, outerRadius1 - thickness,3*Math.PI/2 + angle*aa, 0*Math.PI/2,false);
-    shape1.absarc(side2 - outerRadius1, side1 - outerRadius1, outerRadius1 - thickness,0*Math.PI/2, 1*Math.PI/2,false);
-    shape1.lineTo(side2 - outerRadius1,side1 - thickness);
-    shape1.lineTo(outerRadius1, side1 - thickness)
-    
-    shapes.push(shape1)
+    shape1.moveTo(thickness, outerRadius)
+    shape1.lineTo(0, outerRadius)
+    shape1.absarc(outerRadius, side1 - outerRadius, outerRadius, Math.PI, Math.PI/2, true)
+    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius, Math.PI/2, 0, true)
+    shape1.absarc(side2 + outerRadius - thickness, side1 - side5 + outerRadius*Math.tan(angle/2), outerRadius - thickness, Math.PI, Math.PI + angle, false)
+    shape1.absarc(side3 - outerRadius, side4 - outerRadius*Math.tan(angle/2), outerRadius, angle, 0, true)
+    shape1.absarc(side3 - outerRadius, outerRadius, outerRadius, 0, 3*Math.PI/2, true)
+    shape1.lineTo(outerRadius, 0)
+    shape1.lineTo(outerRadius, thickness)
+    shape1.absarc(side3 - outerRadius, outerRadius, outerRadius - thickness, 3*Math.PI/2, 0, false)
+    shape1.absarc(side3 - outerRadius, side4 - outerRadius*Math.tan(angle/2), outerRadius - thickness, 0, angle, false)
+    shape1.absarc(side2 + outerRadius - thickness, side1 - side5 + outerRadius*Math.tan(angle/2), outerRadius, Math.PI + angle, Math.PI, true)
+    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius - thickness, 0, Math.PI/2, false)
+    shape1.absarc(outerRadius, side1 - outerRadius, outerRadius - thickness, Math.PI/2, Math.PI, false)
+    shapes.push(shape1)    
 
     const shape2 = new THREE.Shape();
-    shape2.moveTo(0,side1 - outerRadius1)
-    shape2.lineTo(thickness,side1 - outerRadius1);
-    shape2.absarc(outerRadius1,side1 - outerRadius1,outerRadius1 - thickness,2*Math.PI/2,1*Math.PI/2,true)
-    shape2.lineTo(outerRadius1,side1)
-    shape2.absarc(outerRadius1,side1 - outerRadius1,outerRadius1,1*Math.PI/2,2*Math.PI/2,false)
+    shape2.moveTo(0, outerRadius)
+    shape2.lineTo(thickness, outerRadius)
+    shape2.absarc(outerRadius, outerRadius, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
+    shape2.absarc(outerRadius, outerRadius, outerRadius, 3*Math.PI/2, Math.PI,true)
+    shape2.lineTo(0, outerRadius)
     shapes.push(shape2)
 
     shapes.forEach((shape) => {
@@ -159,19 +143,19 @@ function T_shap_2() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1,side2 ,side3, side4, angle, outerRadius, thickness, length]);
+  }, [side1, side2, side3, side4, side5, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const cChannelGraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(cChannelGraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`side1(A): ${side1}   side1(B): ${side2}   side1(C): ${side3}   side1(D): ${side4}   angle(D): ${angle}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   side(C): ${side3}   side(D): ${side4}   side(E): ${side5}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -209,9 +193,9 @@ function T_shap_2() {
   return (
     <div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Guide Rail Section</h1>
+      <h1 className="heading">Bus Body Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
@@ -224,20 +208,24 @@ function T_shap_2() {
         <div className='box'>
           <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> Side (A) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side1">Side (A) mm</lable>
+            <input className="input-field" id="side1" type="number" step="0.01" value={side1} onChange={side1Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> Side (B) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side2">Side (B) mm</lable>
+            <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> Side (C) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side3">Side (C) mm</lable>
+            <input className="input-field" id="side3" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side1"> Side (D) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side4">Side (D) mm</lable>
+            <input className="input-field" id="side4" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
+          </div>
+          <div className="container1">
+            <lable className="label" htmlFor="side5">Side (E) mm</lable>
+            <input className="input-field" id="side5" type="number" value={side5} onChange={side5Change} placeholder="Type something..." />
           </div>
           <div className="container1">
             <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
@@ -248,25 +236,21 @@ function T_shap_2() {
             <input className="input-field" id="outerRadius" type="number" value={outerRadius} onChange={outerRadiusChange} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="outerRadius1">Outer Radius (r2) mm</lable>
-            <input className="input-field" id="outerRadius1" type="number" value={outerRadius1} onChange={outerRadius1Change} placeholder="Type something..." />
-          </div>
-          <div className="container1">
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
           </div>
-          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={submitClick}>Submit</button>
-          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
+          <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
+          <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><T_shap_1_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle1={angle} thickness1={thickness} outerRadius11={outerRadius} outerRadius22={outerRadius1} sendValuey={handleComy}/></div>
-        </div>
+          <div ref={cChannelGraphRef}><Bus_body_section_graph side11={side1} side22={side2} side33={side3} side44={side4} side55={side5}  thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
+        </div></div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
     </div>
   );
 }
 
-export default T_shap_2;
+export default Bus_body_section;

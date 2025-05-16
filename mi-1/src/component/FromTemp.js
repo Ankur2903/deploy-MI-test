@@ -53,6 +53,8 @@ import image48 from './Image/Image-48.png';
 import image49 from './Image/Image-49.png';
 import image50 from './Image/Image-50.png';
 import image51 from './Image/Image-51.png';
+import image52 from './Image/Image-52.png';
+import image53 from './Image/Image-53.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -484,6 +486,22 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>M-Diamond Tube</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/l&t-cabin-section">
+            <Button>
+              <Image src={image52} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>L&T Cabin Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/bus-body-section">
+            <Button>
+              <Image src={image53} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Bus Body Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

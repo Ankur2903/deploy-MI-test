@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState } from "react";
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -55,6 +54,8 @@ import image50 from './Image/Image-50.png';
 import image51 from './Image/Image-51.png';
 import image52 from './Image/Image-52.png';
 import image53 from './Image/Image-53.png';
+import image54 from './Image/Image-54.png';
+import image55 from './Image/Image-55.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -67,8 +68,7 @@ const Button = styled.button`
 
   &:hover {
     border-color: #000000;
-  }
-`;
+  }`;
 
 const ButtonWrapperContainer = styled.div`
   display: flex;
@@ -86,8 +86,7 @@ const ButtonWrapperContainer = styled.div`
 
   @media (max-width: 480px) {
     gap: 10px; /* Tight spacing for mobile */
-  }
-`;
+  }`;
 
 const Image = styled.img`
   width: 150px;
@@ -101,8 +100,7 @@ const Image = styled.img`
   @media (max-width: 480px) {
     width: 80px;
     height: 80px;
-  }
-`;
+  }`;
 
 const Heading = styled.h1`
   text-align: center;
@@ -118,8 +116,7 @@ const Heading = styled.h1`
   @media (max-width: 480px) {
     margin-bottom: 10px;
     font-size: 20px;
-  }
-`;
+  }`;
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -127,8 +124,7 @@ const ButtonContainer = styled.div`
   align-items: center;
   height: 100vh;
   padding: 10px;
-  box-sizing: border-box;
-`;
+  box-sizing: border-box;`;
 
 const ButtonText = styled.div`
   font-size: 14px;
@@ -138,8 +134,7 @@ const ButtonText = styled.div`
 
   @media (max-width: 480px) {
     font-size: 12px;
-  }
-`;
+  }`;
 
 const ButtonWrapper = styled.div`
   display: flex;
@@ -160,16 +155,12 @@ const ButtonWrapper = styled.div`
   @media (max-width: 480px) {
     max-width: 100%; /* Adjust for mobile screens */
      margin-bottom: 10px; /* Add bottom spacing */
-  }
-`;
+  }`;
 
 function FromTemp() {
-
     const containerStyle = {
       display: "flex",
       height: "100vh", // Full viewport height
-      // margin: 0,
-      // padding: 0,
     };
   
     const leftStyle = {
@@ -188,7 +179,6 @@ function FromTemp() {
         const height = document.documentElement.scrollHeight - 10;
         setDividerHeight(height);
       };
-  
       requestAnimationFrame(updateHeight); // waits for layout to finish
       // Optional: add resize listener if height may change dynamically
       window.addEventListener("resize", updateHeight);
@@ -508,7 +498,6 @@ function FromTemp() {
 
       <div style={dividerStyle}></div>
 
-
       <div style={rightStyle}>
       <Heading>Open Shapes</Heading>
       <ButtonWrapperContainer  className='col-md-12'>
@@ -719,6 +708,22 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Al C-Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/cabin-door-frame">
+            <Button>
+              <Image src={image54} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Cabin Door Frame</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/crimped-rail">
+            <Button>
+              <Image src={image55} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Crimped Rail</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

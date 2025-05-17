@@ -65,6 +65,9 @@ import Al_lip_cover from './component/shap/Al-lip-cover';
 import Niko_bts from './component/shap/Niko-bts';
 import M_diamond_tube from './component/shap/M-diamond-tube';
 import Al_c_section from './component/shap/Al-c-section';
+import L_t_cabin_section from './component/shap/L&t-cabin-section';
+import Bus_body_section from './component/shap/Bus-body-section';
+
 
 function App() {
 
@@ -153,6 +156,8 @@ function App() {
           <Route exact path='/niko-bts' element={<PrivateRoute element={<Niko_bts/>}/>}/>
           <Route exact path='/m-diamond-tube' element={<PrivateRoute element={<M_diamond_tube/>}/>}/>
           <Route exact path='/al-c-section' element={<PrivateRoute element={<Al_c_section/>}/>}/>
+          <Route exact path='/l&t-cabin-section' element={<PrivateRoute element={<L_t_cabin_section/>}/>}/>
+          <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

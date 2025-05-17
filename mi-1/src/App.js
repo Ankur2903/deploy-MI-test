@@ -67,7 +67,8 @@ import M_diamond_tube from './component/shap/M-diamond-tube';
 import Al_c_section from './component/shap/Al-c-section';
 import L_t_cabin_section from './component/shap/L&t-cabin-section';
 import Bus_body_section from './component/shap/Bus-body-section';
-
+import Cabin_door_frame from './component/shap/Cabin-door-frame';
+import Crimped_rail from './component/shap/Crimped-rail';
 
 function App() {
 
@@ -158,6 +159,8 @@ function App() {
           <Route exact path='/al-c-section' element={<PrivateRoute element={<Al_c_section/>}/>}/>
           <Route exact path='/l&t-cabin-section' element={<PrivateRoute element={<L_t_cabin_section/>}/>}/>
           <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section/>}/>}/>
+          <Route exact path='/cabin-door-frame' element={<PrivateRoute element={<Cabin_door_frame/>}/>}/>
+          <Route exact path='/crimped-rail' element={<PrivateRoute element={<Crimped_rail/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

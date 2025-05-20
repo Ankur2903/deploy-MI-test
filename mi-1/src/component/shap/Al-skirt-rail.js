@@ -7,9 +7,9 @@ import logo from '../Image/logo.192.jpg';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
-import Z_section_graph from '../Graph/Z-section';
+import Al_skirt_rail_graph from '../Graph/Al-skirt-rail';
 
-function Z_section() {
+function Al_skirt_rail() {
   const [length, setLength] = useState(1);
   const lengthChange = (event) => {
     setLength(parseFloat(event.target.value));
@@ -21,17 +21,17 @@ function Z_section() {
     setOuterRadius(2*parseFloat(event.target.value));
   };
 
-  const [side1, setSide1] = useState(30);
+  const [side1, setSide1] = useState(58);
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
 
-  const [side2, setSide2] = useState(43);
+  const [side2, setSide2] = useState(40);
   const side2Change = (event) => {
     setSide2(parseFloat(event.target.value));
   };
 
-  const [side3, setSide3] = useState(63);
+  const [side3, setSide3] = useState(50);
   const side3Change = (event) => {
     setSide3(parseFloat(event.target.value));
   };
@@ -41,14 +41,14 @@ function Z_section() {
     setSide4(parseFloat(event.target.value));
   };
 
-  const [angle, setAngle] = useState(110);
-  const angleChange = (event) => {
-    setAngle(parseFloat(event.target.value));
+  const [angle1, setAngle1] = useState(107);
+  const angle1Change = (event) => {
+    setAngle1(parseFloat(event.target.value));
   };
 
-  const [radius, setRadius] = useState(2);
-  const radiusChange = (event) => {
-    setRadius(parseFloat(event.target.value));
+  const [angle2, setAngle2] = useState(70);
+  const angle2Change = (event) => {
+    setAngle2(parseFloat(event.target.value));
   };
 
   const [outerRadius, setOuterRadius] = useState(4);
@@ -56,6 +56,11 @@ function Z_section() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
+  const [radius, setRadius] = useState(2);
+  const radiusChange = (event) => {
+    setRadius(parseFloat(event.target.value));
+  };
+  
   const [weightPerLength, setWeightPerLenght] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
@@ -69,35 +74,47 @@ function Z_section() {
     setComy(e);
   };
 
-  const aa = Math.PI/180
+  const aa = Math.PI/180;
 
-  const l = (side1 - side4 - outerRadius - (outerRadius - thickness) - (2*outerRadius - thickness)*Math.cos(aa*angle))/(Math.sin(aa*angle));
-  const l1 = side3 - (radius + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle))
+   const l = side2/Math.sin(aa*angle1) - outerRadius/Math.tan(aa*angle1/2) - outerRadius*Math.tan(aa*angle1/2);
+  const l2 = (side2 - side4 - (1 + Math.cos(aa*angle2))*(2*outerRadius - thickness))/Math.sin(aa*angle2)
 
-  const x1 = side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)
+  const x1 = side1 - outerRadius/Math.tan(aa*angle1/2)
+  const y1 = outerRadius
+
+  const x2 = x1 - l*Math.cos(aa*angle1)
+  const y2 = y1 + l*Math.sin(aa*angle1)
+
+  const x3 = x2 - side3 + outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))
+  const y3 = y2
+
+  const x4 = x3 - outerRadius*Math.sin(aa*angle2) + l2*Math.cos(aa*angle2) - (outerRadius - thickness)*Math.sin(aa*angle2)
+  const y4 = y3 - outerRadius*Math.cos(aa*angle2) - l2*Math.sin(aa*angle2) - (outerRadius - thickness)*Math.cos(aa*angle2)
+
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness))*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight(((7850*((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness))*thickness*0.000001)*length).toFixed(3));
+    setTotalWeight((7850*((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))*thickness*0.000001*length).toFixed(3));
 
-    setStripWidth(((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness)).toFixed(3));
+    setStripWidth(((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius)).toFixed(3));
 
-    setOutLine(((Math.PI + 2*(Math.PI - aa*angle))*(2*outerRadius - thickness) + 2*Math.PI*(2*radius - thickness) +  4*(side4 - 2*radius) + 2*(side2 - outerRadius - radius) + 2*l + 2*l1 + 2*(side1 - side4 - 2*outerRadius + thickness) +  2*thickness).toFixed(3));
+    setOutLine(((Math.PI + 2*aa*angle2)*(2*outerRadius - thickness) + (Math.PI)*(2*radius - thickness) + 2*(thickness +  l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))).toFixed(3))
 
-    setArea((thickness*( 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l + l1 + (side1 - side4 - 2*outerRadius + thickness)) + (Math.PI/2 + (Math.PI - aa*angle))*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + Math.PI*(Math.pow(radius,2) - Math.pow(radius - thickness,2))).toFixed(3))
+    setArea(((Math.PI/2 + aa*angle2)*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (Math.PI/2)*(Math.pow(radius,2) - Math.pow(thickness,2)) + thickness*(thickness +  l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))).toFixed(3))
   }
 
   const resetClick = () => {
     setLength(0);
     setThickness(0);
     setOuterRadius(parseFloat(0))
+    setRadius(parseFloat(0))
     setSide1(0);
     setSide2(0);
     setSide3(0);
-    setSide4(0)
-    setAngle(0)
-    setRadius(0);
+    setSide4(0);
+    setAngle1(0);
+    setAngle2(0);
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
@@ -115,34 +132,31 @@ function Z_section() {
   // Manually create 3D shapes to export, without displaying them
   const create3DShapes = () => {
     const shapes = [];
-    const shape1 = new THREE.Shape();
-    shape1.moveTo(radius, side1 - thickness)
-    shape1.lineTo(radius, side1)
-    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius, Math.PI/2, 0, true)
-    shape1.absarc(side2 + outerRadius - thickness, side4 + outerRadius - thickness, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
-    shape1.absarc(side3 - radius, side4 - radius, radius, Math.PI/2, 0, true)
-    shape1.absarc(side3 - radius, radius, radius, 0, 3*Math.PI/2, true)
-    shape1.absarc(x1, outerRadius, outerRadius, 3*Math.PI/2, Math.PI/2 + aa*angle, true)
-    shape1.absarc(side3 - side2 - outerRadius + thickness, side1 - side4 - outerRadius + thickness, outerRadius - thickness, angle*aa - Math.PI/2, Math.PI/2, false)
-    shape1.absarc(radius, side1 - side4 + radius, radius, 3*Math.PI/2, Math.PI, true)
-    shape1.lineTo(0,side1 - radius)
-    shape1.lineTo(thickness, side1 - radius)
-    shape1.absarc(radius, side1 - side4 + radius, radius - thickness, Math.PI, 3*Math.PI/2, false)
-    shape1.absarc(side3 - side2 - outerRadius + thickness, side1 - side4 - outerRadius + thickness, outerRadius, Math.PI/2, angle*aa - Math.PI/2, true)
-    shape1.absarc(x1, outerRadius, outerRadius - thickness, Math.PI/2 + aa*angle, 3*Math.PI/2, false)
-    shape1.absarc(side3 - radius, radius, radius - thickness, 3*Math.PI/2, 0, false)
-    shape1.absarc(side3 - radius, side4 - radius, radius - thickness, 0, Math.PI/2, false)
-    shape1.absarc(side2 + outerRadius - thickness, side4 + outerRadius - thickness, outerRadius, 3*Math.PI/2, Math.PI, true)
-    shape1.absarc(side2 - outerRadius, side1 - outerRadius, outerRadius - thickness, 0, Math.PI/2, false)
-    shape1.lineTo(radius, side1 - thickness)
-    shapes.push(shape1)    
+    const shape1 = new THREE.Shape(); 
+    shape1.moveTo(radius, thickness)
+    shape1.lineTo(radius, 0)
+    shape1.absarc(x1, y1, outerRadius, 3*Math.PI/2, 5*Math.PI/2 - aa*angle1, false)
+    shape1.absarc(x2, y2, outerRadius, 5*Math.PI/2 - aa*angle1, Math.PI/2, false)
+    shape1.absarc(x3, y3, outerRadius , Math.PI/2, 3*Math.PI/2 - angle2*aa, false)
+    shape1.absarc(x4, y4, outerRadius - thickness, 5*Math.PI/2 - aa*angle2, 3*Math.PI/2, true)
+    shape1.absarc(radius, side4 - radius, radius, Math.PI/2, Math.PI, false)
+    shape1.lineTo(0, radius)
+    shape1.lineTo(thickness, radius)
+    shape1.absarc(radius, side4 - radius, radius - thickness, Math.PI, Math.PI/2, true)
+    shape1.absarc(x4, y4, outerRadius, 3*Math.PI/2, 5*Math.PI/2 - aa*angle2, false)
+    shape1.absarc(x3, y3, outerRadius - thickness, 3*Math.PI/2 - angle2*aa, Math.PI/2, true)
+    shape1.absarc(x2, y2, outerRadius - thickness, Math.PI/2, 5*Math.PI/2 - aa*angle1, true)
+    shape1.absarc(x1, y1, outerRadius - thickness, 5*Math.PI/2 - aa*angle1, 3*Math.PI/2, true)
+    shape1.lineTo(radius, thickness)
+    shapes.push(shape1)
 
-    const shape2 = new THREE.Shape();
-    shape2.moveTo(radius, side1)
-    shape2.lineTo(radius, side1 - thickness)
-    shape2.absarc(radius, side1 - radius, radius - thickness, Math.PI/2, Math.PI, false)
-    shape2.absarc(radius, side1 - radius, radius, Math.PI, Math.PI/2, true)
-    shape2.lineTo(radius, side1)
+    const shape2 = new THREE.Shape(); 
+    shape1.moveTo(radius, 0)
+    shape1.lineTo(radius, thickness)
+    shape1.absarc(radius, radius, radius - thickness, 3*Math.PI/2, Math.PI, true)
+    shape1.lineTo(0, radius)
+    shape1.absarc(radius, radius, radius, Math.PI, 3*Math.PI/2, false)
+    shape1.lineTo(radius, 0)
     shapes.push(shape2)
 
     shapes.forEach((shape) => {
@@ -156,19 +170,19 @@ function Z_section() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1, side2, side3, side4, radius, outerRadius, thickness, length]);
+  }, [side1,side2 ,side3,side4, angle1, angle2,radius, outerRadius, thickness, length]);
   
-  const cChannelGraphRef = useRef()
+  const tShapGraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(cChannelGraphRef.current).then((canvas) => {
+    html2canvas(tShapGraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   side(C): ${side3}   radius(D): ${radius}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`side(A): ${side1}   side(B): ${side2}   side(C): ${side3}   side(D): ${side4}   Angle(D): ${angle1}   Angle(D): ${angle2}   Radius(R): ${radius}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -206,9 +220,9 @@ function Z_section() {
   return (
     <div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Z Section</h1>
+      <h1 className="heading">Al-Skirt rail</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
@@ -221,27 +235,31 @@ function Z_section() {
         <div className='box'>
           <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
-            <lable className="label" htmlFor="side1">Side (A) mm</lable>
-            <input className="input-field" id="side1" type="number" step="0.01" value={side1} onChange={side1Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side1"> Side (A) mm</lable>
+            <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side2">Side (B) mm</lable>
-            <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side1"> Side (B) mm</lable>
+            <input className="input-field" id="side1" type="number" value={side2} onChange={side2Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side3">Side (C) mm</lable>
-            <input className="input-field" id="side3" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
+            <lable className="label" htmlFor="side1"> Side (C) mm</lable>
+            <input className="input-field" id="side1" type="number" value={side3} onChange={side3Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side4">Side (D) mm</lable>
+            <lable className="label" htmlFor="side4"> Side (D) mm</lable>
             <input className="input-field" id="side4" type="number" value={side4} onChange={side4Change} placeholder="Type something..." />
           </div>
-            <div className="container1">
-            <lable className="label" htmlFor="angle">Angle (θ) angle</lable>
-            <input className="input-field" id="angle" type="number" value={angle} onChange={angleChange} placeholder="Type something..." />
+          <div className="container1">
+            <lable className="label" htmlFor="angle1"> Angle (θ1) degree</lable>
+            <input className="input-field" id="angle1" type="number" value={angle1} onChange={angle1Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="radius">radius (R) mm</lable>
+            <lable className="label" htmlFor="angle2"> Angle (θ2) degree</lable>
+            <input className="input-field" id="angle2" type="number" value={angle2} onChange={angle2Change} placeholder="Type something..." />
+          </div>
+          <div className="container1">
+            <lable className="label" htmlFor="radius">Radius (R) mm</lable>
             <input className="input-field" id="radius" type="number" value={radius} onChange={radiusChange} placeholder="Type something..." />
           </div>
           <div className="container1">
@@ -256,18 +274,18 @@ function Z_section() {
             <lable className="label" htmlFor="length">Length (L) m</lable>
             <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
           </div>
-          <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
-          <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
+          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={submitClick}>Submit</button>
+          <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={cChannelGraphRef}><Z_section_graph side11={side1} side22={side2} side33={side3} side44 = {side4} angle1 = {angle} radius1={radius} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
-        </div></div>
+        <div ref={tShapGraphRef}><Al_skirt_rail_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle11={angle1} angle22={angle2} radius1={radius} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        </div>
         <div className='box'>
-         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
         </div>
       </div>
     </div>
   );
 }
 
-export default Z_section;
+export default Al_skirt_rail;

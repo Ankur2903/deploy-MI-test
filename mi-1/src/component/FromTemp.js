@@ -56,6 +56,9 @@ import image52 from './Image/Image-52.png';
 import image53 from './Image/Image-53.png';
 import image54 from './Image/Image-54.png';
 import image55 from './Image/Image-55.png';
+import image56 from './Image/Image-56.png';
+import image57 from './Image/Image-57.png';
+import image58 from './Image/Image-58.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -361,6 +364,14 @@ function FromTemp() {
                     </Link>
                     <ButtonText>Tube-3</ButtonText>
                   </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/t_shap_4">
+                      <Button data-bs-dismiss="modal">
+                        <Image src={image58} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>Tube-4</ButtonText>
+                  </ButtonWrapper>
                 </ButtonWrapperContainer>
               </div>
               <div className="modal-footer">
@@ -492,6 +503,22 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Bus Body Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/c-post">
+            <Button>
+              <Image src={image56} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>C Post</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/al-skirt-rail">
+            <Button>
+              <Image src={image57} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Al-Skirt Rail</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

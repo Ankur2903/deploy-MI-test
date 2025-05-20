@@ -1,27 +1,37 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { MMDAnimationHelper } from 'three/examples/jsm/Addons.js';
 
-function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickness1, outerRadius1, sendValuey}) {
-  const mx = Math.max(side11,side33);
+function Al_skirt_rail_graph({ side11, side22, side33, side44, angle11, angle22, radius1, thickness1, outerRadius1}) {
+  const aa = Math.PI/180;
+  const mx = Math.max(side22,side11, side11 - side22/Math.tan(aa*angle11));
   const thickness = (thickness1/mx)*100;
   const side1 = (side11/mx)*100;
   const side2 = (side22/mx)*100;
   const side3 = (side33/mx)*100;
   const side4 = (side44/mx)*100;
-  const angle = angle1
+  const angle1 = angle11
+  const angle2 = angle22
   const radius = (radius1/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
-  const comy = 1;
-  const aa = Math.PI/180
 
-  const l = (side1 - side4 - outerRadius - (outerRadius - thickness) - (2*outerRadius - thickness)*Math.cos(aa*angle))/(Math.sin(aa*angle));
+  const l = side2/Math.sin(aa*angle1) - outerRadius/Math.tan(aa*angle1/2) - outerRadius*Math.tan(aa*angle1/2);
+  const l2 = (side2 - side4 - (1 + Math.cos(aa*angle2))*(2*outerRadius - thickness))/Math.sin(aa*angle2)
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const x1 = 50 + side1 - outerRadius/Math.tan(aa*angle1/2)
+  const y1 = 150 - outerRadius
+
+  const x2 = x1 - l*Math.cos(aa*angle1)
+  const y2 = y1 - l*Math.sin(aa*angle1)
+
+  const x3 = x2 - side3 + outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))
+  const y3 = y2
+
+  const x4 = x3 - outerRadius*Math.sin(aa*angle2) + l2*Math.cos(aa*angle2) - (outerRadius - thickness)*Math.sin(aa*angle2)
+  const y4 = y3 + outerRadius*Math.cos(aa*angle2) + l2*Math.sin(aa*angle2) + (outerRadius - thickness)*Math.cos(aa*angle2)
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -49,7 +59,8 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
       const dy = y - startCoords.y;
       handlePan(dx, dy);
       setStartCoords({ x, y });
-    }};
+    }
+  };
 
   const stopDrag = () => {
     setIsDragging(false);
@@ -153,21 +164,14 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+            <input onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
-      <svg
-        viewBox={viewBox}
-        style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart} onClick={handleSVGClick}
-      >
-        {points.map((point, index) => (
+      <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
+      {points.map((point, index) => (
               <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
             ))}
-
             {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
-
             {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="5"> {(distance*mx/100).toFixed(3)} mm</text>}
           {/* Define grid pattern */}
           <defs>
@@ -175,57 +179,49 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
           </pattern>
         </defs>
-
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
-
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
+        {/* L Shape */}
+        <rect x={50 + radius} y={150 - thickness} width={side1 - radius - outerRadius/Math.tan(aa*angle1/2)} height={thickness} fill="black" />
+        <rect x={50} y={150 - side4 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
+        <rect x={x3} y={y3 - outerRadius} width={side3 - outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))} height={thickness} fill="black" />
+        <rect x={50 + radius} y={150 - side4} width={x4 - 50 - radius} height={thickness} fill="black" />
+ 
+        <LineAtTheta x={50 + side1 - outerRadius/Math.tan(aa*angle1/2) + (outerRadius - thickness)*Math.sin(aa*angle1)} y={150 - outerRadius - (outerRadius - thickness)*Math.cos(aa*angle1)} w={l} h={thickness} angle={angle1 - 180}/>    
 
-
-        {/* Line Shape */}
-        <rect x={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)} y={150 - thickness} width={side3 - (radius + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle))} height={thickness} fill="black" />
-        <rect x={50 + radius} y={150 - side1} width={side2 - outerRadius - radius} height={thickness} fill="black" />
-        <rect x={50 + side2 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side1 - side4 - 2*outerRadius + thickness} fill="black" />
-        <rect x={50 + side2 + outerRadius - thickness} y={150 - side4} width={side3 - side2 - outerRadius + thickness - radius} height={thickness} fill="black" />
-        <rect x={50 + radius} y={150 - side1 + side4 - thickness} width={side3 - side2 - radius - outerRadius + thickness} height={thickness} fill="black" />
-        <rect x={50} y={150 - side1 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
-        <rect x={50 + side3 - thickness} y={150 - side4 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
-
-        <LineAtTheta x={50 + side3 - side2 - outerRadius + thickness + outerRadius*Math.sin(aa*angle)} y={150 - side1 + side4 + outerRadius - thickness + outerRadius*Math.cos(aa*angle)} w={l} h={thickness} angle={180 - angle}/>
+        <LineAtTheta x={x3 - (outerRadius - thickness)*Math.sin(aa*angle2)} y={y3 + (outerRadius - thickness)*Math.cos(aa*angle2)} w={l2} h={thickness} angle={angle2}/>    
         
-
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)} centerY={150 - outerRadius} angle={180 - angle} rotation={90} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + radius} centerY={150 -side1 +  radius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + radius} centerY={150 -side1 + side4 - radius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 -side1 +  outerRadius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness} centerY={150 - side4 - outerRadius + thickness} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + side3 - radius} centerY={150 - side4 +  radius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + side3 - radius} centerY={150 - radius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 -outerRadius + thickness} centerY={150 - side1 + side4 + outerRadius - thickness} angle={180 - angle} rotation={270} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + radius} centerY={150 - radius} angle={90} rotation={90} thickness={thickness}/>      
+        <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius/Math.tan(aa*angle1/2)} centerY={150 - outerRadius} angle={180 - angle1} rotation={angle1 - 90} thickness={thickness}/>  
+        <CircleSector radius={radius} centerX={50 + radius} centerY={150 - side4 + radius} angle={90} rotation={180} thickness={thickness}/>  
+        <CircleSector radius={outerRadius} centerX={x2} centerY={y2} angle={angle1} rotation={270} thickness={thickness}/>  
+        <CircleSector radius={outerRadius} centerX={x3} centerY={y3} angle={180 - angle2} rotation={90 + angle2} thickness={thickness}/>  
+         <CircleSector radius={outerRadius} centerX={x4} centerY={y4} angle={180 - angle2} rotation={angle2 - 90} thickness={thickness}/>
 
-        {/* Horizontal Arrow for side1 */}
-        <Liney  x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
 
-         {/* Horizontal Arrow for side4 */}
-         <Linex x1={50} x2={50 + side2} y1={145 - side1} y2={145 - side1} text={'B'} val={side22} textHeight={-5}/>
+        {/* Horizontal Arrow for side2 */}
+        <Linex x1={50} x2={50 + side1} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>
 
-        {/* Vertical Arrow for side3 */}
-        <Linex x1={50} x2={50 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>       
-        
-        {/* Horizontal Arrow for side4 */}
-        <Liney x1={55 + side3} x2={55 + side3} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
+        {/* Horizontal Arrow for side2 */}
+        <Linex x1={x3 - outerRadius/Math.tan(aa*angle2/2)} x2={x2 + outerRadius*Math.tan(aa*angle1/2)} y1={145 - side2} y2={145 - side2} text={'C'} val={side33} textHeight={-5}/>
 
-        {/* Vertical Arrow for radius */}
-        <Linex x1={50 + side3 - radius} x2={50 + side3} y1={145 - side4} y2={145 - side4} text={'R'} val={side33} textHeight={-5}/>  
 
-          {/* Vertical Arrow for radius */}
-        <Linex x1={40 + side3 - side2} x2={40 + side3 - side2} y1={155 - side1 + side4} y2={155 - side1 + side4} text={'θ'} val={side33} textHeight={7} unit={" "}/>  
+        {/* Vertical Arrow for A */}
+        <Liney x1={5 + x2 + outerRadius} x2={5 + x2 + outerRadius} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={17}/>
 
-        
+         {/* Vertical Arrow for A */}
+        <Liney x1={45} x2={45} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={-17}/>
+
+         {/* Horizontal Arrow for side2 */}
+        <Linex x1={x4 - 10} x2={x4 - 10} y1={y4 - 10} y2={y4 - 10} text={'θ2'} val={angle22} textHeight={7} unit={" "}/>
+
+          {/* Horizontal Arrow for side2 */}
+        <Linex x1={x1 - 10} x2={x1 - 10} y1={y1 - 10} y2={y1 - 10} text={'θ1'} val={angle11} textHeight={7} unit={" "}/>
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
@@ -235,4 +231,4 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
   );
 }
 
-export default Z_section_graph;
+export default Al_skirt_rail_graph;

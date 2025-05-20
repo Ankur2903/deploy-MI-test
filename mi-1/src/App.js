@@ -69,6 +69,9 @@ import L_t_cabin_section from './component/shap/L&t-cabin-section';
 import Bus_body_section from './component/shap/Bus-body-section';
 import Cabin_door_frame from './component/shap/Cabin-door-frame';
 import Crimped_rail from './component/shap/Crimped-rail';
+import C_post from './component/shap/C-post';
+import Al_skirt_rail from './component/shap/Al-skirt-rail';
+import Monitou_lip_tube from './component/shap/Monitou-lip-tube';
 
 function App() {
 
@@ -161,6 +164,9 @@ function App() {
           <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section/>}/>}/>
           <Route exact path='/cabin-door-frame' element={<PrivateRoute element={<Cabin_door_frame/>}/>}/>
           <Route exact path='/crimped-rail' element={<PrivateRoute element={<Crimped_rail/>}/>}/>
+          <Route exact path='/c-post' element={<PrivateRoute element={<C_post/>}/>}/>
+          <Route exact path='/al-skirt-rail' element={<PrivateRoute element={<Al_skirt_rail/>}/>}/>
+          <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

@@ -73,6 +73,7 @@ import C_post from './component/shap/C-post';
 import Al_skirt_rail from './component/shap/Al-skirt-rail';
 import Monitou_lip_tube from './component/shap/Monitou-lip-tube';
 import Swiss_profile_section from './component/shap/Swiss-profile-section';
+import Hollow_guide_rail from './component/shap/Hollow-guide-rail';
 
 function App() {
 
@@ -169,6 +170,7 @@ function App() {
           <Route exact path='/al-skirt-rail' element={<PrivateRoute element={<Al_skirt_rail/>}/>}/>
           <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube/>}/>}/>
           <Route exact path='/swiss-profile-section' element={<PrivateRoute element={<Swiss_profile_section/>}/>}/>
+          <Route exact path='/t_shap_5' element={<PrivateRoute element={<Hollow_guide_rail/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

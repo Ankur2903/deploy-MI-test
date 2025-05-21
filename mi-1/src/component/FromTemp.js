@@ -59,6 +59,7 @@ import image55 from './Image/Image-55.png';
 import image56 from './Image/Image-56.png';
 import image57 from './Image/Image-57.png';
 import image58 from './Image/Image-58.png';
+import image59 from './Image/Image-59.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -519,6 +520,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Al-Skirt Rail</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/swiss-profile-section">
+            <Button>
+              <Image src={image59} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Swiss Profile Section</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

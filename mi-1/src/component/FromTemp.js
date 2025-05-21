@@ -60,6 +60,7 @@ import image56 from './Image/Image-56.png';
 import image57 from './Image/Image-57.png';
 import image58 from './Image/Image-58.png';
 import image59 from './Image/Image-59.png';
+import image60 from './Image/Image-60.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -372,6 +373,14 @@ function FromTemp() {
                       </Button>
                     </Link>
                     <ButtonText>Tube-4</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/t_shap_5">
+                      <Button data-bs-dismiss="modal">
+                        <Image src={image60} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>Tube-5</ButtonText>
                   </ButtonWrapper>
                 </ButtonWrapperContainer>
               </div>

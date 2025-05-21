@@ -72,6 +72,7 @@ import Crimped_rail from './component/shap/Crimped-rail';
 import C_post from './component/shap/C-post';
 import Al_skirt_rail from './component/shap/Al-skirt-rail';
 import Monitou_lip_tube from './component/shap/Monitou-lip-tube';
+import Swiss_profile_section from './component/shap/Swiss-profile-section';
 
 function App() {
 
@@ -167,6 +168,7 @@ function App() {
           <Route exact path='/c-post' element={<PrivateRoute element={<C_post/>}/>}/>
           <Route exact path='/al-skirt-rail' element={<PrivateRoute element={<Al_skirt_rail/>}/>}/>
           <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube/>}/>}/>
+          <Route exact path='/swiss-profile-section' element={<PrivateRoute element={<Swiss_profile_section/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

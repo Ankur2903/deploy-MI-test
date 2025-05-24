@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import Linez from './Shap/Linez';
 
 function T_shape_6_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius11, outerRadius22, outerRadius33, sendValuey}) {
   const mx = Math.max(side22,side11);
@@ -19,6 +20,7 @@ function T_shape_6_graph({ side11, side22, side33, side44, side55, side66, thick
 
   const aa = 180/Math.PI;
   const angle = Math.acos((outerRadius1 + outerRadius2 - side6)/(outerRadius1 + outerRadius2 - thickness))
+  const l2 = (outerRadius1 + outerRadius2 - thickness)*Math.sin(angle)
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -203,14 +205,23 @@ function T_shape_6_graph({ side11, side22, side33, side44, side55, side66, thick
         {/* Horizontal Arrow for side2 */}
         <Linex x1={100 - side2/2} x2={100 + side2/2} y1={45} y2={45} text={'B'} val={side22} textHeight={-5}/>
 
+        {/* Horizontal Arrow for side2 */}
+        <Linez x1={100 - side4/2} y1={50 + side1 - outerRadius} text={'F'} thickness={side6} val={side66} textHeight={-5}/>
+
         {/* Horizontal Arrow for side4 */}
         <Linex x1={100 - side4/2} x2={100 + side4/2} y1={55 + side1} y2={55 + side1} text={'D'} val={side44} textHeight={10}/>
+
+        {/* Horizontal Arrow for side4 */}
+        <Liney x1={95 - side4/2} x2={95 - side4/2} y1={50 + side1 - side5 - l2} y2={50 + side1 - side5 - l2} text={'r2'} val={outerRadius22} textHeight={-17}/>
+        {/* Horizontal Arrow for side4 */}
+        <Liney x1={95 - side4/2} x2={95 - side4/2} y1={50 + side1 - side5} y2={50 + side1 - side5} text={'r3'} val={outerRadius33} textHeight={-17}/>
 
         {/* Vertical Arrow for A */}
         <Liney x1={95 - side2/2} x2={95 - side2/2} y1={50} y2={50 + side1} text={'A'} val={side11} textHeight={-17}/>
 
         {/* Vertical Arrow for C */}
         <Liney x1={105 + side2/2} x2={105 + side2/2} y1={50} y2={50 + side3} text={'C'} val={side33} textHeight={17}/>
+
          {/* Vertical Arrow for E */}
         <Liney x1={105 + side4/2} x2={105 + side4/2} y1={50 + side1 - side5} y2={50 + side1} text={'E'} val={side55} textHeight={17}/>
       

@@ -39,7 +39,7 @@ const Linez = ({x1,y1,thickness,text,val, textHeight}) => {
         />
 
           <text
-          x={x1/2 + textHeight}
+          x={x1 - textHeight - 17}
           y={y1-5}
           fill="blue"
           fontSize={5}

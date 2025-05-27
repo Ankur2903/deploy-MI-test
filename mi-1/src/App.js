@@ -77,6 +77,7 @@ import Hollow_guide_rail from './component/shap/Hollow-guide-rail';
 import Backhoe_a_piller from './component/shap/Backhoe-a-piller';
 import Cat_a_piller from './component/shap/Cat-a-piller';
 import T_shape_6 from './component/shap/T-shape-6';
+import Trip_tube from './component/shap/Trip-tube';
 
 function App() {
 
@@ -177,6 +178,7 @@ function App() {
           <Route exact path='/backhoe-a-piller' element={<PrivateRoute element={<Backhoe_a_piller/>}/>}/>
           <Route exact path='/cat-a-piller' element={<PrivateRoute element={<Cat_a_piller/>}/>}/>
           <Route exact path='/t_shape_6' element={<PrivateRoute element={<T_shape_6/>}/>}/>
+          <Route exact path='/trip-tube' element={<PrivateRoute element={<Trip_tube/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

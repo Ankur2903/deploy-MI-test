@@ -64,6 +64,7 @@ import image60 from './Image/Image-60.png';
 import image61 from './Image/Image-61.png';
 import image62 from './Image/Image-62.png';
 import image63 from './Image/Image-63.png';
+import image64 from './Image/Image-64.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -564,6 +565,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Cat A-Piller</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/trip-tube">
+            <Button>
+              <Image src={image64} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Trip Tube</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

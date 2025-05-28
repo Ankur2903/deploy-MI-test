@@ -4,12 +4,10 @@ import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
-import Triangular_slit_graph from '../Graph/Triangular-slit';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Trapiz_tube_graph from '../Graph/Trapiz-tube';
-import { abs } from 'three/webgpu';
 
 function Trapiz_tube() {
   const [length, setLength] = useState(1);
@@ -21,20 +19,26 @@ function Trapiz_tube() {
     setOuterRadius(2*parseFloat(event.target.value));
   }
 
-  const [side1, setSide1] = useState(65);
+  const [side1, setSide1] = useState(50);
   const side1Change = (event) => setSide1(parseFloat(event.target.value));
 
-  const [side2, setSide2] = useState(54);
+  const [side2, setSide2] = useState(20);
   const side2Change = (event) => setSide2(parseFloat(event.target.value));
 
-  const [side3, setSide3] = useState(60);
+  const [side3, setSide3] = useState(40);
   const side3Change = (event) => setSide3(parseFloat(event.target.value));
 
-  const [side4, setSide4] = useState(22);
+  const [side4, setSide4] = useState(10);
   const side4Change = (event) => setSide4(parseFloat(event.target.value));
 
-  const [side5, setSide5] = useState(14);
+  const [side5, setSide5] = useState(25);
   const side5Change = (event) => setSide5(parseFloat(event.target.value));
+
+  const [angle1, setAngle1] = useState(120);
+  const angle1Change = (event) => setAngle1(parseFloat(event.target.value));
+
+  const [angle2, setAngle2] = useState(130);
+  const angle2Change = (event) => setAngle2(parseFloat(event.target.value));
 
   const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
@@ -54,45 +58,33 @@ function Trapiz_tube() {
     setComy(e);
   };
 
-  const angle1 = Math.asin((side1 - side2)/side5);
-  const angle2 = Math.atan((2*side2)/(side3 - side4));
-  const angle3 = angle1 + angle2;
-  const aa = 180/Math.PI;
+  const aa = Math.PI/180
+  const angle3 = (360 + (180/Math.PI)*Math.atan(side4/(side1/2 - side5/2 - side2/Math.tan(aa*angle1) - side3/Math.tan(aa*(angle1 + angle2)))) - angle2 - angle1)%360
+  const angle4 = 540 - angle1 - angle2 - angle3;
 
-  const l1 = side5 - outerRadius*(Math.tan(angle1/2) + 1/Math.tan(angle3/2));
-  const l2 = side3 - 2*outerRadius*(Math.tan(angle1/2)) - 2*side5*Math.cos(angle1);
-  const l3 = side4 - 2*outerRadius*(Math.tan(angle2/2));
-  const l4 = side2/Math.sin(angle2) - outerRadius*(Math.tan(angle2/2) + 1/Math.tan(angle3/2))
+  const x1 = side1/2 - outerRadius/Math.tan(aa*angle1/2)
+  const y1 = outerRadius
 
-  const x1 = outerRadius;
-  const y1 = side1 - side2 + outerRadius*Math.sin(angle3/2 - angle1)/Math.sin(angle3/2);
+  const x2 = x1 - (side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2)))*Math.cos(aa*angle1)
+  const y2 = y1 + (side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2)))*Math.sin(aa*angle1)
 
-  const x2 = x1 + l1*Math.cos(angle1)
-  const y2 = y1 - l1*Math.sin(angle1)
+  const x4 = side5/2 - outerRadius/Math.tan(aa*angle4/2)
+  const y4 = side2 + side3 + side4 - outerRadius
 
-  const x3 = x2 + l2;
-  const y3 = y2;
-
-  const x4 = x3 +  l1*Math.cos(angle1);
-  const y4 = y1;
-
-  const x6 = x1 - outerRadius*Math.cos(angle3/2 - angle1)/Math.sin(angle3/2) + side3/2 - side4/2 + outerRadius*Math.tan(angle2/2);
-  const y6 = side1 - outerRadius;
-
-  const x5 = x6 + side4 - 2*outerRadius*Math.tan(angle2/2);
-  const y5 = y6
+  const x3 = x4 - (side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle4/2)))*Math.cos(aa*angle4)
+  const y3 = y4 - (side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle4/2)))*Math.sin(aa*angle4)
 
 
   const submitClick = () => {
-    setWeightPerLenght((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*l1 + l2 + l3 + 2*l4)*thickness*0.000001).toFixed(3));
+    setWeightPerLenght((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*l1 + l2 + l3 + 2*l4)*thickness* 0.000001*length).toFixed(3));
+    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))*thickness* 0.000001*length).toFixed(3));
 
-    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 2*l1 + l2 + l3 + 2*l4).toFixed(3));
+    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2)))).toFixed(3));
 
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 4*l1 + 2*l2 + 2*l3 + 4*l4).toFixed(3))
+    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*(2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))).toFixed(3))
 
-    setArea((Math.PI*(Math.pow(outerRadius, 2) - Math.pow(outerRadius  - thickness,2)) + thickness(2*l1 + l2 + l3 + 2*l4)).toFixed(3))
+    setArea((Math.PI*(Math.pow(outerRadius, 2) - Math.pow(outerRadius  - thickness,2)) + thickness( 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))).toFixed(3))
   };
 
   const resetClick = () => {
@@ -103,6 +95,8 @@ function Trapiz_tube() {
     setSide3(0);
     setSide4(0);
     setSide5(0);
+    setAngle1(0)
+    setAngle2(0)
     setOuterRadius(0);
     setWeightPerLenght(0);
     setTotalWeight(0);
@@ -122,30 +116,32 @@ function Trapiz_tube() {
   const create3DShapes = () => {
     const shapes = [];
     const shape1 = new THREE.Shape();
-    shape1.moveTo(x2,  thickness)
-    shape1.lineTo(x2, 0)
-    shape1.absarc(x3,y3, outerRadius, 3*Math.PI/2, 3*Math.PI/2 + angle1, false)
-    shape1.absarc(x4,y4, outerRadius, 3*Math.PI/2 + angle1, Math.PI/2 + angle1 - angle3, false)
-    shape1.absarc(x5, y5, outerRadius, Math.PI/2 + angle1 - angle3, Math.PI/2, false)
-    shape1.lineTo(x6, side1)
-    shape1.lineTo(x6, side1 - thickness)
-    shape1.absarc(x5, y5, outerRadius - thickness, Math.PI/2, Math.PI/2 + angle1 - angle3, true)
-    shape1.absarc(x4,y4, outerRadius - thickness, Math.PI/2 + angle1 - angle3, 3*Math.PI/2 + angle1, true)
-    shape1.absarc(x3,y3, outerRadius - thickness, 3*Math.PI/2 + angle1, 3*Math.PI/2, true)
-    shape1.lineTo(x2, thickness)
+    shape1.moveTo(100 + x1, thickness)
+    shape1.lineTo(100 + x1, 0)
+    shape1.absarc(100 + x1, y1, outerRadius, 3*Math.PI/2, Math.PI/2 - aa*angle1, false)
+    shape1.absarc(100 + x2, y2, outerRadius, Math.PI/2 - aa*angle1,3*Math.PI/2 - aa*(angle1 + angle2) , false)
+    shape1.absarc(100 + x3, y3, outerRadius, 3*Math.PI/2 - aa*(angle1 + angle2), Math.PI/2 - aa*(angle1 + angle2 + angle3), false)
+    shape1.absarc(100 + x4, y4, outerRadius, Math.PI/2 - aa*(angle1 + angle2 + angle3), Math.PI/2, false)
+    shape1.absarc(100 - x4, y4, outerRadius, Math.PI/2, 3*Math.PI/2 - aa*angle4, false)
+    shape1.absarc(100 - x3, y3, outerRadius, 3*Math.PI/2 - aa*angle4, Math.PI/2 - aa*(angle4 + angle3), false)
+    shape1.absarc(100 - x2, y2, outerRadius, Math.PI/2 - aa*(angle4 + angle3), 3*Math.PI/2 - aa*(angle4 + angle3 + angle2), false)
+    shape1.absarc(100 - x1, y1, outerRadius, 3*Math.PI/2 - aa*(angle4 + angle3 + angle2), 3*Math.PI/2, false)
+
+    shape1.absarc(100 - x1, y1, outerRadius - thickness, 3*Math.PI/2, 3*Math.PI/2 - aa*(angle4 + angle3 + angle2), true)
+    shape1.absarc(100 - x2, y2, outerRadius - thickness, 3*Math.PI/2 - aa*(angle4 + angle3 + angle2), Math.PI/2 - aa*(angle4 + angle3), true)
+    shape1.absarc(100 - x3, y3, outerRadius - thickness, Math.PI/2 - aa*(angle4 + angle3), 3*Math.PI/2 - aa*angle4, true)
+    shape1.absarc(100 - x4, y4, outerRadius - thickness, 3*Math.PI/2 - aa*angle4, Math.PI/2, true)
+    shape1.absarc(100 + x4, y4, outerRadius - thickness, Math.PI/2, Math.PI/2 - aa*(angle1 + angle2 + angle3), true)
+    shape1.absarc(100 + x3, y3, outerRadius - thickness, Math.PI/2 - aa*(angle1 + angle2 + angle3), 3*Math.PI/2 - aa*(angle1 + angle2), true)
+    shape1.absarc(100 + x2, y2, outerRadius - thickness,3*Math.PI/2 - aa*(angle1 + angle2), Math.PI/2 - aa*angle1 , true)
+    shape1.absarc(100 + x1, y1, outerRadius - thickness, Math.PI/2 - aa*angle1, 3*Math.PI/2, true)
     shapes.push(shape1)
 
     const shape2 = new THREE.Shape();
-    shape2.moveTo(x6, side1 - thickness)
-    shape2.lineTo(x6, side1)
-    shape2.absarc(x6,y6, outerRadius, Math.PI/2, Math.PI/2 + angle2, false)
-    shape2.absarc(x1, y1, outerRadius, Math.PI/2 + angle2, 3*Math.PI/2 + angle2 - angle3, false)
-    shape2.absarc(x2, y2, outerRadius, 3*Math.PI/2 + angle2 - angle3, 3*Math.PI/2, false)
-    shape2.lineTo(x2, thickness)
-    shape2.absarc(x2, y2, outerRadius - thickness, 3*Math.PI/2, 3*Math.PI/2 + angle2 - angle3, true)
-    shape2.absarc(x1, y1, outerRadius - thickness, 3*Math.PI/2 + angle2 - angle3, Math.PI/2 + angle2, true)
-    shape2.absarc(x6,y6, outerRadius - thickness, Math.PI/2 + angle2, Math.PI/2, true)
-    shape2.lineTo(x6, side1)
+    shape2.moveTo(100 - x1, thickness)
+    shape2.lineTo(100 + x1, thickness)
+    shape2.lineTo(100 + x1, 0)
+    shape2.lineTo(100 - x1, 0)
     shapes.push(shape2)
 
     shapes.forEach((shape) => {
@@ -159,7 +155,7 @@ function Trapiz_tube() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1,side2,side3, side4, side5, outerRadius, thickness, length]);
+  }, [side1,side2,side3, side4, side5,angle1, angle2, outerRadius, thickness, length]);
 
 
   const triangularSlitGraphRef = useRef()
@@ -172,7 +168,7 @@ function Trapiz_tube() {
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   Side(C): ${side3}   Side(D): ${side5}   Side(E): ${side5}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   Side(C): ${side3}   Side(D): ${side5}   Side(E): ${side5}   Angle(1): ${angle1}   Angle(2): ${angle2}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -245,6 +241,14 @@ function Trapiz_tube() {
             <input className="input-field" id="side5" type="number" value={side5} onChange={side5Change} placeholder="Type something..." />
           </div>
           <div className="container1">
+            <lable className="label" htmlFor="angle1">Angle (θ1) degree</lable>
+            <input className="input-field" id="angle1" type="number" value={angle1} onChange={angle1Change} placeholder="Type something..." />
+          </div>
+          <div className="container1">
+            <lable className="label" htmlFor="angle2">Angle (θ2) degree</lable>
+            <input className="input-field" id="angle2" type="number" value={angle2} onChange={angle2Change} placeholder="Type something..." />
+          </div>
+          <div className="container1">
             <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
             <input className="input-field" id="thickness" type="number" value={thickness} onChange={thicknessChange} placeholder="Type something..." />
           </div>
@@ -262,7 +266,7 @@ function Trapiz_tube() {
           </div>
         </div>
         <div className='box'>
-        <div ref={triangularSlitGraphRef}><Trapiz_tube_graph side11={side1} side22 = {side2} side33 = {side3} side44 = {side4} side55 = {side5} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={triangularSlitGraphRef}><Trapiz_tube_graph side11={side1} side22 = {side2} side33 = {side3} side44 = {side4} side55 = {side5} angle1={angle1} angle2={angle2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

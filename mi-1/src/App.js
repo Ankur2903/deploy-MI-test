@@ -78,6 +78,10 @@ import Backhoe_a_piller from './component/shap/Backhoe-a-piller';
 import Cat_a_piller from './component/shap/Cat-a-piller';
 import T_shape_6 from './component/shap/T-shape-6';
 import Trip_tube from './component/shap/Trip-tube';
+import Hand_rail_section from './component/shap/Hand-rail-section';
+import Door_profile from './component/shap/Door-profile';
+import Front_cross_member from './component/shap/Front-cross-member';
+import Frame_profile from './component/shap/Frame-profile';
 
 function App() {
 
@@ -179,6 +183,10 @@ function App() {
           <Route exact path='/cat-a-piller' element={<PrivateRoute element={<Cat_a_piller/>}/>}/>
           <Route exact path='/t_shape_6' element={<PrivateRoute element={<T_shape_6/>}/>}/>
           <Route exact path='/trip-tube' element={<PrivateRoute element={<Trip_tube/>}/>}/>
+          <Route exact path='/hand-rail-section' element={<PrivateRoute element={<Hand_rail_section/>}/>}/>
+          <Route exact path='/door-profile' element={<PrivateRoute element={<Door_profile/>}/>}/>
+          <Route exact path='/front-cross-member' element={<PrivateRoute element={<Front_cross_member/>}/>}/>
+          <Route exact path='/frame-profile' element={<PrivateRoute element={<Frame_profile/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

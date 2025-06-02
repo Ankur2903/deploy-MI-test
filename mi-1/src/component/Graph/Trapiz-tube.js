@@ -17,8 +17,6 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
   const side5 = (side55/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
 
-  console.log({angle1, angle2, angle3, angle4})
-
   const x1 = side1/2 - outerRadius/Math.tan(aa*angle1/2)
   const y1 = 150 - outerRadius
 

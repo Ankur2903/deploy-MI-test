@@ -65,6 +65,10 @@ import image61 from './Image/Image-61.png';
 import image62 from './Image/Image-62.png';
 import image63 from './Image/Image-63.png';
 import image64 from './Image/Image-64.png';
+import image65 from './Image/Image-65.png';
+import image66 from './Image/Image-66.png';
+import image67 from './Image/Image-67.png';
+import image68 from './Image/Image-68.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -574,6 +578,30 @@ function FromTemp() {
           </Link>
           <ButtonText>Trip Tube</ButtonText>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/hand-rail-section">
+            <Button>
+              <Image src={image65} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>2 Hand Rail Section</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/front-cross-member">
+            <Button>
+              <Image src={image67} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Front Cross Member</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/frame-profile">
+            <Button>
+              <Image src={image68} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Frame Profile</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>
 
@@ -805,6 +833,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Crimped Rail</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/door-profile">
+            <Button>
+              <Image src={image66} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Door Profile</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

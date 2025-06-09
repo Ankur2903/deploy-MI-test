@@ -82,6 +82,9 @@ import Hand_rail_section from './component/shap/Hand-rail-section';
 import Door_profile from './component/shap/Door-profile';
 import Front_cross_member from './component/shap/Front-cross-member';
 import Frame_profile from './component/shap/Frame-profile';
+import Craftsman_c_rail from './component/shap/Craftsman-c-rail';
+import Formwork from './component/shap/Formwork';
+import C_pillar from './component/shap/C-pillar';
 
 function App() {
 
@@ -187,6 +190,9 @@ function App() {
           <Route exact path='/door-profile' element={<PrivateRoute element={<Door_profile/>}/>}/>
           <Route exact path='/front-cross-member' element={<PrivateRoute element={<Front_cross_member/>}/>}/>
           <Route exact path='/frame-profile' element={<PrivateRoute element={<Frame_profile/>}/>}/>
+          <Route exact path='/craftsman-c-rail' element={<PrivateRoute element={<Craftsman_c_rail/>}/>}/>
+          <Route exact path='/Formwork' element={<PrivateRoute element={<Formwork/>}/>}/>
+          <Route exact path='/c-pillar' element={<PrivateRoute element={<C_pillar/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

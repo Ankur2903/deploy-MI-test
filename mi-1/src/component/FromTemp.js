@@ -69,6 +69,9 @@ import image65 from './Image/Image-65.png';
 import image66 from './Image/Image-66.png';
 import image67 from './Image/Image-67.png';
 import image68 from './Image/Image-68.png';
+import image69 from './Image/Image-69.png';
+import image70 from './Image/Image-70.png';
+import image71 from './Image/Image-71.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -602,6 +605,22 @@ function FromTemp() {
           </Link>
           <ButtonText>Frame Profile</ButtonText>
         </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/formwork">
+            <Button>
+              <Image src={image70} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Formwork</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/c-pillar">
+            <Button>
+              <Image src={image71} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>C Pillar</ButtonText>
+        </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>
 
@@ -841,6 +860,14 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>Door Profile</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/craftsman-c-rail">
+            <Button>
+              <Image src={image69} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>Craftsman C-Rail</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

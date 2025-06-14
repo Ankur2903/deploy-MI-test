@@ -72,6 +72,9 @@ import image68 from './Image/Image-68.png';
 import image69 from './Image/Image-69.png';
 import image70 from './Image/Image-70.png';
 import image71 from './Image/Image-71.png';
+import image72 from './Image/Image-72.png';
+import image73 from './Image/Image-73.png';
+import image74 from './Image/Image-74.png';
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -620,6 +623,30 @@ function FromTemp() {
             </Button>
           </Link>
           <ButtonText>C Pillar</ButtonText>
+        </ButtonWrapper>
+         <ButtonWrapper>
+          <Link to="/a-post-2">
+            <Button>
+              <Image src={image72} alt="Description of Image" />
+            </Button>
+          </Link>
+          <ButtonText>A Post-2</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/front-st-a-pillar">
+            <Button>
+              <Image src={image73} alt="Description of Image"/>
+            </Button>
+          </Link>
+          <ButtonText>Front ST A Pillar</ButtonText>
+        </ButtonWrapper>
+        <ButtonWrapper>
+          <Link to="/d-pillar-rear">
+            <Button>
+              <Image src={image74} alt="Description of Image"/>
+            </Button>
+          </Link>
+          <ButtonText>D Pillar Rear</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

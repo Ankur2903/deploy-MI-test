@@ -85,6 +85,10 @@ import Frame_profile from './component/shap/Frame-profile';
 import Craftsman_c_rail from './component/shap/Craftsman-c-rail';
 import Formwork from './component/shap/Formwork';
 import C_pillar from './component/shap/C-pillar';
+import A_post_2 from './component/shap/A-post-2';
+import Front_st_a_pillar from './component/shap/Front-st-a-pillar';
+import D_pillar_rear from './component/shap/D-pillar-rear';
+
 
 function App() {
 
@@ -193,6 +197,9 @@ function App() {
           <Route exact path='/craftsman-c-rail' element={<PrivateRoute element={<Craftsman_c_rail/>}/>}/>
           <Route exact path='/Formwork' element={<PrivateRoute element={<Formwork/>}/>}/>
           <Route exact path='/c-pillar' element={<PrivateRoute element={<C_pillar/>}/>}/>
+          <Route exact path='/a-post-2' element={<PrivateRoute element={<A_post_2/>}/>}/>
+          <Route exact path='/front-st-a-pillar' element={<PrivateRoute element={<Front_st_a_pillar/>}/>}/>
+          <Route exact path='/d-pillar-rear' element={<PrivateRoute element={<D_pillar_rear/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

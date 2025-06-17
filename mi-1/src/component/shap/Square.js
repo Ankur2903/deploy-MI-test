@@ -1,22 +1,23 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
 import Square_graph from '../Graph/Square';
+import Feasibility from '../Feasibility';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 
-
 function Square() {
-  const [side, setSide] = useState(50);
+  const [parameters, setParameters] = useState(0)
+  const [side, setSide] = useState(100);
   const sideChange = (event) => {
     setSide(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(2);
+  const [thickness, setThickness] = useState(10);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(parseFloat(2*event.target.value));
@@ -27,7 +28,7 @@ function Square() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(4);
+  const [outerRadius, setOuterRadius] = useState(20);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
@@ -41,9 +42,6 @@ function Square() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
-
   const submitClick = () => {
     setWeightPerLenght(((2*Math.PI*(outerRadius - thickness*0.6) + 4*(side - 2*outerRadius))*thickness*7850*0.000001).toFixed(3));
 
@@ -56,7 +54,6 @@ function Square() {
     setArea((thickness*4*(side - 2*outerRadius) + Math.PI*Math.pow(outerRadius,2) - Math.PI*Math.pow(outerRadius - thickness,2)).toFixed(3))
 
     // setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
-
   }
 
   const resetClick = () => {
@@ -87,64 +84,20 @@ function Square() {
     shape1.lineTo(side - outerRadius, thickness);
     shape1.lineTo(side - outerRadius, 0)
     shape1.lineTo(outerRadius, 0)
-    shape1.lineTo(outerRadius, thickness)
     shapes.push(shape1)
 
     const shape2 = new THREE.Shape();
-    shape2.moveTo(0, outerRadius);
-    shape2.lineTo(thickness, outerRadius);
-    shape2.arc(outerRadius - thickness,0,outerRadius - thickness,2*Math.PI/2,3*Math.PI/2,false)
+    shape2.moveTo(outerRadius, thickness)
     shape2.lineTo(outerRadius, 0)
-    shape2.arc(0,outerRadius,outerRadius,3*Math.PI/2,2*Math.PI/2,true)
+    shape2.absarc(outerRadius, outerRadius, outerRadius, 3*Math.PI/2, Math.PI, true)
+    shape2.absarc(outerRadius, side - outerRadius, outerRadius, Math.PI, Math.PI/2, true)
+    shape2.absarc(side - outerRadius, side - outerRadius, outerRadius, Math.PI/2, 0, true)
+    shape2.absarc(side - outerRadius, outerRadius, outerRadius, 0, 3*Math.PI/2, true)
+    shape2.absarc(side - outerRadius, outerRadius, outerRadius - thickness, 3*Math.PI/2, 0, false)
+    shape2.absarc(side - outerRadius, side - outerRadius, outerRadius - thickness, 0, Math.PI/2, false)
+    shape2.absarc(outerRadius, side - outerRadius, outerRadius - thickness, Math.PI/2, Math.PI, false)
+    shape2.absarc(outerRadius, outerRadius, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
     shapes.push(shape2)
-
-    const shape3 = new THREE.Shape();
-    shape3.moveTo(0, outerRadius);
-    shape3.lineTo(0,side - outerRadius);
-    shape3.lineTo(thickness, side - outerRadius)
-    shape3.lineTo(thickness, outerRadius)
-    shape3.lineTo(0, outerRadius)
-    shapes.push(shape3)
-
-    const shape4 = new THREE.Shape();
-    shape4.moveTo(outerRadius, side);
-    shape4.lineTo(outerRadius, side - thickness);
-    shape4.arc(0,-outerRadius + thickness,outerRadius - thickness,1*Math.PI/2,2*Math.PI/2,false)
-    shape4.lineTo(0, side - outerRadius)
-    shape4.arc(outerRadius, 0,outerRadius,2*Math.PI/2,1*Math.PI/2,true)
-    shapes.push(shape4)
-
-    const shape5 = new THREE.Shape();
-    shape5.moveTo(outerRadius, side - thickness);
-    shape5.lineTo(outerRadius, side);
-    shape5.lineTo(side - outerRadius, side)
-    shape5.lineTo(side - outerRadius, side - thickness)
-    shape5.lineTo(outerRadius, side - thickness)
-    shapes.push(shape5)
-
-    const shape6 = new THREE.Shape();
-    shape6.moveTo(side, side - outerRadius);
-    shape6.lineTo(side - thickness, side - outerRadius);
-    shape6.arc(thickness- outerRadius, 0,outerRadius - thickness,0*Math.PI/2,1*Math.PI/2,false)
-    shape6.lineTo(side - outerRadius, side)
-    shape6.arc(0, - outerRadius,outerRadius,1*Math.PI/2,0*Math.PI/2,true)
-    shapes.push(shape6)
-
-    const shape7 = new THREE.Shape();
-    shape7.moveTo(side - thickness,side - outerRadius);
-    shape7.lineTo(side,side - outerRadius);
-    shape7.lineTo(side,outerRadius)
-    shape7.lineTo(side - thickness, outerRadius)
-    shape7.lineTo(side - thickness,side - outerRadius)
-    shapes.push(shape7)
-
-    const shape8 = new THREE.Shape();
-    shape8.moveTo(side - outerRadius, 0);
-    shape8.lineTo(side - outerRadius, thickness);
-    shape8.arc(0, outerRadius - thickness,outerRadius - thickness,3*Math.PI/2,0*Math.PI/2,false)
-    shape8.lineTo(side, outerRadius)
-    shape8.arc( -outerRadius,0,outerRadius,0*Math.PI/2,3*Math.PI/2,true)
-    shapes.push(shape8)
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -158,8 +111,6 @@ function Square() {
     groupRef.current.clear();
     create3DShapes();
   }, [side, outerRadius, thickness, length]);
-
-
 
   const squareGraphRef = useRef()
 
@@ -205,8 +156,23 @@ function Square() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
+
   return (
     <div>
+       <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              {/* <div className="modal-header">
+                <h3>Feasibility Check</h3>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div> */}
+              <div className="modal-body">
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              </div>
+              
+            </div>
+          </div>
+        </div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Square Tube</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -217,6 +183,7 @@ function Square() {
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
+        <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
       </div>
     </div>
       <div className = "container">

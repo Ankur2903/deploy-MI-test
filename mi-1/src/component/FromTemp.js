@@ -214,7 +214,7 @@ function FromTemp() {
     <ButtonContainer>
       <div style={containerStyle}>
       <div style={leftStyle}>
-      <Heading>Close Shapes</Heading>
+      <Heading>Close Profile</Heading>
       <ButtonWrapperContainer className='col-md-12'>      
         {/* <!-- Button trigger modal --> */}
         <ButtonWrapper>
@@ -654,7 +654,7 @@ function FromTemp() {
       <div style={dividerStyle}></div>
 
       <div style={rightStyle}>
-      <Heading>Open Shapes</Heading>
+      <Heading>Open Profile</Heading>
       <ButtonWrapperContainer  className='col-md-12'>
       <ButtonWrapper>
           <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">

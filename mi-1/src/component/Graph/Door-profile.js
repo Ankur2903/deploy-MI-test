@@ -29,7 +29,6 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
 
   const y3 = 150 - outerRadius1 - (side7/Math.sin(aa*angle2) - outerRadius1/Math.tan(aa*angle2/2) - outerRadius1/Math.tan(aa*angle3/2))*Math.sin(aa*angle2)
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -189,12 +188,9 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
         <rect x={50 + outerRadius1} y={150 - side5 - thickness} width={side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)} height={thickness} fill="black"/>
         <rect x={50 + side4 - (l1 + (2*outerRadius1 - thickness)/Math.tan(aa*angle1/2))*Math.cos(aa*angle1) + (outerRadius1 - thickness)/Math.tan(aa*angle1/2)} y={150 - thickness} width={side6 - outerRadius1*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))} height={thickness} fill="black"/>
        
- 
         <LineAtTheta x={50 + side4 - outerRadius1/Math.tan(aa*angle1/2) + outerRadius1*Math.sin(aa*angle1)} y={150 - side5 - thickness + outerRadius1 + outerRadius1*Math.cos(aa*angle1)} w={l1} h={thickness} angle={180 - angle1}/>   
         <LineAtTheta x={x2 + (outerRadius1 - thickness)*Math.sin(aa*angle2)} y={150 - outerRadius1 - (outerRadius1 - thickness)*Math.cos(aa*angle2)} w={side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))} h={thickness} angle={180 + angle2}/>  
-        
         <LineAtTheta x={x3 - (outerRadius1 - thickness)*Math.sin(aa*(angle2 + angle3))} y={y3 + (outerRadius1 - thickness)*Math.cos(aa*(angle2 + angle3))} w={-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2)} h={thickness} angle={angle2 + angle3}/>   
-       
 
         {/* outer radius */}
         <CircleSector radius={outerRadius2} centerX={50 + outerRadius2} centerY={150 - side5 - side3 + outerRadius2} angle={90} rotation={180} thickness={thickness}/>   

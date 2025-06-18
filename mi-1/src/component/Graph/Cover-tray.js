@@ -18,7 +18,6 @@ function Cover_tray_graph({ side11, side22, side33, side44,side55, thickness1, o
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -181,7 +180,6 @@ function Cover_tray_graph({ side11, side22, side33, side44,side55, thickness1, o
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        
         {/* Top hat Shape */}
         <rect x={50} y={150 - side3} width={side1 - outerRadius} height={thickness} fill="black" />
         <rect x={50 + side1 - thickness} y={150 - side3 + outerRadius} width={thickness} height={side3-2*outerRadius} fill="black" />
@@ -197,7 +195,6 @@ function Cover_tray_graph({ side11, side22, side33, side44,side55, thickness1, o
         <CircleSector radius={thickness} centerX={50 + side1 + side2 - 2*thickness} centerY={150 - side5 + thickness} angle={180} rotation={180} thickness={thickness}/>
 
         <CircleSector radius={outerRadius} centerX={50 + side1 + side2 - outerRadius - thickness} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-       
 
          {/* Horizontal Arrow for A */}
          <Linex x1={50} x2={50 + side1} y1={145 - side3} y2={145 - side3} text={'A'} val={side11} textHeight={-5}/>
@@ -213,8 +210,7 @@ function Cover_tray_graph({ side11, side22, side33, side44,side55, thickness1, o
 
         {/* Vertical Arrow for D */}
         <Liney x1={45 + side1 + side2 - 3*thickness} x2={45 + side1 + side2 - 3*thickness} y1={150 - side5} y2={150 - side5 + side4} text={'D'} val={side44} textHeight={-14}/>
-
-
+        
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

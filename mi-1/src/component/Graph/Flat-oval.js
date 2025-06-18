@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -172,9 +172,6 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
-
         {/* flatoval Shape */}
         <rect x={50+outerRadius} y={sidey - thickness + 50 + (100-sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
         <rect x={50+outerRadius} y={50 + (100-sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
@@ -183,9 +180,8 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
 
         <CircleSector radius={sidey/2} centerX={50 + sidex - outerRadius} centerY={50 + sidey - outerRadius + (100-sidey)/2} angle={180} rotation={270} thickness={thickness}/>
 
-
-         {/* Horizontal Arrow for width */}
-         <Linex x1={50} x2={sidex + 50} y1={sidey+ 55 + (100-sidey)/2} y2={sidey + 55 + (100-sidey)/2} text={'w'} val={side1} textHeight={5}/>
+        {/* Horizontal Arrow for width */}
+        <Linex x1={50} x2={sidex + 50} y1={sidey+ 55 + (100-sidey)/2} y2={sidey + 55 + (100-sidey)/2} text={'w'} val={side1} textHeight={5}/>
 
         {/* Vertical Arrow for Height */}
         <Liney x1={55 + sidex} x2={55 + sidex} y1={50 + (100-sidey)/2} y2={50 + sidey + (100-sidey)/2} text={'h'} val={2*outerRadius1} textHeight={17}/>

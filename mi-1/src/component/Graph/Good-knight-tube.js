@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -14,11 +14,6 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
   const angle = angle1;
   const thickness = (thickness1/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
-
-
-  console.log(angle*180/Math.PI)
-
-  const  comy = 1//parseFloat(((1)/(1)).toFixed(2))
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);

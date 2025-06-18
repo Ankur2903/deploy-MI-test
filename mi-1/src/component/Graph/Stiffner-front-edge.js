@@ -12,7 +12,6 @@ function Stiffner_front_edge_graph({ side11, side22, side33, side44, thickness1,
   const side4 = (side44/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
 
-  console.log({side1})
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);

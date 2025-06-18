@@ -1,10 +1,10 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 
-function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, outerRadius1, sendValuey}) {
+function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, outerRadius1}) {
   const aa = Math.PI/180
   const mx = Math.max(side11 - 2*thickness1 + 2*side33*Math.sin(aa*angle),side22 - side33*Math.cos(aa*angle));
   const thickness = (thickness1/mx)*100;
@@ -17,8 +17,6 @@ function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, out
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
-  const arrowSize = 2; // Arrowhead size relative to the shape
-  const textOffset = 1; // Distance between the arrow and text
 
   const svgWidth = 200;
   const svgHeight = 200;
@@ -176,8 +174,6 @@ function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, out
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* L Shape */}
         <rect x={50 + side3*Math.sin(aa*angle) - thickness + outerRadius} y={150 - thickness} width={side1 - 2*outerRadius} height={thickness} fill="black" />
         <rect x={50 + side3*Math.sin(aa*angle) - thickness} y={150 - side2 + outerRadius/Math.tan(aa*angle/2)} width={thickness} height={side2 - outerRadius - outerRadius/Math.tan(aa*angle/2)} fill="black" />
@@ -194,7 +190,6 @@ function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, out
         <CircleSector radius={outerRadius} centerX={50 + side3*Math.sin(aa*angle) - thickness + side1 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
 
         <CircleSector radius={outerRadius} centerX={50 + side3*Math.sin(aa*angle) - 2*thickness + side1 + outerRadius} centerY={150 - side2 + outerRadius/Math.tan(aa*angle/2)} angle={180 - angle} rotation={180} thickness={thickness}/>
-
 
          {/* Horizontal Arrow for width */}
          <Linex x1={50 + side3*Math.sin(aa*angle) - thickness} x2={50 + side3*Math.sin(aa*angle) - thickness + side1} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>

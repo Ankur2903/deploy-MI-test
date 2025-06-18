@@ -24,7 +24,6 @@ function Guide_rail_graph({ thickness1, side11, side22, sendValuex, sendValuey})
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -183,7 +182,6 @@ function Guide_rail_graph({ thickness1, side11, side22, sendValuex, sendValuey})
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
-
 
         {/* L Shape */}
         <rect x={50 + side2/2} y={150 - thickness} width={side1 - side2} height={thickness} fill="black"/>

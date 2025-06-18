@@ -4,7 +4,7 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 
-function D_pillar_rear_graph({ side11, side22, side33, side44, side55, side66, radius11, radius22, radius33, radius44, angle1, angle2, angle3, angle4, thickness1, outerRadius1}) {
+function D_pillar_rear_graph({ side11, side22, side33, side44, side55, radius11, radius22, radius33, radius44, angle1, angle2, angle3, angle4, thickness1, outerRadius1}) {
   const aa = Math.PI/180;
   const mx = Math.max(side11 + side22, side55 + radius11);
   const thickness = (thickness1/mx)*100;
@@ -13,7 +13,6 @@ function D_pillar_rear_graph({ side11, side22, side33, side44, side55, side66, r
   const side3 = (side33/mx)*100;
   const side4 = (side44/mx)*100;
   const side5 = (side55/mx)*100;
-  const side6 = (side66/mx)*100;
   const radius1 = (radius11/mx)*100;
   const radius2 = (radius22/mx)*100;
   const radius3 = (radius33/mx)*100;
@@ -193,13 +192,11 @@ function D_pillar_rear_graph({ side11, side22, side33, side44, side55, side66, r
         <rect x={50 + side1 + outerRadius} y={150 - thickness} width={side2 - 2*outerRadius} height={thickness} fill="black" />
         <rect x={50 + side1 + side2 - thickness} y={150 - side5} width={thickness} height={side5 - outerRadius} fill="black" />
         <rect x={50 + side1} y={150 - side3 + radius2 - thickness} width={thickness} height={side3 - outerRadius - radius2 + thickness} fill="black" />
-        
  
         <LineAtTheta x={50 + outerRadius/Math.tan(aa*angle1/2) - outerRadius*Math.sin(aa*angle1)} y={150 - side3 - outerRadius - outerRadius*Math.cos(aa*angle1)} w={l1} h={thickness} angle={-angle1}/>   
         <LineAtTheta x={x2 + outerRadius*Math.sin(aa*(angle1 + angle2))} y={y2 + outerRadius*Math.cos(aa*(angle1 + angle2))} w={l2} h={thickness} angle={180 - angle1 - angle2}/>  
         <LineAtTheta x={x1 - (radius4 - thickness)*Math.sin(aa*(angle1 + angle2 - angle3))} y={y1 - (radius4 - thickness)*Math.cos(aa*(angle1 + angle2 - angle3))} w={l3} h={thickness} angle={180 - angle1 - angle2 + angle3}/>  
        
-
         {/* outer radius */}
         <CircleSector radius={radius2} centerX={50 + side1 - radius2 + thickness} centerY={150 - side3 + radius2 - thickness} angle={90} rotation={270} thickness={thickness}/>  
         <CircleSector radius={outerRadius} centerX={50 + side1 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>  
@@ -209,8 +206,6 @@ function D_pillar_rear_graph({ side11, side22, side33, side44, side55, side66, r
         <CircleSector radius={radius4} centerX={x1} centerY={y1} angle={180 - angle4} rotation={angle5 + angle4} thickness={thickness}/>  
         <CircleSector radius={outerRadius} centerX={x2} centerY={y2} angle={180 - angle2} rotation={270 - angle1} thickness={thickness}/>  
         <CircleSector radius={radius3} centerX={x3} centerY={y3} angle={180 - angle3} rotation={90 - angle1 - angle2 + angle3} thickness={thickness}/>  
-       
-       
       
          {/* Vertical Arrow for G */}
         <Liney x1={45} x2={45} y1={150 - side3} y2={150} text={'C'} val={side33} textHeight={-17}/>
@@ -236,8 +231,6 @@ function D_pillar_rear_graph({ side11, side22, side33, side44, side55, side66, r
         <Linex x1={x3} x2={x3} y1={y3 + 10} y2={y3 + 10} text={'θ3'} val={angle3} textHeight={5} unit={" "}/>
 
         <Linex x1={x1} x2={x1} y1={y1 - 10} y2={y1 - 10} text={'θ4'} val={angle4} textHeight={-5} unit={" "}/>
-
-        
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

@@ -3,7 +3,6 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
-import Linez from './Shap/Linez';
 
 function Frame_profile_graph({ side11, side22, side33, side44, side55, thickness1, outerRadius11, outerRadius22, outerRadius33, outerRadius44, angle1, angle2, angle3, angle4, sendValuey}) {
   const mx = Math.max(side22,side11);
@@ -40,9 +39,6 @@ function Frame_profile_graph({ side11, side22, side33, side44, side55, thickness
   const l4 = (50 + side1 - x3 - outerRadius4*(1 + Math.sin(aa*(angle4 + angle5))) - (outerRadius3 - thickness)*Math.sin(aa*(angle4 + angle5)))/Math.cos(aa*(180 - angle4 - angle5))
 
   const l5 = outerRadius3 + outerRadius3*Math.cos(aa*(angle4 + angle5)) + l4*Math.sin(aa*(angle4 + angle5)) + (outerRadius4 - thickness)*Math.cos(aa*(angle4 + angle5)) + outerRadius4 + thickness
-
-  
-
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);

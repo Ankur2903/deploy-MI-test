@@ -23,7 +23,6 @@ function Backhoe_a_piller_graph({ side11, side22, side33, side44, side55, side66
   const l1 = (side6 - (2*outerRadius - thickness)*(1 + Math.cos(aa*angle)) - side7)/(Math.sin(aa*angle))
   const l2 = side1 - side5 + outerRadius/Math.tan(aa*angle/2) - (2*outerRadius - thickness)*Math.sin(aa*angle) + l1*Math.cos(aa*angle) - outerRadius
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });

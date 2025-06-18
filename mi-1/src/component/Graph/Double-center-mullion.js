@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
-import LineAtTheta from './Shap/LineAtθ';
 
 function Double_center_mullion_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, sendValuey}) {
   const mx = Math.max(side44,side11);
@@ -185,8 +184,6 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
         <rect x={50 + outerRadius + side6} y={150 - side1} width={side5 - 2*outerRadius} height={thickness} fill="black"/>
         <rect x={50 + side6} y={150 - side1 + outerRadius} width={thickness} height={side3 - 2*outerRadius + thickness} fill="black"/>
         <rect x={50 + outerRadius} y={150 - side1 + side3} width={side6 - outerRadius - thickness} height={thickness} fill="black"/>
-       
-        
 
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + side6 + outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
@@ -217,8 +214,8 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
         {/* Vertical Arrow for B */}
         <Liney x1={45} x2={45} y1={150 - side1 + side3} y2={150 - side1 + side3 + side2} text={'B'} val={side22} textHeight={-17}/>
 
-          {/* Vertical Arrow for C */}
-          <Liney x1={45} x2={45} y1={150 - side1} y2={150 - side1 + side3} text={'C'} val={side33} textHeight={-17}/>
+        {/* Vertical Arrow for C */}
+        <Liney x1={45} x2={45} y1={150 - side1} y2={150 - side1 + side3} text={'C'} val={side33} textHeight={-17}/>
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

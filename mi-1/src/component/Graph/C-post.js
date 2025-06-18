@@ -3,7 +3,6 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
-import { MarchingCube } from '@react-three/drei';
 
 function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickness1, outerRadius1}) {
   const aa = Math.PI/180
@@ -225,8 +224,6 @@ function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickn
 
         <Linex x1={45 + outerRadius - side3*Math.cos(aa*angle1)} x2={45 + outerRadius - side3*Math.cos(aa*angle1)} y1={170 - side2 + side3*Math.cos(aa*angle1)} y2={170 - side2 + side3*Math.cos(aa*angle1)} text={'θ2'} val={angle22} textHeight={7} unit={" "}/>
 
-        
-      
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

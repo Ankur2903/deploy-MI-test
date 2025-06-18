@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -13,7 +13,7 @@ function Al_lip_cover_graph({ side11, side22, side33, side44, angle, thickness1,
   const side4 = (side44/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
 
-   const aa = Math.PI/180;
+  const aa = Math.PI/180;
   const x = ((side2 - side3 + 2*thickness)/2 - 2*outerRadius - 2*outerRadius*Math.cos(aa*angle) + thickness*Math.cos(aa*angle))/(Math.sin(aa*angle))
   const l = side1 - side4 - outerRadius + outerRadius/Math.tan(aa*angle/2) + thickness*Math.sin(aa*angle) + x*Math.cos(aa*angle) - 2*outerRadius*Math.sin(aa*angle)
 
@@ -188,8 +188,6 @@ function Al_lip_cover_graph({ side11, side22, side33, side44, angle, thickness1,
         <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius - l} angle={180 - angle} rotation={angle - 180} thickness={thickness}/>
          <CircleSector radius={outerRadius} centerX={50 + side2/2 - side3/2 - outerRadius + thickness} centerY={150 - side1 + side4 - outerRadius/Math.tan(aa*angle/2)} angle={180 - angle} rotation={0} thickness={thickness}/>
          <CircleSector radius={outerRadius} centerX={50 + side2/2 + side3/2 - thickness + outerRadius} centerY={150 - side1 + side4 - outerRadius/Math.tan(aa*angle/2)} angle={180 - angle} rotation={angle} thickness={thickness}/>
-       
-      
 
         {/* Horizontal Arrow for side2 */}
         <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>
@@ -205,7 +203,6 @@ function Al_lip_cover_graph({ side11, side22, side33, side44, angle, thickness1,
 
         {/* Vertical Arrow for Angle */}
          <Linex x1={55 + side2} x2={55 + side2} y1={150 - l - outerRadius} y2={150 - l - outerRadius} text={'θ'} val={angle} textHeight={-9} unit={" "}/>
-
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

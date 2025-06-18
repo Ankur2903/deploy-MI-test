@@ -3,7 +3,6 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
-import { sin } from 'three/webgpu';
 
 function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, angle1, angle2, angle3, radius1}) {
   const aa = Math.PI/180;
@@ -36,7 +35,6 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
 
   const x2 = 50 + outerRadius + (2*outerRadius - thickness)*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3)
   const y2 = 150 - side2 - side1 + outerRadius/Math.tan(aa*angle3/2) - (2*outerRadius - thickness)*Math.sin(aa*angle3) + l3*Math.cos(aa*angle3)
-
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -197,11 +195,9 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
         <rect x={50} y={150 - side1 - side2 + outerRadius/Math.tan(aa*angle3/2)} width={thickness} height={side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)} fill="black"/>
         <rect x={50 + outerRadius} y={150 - side2 - thickness} width={side3 - 2*outerRadius + thickness} height={thickness} fill="black"/>
         
-        
         <LineAtTheta x={x1 - (radius - thickness)*Math.cos(aa*angle1)} y = {y1 - (radius - thickness)*Math.sin(aa*angle1)} w={l1} h={thickness} angle={90 + angle1}/>
         <LineAtTheta x={x4 + outerRadius*Math.cos(aa*angle3)} y = {y4 - outerRadius*Math.sin(aa*angle3)} w={l3} h={thickness} angle={90 - angle3}/>
         <LineAtTheta x={x3 + (outerRadius - thickness)*Math.cos(aa*(angle1 + angle2))} y = {y3 + (outerRadius - thickness)*Math.sin(aa*(angle1 + angle2))} w={l2} h={thickness} angle={angle1 + angle2 - 90}/>
-        
 
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side2 - side1 + outerRadius/Math.tan(aa*angle3/2)} angle={180 - angle3} rotation={180} thickness={thickness}/>

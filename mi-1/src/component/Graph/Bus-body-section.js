@@ -20,7 +20,6 @@ function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickne
 
   const l = (side3 - side2 + thickness - thickness*Math.cos(angle))/Math.sin(angle) - 2*outerRadius*Math.tan(angle/2)
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -181,8 +180,6 @@ function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickne
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* Line Shape */}
         <rect x={50 + outerRadius} y={150 - thickness} width={side3 - 2*outerRadius} height={thickness} fill="black" />
         <rect x={50} y={150 - side1 + outerRadius} width={thickness} height={side1 - 2*outerRadius} fill="black" />
@@ -190,7 +187,6 @@ function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickne
         <rect x={50 + side3 - thickness} y={150 - side4 + outerRadius*Math.tan(angle/2)} width={thickness} height={side4 - outerRadius - outerRadius*Math.tan(angle/2)} fill="black" />
         <rect x={50 + side2 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side5 - outerRadius - outerRadius*Math.tan(angle/2)} fill="black" />
         <LineAtTheta x={50 + side2 - thickness + outerRadius - (outerRadius - thickness)*Math.cos(angle)} y = {150 - side1 + side5 - outerRadius*Math.tan(angle/2) + (outerRadius - thickness)*Math.sin(angle)} w = {l} h ={thickness} angle={90 - aa*angle}/>
-        
 
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
@@ -209,7 +205,6 @@ function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickne
         {/* Vertical Arrow for side3 */}
         <Linex x1={50} x2={50 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>       
         
-
         {/* Horizontal Arrow for side4 */}
         <Liney x1={55 + side3} x2={55 + side3} y1={150 -side4} y2={150} text={'D'} val={side44} textHeight={17}/>
 

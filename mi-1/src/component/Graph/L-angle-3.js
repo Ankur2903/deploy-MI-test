@@ -3,7 +3,7 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
-function L_angle_3_graph({ thickness1, side11, side22, side33, side44, outerRadius1, sendValuex, sendValuey, lAngleGraphRef}) {
+function L_angle_3_graph({ thickness1, side11, side22, side33, side44, outerRadius1, sendValuex, sendValuey}) {
   const mx = Math.max(side11,side22,side33, side44);
   const thickness = (thickness1/mx)*100;
   const side1 = (side11/mx)*100;
@@ -182,24 +182,20 @@ function L_angle_3_graph({ thickness1, side11, side22, side33, side44, outerRadi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
         {/* L Shape */}
         <rect x={50 + side3 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side4 - outerRadius} fill="black"/>
         <rect x={50 + outerRadius} y={150 - side1} width={side3 - 2*outerRadius} height={thickness} fill="black"/>
         <rect x={50} y={150 - side1 + outerRadius} width={thickness} height={side1 - 2*outerRadius} fill="black"/>
         <rect x={50 + outerRadius} y={150 - thickness} width={side2 - outerRadius} height={thickness} fill="black"/>
         
-        
         <CircleSector radius={outerRadius} centerX={50 + side3 - outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
       
-
         <Liney x1={55 + side3} x2={55 + side3} y1={150 - side1} y2={150 - side1 + side4} text={'D'} val={side44} textHeight={17}/>{/*Arrow for side6 */}
         <Linex x1={50} x2={50 + side3} y1={145 - side1} y2={145 - side1} text={'C'} val={side33} textHeight={-5}/>{/*Arrow for sid4 */}
         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>{/*Arrow for side1 */}
         <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>{/*Arrow for side3 */}
-
         
         </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

@@ -178,8 +178,6 @@ function Beam_window_frame_1_graph({ side11, side22,side33, side44, radius1, thi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* Line Shape */}
         <rect x={50 + outerRadius} y={150 - thickness} width={side3 - outerRadius - radius} height={thickness} fill="black" />
         <rect x={50} y={150 - side1 + outerRadius} width={thickness} height={side1 - 2*outerRadius} fill="black" />
@@ -187,8 +185,6 @@ function Beam_window_frame_1_graph({ side11, side22,side33, side44, radius1, thi
         <rect x={50 + side2 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side1 - 2*outerRadius + thickness - side4} fill="black" />
         <rect x={50 + side2 + outerRadius - thickness} y={150 - side4} width={side3 - side2 - outerRadius + thickness - radius} height={thickness} fill="black" />
         <rect x={50 + side3 - thickness} y={150 - side4 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
-
-        
 
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
@@ -212,8 +208,6 @@ function Beam_window_frame_1_graph({ side11, side22,side33, side44, radius1, thi
 
         {/* Vertical Arrow for radius */}
         <Linex x1={50 + side3 - radius} x2={50 + side3} y1={145 - side4} y2={145 - side4} text={'R'} val={radius1} textHeight={-6}/>  
-
-        
       
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

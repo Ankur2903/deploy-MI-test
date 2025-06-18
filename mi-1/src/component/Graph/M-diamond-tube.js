@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -173,7 +173,6 @@ function M_diamond_tube_graph({ side11, side22, side33, thickness1, outerRadius1
         <rect x={50} y={150 - side1 +  outerRadius/Math.tan(angle/2)} width={thickness} height={side1 - outerRadius - outerRadius/Math.tan(angle/2)} fill="black" />
         <rect x={50 + side2 - thickness} y={150 - side3 +  outerRadius*Math.tan(angle/2)} width={thickness} height={side3 - outerRadius - outerRadius*Math.tan(angle/2)} fill="black" />
         
-
         <LineAtTheta x={50 + (outerRadius/Math.tan(angle/2))*Math.sin(angle)} y={150 - side1 + (outerRadius/Math.tan(angle/2))*Math.cos(angle)} w={l} h={thickness} angle={90 - aa*angle}/>
 
         {/* outer radius */}
@@ -182,15 +181,11 @@ function M_diamond_tube_graph({ side11, side22, side33, thickness1, outerRadius1
         <CircleSector radius={outerRadius} centerX={50 +  outerRadius} centerY={150 - side1 +  outerRadius/Math.tan(angle/2)} angle={180 - aa*angle} rotation={180} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - side3 +  outerRadius*Math.tan(angle/2)} angle={aa*angle} rotation={0 - aa*angle} thickness={thickness}/>
       
-
         {/* Horizontal Arrow for side1 */}
         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
 
         {/* Horizontal Arrow for side3 */}
         <Liney x1={55 + side2} x2={55 + side2} y1={150 - side3} y2={150} text={'C'} val={side33} textHeight={17}/>
-
-        {/* Horizontal Arrow for side3 */}
-        
 
         {/* Vertical Arrow for B */}
         <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>s

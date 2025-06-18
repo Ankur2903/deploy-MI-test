@@ -17,7 +17,6 @@ function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadi
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -180,7 +179,7 @@ function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        
+  
         {/* Top hat Shape */}
         <rect x={50} y={150 - side1 + thickness} width={thickness} height={side1-2*thickness} fill="black" />
         <rect x={50  + thickness} y={150 - side1 + thickness} width={thickness} height={side3-thickness - outerRadius} fill="black" />

@@ -7,7 +7,6 @@ import LineAtTheta from './Shap/LineAtθ';
 function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1, outerRadius1}) {
   const aa = Math.PI/180;
   const A1 = 2*(radius1*Math.sin(aa*angle22) + (outerRadius1 - thickness1)*( - Math.sin(aa*angle11) + Math.sin(aa*angle22)) + ((side11 - thickness1)/Math.sin(aa*angle11) - outerRadius1/Math.tan(aa*(angle11 + angle22)/2) + thickness1/Math.tan(aa*angle11/2))*Math.cos(aa*angle11))
-
   const B1 = radius1*Math.cos(aa*angle22) + (outerRadius1 - thickness1)*(Math.cos(aa*angle11) + Math.cos(aa*angle22)) + ((side11 - thickness1)/Math.sin(aa*angle11) - outerRadius1/Math.tan(aa*(angle11 + angle22)/2) + thickness1/Math.tan(aa*angle11/2))*Math.sin(aa*angle11)
 
   const mx = Math.max(2*radius1, A1, B1 + radius1);
@@ -178,10 +177,8 @@ function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1
         <rect x={100 - A/2 + outerRadius/Math.tan(aa*angle1/2)} y={150 - thickness} width={A - 2*outerRadius/Math.tan(aa*angle1/2)} height={thickness} fill="black" />
        
         <LineAtTheta x={100 - A/2 + outerRadius*Math.cos(aa*angle1)/Math.tan(aa*angle1/2)} y={150 -  outerRadius*Math.sin(aa*angle1)/Math.tan(aa*angle1/2)} w={l1} h={thickness} angle={-angle1}/> 
-
         <LineAtTheta x={100 + A/2 - (outerRadius/Math.tan(aa*angle1/2) + l1)*Math.cos(aa*angle1)} y={150 - (outerRadius/Math.tan(aa*angle1/2) + l1)*Math.sin(aa*angle1)} w={(side1 - thickness)/Math.sin(aa*angle1) - outerRadius/Math.tan(aa*(angle1 + angle2)/2) - (outerRadius - thickness)/Math.tan(aa*angle1/2)} h={thickness} angle={angle1}/>   
   
-        
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={100 - A/2 + outerRadius/Math.tan(aa*angle1/2)} centerY={150 - outerRadius} angle={180 - angle1} rotation={90} thickness={thickness}/>   
         <CircleSector radius={outerRadius} centerX={100 + A/2 - outerRadius/Math.tan(aa*angle1/2)} centerY={150 - outerRadius} angle={180 - angle1} rotation={angle1 - 90} thickness={thickness}/>         
@@ -189,15 +186,13 @@ function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1
         <CircleSector radius={outerRadius} centerX={100 + radius*Math.sin(aa*angle2) + (outerRadius - thickness)*(Math.sin(aa*angle2))} centerY={150 - B + radius*Math.cos(aa*angle2) + (outerRadius - thickness)*(Math.cos(aa*angle2))} angle={180 - angle2 - angle1} rotation={90 + angle1} thickness={thickness}/>  
         <CircleSector radius={outerRadius} centerX={100 - radius*Math.sin(aa*angle2) - (outerRadius - thickness)*(Math.sin(aa*angle2))} centerY={150 - B + radius*Math.cos(aa*angle2) + (outerRadius - thickness)*(Math.cos(aa*angle2))} angle={180 - angle2 - angle1} rotation={angle2 - 90} thickness={thickness}/>  
 
-
         {/* Horizontal Arrow for side2 */}
         <Linex x1={100 - radius} x2={100} y1={150 - B} y2={150 - B} text={'R'} val={radius1} textHeight={5}/>
 
          {/* Horizontal Arrow for side2 */}
         <Linex x1={100 + A/2} x2={100 + A/2} y1={150} y2={150} text={'θ1'} val={angle1} textHeight={5} unit={" "}/>
 
-       
-         {/* Vertical Arrow for A */}
+        {/* Vertical Arrow for A */}
         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
 
       </svg>

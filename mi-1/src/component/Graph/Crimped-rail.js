@@ -12,12 +12,10 @@ function Crimped_rail_graph({ thickness1, side11, side22, side33, side44, outerR
   const side4 = (side44/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
   
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
-  const arrowSize = 2; // Arrowhead size relative to the shape
 
   const svgWidth = 200;
   const svgHeight = 200;
@@ -173,8 +171,6 @@ function Crimped_rail_graph({ thickness1, side11, side22, side33, side44, outerR
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* L Shape */}
         <rect x={50 + outerRadius} y={150 - thickness} width={side1 - 2*outerRadius} height={thickness} fill="black" />
         <rect x={50 + side1 - thickness} y={150 - side2 + outerRadius} width={thickness} height={side2 - 2*outerRadius} fill="black" />
@@ -184,8 +180,6 @@ function Crimped_rail_graph({ thickness1, side11, side22, side33, side44, outerR
         <rect x={50 + side2 - thickness - side3} y={150 - side4 - 2*outerRadius + thickness} width={side3 - outerRadius} height={thickness} fill="black" />
         <rect x={50 + outerRadius} y={150 - side2 + 2*outerRadius - thickness} width={side3 - outerRadius} height={thickness} fill="black" />
         
-        
-
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>

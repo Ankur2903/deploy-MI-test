@@ -16,7 +16,6 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -178,8 +177,6 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* L Shape */}
         <rect x={50 + (100-sidex)/2} y={100-comy + outerRadius} width={thickness} height={sidey-2*outerRadius} fill="black" />
         <rect x={50 + sidex - thickness + (100-sidex)/2} y={100-comy + outerRadius} width={thickness} height={sidey-2*outerRadius} fill="black" />
@@ -188,7 +185,6 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
         <rect x={50+sidex-lip + (100-sidex)/2} y={100-comy} width={lip-outerRadius} height={thickness} fill="black" />
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100-sidex)/2} centerY={100-comy + sidey - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-
         
         <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100-sidex)/2} centerY={100-comy + outerRadius} angle={90} rotation={180} thickness={thickness}/>
 
@@ -198,8 +194,8 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
         {/* Horizontal Arrow for Lip */}
         <Linex  x1={50 + sidex - lip + (100-sidex)/2} x2={sidex + 50 + (100-sidex)/2} y1={100-comy-5} y2={100-comy-5} text={'l'} val={lip1} textHeight={-5}/>
 
-         {/* Horizontal Arrow for width */}
-         <Linex x1={50 + (100-sidex)/2} x2={sidex + 50 + (100-sidex)/2} y1={sidey+ 100-comy + 5} y2={sidey + 100-comy + 5} text={'w'} val={side1} textHeight={5}/>
+        {/* Horizontal Arrow for width */}
+        <Linex x1={50 + (100-sidex)/2} x2={sidex + 50 + (100-sidex)/2} y1={sidey+ 100-comy + 5} y2={sidey + 100-comy + 5} text={'w'} val={side1} textHeight={5}/>
 
         {/* Vertical Arrow for Height */}
         <Liney x1={45 + (100-sidex)/2} x2={45 + (100-sidex)/2} y1={100-comy} y2={100-comy + sidey} text={'h'} val={side2} textHeight={-17}/>       

@@ -3,7 +3,6 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
-import Linez from './Shap/Linez';
 
 function Formwork_graph({ side11, side22, side33, side44, side55, side66, side77, side88, side99, side1010, side1212, thickness1, outerRadius1, angle1, angle2, angle3, angle4, sendValuey}) {
   const mx = Math.max(side22,side11);

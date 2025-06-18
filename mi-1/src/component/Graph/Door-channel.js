@@ -152,7 +152,6 @@ function Door_channel_graph({ side11, side22, side33, side44, lip11, thickness1,
     setPoints((prevPoints) => prevPoints.length === 1 ? [prevPoints[0], newPoint] : [newPoint]);
   };
 
-
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
@@ -201,7 +200,6 @@ function Door_channel_graph({ side11, side22, side33, side44, lip11, thickness1,
 
         <CircleSector radius={outerRadius} centerX={100 - comx + outerRadius} centerY={100 - comy + outerRadius} angle={90} rotation={180} thickness={thickness}/>
 
-        
         <CircleSector radius={outerRadius} centerX={100 - comx + side1 + side3 - outerRadius} centerY={100 - comy + outerRadius} angle={90} rotation={270} thickness={thickness}/>
 
         <CircleSector radius={outerRadius} centerX={100 - comx + side1 - outerRadius} centerY={100 - comy + side2 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
@@ -214,10 +212,8 @@ function Door_channel_graph({ side11, side22, side33, side44, lip11, thickness1,
         {/* Horizontal Arrow for side3 */}
         <Linex x1={100 - comx + side1} x2={100 - comx + side1 + side3} y1={100 - comy + 5 + side2} y2={100 - comy + 5 + side2} text={'C'} val={side33} textHeight={5}/>
 
-
-         {/* Horizontal Arrow for width */}
-         <Linex x1={100 - comx} x2={side1 + 100 - comx} y1={side2 + 100 - comy + 5} y2={side2 + 100 - comy + 5} text={'B'} val={side11} textHeight={5}/>
-
+        {/* Horizontal Arrow for width */}
+        <Linex x1={100 - comx} x2={side1 + 100 - comx} y1={side2 + 100 - comy + 5} y2={side2 + 100 - comy + 5} text={'B'} val={side11} textHeight={5}/>
 
         {/* Vertical Arrow for A */}
         <Liney x1={100 - comx -5} x2={100 - comx-5} y1={100 - comy} y2={100 - comy + side2} text={'A'} val={side22} textHeight={-17}/>

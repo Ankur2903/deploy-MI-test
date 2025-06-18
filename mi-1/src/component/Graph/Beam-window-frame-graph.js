@@ -197,7 +197,6 @@ function Beam_window_frame_graph({ side11, side22,side33, side44, side55, thickn
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
 
-        
         <CircleSector radius={outerRadius} centerX={50 + side4 - outerRadius} centerY={150 -side1 +  outerRadius} angle={90} rotation={270} thickness={thickness}/>
 
         <CircleSector radius={outerRadius} centerX={50 + side4 + outerRadius - thickness} centerY={150 - side1 + side3 - outerRadius + thickness} angle={90} rotation={90} thickness={thickness}/>

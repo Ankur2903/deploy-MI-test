@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
@@ -170,20 +170,8 @@ function Elliptical_graph({ thickness1, side11, side22}) {
           <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-         
-            <ellipse 
-                cx={(50 + side1/2)  + (100-side1)/2} 
-                cy={(50 + side2/2) + (100-side2)/2} 
-                rx={side1/2 - thickness/2}
-                ry= {side2/2 - thickness/2}
-                fill="none" 
-                stroke="black" 
-                strokeWidth={thickness}
-            />
+        <ellipse cx={(50 + side1/2)  + (100-side1)/2} cy={(50 + side2/2) + (100-side2)/2} rx={side1/2 - thickness/2}ry= {side2/2 - thickness/2} fill="none" stroke="black" strokeWidth={thickness}/>
              
-            
-
        {/* Vertical Arrow for side1 */}
        <Linex x1={50 + (100-side1)/2} x2={side1 + 50 + (100-side1)/2} y1={side2 + 55 + (100-side2)/2} y2={side2 + 55 + (100-side2)/2} text={'w'} val={side11} textHeight={5}/>
         
@@ -194,7 +182,6 @@ function Elliptical_graph({ thickness1, side11, side22}) {
         <Linex x1={50 + (100-side1)/2} x2={thickness + 50 + (100-side1)/2} y1={45 + (100-side2)/2} y2={45 + (100-side2)/2} text={'t'} val={thickness1} textHeight={-5}/>
      
       </svg>
-      
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
       <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-minus"></i> </button>

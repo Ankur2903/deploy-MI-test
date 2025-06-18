@@ -23,8 +23,6 @@ function Craftsman_c_rail_graph({ side11, side22, side33, side44, side55, side66
 
   const h = side2 + 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) - 2*outerRadius*Math.tan(aa*angle2/2) + side4 + (2*outerRadius - thickness)*Math.sin(aa*angle1) - l*Math.cos(aa*angle1) - 2*outerRadius/Math.tan(aa*angle1/2) + side6
 
-  // console.log({mx, side11, side1, h})
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -206,10 +204,6 @@ function Craftsman_c_rail_graph({ side11, side22, side33, side44, side55, side66
         <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - side2 + outerRadius*Math.tan(aa*angle2/2) - 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) -  side4 + outerRadius*(Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle1/2))} angle={180 - angle1} rotation={180} thickness={thickness}/> 
         <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - side2 + outerRadius*Math.tan(aa*angle2/2) - 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) -  side4 + outerRadius*(Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle1/2))} angle={180 - angle1} rotation={angle1 - 180} thickness={thickness}/> 
         <CircleSector radius={outerRadius} centerX={100 + side1/2 - side5 + outerRadius} centerY={150 - h + side6 - outerRadius/Math.tan(aa*angle1/2)} angle={180 - angle1} rotation={angle1} thickness={thickness}/> 
-        
-
-           
-        
 
         {/* Vertical Arrow for B */}
         <Liney x1={95 - side1/2} x2={95 - side1/2} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={-17}/>

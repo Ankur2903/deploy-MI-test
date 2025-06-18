@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -209,7 +209,6 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
         <CircleSector radius={outerRadius} centerX={x3} centerY={y3} angle={90} rotation={270 - angle1} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={x4} centerY={y4} angle={90} rotation={90 - angle1} thickness={thickness}/>
         <CircleSector radius={r2} centerX={50 + r2} centerY={50 + side2 + l + outerRadius} angle={angle1} rotation={180 - angle1} thickness={thickness}/>
-       
 
         {/*  Horizontal Arrow for side1*/}
         <Linex x1={50 + side1} x2={50 + side1 + side3} y1={45} y2={45} text={'C'} val={side33} textHeight={-10}/>
@@ -225,9 +224,7 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
 
         {/*Horizontal Arrow for r1 */}
         <Liney x1={55 + side1 + side3} x2={55 + side1 + side3} y1={50} y2={50 + r1} text={'R1'} val={r11} textHeight={17}/>
-
-
-      
+        
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

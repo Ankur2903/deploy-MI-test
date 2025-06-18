@@ -3,7 +3,6 @@ import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
-import { MMDAnimationHelper } from 'three/examples/jsm/Addons.js';
 
 function Al_skirt_rail_graph({ side11, side22, side33, side44, angle11, angle22, radius1, thickness1, outerRadius1}) {
   const aa = Math.PI/180;
@@ -201,7 +200,7 @@ function Al_skirt_rail_graph({ side11, side22, side33, side44, angle11, angle22,
         <CircleSector radius={radius} centerX={50 + radius} centerY={150 - side4 + radius} angle={90} rotation={180} thickness={thickness}/>  
         <CircleSector radius={outerRadius} centerX={x2} centerY={y2} angle={angle1} rotation={270} thickness={thickness}/>  
         <CircleSector radius={outerRadius} centerX={x3} centerY={y3} angle={180 - angle2} rotation={90 + angle2} thickness={thickness}/>  
-         <CircleSector radius={outerRadius} centerX={x4} centerY={y4} angle={180 - angle2} rotation={angle2 - 90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={x4} centerY={y4} angle={180 - angle2} rotation={angle2 - 90} thickness={thickness}/>
 
 
         {/* Horizontal Arrow for side2 */}
@@ -209,7 +208,6 @@ function Al_skirt_rail_graph({ side11, side22, side33, side44, angle11, angle22,
 
         {/* Horizontal Arrow for side2 */}
         <Linex x1={x3 - outerRadius/Math.tan(aa*angle2/2)} x2={x2 + outerRadius*Math.tan(aa*angle1/2)} y1={145 - side2} y2={145 - side2} text={'C'} val={side33} textHeight={-5}/>
-
 
         {/* Vertical Arrow for A */}
         <Liney x1={5 + x2 + outerRadius} x2={5 + x2 + outerRadius} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={17}/>

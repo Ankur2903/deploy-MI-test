@@ -12,8 +12,6 @@ function Door_edge_profile_graph({ side11, side22, side33, side44, thickness1, o
   const side4 = (side44/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
 
-  console.log({side1})
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -180,7 +178,6 @@ function Door_edge_profile_graph({ side11, side22, side33, side44, thickness1, o
         <rect x={50 + side2 - thickness} y={150 -side4 + outerRadius} width={thickness} height={side4 - 2*outerRadius} fill="black"/>
         <rect x={50 + side2 + outerRadius- thickness} y={150 - side4} width={side3 - outerRadius + thickness} height={thickness} fill="black"/>
         
-        
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
@@ -197,7 +194,6 @@ function Door_edge_profile_graph({ side11, side22, side33, side44, thickness1, o
 
         {/* Horizontal Arrow for side4*/}
         <Liney x1={55 + side2 + side3} x2={55 + side2 + side3} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
-
 
       </svg>
       <button className='btn btn mx-2 mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

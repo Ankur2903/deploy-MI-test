@@ -4,7 +4,7 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 
-function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadius1, sendValuex, sendValuey, lAngleGraphRef}) {
+function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadius1, sendValuex, sendValuey}) {
   const mx = Math.max(side11 - thickness1*(1/Math.sqrt(2)) + (outerRadius1 - thickness1)*(1/Math.sqrt(2)) + (side33 - (outerRadius1 - thickness1)*(1/Math.sqrt(2)))*(1/Math.sqrt(2)) ,side22 - thickness1*(1/Math.sqrt(2)) + (outerRadius1 - thickness1)*(1/Math.sqrt(2)) + (side44 - (outerRadius1 - thickness1)*(1/Math.sqrt(2)))*(1/Math.sqrt(2)));
   const thickness = (thickness1/mx)*100;
   const side1 = (side11/mx)*100;
@@ -183,19 +183,15 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
         {/* L Shape */}
         <LineAtTheta x={50 + outerRadius - outerRadius/(Math.sqrt(2))} y={150 - side1 + thickness*(1/Math.sqrt(2)) - outerRadius*(1/Math.sqrt(2))} w={side3 - (outerRadius - thickness)*(1/Math.sqrt(2))} h={thickness} angle={315}/>
         <rect x={50} y={150 - side1 + thickness*(1/Math.sqrt(2))} width={thickness} height={side1 - outerRadius - thickness*(1/Math.sqrt(2))} fill="black"/>
         <rect x={50 + outerRadius} y={150 - thickness} width={side2 - outerRadius - thickness*(1/Math.sqrt(2))} height={thickness} fill="black"/>
-        <LineAtTheta x={50 + side2 - thickness*(1/Math.sqrt(2)) + (outerRadius - thickness)*(1/Math.sqrt(2))} y={150 - outerRadius + (outerRadius - thickness)*(1/Math.sqrt(2))} w={side4 - (outerRadius - thickness)*(1/Math.sqrt(2))} h={thickness} angle={315}/>
-        
+        <LineAtTheta x={50 + side2 - thickness*(1/Math.sqrt(2)) + (outerRadius - thickness)*(1/Math.sqrt(2))} y={150 - outerRadius + (outerRadius - thickness)*(1/Math.sqrt(2))} w={side4 - (outerRadius - thickness)*(1/Math.sqrt(2))} h={thickness} angle={315}/>  
 
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side1 + thickness*(1/Math.sqrt(2))} angle={45} rotation={180} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side2 - thickness*(1/Math.sqrt(2))} centerY={150 - outerRadius} angle={45} rotation={45} thickness={thickness}/>
-      
-
         
         <Linex x1={50 + thickness - (thickness + 5)/Math.sqrt(2)} x2={50 + thickness - (thickness + 5)/Math.sqrt(2) + side3/Math.sqrt(2)} y1={150 - side1 + thickness/Math.sqrt(2) - (thickness + 5)/Math.sqrt(2)} y2={150 - side1 + thickness/Math.sqrt(2) - (thickness + 5)/Math.sqrt(2) - side3/Math.sqrt(2)} text={'C'} val={side33} textHeight={-17}/>
 
@@ -204,8 +200,7 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
         <Linex x1={50} x2={50 + side2 - thickness*(1/Math.sqrt(2))} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>{/*Arrow for side3 */}
 
         <Liney x1={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2)} x2={50 + side2 - thickness/Math.sqrt(2) + (thickness + 5)/Math.sqrt(2) + side4/Math.sqrt(2)} y1={150 - thickness + (thickness + 5)/Math.sqrt(2)} y2={150 - thickness + (thickness + 5)/Math.sqrt(2) - side3/Math.sqrt(2)} text={'D'} val={side44} textHeight={17}/>{/* Arrow for side4 */}
-
-        
+ 
         </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

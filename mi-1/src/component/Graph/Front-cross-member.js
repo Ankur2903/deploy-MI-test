@@ -185,15 +185,10 @@ function Front_cross_member_graph({ side11, side22, side33, side44, angle, thick
         <rect x={50 + outerRadius*Math.tan(aa*angle/2)} y={150 - side2} width={side3 - outerRadius*(Math.tan(aa*angle/2) + 1/Math.tan(aa*angle/2))} height={thickness} fill="black"/>
         <rect x={x1} y={150 - thickness} width={side1 - outerRadius*(Math.tan(aa*angle/2) + 1/Math.tan(aa*angle/2))} height={thickness} fill="black"/>
         <rect x={x4} y={150 - side4} width={x3 - x4} height={thickness} fill="black"/>
-       
 
         <LineAtTheta x={50 + outerRadius*Math.tan(aa*angle/2) - (outerRadius - thickness)*Math.sin(aa*angle)} y={150 - side2 + outerRadius - (outerRadius - thickness)*Math.cos(aa*angle)} w={side2/Math.sin(aa*angle) - outerRadius*(Math.tan(aa*angle/2) + 1/Math.tan(aa*angle/2))} h={thickness} angle={180 - angle}/>
-
         <LineAtTheta x={x3 + outerRadius*Math.sin(aa*angle)} y={y3 + outerRadius*Math.cos(aa*angle)} w={side4/Math.sin(aa*angle) - outerRadius*(Math.tan(aa*angle/2) + 1/Math.tan(aa*angle/2))} h={thickness} angle={180 - angle}/>
-
         <LineAtTheta x={x5 + outerRadius*Math.sin(aa*angle)} y={150 - side2 + outerRadius + outerRadius*Math.cos(aa*angle)} w={l1} h={thickness} angle={180 - angle}/>
-
-
         
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius*Math.tan(aa*angle/2)} centerY={150 - side2 + outerRadius} angle={angle} rotation={270 - angle} thickness={thickness}/>
@@ -203,7 +198,6 @@ function Front_cross_member_graph({ side11, side22, side33, side44, angle, thick
         <CircleSector radius={outerRadius} centerX={x3} centerY={y3} angle={180 - angle} rotation={270} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={x4} centerY={150 - side4 - outerRadius + thickness} angle={180 - angle} rotation={90} thickness={thickness}/>
       
-
         {/* Horizontal Arrow for side2 */}
         <Liney x1={45} x2={45} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={-17}/>
 
@@ -216,7 +210,7 @@ function Front_cross_member_graph({ side11, side22, side33, side44, angle, thick
         {/* Vertical Arrow for A */}
         <Linex x1={x1 - outerRadius/Math.tan(aa*angle/2)} x2={x1 - outerRadius/Math.tan(aa*angle/2) + side1} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>
 
-          {/* Vertical Arrow for D */}
+        {/* Vertical Arrow for D */}
         <Liney x1={x2 + 5 + outerRadius} x2={x2 + 5 + outerRadius} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
       
       </svg>

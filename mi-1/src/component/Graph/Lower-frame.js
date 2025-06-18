@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -14,8 +14,6 @@ function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, sid
   const side6 = (side66/mx)*100;
   const side7 = (side77/mx)*100;
   const outerRadius = (outerRadius1/mx)*100;
-
-
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -178,8 +176,6 @@ function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, sid
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* L Shape */}
         <rect x={100 - side1/2 + outerRadius} y={150 - thickness} width={side1 - 2*outerRadius} height={thickness} fill="black" />
         <rect x={100 - side1/2} y={150 - side2 + side4 + outerRadius - thickness} width={thickness} height={side2 - side4 - 2*outerRadius + thickness} fill="black" />
@@ -199,7 +195,6 @@ function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, sid
         <CircleSector radius={outerRadius} centerX={100 + side1/2 - outerRadius} centerY={150 - side3 +  outerRadius} angle={90} rotation={180} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={100 - side1/2 + outerRadius} centerY={150 - side2 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
         
-
         {/* Horizontal Arrow for Side1 */}
         <Linex  x1={100 - side1/2} x2={100 + side1/2} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>
 

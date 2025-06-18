@@ -32,7 +32,6 @@ function Hollow_guide_rail_graph({ thickness1, side11, side22, side33, side44, s
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -192,24 +191,21 @@ function Hollow_guide_rail_graph({ thickness1, side11, side22, side33, side44, s
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
         {/* L Shape */}
         <rect x={50 + side1/2 - side2/2 + outerRadius} y={150 - thickness} width={side2 - 2*outerRadius} height={thickness} fill="black"/>
         <rect x={50 + side1/2 - side2/2 } y={150 - side3 + outerRadius} width={thickness} height={side3 - 2*outerRadius} fill="black"/>
         <rect x={50 + side1/2 + side2/2 - thickness} y={150 - side3 + outerRadius} width={thickness} height={side3 - 2*outerRadius} fill="black"/>
         <rect x={50 + side1/2 - side2/2 + outerRadius} y={150 - side3} width={side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
-         <rect x={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} y={150 - side3} width={side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
-         <rect x={50 + side1/2 - side2/2 + side5} y={150 - side4 + thickness + outerRadius} width={thickness} height={side4 - 2*outerRadius - side3} fill="black"/>
-         <rect x={50 + side1/2 + side2/2 - side5 - thickness} y={150 - side4 + thickness + outerRadius} width={thickness} height={side4 - 2*outerRadius - side3} fill="black"/>
-         <rect x={50 + side1/2 - side2/2 + side5 - outerRadius + thickness - l1} y={150 - side4 + thickness} width={l1} height={thickness} fill="black"/>
-          <rect x={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} y={150 - side4 + thickness} width={l1} height={thickness} fill="black"/>
-         <rect x={50 + radius} y={150 - side4} width={side1 - 2*radius} height={thickness} fill="black"/>
+        <rect x={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} y={150 - side3} width={side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
+        <rect x={50 + side1/2 - side2/2 + side5} y={150 - side4 + thickness + outerRadius} width={thickness} height={side4 - 2*outerRadius - side3} fill="black"/>
+        <rect x={50 + side1/2 + side2/2 - side5 - thickness} y={150 - side4 + thickness + outerRadius} width={thickness} height={side4 - 2*outerRadius - side3} fill="black"/>
+        <rect x={50 + side1/2 - side2/2 + side5 - outerRadius + thickness - l1} y={150 - side4 + thickness} width={l1} height={thickness} fill="black"/>
+        <rect x={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} y={150 - side4 + thickness} width={l1} height={thickness} fill="black"/>
+        <rect x={50 + radius} y={150 - side4} width={side1 - 2*radius} height={thickness} fill="black"/>
 
-         <LineAtTheta x = {50 + radius + (radius - thickness)*Math.sin(aa*angle)} y={150 - side4 + radius - (radius - thickness)*Math.cos(aa*angle)} w={l} h={thickness} angle={angle - 180}/>
+        <LineAtTheta x = {50 + radius + (radius - thickness)*Math.sin(aa*angle)} y={150 - side4 + radius - (radius - thickness)*Math.cos(aa*angle)} w={l} h={thickness} angle={angle - 180}/>
+        <LineAtTheta x = {50 + side1 - radius - radius*Math.sin(aa*angle)} y={150 - side4 + radius - radius*Math.cos(aa*angle)} w={l} h={thickness} angle={360 - angle}/>
 
-         <LineAtTheta x = {50 + side1 - radius - radius*Math.sin(aa*angle)} y={150 - side4 + radius - radius*Math.cos(aa*angle)} w={l} h={thickness} angle={360 - angle}/>
-
-        
         <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + outerRadius} centerY={150 - side3 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
@@ -222,8 +218,6 @@ function Hollow_guide_rail_graph({ thickness1, side11, side22, side33, side44, s
         <CircleSector radius={radius} centerX={50  + side1 - radius} centerY={150 - side4 + radius} angle={360 - angle} rotation={270} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + side5 - outerRadius + thickness - l1} centerY={150 - side4 + thickness + outerRadius} angle={180 - angle} rotation={90 + angle} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - side5 + outerRadius - thickness  + l1} centerY={150 - side4 + thickness + outerRadius} angle={180 - angle} rotation={270} thickness={thickness}/>
-
-       
 
         {/*Arrow for side1 */}
         <Linex x1={50} x2={50 + side1} y1={145 - side4} y2={145 - side4} text={'A'} val={side11} textHeight={-5}/>

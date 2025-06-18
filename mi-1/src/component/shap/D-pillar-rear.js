@@ -46,11 +46,6 @@ function D_pillar_rear() {
     setSide5(parseFloat(event.target.value));
   };
 
-  const [side6, setSide6] = useState(40);
-  const side6Change = (event) => {
-    setSide6(parseFloat(event.target.value));
-  };
-
   const [angle1, setAngle1] = useState(60);
   const angle1Change = (event) => {
     setAngle1(parseFloat(event.target.value));
@@ -147,7 +142,6 @@ function D_pillar_rear() {
     setSide3(0);
     setSide4(0);
     setSide5(0);
-    setSide6(0);
     setRadius1(0);
     setRadius2(0);
     setRadius3(0);
@@ -297,10 +291,6 @@ function D_pillar_rear() {
             <input className="input-field" id="side5" type="number" value={side5} onChange={side5Change} placeholder="Type something..." />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side6"> Side (F) mm</lable>
-            <input className="input-field" id="side6" type="number" value={side6} onChange={side6Change} placeholder="Type something..." />
-          </div>
-          <div className="container1">
             <lable className="label" htmlFor="radius1">Radius (R1) mm</lable>
             <input className="input-field" id="radius1" type="number" value={radius1} onChange={radius1Change} placeholder="Type something..." />
           </div>
@@ -348,7 +338,7 @@ function D_pillar_rear() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={GraphRef}><D_pillar_rear_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} radius11={radius1} radius22={radius2} radius33={radius3} radius44={radius4} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><D_pillar_rear_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} radius11={radius1} radius22={radius2} radius33={radius3} radius44={radius4} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

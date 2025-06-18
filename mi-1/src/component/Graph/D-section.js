@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
@@ -15,8 +15,6 @@ function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
-  const arrowSize = 2; // Arrowhead size relative to the shape
-  const textOffset = 1; // Distance between the arrow and text
 
   const svgWidth = 200;
   const svgHeight = 200;
@@ -173,8 +171,6 @@ function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
-
         {/* rectangle Shape */}
         <rect x={50 + (100 - sidex)/2} y={50 + outerRadius+ (100  - sidey)/2} width={thickness} height={sidey-outerRadius - radius} fill="black" />
         <rect x={50 + sidex - thickness + (100 - sidex)/2} y={50 + outerRadius+ (100  - sidey)/2} width={thickness} height={sidey-outerRadius - radius} fill="black" />
@@ -188,14 +184,12 @@ function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
          <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex)/2} centerY={50 + outerRadius+ (100  - sidey)/2} angle={90} rotation={270} thickness={thickness}/>
 
          <CircleSector radius={radius} centerX={50 + sidex - radius + (100 - sidex)/2} centerY={50 + sidey - radius+ (100  - sidey)/2} angle={90} rotation={0} thickness={thickness}/>
-       
 
          {/* Horizontal Arrow for width */}
          <Linex x1={50  + (100 - sidex)/2} x2={sidex + 50  + (100 - sidex)/2} y1={sidey+ 55+ (100  - sidey)/2} y2={sidey + 55+ (100  - sidey)/2} text={'w'} val={side1} textHeight={5}/>
 
         {/* Vertical Arrow for Height */}
         <Liney x1={55 + sidex  + (100 - sidex)/2} x2={55 + sidex  + (100 - sidex)/2} y1={50+ (100  - sidey)/2} y2={50 + sidey+ (100  - sidey)/2} text={'h'} val={side2} textHeight={17}/>
-        
        
       </svg>
       <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

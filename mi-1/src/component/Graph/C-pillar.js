@@ -37,15 +37,12 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
   const x5 = x3 - outerRadius*Math.sin(aa*(angle3 - angle1 - angle2)) + l3*Math.cos(aa*(angle3 - angle1 - angle2)) - (outerRadius - thickness)*Math.sin(aa*(angle3 - angle1 - angle2))
   const y5 = y3 + outerRadius*Math.cos(aa*(angle3 - angle1 - angle2)) + l3*Math.sin(aa*(angle3 - angle1 - angle2)) + (outerRadius - thickness)*Math.cos(aa*(angle3 - angle1 - angle2)) 
 
-  
   const x6 = x4 + outerRadius*Math.sin(aa*(angle3 - angle1 - angle2)) - l3*Math.cos(aa*(angle3 - angle1 - angle2)) + (outerRadius - thickness)*Math.sin(aa*(angle3 - angle1 - angle2))
   const y6 = y3 + outerRadius*Math.cos(aa*(angle3 - angle1 - angle2)) + l3*Math.sin(aa*(angle3 - angle1 - angle2)) + (outerRadius - thickness)*Math.cos(aa*(angle3 - angle1 - angle2)) 
 
   const l4 =   (x5 - 100 - outerRadius*Math.sin(aa*(angle3 - angle1 - angle2 - angle4)) + radius*Math.cos(aa*angle5))/Math.cos(aa*(angle3 - angle1 - angle2 - angle4))
 
   const y7 = y5 + outerRadius*Math.cos(aa*(angle3 - angle1 - angle2 - angle4)) - l4*Math.sin(aa*(angle3 - angle1 - angle2 - angle4)) + radius*Math.sin(aa*angle5) ;
-
-
 
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -201,7 +198,6 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
 
         {/* L Shape */}
         <rect x={100 - side1/2 + outerRadius} y={150 - thickness} width={side1 - 2*outerRadius} height={thickness} fill="black"/>
-        
         
         <LineAtTheta x={100 - side1/2 + outerRadius - outerRadius*Math.sin(aa*angle1)} y = {150 - outerRadius - outerRadius*Math.cos(aa*angle1)} w={l1} h={thickness} angle={360 - angle1}/>
         <LineAtTheta x={100 + side1/2 - outerRadius + (outerRadius - thickness)*Math.sin(aa*angle1)} y = {150 - outerRadius - (outerRadius - thickness)*Math.cos(aa*angle1)} w={l1} h={thickness} angle={180 + angle1}/>

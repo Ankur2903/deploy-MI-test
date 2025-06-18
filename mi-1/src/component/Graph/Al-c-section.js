@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
-import LineAtTheta from './Shap/LineAtθ';
 
 function Al_c_section_graph({ side11, side22, side33, thickness1}) {
   const mx = Math.max(side22 ,side11);

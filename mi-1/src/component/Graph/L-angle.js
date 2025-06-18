@@ -20,12 +20,10 @@ function L_angle_graph({ thickness1, length1, height1, outerRadius1, sendValuex,
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
-  const arrowSize = 2; // Arrowhead size relative to the shape
 
   const svgWidth = 200;
   const svgHeight = 200;
@@ -180,8 +178,6 @@ function L_angle_graph({ thickness1, length1, height1, outerRadius1, sendValuex,
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
-
-
 
         {/* L Shape */}
         <rect x={100  - comx - thickness/2} y={100 + comy -height + thickness/2} width={thickness} height={height-outerRadius} fill="black" />

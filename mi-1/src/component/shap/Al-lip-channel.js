@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -50,13 +50,9 @@ function Al_lip_channel() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
   const handleComy = (e) => {
     setComy(e);
   };
-
-
 
   const submitClick = () => {
     setWeightPerLenght((7850*(Math.PI*(outerRadius - 0.596*thickness) + 2*Math.PI*thickness + 2*(side2 - outerRadius - thickness) + (side1 - 2*outerRadius)+ 2*(lip - thickness))*thickness*0.000001).toFixed(3));
@@ -80,7 +76,6 @@ function Al_lip_channel() {
     setWeightPerLenght(parseFloat(0));
     setTotalWeight(parseFloat(0));
   };
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -124,11 +119,11 @@ function Al_lip_channel() {
     create3DShapes();
   }, [side1, side2, outerRadius, thickness, length]);
 
-  const uchannelGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(uchannelGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -216,7 +211,7 @@ function Al_lip_channel() {
           </div>
         </div>
         <div className='box'>
-          <div ref={uchannelGraphRef}><Al_lip_channel_graph side1={side1} side2={side2} lip1 = {lip} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
+          <div ref={GraphRef}><Al_lip_channel_graph side1={side1} side2={side2} lip1 = {lip} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,10 +8,8 @@ import logo from '../Image/logo.192.jpg';
 import 'jspdf-autotable';
 import Result from './Result';
 import Round_graph_4 from '../Graph/Round-4';
-import { pingpong } from 'three/src/math/MathUtils.js';
 
 function Round_4() {
-  const [isFormDirty, setIsFormDirty] = useState(true);
   const [length, setLength] = useState(1);
   const [thickness, setThickness] = useState(2);
   const [diameter, setDiameter] = useState(20);
@@ -35,7 +33,6 @@ function Round_4() {
   const angle2 = Math.PI/2 - Math.asin((side - radius - outerRadius)/(radius - outerRadius))
   const angle1 = 2*Math.PI - 2*angle2;
   
-
   const submitClick = () => {
     setWeightPerLength((7850*(angle1*(radius - thickness) + 2*angle2*(outerRadius - 0.596*thickness) + 2*(radius - outerRadius)*Math.sin(angle2))*0.000001).toFixed(3));
 
@@ -84,7 +81,6 @@ function Round_4() {
     shape1.lineTo(radius - (radius - outerRadius)*Math.sin(angle2), radius + (radius - outerRadius)*Math.cos(angle2) + outerRadius)
     shapes.push(shape1)
 
-
     const shape2 = new THREE.Shape();
     shape2.moveTo(radius - (radius - outerRadius)*Math.sin(angle2), radius + (radius - outerRadius)*Math.cos(angle2) + outerRadius)
     shape2.lineTo(radius - (radius - outerRadius)*Math.sin(angle2), radius + (radius - outerRadius)*Math.cos(angle2) + outerRadius - thickness)
@@ -93,7 +89,6 @@ function Round_4() {
     shape2.absarc(radius - (radius - outerRadius)*Math.sin(angle2), radius + (radius - outerRadius)*Math.cos(angle2), outerRadius,Math.PI/2 + angle2, Math.PI/2,true)
     shapes.push(shape2)
    
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -107,11 +102,11 @@ function Round_4() {
     create3DShapes();
   }, [diameter, thickness, length]);
 
-  const roundGraphRef = useRef();
+  const GraphRef = useRef();
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(roundGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -193,7 +188,7 @@ function Round_4() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box' >
-          <div ref={roundGraphRef}><Round_graph_4 side1 = {side} radius1 = {diameter/2} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Round_graph_4 side1 = {side} radius1 = {diameter/2} thickness1={thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -14,30 +14,37 @@ function Sill_pressing() {
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
+
   const [side2, setSide2] = useState(35);
   const side2Change = (event) => {
     setSide2(parseFloat(event.target.value));
   };
+
   const [side3, setSide3] = useState(26);
   const side3Change = (event) => {
     setSide3(parseFloat(event.target.value));
   };
+
   const [side4, setSide4] = useState(18);
   const side4Change = (event) => {
     setSide4(parseFloat(event.target.value));
   };
+
   const [side5, setSide5] = useState(44);
   const side5Change = (event) => {
     setSide5(parseFloat(event.target.value));
   };
+
   const [angle1, setAngle1] = useState(80);
   const angle1Change = (event) => {
     setAngle1(parseFloat(event.target.value));
   };
+
   const [angle2, setAngle2] = useState(87);
   const angle2Change = (event) => {
     setAngle2(parseFloat(event.target.value));
   };
+
   const [angle3, setAngle3] = useState(87);
   const angle3Change = (event) => {
     setAngle3(parseFloat(event.target.value));
@@ -47,7 +54,6 @@ function Sill_pressing() {
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(parseFloat(2*event.target.value));
-
   };
 
   const [length, setLength] = useState(1);
@@ -65,16 +71,15 @@ function Sill_pressing() {
   const l2 = (side2 + thickness - 2*outerRadius - (2*outerRadius - thickness)*Math.cos(aa*angle2))/(Math.sin(aa*angle2))
   const l3 = (side5 - outerRadius - outerRadius*Math.cos(angle3*aa))/Math.sin(aa*angle3)
 
-
-   const x1 = side3 - outerRadius*Math.tan(aa*angle1/2);
+  const x1 = side3 - outerRadius*Math.tan(aa*angle1/2);
   
-    const x2 = x1 + outerRadius*Math.sin(aa*angle1) + l1*Math.cos(aa*angle1) + (outerRadius - thickness)*Math.sin(aa*angle1)
+  const x2 = x1 + outerRadius*Math.sin(aa*angle1) + l1*Math.cos(aa*angle1) + (outerRadius - thickness)*Math.sin(aa*angle1)
     
-    const x3 = x2 + side4 - outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))
+  const x3 = x2 + side4 - outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))
   
-    const x4 = x3 + (2*outerRadius - thickness)*Math.sin(aa*angle2) - l2*Math.cos(aa*angle2)
+  const x4 = x3 + (2*outerRadius - thickness)*Math.sin(aa*angle2) - l2*Math.cos(aa*angle2)
   
-    const x5 = side1 - outerRadius*Math.tan(aa*(90 - angle3/2))
+  const x5 = side1 - outerRadius*Math.tan(aa*(90 - angle3/2))
 
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
@@ -83,10 +88,6 @@ function Sill_pressing() {
   const [area, setArea] = useState(0)
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
-
-  
-
-
 
   const submitClick = () => {
     setWeightPerLength((((2*aa*angle1 + 2*aa*angle2 + aa*angle3)*(outerRadius - 0.596*thickness) + (side3 - outerRadius*Math.tan(aa*angle1/2)) + (l1) + (side4 - outerRadius*(Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (l2) + (x5 - x4) + (l3))*thickness*7850*0.000001).toFixed(3));
@@ -127,27 +128,26 @@ function Sill_pressing() {
     link.click();
   };
 
-  
   // Manually create 3D shapes to export, without displaying them
   const create3DShapes = () => {
     const shapes = [];
-    const shape1 = new THREE.Shape();
-   shape1.moveTo(0, side2)
-   shape1.lineTo(0, side2 + thickness);
-   shape1.absarc(x1, side2 - outerRadius + thickness, outerRadius, Math.PI/2, Math.PI/2 - angle1*aa, true)
-   shape1.absarc(x2, outerRadius, outerRadius - thickness, 3*Math.PI/2 - aa*angle1, 3*Math.PI/2, false)
-   shape1.absarc(x3, outerRadius, outerRadius - thickness, 3*Math.PI/2 , 3*Math.PI/2 + Math.PI - aa*angle2, false)
-   shape1.absarc(x4, side2 -outerRadius + thickness, outerRadius, Math.PI, aa*angle2, true)
-   shape1.absarc(x5, side2 + outerRadius, outerRadius - thickness, 3*Math.PI/2, 3*Math.PI/2 + Math.PI - aa*angle3, false)
-   shape1.lineTo(x5 + (outerRadius - thickness)*Math.sin(aa*angle3) - l3*Math.cos(aa*angle3), side2 + outerRadius + outerRadius*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3))
-   shape1.lineTo(x5 + outerRadius*Math.sin(aa*angle3) - l3*Math.cos(aa*angle3), side2 + outerRadius + outerRadius*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3))
-   shape1.absarc(x5, side2 + outerRadius, outerRadius, 3*Math.PI/2 + Math.PI - aa*angle3, 3*Math.PI/2, true)
-   shape1.absarc(x4, side2 -outerRadius + thickness, outerRadius - thickness, aa*angle2, Math.PI, false)
-   shape1.absarc(x3, outerRadius, outerRadius, 3*Math.PI/2 + Math.PI - aa*angle2, 3*Math.PI/2 , true)
-   shape1.absarc(x2, outerRadius, outerRadius, 3*Math.PI/2, 3*Math.PI/2 - aa*angle1, true)
-   shape1.absarc(x1, side2 - outerRadius + thickness, outerRadius - thickness, Math.PI/2 - angle1*aa, Math.PI/2, false)
-   shape1.lineTo(0, side2)
 
+    const shape1 = new THREE.Shape();
+    shape1.moveTo(0, side2)
+    shape1.lineTo(0, side2 + thickness);
+    shape1.absarc(x1, side2 - outerRadius + thickness, outerRadius, Math.PI/2, Math.PI/2 - angle1*aa, true)
+    shape1.absarc(x2, outerRadius, outerRadius - thickness, 3*Math.PI/2 - aa*angle1, 3*Math.PI/2, false)
+    shape1.absarc(x3, outerRadius, outerRadius - thickness, 3*Math.PI/2 , 3*Math.PI/2 + Math.PI - aa*angle2, false)
+    shape1.absarc(x4, side2 -outerRadius + thickness, outerRadius, Math.PI, aa*angle2, true)
+    shape1.absarc(x5, side2 + outerRadius, outerRadius - thickness, 3*Math.PI/2, 3*Math.PI/2 + Math.PI - aa*angle3, false)
+    shape1.lineTo(x5 + (outerRadius - thickness)*Math.sin(aa*angle3) - l3*Math.cos(aa*angle3), side2 + outerRadius + outerRadius*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3))
+    shape1.lineTo(x5 + outerRadius*Math.sin(aa*angle3) - l3*Math.cos(aa*angle3), side2 + outerRadius + outerRadius*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3))
+    shape1.absarc(x5, side2 + outerRadius, outerRadius, 3*Math.PI/2 + Math.PI - aa*angle3, 3*Math.PI/2, true)
+    shape1.absarc(x4, side2 -outerRadius + thickness, outerRadius - thickness, aa*angle2, Math.PI, false)
+    shape1.absarc(x3, outerRadius, outerRadius, 3*Math.PI/2 + Math.PI - aa*angle2, 3*Math.PI/2 , true)
+    shape1.absarc(x2, outerRadius, outerRadius, 3*Math.PI/2, 3*Math.PI/2 - aa*angle1, true)
+    shape1.absarc(x1, side2 - outerRadius + thickness, outerRadius - thickness, Math.PI/2 - angle1*aa, Math.PI/2, false)
+    shape1.lineTo(0, side2)
     shapes.push(shape1)
 
     shapes.forEach((shape) => {
@@ -163,12 +163,11 @@ function Sill_pressing() {
     create3DShapes();
   }, [side1, side2,side3, side4, side5, angle1, angle2, angle3, outerRadius, thickness, length]);
 
-
-  const rectangleGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(rectangleGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -208,7 +207,6 @@ function Sill_pressing() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
-
 
   return (
     <div>
@@ -275,7 +273,7 @@ function Sill_pressing() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={rectangleGraphRef}><Sill_pressing_graph side11={side1} side22={side2} side33 = {side3} side44 = {side4} side55 = {side5} angle11 = {angle1} angle22 = {angle2} angle33 = {angle3} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Sill_pressing_graph side11={side1} side22={side2} side33 = {side3} side44 = {side4} side55 = {side5} angle11 = {angle1} angle22 = {angle2} angle33 = {angle3} thickness1={thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

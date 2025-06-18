@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -10,10 +10,9 @@ import 'jspdf-autotable';
 import Result from './Result';
 
 function Round() {
-  const [isFormDirty, setIsFormDirty] = useState(true);
   const [length, setLength] = useState(1);
   const [thickness, setThickness] = useState(2);
-  const [diameter, setDiameter] = useState(50);
+  const [diameter, setDiameter] = useState(100);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
@@ -22,9 +21,6 @@ function Round() {
   const [area, setArea] = useState(0);
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
-
-  
-
 
   const submitClick = () => {
     setWeightPerLength((7850*((22/7)*((diameter*diameter)/4) - (22/7)*((diameter - 2*thickness)*(diameter - 2*thickness))/4)*0.000001).toFixed(3));
@@ -90,11 +86,11 @@ function Round() {
     create3DShapes();
   }, [diameter, thickness, length]);
 
-  const roundGraphRef = useRef();
+  const GraphRef = useRef();
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(roundGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -168,7 +164,7 @@ function Round() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box' >
-          <div ref={roundGraphRef}><Round_graph radius1 = {diameter/2} thickness1={thickness}/></div>
+          <div ref={GraphRef}><Round_graph radius1 = {diameter/2} thickness1={thickness}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -83,7 +83,6 @@ function Craftsman_c_rail() {
    const angle2 = (180/Math.PI)*Math.acos((2*outerRadius - side3)/(2*outerRadius - thickness))
   const l = (side5 - 2*outerRadius - (2*outerRadius - thickness)*Math.cos(aa*angle1))/Math.sin(aa*angle1)
   const h = side2 + 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) - 2*outerRadius*Math.tan(aa*angle2/2) + side4 + (2*outerRadius - thickness)*Math.sin(aa*angle1) - l*Math.cos(aa*angle1) - 2*outerRadius/Math.tan(aa*angle1/2) + side6
-  
 
   const submitClick = () => {
     setWeightPerLenght((7850*((6*Math.PI + 8*aa*angle2 - 4*aa*angle1)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 = outerRadius - outerRadius/Math.tan(aa*angle1/2)))*thickness*0.000001).toFixed(3));
@@ -158,8 +157,7 @@ function Craftsman_c_rail() {
     shape1.absarc(100 - side1/2 + outerRadius, side2 - outerRadius*Math.tan(aa*angle2/2) + 2*(2*outerRadius - thickness)*Math.sin(aa*angle2), outerRadius - thickness, Math.PI + aa*angle2, Math.PI, true)
     shape1.absarc(100 - side1/2 + outerRadius, side2 - outerRadius*Math.tan(aa*angle2/2) + 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) +  side4 - outerRadius*(Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle1/2)), outerRadius - thickness, Math.PI, angle1*aa, true)
     shape1.absarc(100 - side1/2 + side5 - outerRadius, h - side6 + outerRadius/Math.tan(aa*angle1/2), outerRadius, aa*angle1 - Math.PI, 0, false)
-     shape1.absarc(100 - side1/2 + side5 + outerRadius - thickness, h - outerRadius, outerRadius - thickness, Math.PI, Math.PI/2, true)
-
+    shape1.absarc(100 - side1/2 + side5 + outerRadius - thickness, h - outerRadius, outerRadius - thickness, Math.PI, Math.PI/2, true)
     shapes.push(shape1)
 
     shapes.forEach((shape) => {
@@ -175,11 +173,11 @@ function Craftsman_c_rail() {
     create3DShapes();
   }, [side1,side2 ,side3,side4, side5, side6, angle1, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -284,7 +282,7 @@ function Craftsman_c_rail() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Craftsman_c_rail_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} angle1={angle1} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Craftsman_c_rail_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} angle1={angle1} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

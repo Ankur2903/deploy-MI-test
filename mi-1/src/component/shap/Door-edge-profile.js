@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -59,28 +59,22 @@ function Door_edge_profile() {
   const handleComx = (e) => {
     setComx(e);
   };
+
   const handleComy = (e) => {
     setComy(e);
   };
 
-
-
   const submitClick = () => {
     setWeightPerLenght((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness)  + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
 
-
     setTotalWeight((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001*length).toFixed(3));
-
 
     setStripWidth(((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
 
-
     setOutLine(((3/2)*Math.PI*(2*outerRadius - thickness) + 2*thickness + 2*(side1-outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side1-side4 - 2*outerRadius + thickness) + 2*(side1-4*outerRadius+thickness)).toFixed(3))
-
 
     setArea((thickness*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-side4 - 2*outerRadius + thickness) ) + (3*Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
   }
-
 
   const resetClick = () => {
     setLength(6);
@@ -120,9 +114,6 @@ function Door_edge_profile() {
     shape1.lineTo(thickness,side1)
     shapes.push(shape1)    
 
-
-    
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -136,11 +127,11 @@ function Door_edge_profile() {
     create3DShapes();
   }, [side1, side2, outerRadius, thickness, length]);
   
-  const dShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(dShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -230,7 +221,7 @@ function Door_edge_profile() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={dShapGraphRef}><Door_edge_profile_graph side11={side1}  side22={side2} side33={side3} side44={side4} thickness1={thickness}outerRadius1={outerRadius}/>
+        <div ref={GraphRef}><Door_edge_profile_graph side11={side1}  side22={side2} side33={side3} side44={side4} thickness1={thickness}outerRadius1={outerRadius}/>
         </div></div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

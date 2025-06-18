@@ -82,9 +82,6 @@ function A_post_2() {
   const x1 = side3 + side4 - radius
   const y1 = side5 - radius/Math.tan(aa*angle1/2)
 
-  const x4 = outerRadius;
-  const y4 = side2 + side1 - outerRadius/Math.tan(aa*angle3/2)
-
   const l2 = (side2 + side1 - side5 - (side3 + side4)/Math.tan(aa*angle3) + (l1 + radius/Math.tan(aa*angle1/2) + outerRadius/Math.tan(aa*angle2/2))*(Math.cos(aa*angle1) + Math.sin(aa*angle1)/Math.tan(aa*angle3)))/(Math.cos(aa*(angle1 + angle2)) + Math.sin(aa*(angle1 + angle2))/Math.tan(aa*angle3)) - outerRadius/Math.tan(aa*angle2/2) - (outerRadius - thickness)/Math.tan(aa*angle4/2)
 
   const l3 = (side3 + side4 + (l2 + outerRadius/Math.tan(aa*angle2/2) + (outerRadius - thickness)/Math.tan(aa*angle4/2))*Math.sin(aa*(angle1 + angle2)) - (l1 + radius/Math.tan(aa*angle1/2) + outerRadius/Math.tan(aa*angle2/2))*Math.sin(aa*angle1))/Math.sin(aa*angle3) - outerRadius/Math.tan(aa*angle3/2) - (outerRadius - thickness)/Math.tan(aa*angle4/2)
@@ -164,7 +161,6 @@ function A_post_2() {
     shape1.absarc(x1, y1, outerRadius, Math.PI - aa*angle1, 0, true)
     shape1.absarc(side3 + side4 - outerRadius, outerRadius, outerRadius, 0, 3*Math.PI/2, true)
 
-
     shape1.absarc(side3 + side4 - outerRadius, outerRadius, outerRadius - thickness, 3*Math.PI/2, 0, false)
     shape1.absarc(x1, y1, outerRadius - thickness, 0, Math.PI - aa*angle1, false)
     shape1.absarc(x3, y3, outerRadius - thickness, Math.PI - aa*angle1, - aa*(angle1 + angle2), false)
@@ -195,17 +191,17 @@ function A_post_2() {
     create3DShapes();
   }, [side1, side2 ,side3, side4, side5, side6, outerRadius, angle1, angle2, angle3, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`side1(A): ${side1}   side1(B): ${side2}   side1(C): ${side3}   side1(D): ${side4}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`side(A): ${side1}   side(B): ${side2}   side(C): ${side3}   side(D): ${side4}   side(E): ${side5}   side(F): ${side6}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -313,7 +309,7 @@ function A_post_2() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><A_post_2_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} radius1={radius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><A_post_2_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} radius1={radius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,7 +8,6 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Stiffner_graph from '../Graph/Stiffner';
-
 
 function Stiffner() {
   const aa = Math.PI/180;
@@ -68,9 +67,6 @@ function Stiffner() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
-
   const submitClick = () => {
     setWeightPerLenght(((2*Math.PI*(outerRadius1 - thickness*0.596) + 4*aa*angle*(outerRadius1 - thickness*0.596)  + 4*aa*angle*(outerRadius2 - thickness*0.596) + 2*(side1 - 2*outerRadius1) + 4*(side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)))*thickness*7850*0.000001).toFixed(3));
 
@@ -81,8 +77,8 @@ function Stiffner() {
     setOutLine((2*Math.PI*(2*outerRadius1 - thickness) + 4*aa*angle*(2*outerRadius1 - thickness)  + 4*aa*angle*(2*outerRadius2 - thickness) + 2*(side1 - 2*outerRadius2) + 4*(side2 - outerRadius2 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))).toFixed(3))
 
     setArea((Math.PI*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2)) + 2*aa*angle*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2))  + 2*aa*angle*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness,2)) + thickness*(2*(side1 - 2*outerRadius2) + 4*(side2 - outerRadius2 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)))).toFixed(3))
-    // setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
 
+    // setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
   }
 
   const resetClick = () => {
@@ -98,7 +94,6 @@ function Stiffner() {
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -148,7 +143,6 @@ function Stiffner() {
     shape2.lineTo(thickness,side1 - outerRadius1);
     shape2.lineTo(0,side1 - outerRadius1)
     shapes.push(shape2)
-    
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -163,13 +157,11 @@ function Stiffner() {
     create3DShapes();
   }, [side1,side2, side3, side4, angle, outerRadius2, outerRadius1, thickness, length]);
 
-
-
-  const squareGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(squareGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -210,6 +202,7 @@ function Stiffner() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
+
   return (
     <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
@@ -267,7 +260,7 @@ function Stiffner() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={squareGraphRef}><Stiffner_graph side11 = {side1} side22 = {side2} side33 = {side3} side44 = {side4} angle1 = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2}/></div>
+          <div ref={GraphRef}><Stiffner_graph side11 = {side1} side22 = {side2} side33 = {side3} side44 = {side4} angle1 = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

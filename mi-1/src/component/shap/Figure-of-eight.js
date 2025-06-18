@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -15,7 +15,7 @@ function Figure_of_eight() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(3);
+  const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
@@ -51,12 +51,10 @@ function Figure_of_eight() {
     setr2(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(6);
+  const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
-
-  
 
   const aa = Math.PI/180
   const angle1 = angle
@@ -140,11 +138,10 @@ function Figure_of_eight() {
     create3DShapes();
   }, [side1, side2,side3,r1,r2,angle, outerRadius, thickness, length]);
 
-
-  const Figure_of_eightGraphRef = useRef()
+  const GraphRef = useRef()
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(Figure_of_eightGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -185,8 +182,6 @@ function Figure_of_eight() {
     });
   };
 
-
-
   const handleComy = (e) => {
     setComy(e);
   };
@@ -216,7 +211,6 @@ function Figure_of_eight() {
     setTotalWeight(0);
   }
   
-
   return (
     <div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
@@ -274,7 +268,7 @@ function Figure_of_eight() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={Figure_of_eightGraphRef}><Figure_of_eight_graph side11 = {side1} side22={side2} side33={side3} angle1={angle} r11={r1} r22 = {r2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Figure_of_eight_graph side11 = {side1} side22={side2} side33={side3} angle1={angle} r11={r1} r22 = {r2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -185,11 +185,11 @@ function Backhoe_a_piller() {
     create3DShapes();
   }, [side1,side2 ,side3,side4, side5, side6, radius1, radius2, angle1, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -302,7 +302,7 @@ function Backhoe_a_piller() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Backhoe_a_piller_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} angle1={angle1} radius11={radius1} radius22={radius2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Backhoe_a_piller_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} angle1={angle1} radius11={radius1} radius22={radius2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

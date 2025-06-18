@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -148,11 +148,11 @@ function Lower_frame() {
     create3DShapes();
   }, [side1, side2,, side3, outerRadius, thickness, length]);
   
-  const cChannelGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(cChannelGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -254,7 +254,7 @@ function Lower_frame() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={cChannelGraphRef}><Lower_frame_graph side11={side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7}thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
+          <div ref={GraphRef}><Lower_frame_graph side11={side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7}thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
         </div></div>
         <div className='box'>
          <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -55,12 +55,10 @@ function Frame_profile() {
     setOuterRadius2(parseFloat(event.target.value));
   };
 
-  
   const [outerRadius3, setOuterRadius3] = useState(5);
   const outerRadius3Change = (event) => {
     setOuterRadius3(parseFloat(event.target.value));
   };
-
   
   const [outerRadius4, setOuterRadius4] = useState(2);
   const outerRadius4Change = (event) => {
@@ -211,11 +209,11 @@ function Frame_profile() {
     create3DShapes();
   }, [side1,side2 ,side3, side4, side5, outerRadius1, outerRadius2, outerRadius3, outerRadius4, angle1, angle2, angle3, angle4, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -337,7 +335,7 @@ function Frame_profile() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Frame_profile_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} outerRadius33={outerRadius3} outerRadius44={outerRadius4} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Frame_profile_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} outerRadius33={outerRadius3} outerRadius44={outerRadius4} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

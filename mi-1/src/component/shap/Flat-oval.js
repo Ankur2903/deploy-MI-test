@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -7,7 +7,6 @@ import logo from '../Image/logo.192.jpg';
 import Flat_oval_graph from '../Graph/Flat-oval';
 import '../../App.css'
 import 'jspdf-autotable';
-import { matchRoutes } from 'react-router-dom';
 import Result from './Result';
 
 function Flat_oval() {
@@ -62,7 +61,6 @@ function Flat_oval() {
     setWeightPerLength(parseFloat(0));
     setTotalWeight(parseFloat(0));
   };
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -122,11 +120,11 @@ function Flat_oval() {
     create3DShapes();
   }, [side1, side2, thickness, length]);
 
-  const flatOvalGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(flatOvalGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -204,7 +202,7 @@ function Flat_oval() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={flatOvalGraphRef}><Flat_oval_graph side1={side1} outerRadius1={side2/2} thickness1={thickness}/></div>
+          <div ref={GraphRef}><Flat_oval_graph side1={side1} outerRadius1={side2/2} thickness1={thickness}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
@@ -215,4 +213,3 @@ function Flat_oval() {
 }
 
 export default Flat_oval;
-

@@ -66,7 +66,6 @@ function T_shape_6() {
     setOuterRadius2(parseFloat(event.target.value));
   };
 
-  const aa = 180/Math.PI;
   const angle = Math.acos((outerRadius1 + outerRadius2 - side6)/(outerRadius1 + outerRadius2 - thickness))
   const l1 = side1 - side3 - side5 + thickness - outerRadius - (outerRadius1 + outerRadius2 - thickness)*Math.sin(angle);
   const l2 = (outerRadius1 + outerRadius2 - thickness)*Math.sin(angle)
@@ -183,11 +182,11 @@ function T_shape_6() {
     create3DShapes();
   }, [side1,side2 ,side3, side4, side5, side6, outerRadius1, outerRadius2, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -293,7 +292,7 @@ function T_shape_6() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><T_shape_6_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius11={outerRadius} outerRadius22={outerRadius1} outerRadius33={outerRadius2} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><T_shape_6_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius11={outerRadius} outerRadius22={outerRadius1} outerRadius33={outerRadius2} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

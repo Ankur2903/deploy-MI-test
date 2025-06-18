@@ -120,8 +120,6 @@ function Cat_a_piller() {
   const l3 = (radius3 - radius3*Math.sin(aa*angle2) + radius2*Math.sin(aa*angle2) + side7 - radius2/Math.tan(aa*angle2/2) + side6 - side5)/(Math.cos(aa*angle2))
   const l4 = side1 - radius4 + radius3*Math.cos(angle2*aa) - l3*Math.sin(aa*angle2) - radius2 - radius2*Math.cos(aa*angle2)
 
-
-
   const submitClick = () => {
     setWeightPerLenght((7850*((1.5*Math.PI)*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius1 - 0.596*thickness) + (Math.PI - aa*angle2)*(radius2 - 0.596*thickness) + (aa*angle2 - Math.PI/2)*(radius3 - 0.596*thickness) +  (Math.PI)*(radius4 - 0.596*thickness) + (Math.PI/2)*(radius5 - 0.596*thickness) + (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2)))*thickness*0.000001).toFixed(3));
 
@@ -219,11 +217,11 @@ function Cat_a_piller() {
     create3DShapes();
   }, [side1,side2 ,side3,side4, side5, side6,side7, side8, radius1, radius2, radius3, radius4, radius5, angle1, angle2, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -356,7 +354,7 @@ function Cat_a_piller() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Cat_a_piller_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} side88={side8} angle11={angle1} angle22={angle2} radius11={radius1} radius22={radius2} radius33={radius3} radius44={radius4} radius55={radius5} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Cat_a_piller_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} side88={side8} angle11={angle1} angle22={angle2} radius11={radius1} radius22={radius2} radius33={radius3} radius44={radius4} radius55={radius5} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,7 +8,6 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Al_c_section_graph from '../Graph/Al-c-section';
-import { radToDeg } from 'three/src/math/MathUtils.js';
 
 function Al_c_section() {
   const [length, setLength] = useState(1);
@@ -49,7 +48,6 @@ function Al_c_section() {
     setComy(e);
   };
 
-  const aa = 180/Math.PI
   const angle = Math.acos((side3 - side1)/side3)
 
   const submitClick = () => {
@@ -112,11 +110,11 @@ function Al_c_section() {
     create3DShapes();
   }, [side1,side2 , side3, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -198,7 +196,7 @@ function Al_c_section() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Al_c_section_graph side11 = {side1} side22={side2} side33={side3} thickness1={thickness} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Al_c_section_graph side11 = {side1} side22={side2} side33={side3} thickness1={thickness} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

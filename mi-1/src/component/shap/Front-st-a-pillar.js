@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,7 +8,6 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Front_st_a_pillar_graph from '../Graph/Front-st-a-pillar';
-
 
 function Front_st_a_pillar() {
   const aa = Math.PI/180;
@@ -61,7 +60,6 @@ function Front_st_a_pillar() {
   const angle3 = (180/Math.PI)*Math.atan(((radius2 - outerRadius)*Math.sin(aa*angle2) - (radius1 + outerRadius)*Math.sin(aa*angle1))/((radius2 - outerRadius)*Math.cos(aa*angle2) - (radius1 + outerRadius)*Math.cos(aa*angle1)))
   const l = ((radius2 - outerRadius)*Math.cos(aa*angle2) - (radius1 + outerRadius)*Math.cos(aa*angle1))/Math.cos(aa*angle3)
 
-
   const submitClick = () => {
     setWeightPerLenght(((aa*(angle1)*((radius1 - thickness*0.596) + aa*(angle2)*(radius2 - thickness*0.596)) + (2*Math.PI + aa*(angle1 - angle2))*(outerRadius - thickness*0.596) + (radius2 - radius1) + l)*thickness*7850*0.000001).toFixed(3));
 
@@ -85,7 +83,6 @@ function Front_st_a_pillar() {
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -125,7 +122,6 @@ function Front_st_a_pillar() {
     shape2.lineTo(radius2 - outerRadius, thickness)
     shapes.push(shape2)
     
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -139,11 +135,11 @@ function Front_st_a_pillar() {
     create3DShapes();
   }, [radius1, radius2, angle1, angle2, outerRadius, thickness, length]);
 
-  const squareGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(squareGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -233,7 +229,7 @@ function Front_st_a_pillar() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={squareGraphRef}><Front_st_a_pillar_graph radius11 = {radius1} radius22 = {radius2} angle1 = {angle1} angle2={angle2} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Front_st_a_pillar_graph radius11 = {radius1} radius22 = {radius2} angle1 = {angle1} angle2={angle2} thickness1={thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

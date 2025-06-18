@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,13 +8,13 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import D_section_graph from '../Graph/D-section';
-import { tab } from '@testing-library/user-event/dist/tab';
 
 function D_section() {
   const [side1, setSide1] = useState(60);
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
+
   const [side2, setSide2] = useState(31);
   const side2Change = (event) => {
     setSide2(parseFloat(event.target.value));
@@ -49,10 +49,6 @@ function D_section() {
   const [area, setArea] = useState(0)
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
-
-  
-
-
 
   const submitClick = () => {
     setWeightPerLength((((2*side1 - 2*outerRadius - 2*radius) + 2*(side2 - outerRadius - radius) + Math.PI*(outerRadius - 0.6*thickness) + Math.PI*(radius - thickness/2))*thickness*7850*0.000001).toFixed(3));
@@ -114,8 +110,6 @@ function D_section() {
     shape1.lineTo(thickness,radius)
     shapes.push(shape2)
 
-   
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -127,14 +121,13 @@ function D_section() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1, side2,radius, outerRadius, thickness, length]);
+  }, [side1, side2, radius, outerRadius, thickness, length]);
 
-
-  const rectangleGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(rectangleGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -174,7 +167,6 @@ function D_section() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
-
 
   return (
     <div>
@@ -221,7 +213,7 @@ function D_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={rectangleGraphRef}><D_section_graph side1={side1} side2={side2} radius1 = {radius} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><D_section_graph side1={side1} side2={side2} radius1 = {radius} thickness1={thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

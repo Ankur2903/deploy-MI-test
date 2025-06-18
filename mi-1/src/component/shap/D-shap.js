@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -15,7 +15,7 @@ function D_shap() {
     setLength(parseFloat(event.target.value));
   };
 
-  const [thickness, setThickness] = useState(2);
+  const [thickness, setThickness] = useState(3);
   const thicknessChange = (event) => {
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
@@ -31,7 +31,7 @@ function D_shap() {
     setSide2(parseFloat(event.target.value));
   };
 
-  const [outerRadius, setOuterRadius] = useState(4);
+  const [outerRadius, setOuterRadius] = useState(6);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
@@ -49,10 +49,10 @@ function D_shap() {
   const handleComx = (e) => {
     setComx(e);
   };
+
   const handleComy = (e) => {
     setComy(e);
   };
-
 
   const submitClick = () => {
     setWeightPerLenght((((side1 -2*outerRadius) + (side2 - 2*outerRadius) + (side1-side2) + 3*(Math.PI*(outerRadius - 0.596*thickness))/2 + (Math.PI*(side2-outerRadius - thickness/2))/2)*7850*thickness*0.000001).toFixed(3));
@@ -119,8 +119,6 @@ function D_shap() {
     shape2.lineTo(thickness,outerRadius)
     shapes.push(shape2)
 
-    
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -134,11 +132,11 @@ function D_shap() {
     create3DShapes();
   }, [side1, side2, outerRadius, thickness, length]);
   
-  const dShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(dShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -220,7 +218,7 @@ function D_shap() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={dShapGraphRef}><D_shap_graph side11={side1} thickness1={thickness} side22={side2} outerRadius1={outerRadius} sendValuex={handleComx} sendValuey={handleComy}/>
+        <div ref={GraphRef}><D_shap_graph side11={side1} thickness1={thickness} side22={side2} outerRadius1={outerRadius} sendValuex={handleComx} sendValuey={handleComy}/>
         </div></div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

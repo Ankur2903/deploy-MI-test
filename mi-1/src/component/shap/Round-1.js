@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import  { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -24,7 +24,6 @@ function Round_1() {
   const [area, setArea] = useState(0);
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
-
   
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
@@ -55,7 +54,6 @@ function Round_1() {
     setWeightPerLength(0);
     setTotalWeight(0);
   };
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -101,16 +99,11 @@ function Round_1() {
     create3DShapes();
   }, [diameter,angle, thickness,outerRadius, length]);
 
-  
-
-
-
-
-  const roundGraphRef = useRef();
+  const GraphRef = useRef();
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(roundGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -192,7 +185,7 @@ function Round_1() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box' >
-          <div ref={roundGraphRef}><Round_1_graph radius1 = {diameter/2} angle1 = {angle} thickness1 = {thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Round_1_graph radius1 = {diameter/2} angle1 = {angle} thickness1 = {thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
@@ -203,11 +196,6 @@ function Round_1() {
 }
 
 export default Round_1;
-
-
-
-
-
 
 
 

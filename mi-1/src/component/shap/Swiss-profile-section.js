@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,7 +8,6 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Swiss_profile_section_graph from '../Graph/Swiss-profile-section';
-
 
 function Swiss_profile_section() {
   const aa = Math.PI/180;
@@ -75,7 +74,6 @@ function Swiss_profile_section() {
 
   const l = radius2/Math.cos(aa*angle2) - (radius1 - thickness)/Math.cos(aa*angle1)  - radius2*Math.tan(aa*angle2) - (radius1 - thickness)*Math.tan(aa*angle1)
 
-
   const submitClick = () => {
     setWeightPerLenght(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001).toFixed(3));
 
@@ -99,7 +97,6 @@ function Swiss_profile_section() {
     setWeightPerLenght(0);
     setTotalWeight(0);
   }
-
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -139,7 +136,6 @@ function Swiss_profile_section() {
     shape2.lineTo(100 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)) - (outerRadius2 - thickness)*Math.cos(aa*angle/2) + l*Math.sin(aa*angle/2), 0 - radius2 + (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2)) -  (outerRadius2 - thickness)*Math.sin(aa*angle/2)- l*Math.cos(aa*angle/2))
     shapes.push(shape2)
     
-
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -153,11 +149,11 @@ function Swiss_profile_section() {
     create3DShapes();
   }, [radius1, radius2, angle, outerRadius2, outerRadius1, thickness, length]);
 
-  const squareGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(squareGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -198,6 +194,7 @@ function Swiss_profile_section() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
+
   return (
     <div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
@@ -247,7 +244,7 @@ function Swiss_profile_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={squareGraphRef}><Swiss_profile_section_graph radius11 = {radius1} radius22 = {radius2} angle = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2}/></div>
+          <div ref={GraphRef}><Swiss_profile_section_graph radius11 = {radius1} radius22 = {radius2} angle = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

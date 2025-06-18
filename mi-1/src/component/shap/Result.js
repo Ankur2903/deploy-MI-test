@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import '../../App.css'
 
 function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area, inertiax, inertiay}) {

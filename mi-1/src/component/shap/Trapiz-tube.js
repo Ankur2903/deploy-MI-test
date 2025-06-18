@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -51,8 +51,6 @@ function Trapiz_tube() {
   const [comy, setComy] = useState(0);
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
-
-  
 
   const handleComy = (e) => {
     setComy(e);
@@ -158,11 +156,11 @@ function Trapiz_tube() {
   }, [side1,side2,side3, side4, side5,angle1, angle2, outerRadius, thickness, length]);
 
 
-  const triangularSlitGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(triangularSlitGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -266,7 +264,7 @@ function Trapiz_tube() {
           </div>
         </div>
         <div className='box'>
-        <div ref={triangularSlitGraphRef}><Trapiz_tube_graph side11={side1} side22 = {side2} side33 = {side3} side44 = {side4} side55 = {side5} angle1={angle1} angle2={angle2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Trapiz_tube_graph side11={side1} side22 = {side2} side33 = {side3} side44 = {side4} side55 = {side5} angle1={angle1} angle2={angle2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

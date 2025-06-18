@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import{ useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -55,8 +55,6 @@ function Cabin_door_frame() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
   const handleComy = (e) => {
     setComy(e);
   };
@@ -87,7 +85,6 @@ function Cabin_door_frame() {
     setTotalWeight(parseFloat(0));
   };
 
-
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
     const exporter = new STLExporter();
@@ -115,7 +112,6 @@ function Cabin_door_frame() {
     shape1.absarc(side3*Math.sin(aa*angle) + outerRadius - thickness, outerRadius, outerRadius, 3*Math.PI/2, Math.PI, true)
     shape1.absarc(side3*Math.sin(aa*angle) - outerRadius, side2 - outerRadius/Math.tan(aa*angle/2), outerRadius - thickness, 0, Math.PI - aa*angle, false)
     shape1.lineTo(0 + thickness*Math.cos(aa*angle), side2 - side3*Math.cos(aa*angle) - thickness*Math.sin(aa*angle))
-
     shapes.push(shape1)    
 
     shapes.forEach((shape) => {
@@ -131,11 +127,11 @@ function Cabin_door_frame() {
     create3DShapes();
   }, [side1, side2, side3, angle, outerRadius, thickness, length]);
 
-  const uchannelGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(uchannelGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -227,7 +223,7 @@ function Cabin_door_frame() {
           </div>
         </div>
         <div className='box'>
-          <div ref={uchannelGraphRef}><Cabin_door_frame_graph side11={side1} side22={side2} side33={side3} angle={angle} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
+          <div ref={GraphRef}><Cabin_door_frame_graph side11={side1} side22={side2} side33={side3} angle={angle} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

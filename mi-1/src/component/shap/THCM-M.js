@@ -1,10 +1,9 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
-import Top_hat_graph from '../Graph/Top-hat';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
@@ -48,7 +47,6 @@ function Thcm_m() {
     setOutLine((Math.PI*(2*outerRadius - thickness) + 2*Math.PI*(thickness) + 4*(side3 - thickness) + 4*(side3 - thickness - outerRadius) + 2*(side2 - 2*thickness - 2*outerRadius)).toFixed(3));
 
     setArea((thickness*(2*(side3 - thickness) + 2*(side3 - thickness - outerRadius) + (side2 - 2*thickness - 2*outerRadius)) + (Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + Math.PI*thickness*thickness).toFixed(3))
-
   };
 
   const resetClick = () => {
@@ -104,11 +102,11 @@ function Thcm_m() {
     create3DShapes();
   }, [side2,side3, outerRadius, thickness, length]);
 
-  const topHatGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(topHatGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -190,7 +188,7 @@ function Thcm_m() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={topHatGraphRef}><Thcm_m_graph side22 = {side3} side33 = {side2} outerRadius1 = {outerRadius} thickness1 = {thickness}  sendValuey={handleComy}/></div>
+          <div ref={GraphRef}><Thcm_m_graph side22 = {side3} side33 = {side2} outerRadius1 = {outerRadius} thickness1 = {thickness}  sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

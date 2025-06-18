@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -14,14 +14,17 @@ function Sole_bar_section() {
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
   };
+
   const [side2, setSide2] = useState(30);
   const side2Change = (event) => {
     setSide2(parseFloat(event.target.value));
   };
+
   const [side3, setSide3] = useState(50);
   const side3Change = (event) => {
     setSide3(parseFloat(event.target.value));
   };
+
   const [side4, setSide4] = useState(30);
   const side4Change = (event) => {
     setSide4(parseFloat(event.target.value));
@@ -51,10 +54,6 @@ function Sole_bar_section() {
   const [area, setArea] = useState(0)
   const [inertiax, setInertiaX] = useState(0);
   const [inertiay, setInertiaY] = useState(0);
-
-  
-
-
 
   const submitClick = () => {
     setWeightPerLength(((2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius + 2*thickness) + (side3 - 2*thickness)  + 2*((side3 - side2)/2 -2*outerRadius) + (side1 - side4 - 2*outerRadius + thickness) + 4*Math.PI*(outerRadius - 0.596*thickness))*thickness*7850*0.000001).toFixed(3));
@@ -137,12 +136,11 @@ function Sole_bar_section() {
     create3DShapes();
   }, [side1, side2,side3, side4, outerRadius, thickness, length]);
 
-
-  const rectangleGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(rectangleGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -182,7 +180,6 @@ function Sole_bar_section() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
-
 
   return (
     <div>
@@ -233,7 +230,7 @@ function Sole_bar_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={rectangleGraphRef}><Sole_bar_section_graph side11={side1} side22={side2} side33 = {side3} side44 = {side4} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Sole_bar_section_graph side11={side1} side22={side2} side33 = {side3} side44 = {side4} thickness1={thickness} outerRadius1={outerRadius}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

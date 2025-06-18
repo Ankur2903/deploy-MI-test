@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -45,13 +45,9 @@ function U_channel() {
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
 
-  
-
   const handleComy = (e) => {
     setComy(e);
   };
-
-
 
   const submitClick = () => {
     setWeightPerLenght((7850*(Math.PI*(outerRadius - 0.596*thickness) + 2*(side2 - outerRadius) + (side1 - 2*outerRadius))*thickness*0.000001).toFixed(3));
@@ -67,8 +63,6 @@ function U_channel() {
     // setInertiax(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*outerRadius)/4)*(Math.pow((side2-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side2 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side2 - outerRadius)*(thickness)*(Math.pow(side2-outerRadius,2)/12))   +  ((side1 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side2 - comy -thickness/2,2))))*0.0001).toFixed(2))
 
     // setInertiay(((2*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side2 - outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side1/2 - thickness/2),2))))   +   ((side1 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12)))*0.0001).toFixed(2));
-
-
   };
 
   const resetClick = () => {
@@ -109,7 +103,6 @@ function U_channel() {
     shape1.absarc(outerRadius, outerRadius,outerRadius,3*Math.PI/2,2*Math.PI/2,true);
     shape1.lineTo(0,side2)
     shape1.lineTo(thickness,side2)
-
     shapes.push(shape1)    
 
     shapes.forEach((shape) => {
@@ -125,11 +118,11 @@ function U_channel() {
     create3DShapes();
   }, [side1, side2, outerRadius, thickness, length]);
 
-  const uchannelGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(uchannelGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -213,7 +206,7 @@ function U_channel() {
           </div>
         </div>
         <div className='box'>
-          <div ref={uchannelGraphRef}><U_channel_graph side1={side1} side2={side2} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
+          <div ref={GraphRef}><U_channel_graph side1={side1} side2={side2} thickness1={thickness} outerRadius1={outerRadius}  sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

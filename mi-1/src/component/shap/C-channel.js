@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -68,7 +68,6 @@ function C_channel() {
     // setInertiax(((2*(2*(Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((comy-outerRadius + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*outerRadius)/4)*(Math.pow((side1-comy-outerRadius + ((4*outerRadius)/(3*Math.PI))),2)) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((side1 - outerRadius -comy + ((4*(outerRadius-thickness))/(3*Math.PI))),2)))  +    2*((side1 - 2*outerRadius)*(thickness)*(Math.pow(side1-2*outerRadius,2)/12))   +  ((side2 - 2*outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(side1 - comy -thickness/2,2)))   +   2*((side3 - outerRadius)*(thickness)*(Math.pow(thickness,2)/12 + Math.pow(comy -thickness/2,2))))*0.0001).toFixed(2))
 
     // setInertiay(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side2-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side1 - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side2/2 - thickness/2),2))))   +   ((side2 - 2*outerRadius)*(thickness)*(Math.pow((side2-2*outerRadius),2)/12))   +   2*((thickness*Math.pow(side3-outerRadius,3))/12 + (side3 -outerRadius)*thickness*Math.pow(side2/2 - side3 + (side3 - outerRadius)/2,2)))*0.0001).toFixed(2));
-
   }
 
   const resetClick = () => {
@@ -132,11 +131,11 @@ function C_channel() {
     create3DShapes();
   }, [side1, side2,, side3, outerRadius, thickness, length]);
   
-  const cChannelGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(cChannelGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -222,7 +221,7 @@ function C_channel() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={cChannelGraphRef}><C_channel_graph side1={side2} side2={side1} lip1={side3} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
+          <div ref={GraphRef}><C_channel_graph side1={side2} side2={side1} lip1={side3} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
         </div></div>
         <div className='box'>
          <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import jsPDF from 'jspdf';
@@ -8,7 +8,6 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Support_tube_graph from '../Graph/Support-tube';
-import { abs } from 'three/webgpu';
 
 function Support_tube() {
   const [length, setLength] = useState(1);
@@ -117,7 +116,6 @@ function Support_tube() {
     shape1.absarc(outerRadius, side1 - l*Math.cos(angle*aa/2) - outerRadius, outerRadius - thickness, Math.PI - aa*angle/2, Math.PI, false)
     shape1.absarc(outerRadius, outerRadius, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
     shape1.lineTo(side3, thickness)
-    
     shapes.push(shape1)
 
     shapes.forEach((shape) => {
@@ -133,11 +131,11 @@ function Support_tube() {
     create3DShapes();
   }, [side1,side2 ,side3, angle, outerRadius, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -227,7 +225,7 @@ function Support_tube() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Support_tube_graph side11 = {side1} side22={side2} side33={side3} angle={angle} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Support_tube_graph side11 = {side1} side22={side2} side33={side3} angle={angle} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

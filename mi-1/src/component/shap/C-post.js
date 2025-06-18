@@ -54,9 +54,7 @@ function C_post() {
   const [outerRadius, setOuterRadius] = useState(4);
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
-  };
-
-  
+  };  
 
   const aa = Math.PI/180
 
@@ -112,7 +110,6 @@ function C_post() {
     shape1.absarc(x1, y1, outerRadius - thickness, aa*angle1, Math.PI, false)
     shapes.push(shape1)
     
-
     const shape2 = new THREE.Shape();
     shape2.moveTo(outerRadius, 0);
     shape2.lineTo(outerRadius, thickness);
@@ -136,10 +133,10 @@ function C_post() {
   }, [side1, side2,side3,side4,angle1, angle2, outerRadius, thickness, length]);
 
 
-  const Figure_of_eightGraphRef = useRef()
+  const GraphRef = useRef()
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(Figure_of_eightGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -179,8 +176,6 @@ function C_post() {
     doc.save('file.pdf'); // Specify the file name
     });
   };
-
-
 
   const handleComy = (e) => {
     setComy(e);
@@ -270,7 +265,7 @@ function C_post() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={Figure_of_eightGraphRef}><C_post_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle11={angle1} angle22={angle2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><C_post_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle11={angle1} angle22={angle2} thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

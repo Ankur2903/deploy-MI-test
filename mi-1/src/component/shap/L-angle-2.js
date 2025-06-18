@@ -1,4 +1,4 @@
-import React, { useState,useRef ,useEffect } from 'react';
+import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
 import html2canvas from 'html2canvas';
@@ -32,10 +32,10 @@ function L_angle_2() {
   const handleComx = (e) => {
     setComx(e);
   };
+
   const handleComy = (e) => {
     setComy(e);
   };
-
 
   const lengthChange = (event) => setLength(parseFloat(event.target.value));
   const thicknessChange = (event) =>{
@@ -124,11 +124,11 @@ function L_angle_2() {
     create3DShapes();
   }, [side1, side2, side3, side4, side5, side6, outerRadius, thickness, length]);
 
-  const lAngleGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(lAngleGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -226,8 +226,7 @@ function L_angle_2() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={lAngleGraphRef}>
-          <L_angle_2_graph side11={side1} thickness1={thickness} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} outerRadius1={outerRadius} lAngleGraphRef={lAngleGraphRef} sendValuex={handleComx} sendValuey={handleComy}/></div>
+          <div ref={GraphRef}><L_angle_2_graph side11={side1} thickness1={thickness} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} outerRadius1={outerRadius} sendValuex={handleComx} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

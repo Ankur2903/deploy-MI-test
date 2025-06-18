@@ -7,7 +7,6 @@ import logo from '../Image/logo.192.jpg';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
-import Frame_profile_graph from '../Graph/Frame-profile';
 import Formwork_graph from '../Graph/Formwork';
 
 function Formwork() {
@@ -231,7 +230,6 @@ function Formwork() {
     shape1.absarc(x2, y2, outerRadius - thickness, aa*angle1 - Math.PI/2, Math.PI/2, false)
     shape1.absarc(outerRadius, side2 - outerRadius, outerRadius - thickness, Math.PI/2, Math.PI, false)
     shape1.absarc(outerRadius, outerRadius, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
-
     shapes.push(shape1)
 
     const shape2 = new THREE.Shape();
@@ -254,11 +252,11 @@ function Formwork() {
     create3DShapes();
   }, [side1,side2 ,side3, side4, side5, side6, side7, side8, side9, side10, side11, outerRadius, angle1, angle2, angle3, angle4, thickness, length]);
   
-  const tShapGraphRef = useRef()
+  const GraphRef = useRef()
 
   const handleDownload = () => {
     const doc = new jsPDF();
-    html2canvas(tShapGraphRef.current).then((canvas) => {
+    html2canvas(GraphRef.current).then((canvas) => {
     doc.setDrawColor("black").setLineWidth(.2).line(4,0,4,300);
     doc.addImage(logo, 'PNG', 75, 2, 60, 10);
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
@@ -393,7 +391,7 @@ function Formwork() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={tShapGraphRef}><Formwork_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} side88={side8} side99={side9} side1010={side10} side1212={side11} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Formwork_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} side77={side7} side88={side8} side99={side9} side1010={side10} side1212={side11} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValuey={handleComy}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

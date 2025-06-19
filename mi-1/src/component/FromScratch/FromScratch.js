@@ -6,11 +6,13 @@ import jsPDF from 'jspdf';
 import '../../App.css'
 import CircleSector from '../Graph/Shap/Circle';
 import 'jspdf-autotable';
-import logo from '../Image/logo.192.jpg'
+import logo from '../Image/logo.192.png'
 import LineAtTheta from '../Graph/Shap/LineAtθ';
 import Result from '../shap/Result';
+import Feasibility from '../Feasibility';
 
 const FromScratch = () => {
+  const [parameters, setParameters] = useState(0)
   const aa = Math.PI/180;
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -141,10 +143,6 @@ const FromScratch = () => {
     (newShape.type === 'clockwise' && (newShape.anglefromx<=180 && newShape.angle + newShape.anglefromx >= 180)) ?  Math.max(endY , newShape.y + newShape.radius) : Math.max(endY , newShape.y + newShape.radius*Math.cos(aa*(90 - newShape.anglefromx - newShape.angle)));
 
     setShapes([...shapes, newShape]);
-    console.log(shapes.length);
-
-    // console.log("in other function",shapes.length, newShape, newShape.starty, newShape.endx, newShape.endy)
-
 
     setStartX(Math.min(startX,newShape.startx));
     setStartY(Math.min(startY,newShape.starty));
@@ -171,7 +169,6 @@ const FromScratch = () => {
   useEffect(() => {
     const newWidth =  (endX - startX)/ scale;
     const newHeight = (endY - startY)/ scale;
-    console.log("in third function", startX, startY, endX,endY)
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
 
@@ -282,6 +279,7 @@ const FromScratch = () => {
   }
 
   const submitClick = () => {
+    if(shapes.length === 0) return;
     setStripWidth((shapes[shapes.length-1].stripwidth).toFixed(3));
     setArea((shapes[shapes.length-1].area).toFixed(3));
     setWeightPerLength((7850*(shapes[shapes.length-1].stripwidth*thickness)*0.000001).toFixed(3))
@@ -481,7 +479,16 @@ const FromScratch = () => {
 
 
   return (
-    <div style={{transform: 'translateY(-30px)'}}>
+    <div>
+      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+            </div>  
+          </div>
+        </div>
+      </div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">From Scratch</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -493,6 +500,8 @@ const FromScratch = () => {
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li> 
           
         </ul>
+                <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
+
       </div>
     </div>
       <div className = "container">

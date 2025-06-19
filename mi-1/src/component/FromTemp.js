@@ -414,24 +414,71 @@ function FromTemp() {
         </div>
 
 
-
-
         <ButtonWrapper>
-          <Link to="/figure_of_eight">
-            <Button>
-              <Image src={image15} alt="Description of Image" />
-            </Button>
-          </Link>
+          <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal4">
+            <Image src={image15} alt="Description of Image" />
+          </Button>
           <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
-        <ButtonWrapper>
-          <Link to="/a-post">
-            <Button>
-              <Image src={image45} alt="Description of Image" />
-            </Button>
-          </Link>
-          <ButtonText>A-Post</ButtonText>
-        </ButtonWrapper>
+        <div className="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h3>Guide Rail Sections</h3>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div className="modal-body">
+                <ButtonWrapperContainer className='col-md-11'>
+                  <ButtonWrapper>
+                    <Link to="/figure_of_eight">
+                      <Button>
+                        <Image src={image15} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>Butterfly Section</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/a-post">
+                      <Button>
+                        <Image src={image45} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>A-Post</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/d-pillar-rear">
+                      <Button>
+                        <Image src={image74} alt="Description of Image"/>
+                      </Button>
+                    </Link>
+                    <ButtonText>D Pillar Rear</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/a-post-2">
+                      <Button>
+                        <Image src={image72} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>A Post-2</ButtonText>
+                  </ButtonWrapper>
+                  <ButtonWrapper>
+                    <Link to="/c-pillar">
+                      <Button>
+                        <Image src={image71} alt="Description of Image" />
+                      </Button>
+                    </Link>
+                    <ButtonText>C Pillar</ButtonText>
+                  </ButtonWrapper>
+                </ButtonWrapperContainer>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        
         <ButtonWrapper>
           <Link to="/double_center_mullion">
             <Button>
@@ -617,22 +664,6 @@ function FromTemp() {
           <ButtonText>Formwork</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/c-pillar">
-            <Button>
-              <Image src={image71} alt="Description of Image" />
-            </Button>
-          </Link>
-          <ButtonText>C Pillar</ButtonText>
-        </ButtonWrapper>
-         <ButtonWrapper>
-          <Link to="/a-post-2">
-            <Button>
-              <Image src={image72} alt="Description of Image" />
-            </Button>
-          </Link>
-          <ButtonText>A Post-2</ButtonText>
-        </ButtonWrapper>
-        <ButtonWrapper>
           <Link to="/front-st-a-pillar">
             <Button>
               <Image src={image73} alt="Description of Image"/>
@@ -640,14 +671,7 @@ function FromTemp() {
           </Link>
           <ButtonText>Front ST A Pillar</ButtonText>
         </ButtonWrapper>
-        <ButtonWrapper>
-          <Link to="/d-pillar-rear">
-            <Button>
-              <Image src={image74} alt="Description of Image"/>
-            </Button>
-          </Link>
-          <ButtonText>D Pillar Rear</ButtonText>
-        </ButtonWrapper>
+        
       </ButtonWrapperContainer>
       </div>
 

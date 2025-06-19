@@ -8,7 +8,7 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
   const [check, setCheck] = useState(false)
 
   const checkchange = () =>{
-    setCheck(!check)
+    setCheck(1)
   }
 
   const resetchange = () =>{
@@ -56,12 +56,12 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
             <select value={method} onChange={(e) => {setMethod(e.target.value); setCheck(false)}} style={styles.select}>
               <option value="">Select One</option>
               <option value="Shape">Shape Tube</option>
-              <option value="Open Weld">Open Welded Tube</option>
-              <option value="Open Pveft">Open Profile</option>
+              <option value="Open Welded">Open Welded Tube</option>
+              <option value="Open Profile">Open Profile</option>
             </select>
           </div>
           <div style={styles.inputGroup}>
-            <label>Tolerance Band</label>
+            <label>Minimum Tolerance </label>
             <select value={band} onChange={(e) => {setBand(e.target.value); setCheck(false)}} style={styles.select}>
               <option value="">Select One</option>
               <option value="-0.3"> Less then 0.3</option>
@@ -99,11 +99,16 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
         <h4 style={styles.subHeading}>Output</h4>
         <div>
           {check && band === "-0.3" && <p style={styles.outputBox2}>This tool cannot check feasibility as the tolerance band is less than 0.3 mm. Please contact the Mother India Engineering Department for a detailed feasibility analysis.</p>}
+          {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=320 ) && ( thickness>=0.8 && thickness<=4 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350") && <p style={styles.outputBox1}>Tube MIll No-1 <br/>- 4 Sizing Pass {method === "Open Welded" && <><br/>- 8 Forming Pass<br/>- 3 Fin Pass</>} </p>}
+          {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=270 ) && ( thickness>=0.8 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250") && <p style={styles.outputBox1}>Tube MIll No-2  <br/>- 3 Sizing Pass {method === "Open Welded" && <><br/>- 6 Forming Pass<br/>- 2 Fin Pass</>} </p>}
+          {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=250 ) && ( thickness>=1 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250") && <p style={styles.outputBox1}>Tube MIll No-3  <br/>- 3 Sizing Pass {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 2 Fin Pass</>} </p>}
+          {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=380 ) && ( thickness>=0.8 && thickness<=5 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550") && <p style={styles.outputBox1}>Tube MIll No-4 <br/>- 6 Sizing Pass {method === "Open Welded" && <><br/>- 15 Forming Pass<br/>- 3 Fin Pass</>} </p>}
+          {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=570 ) && ( thickness>=4 && thickness<=12 ) && method!=="Open Profile" && (material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550") && <p style={styles.outputBox1}>Tube MIll No-5 <br/>- 5 Sizing Pass {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 4 Fin Pass <br/>- 1 Seam Guide</>}</p>}
         </div>
       </section>
     </div>
     <div className="modal-footer">
-        <button type="button" className="btn btn-success" onClick={checkchange}>Check For Feasibility</button>
+        <button type="button" className="btn btn-success" onClick={checkchange} disabled={true && (method === "" || band === "" || material === "" || yst === "")}>Check For Feasibility</button>
         <button type="button" className="btn btn-primary" onClick={resetchange}>Reset</button>
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={resetchange}>Close</button>
     </div>

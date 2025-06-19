@@ -6,9 +6,21 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
   const [material, setMaterial] = useState('');
   const [yst, setYst] = useState('');
   const [check, setCheck] = useState(false)
+  const [output, setoutput] = useState(false)
 
   const checkchange = () =>{
-    setCheck(1)
+    setCheck(1);
+    if((band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=320 ) && ( thickness>=0.8 && thickness<=4 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350")) ||
+      (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=270 ) && ( thickness>=0.8 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250")) || 
+      (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=250 ) && ( thickness>=1 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250")) || 
+      ( band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=380 ) && ( thickness>=0.8 && thickness<=5 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550")) ||
+      (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=570 ) && ( thickness>=4 && thickness<=12 ) && method!=="Open Profile" && (material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550"))){
+        console.log("hello")
+      setoutput(true)
+    }
+    else {
+      setoutput(false)
+    }
   }
 
   const resetchange = () =>{
@@ -16,10 +28,8 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
     setBand("")
     setMaterial("")
     setYst("")
-    setCheck(!check)
+    setCheck(false)
   }
-
-  console.log({check, band})
 
   return (
     <>
@@ -99,11 +109,13 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
         <h4 style={styles.subHeading}>Output</h4>
         <div>
           {check && band === "-0.3" && <p style={styles.outputBox2}>This tool cannot check feasibility as the tolerance band is less than 0.3 mm. Please contact the Mother India Engineering Department for a detailed feasibility analysis.</p>}
+          {check && output && band !== "-0.3" && <p style={styles.outputBox1}> This part is feasible under the machine conditions mentioned below.</p>}
           {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=320 ) && ( thickness>=0.8 && thickness<=4 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350") && <p style={styles.outputBox1}>Tube MIll No-1 <br/>- 4 Sizing Pass {method === "Open Welded" && <><br/>- 8 Forming Pass<br/>- 3 Fin Pass</>} </p>}
           {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=270 ) && ( thickness>=0.8 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250") && <p style={styles.outputBox1}>Tube MIll No-2  <br/>- 3 Sizing Pass {method === "Open Welded" && <><br/>- 6 Forming Pass<br/>- 2 Fin Pass</>} </p>}
           {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=250 ) && ( thickness>=1 && thickness<=3 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250") && <p style={styles.outputBox1}>Tube MIll No-3  <br/>- 3 Sizing Pass {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 2 Fin Pass</>} </p>}
           {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=380 ) && ( thickness>=0.8 && thickness<=5 ) && method!=="Open Profile" && (material === "IS 277" || material === "IS 513" || material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550") && <p style={styles.outputBox1}>Tube MIll No-4 <br/>- 6 Sizing Pass {method === "Open Welded" && <><br/>- 15 Forming Pass<br/>- 3 Fin Pass</>} </p>}
           {check && band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=570 ) && ( thickness>=4 && thickness<=12 ) && method!=="Open Profile" && (material === "IS 2062" || material === "IS 5987") && (yst === "250" || yst ==="350" || yst === "450" || yst === "550") && <p style={styles.outputBox1}>Tube MIll No-5 <br/>- 5 Sizing Pass {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 4 Fin Pass <br/>- 1 Seam Guide</>}</p>}
+          {check && !output && band !== "-0.3" && <p style={styles.outputBox2}>This part is not feasible. Please contact MI Engineering for further details.</p>}
         </div>
       </section>
     </div>

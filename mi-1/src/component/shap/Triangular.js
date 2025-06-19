@@ -8,8 +8,10 @@ import Triangular_graph from '../Graph/Triangular';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
+import Feasibility from '../Feasibility';
 
 function Triangular() {
+  const [parameters, setParameters] = useState(0)
   const [length, setLength] = useState(1);
   const lengthChange = (event) => setLength(parseFloat(event.target.value));
 
@@ -159,6 +161,15 @@ function Triangular() {
 
   return (
     <div>
+      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              </div>  
+            </div>
+          </div>
+        </div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Triangular Tube</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -169,6 +180,7 @@ function Triangular() {
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
+        <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
       </div>
     </div>
       <div className = "container">

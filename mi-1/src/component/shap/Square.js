@@ -162,14 +162,9 @@ function Square() {
        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
-              {/* <div className="modal-header">
-                <h3>Feasibility Check</h3>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div> */}
               <div className="modal-body">
                 <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
-              </div>
-              
+              </div>  
             </div>
           </div>
         </div>

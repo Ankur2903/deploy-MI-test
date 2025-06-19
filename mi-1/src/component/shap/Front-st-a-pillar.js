@@ -8,8 +8,10 @@ import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
 import Front_st_a_pillar_graph from '../Graph/Front-st-a-pillar';
+import Feasibility from '../Feasibility';
 
 function Front_st_a_pillar() {
+  const [parameters, setParameters] = useState(0)
   const aa = Math.PI/180;
   const [radius1, setRadius1] = useState(100);
   const radius1Change = (event) => {
@@ -182,6 +184,15 @@ function Front_st_a_pillar() {
   };
   return (
     <div>
+      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              </div>  
+            </div>
+          </div>
+        </div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Front ST A-Pillar</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
@@ -192,6 +203,7 @@ function Front_st_a_pillar() {
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
+        <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
       </div>
     </div>
       <div className = "container">

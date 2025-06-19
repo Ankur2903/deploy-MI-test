@@ -478,7 +478,7 @@ function FromTemp() {
           </div>
         </div>
 
-        
+
         <ButtonWrapper>
           <Link to="/double_center_mullion">
             <Button>
@@ -671,11 +671,12 @@ function FromTemp() {
           </Link>
           <ButtonText>Front ST A Pillar</ButtonText>
         </ButtonWrapper>
-        
       </ButtonWrapperContainer>
       </div>
 
+
       <div style={dividerStyle}></div>
+      
 
       <div style={rightStyle}>
       <Heading>Open Profile</Heading>

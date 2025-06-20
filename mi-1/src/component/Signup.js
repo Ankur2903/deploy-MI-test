@@ -187,7 +187,7 @@ function Signup() {
           </div>
         )}
         <p className="text-center mt-3">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?(version-1) <Link to="/login">Login</Link>
         </p>
       </div>
     </div>

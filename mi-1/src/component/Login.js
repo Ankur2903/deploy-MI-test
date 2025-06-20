@@ -100,7 +100,7 @@ function Login() {
           <Link to="/forgot-password">Forgot your password</Link>
         </p>
         <p className="text-center">
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+          Don't have an account?(version-1) <Link to="/signup">Sign Up</Link>
         </p>
       </div>
     </div>

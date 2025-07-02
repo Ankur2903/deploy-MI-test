@@ -106,11 +106,11 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
         <div>
           {check && band === "-0.3" && <p style={styles.outputBox2}>This tool cannot check feasibility as the tolerance band is less than 0.3 mm. Please contact the Mother India Engineering Department for a detailed feasibility analysis.</p>}
           {check && output && band !== "-0.3" && <p style={styles.outputBox1}> This part is feasible under the machine conditions mentioned below.</p>}
-          {check && tubeMill[0] && <p style={styles.outputBox1}>Tube MIll No-1 {method === "Open Welded" && <><br/>- 8 Forming Pass<br/>- 3 Fin Pass</>} <br/>- 4 Sizing Pass </p>}
-          {check && tubeMill[1] && <p style={styles.outputBox1}>Tube MIll No-2 {method === "Open Welded" && <><br/>- 6 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass </p>}
-          {check && tubeMill[2] && <p style={styles.outputBox1}>Tube MIll No-3 {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass  </p>}
-          {check && tubeMill[3] && <p style={styles.outputBox1}>Tube MIll No-4 {method === "Open Welded" && <><br/>- 15 Forming Pass<br/>- 3 Fin Pass</>}<br/>- 6 Sizing Pass </p>}
-          {check && tubeMill[4] && <p style={styles.outputBox1}>Tube MIll No-5 {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 4 Fin Pass <br/>- 1 Seam Guide</>}<br/>- 5 Sizing Pass </p>}
+          {check && tubeMill[0] && <p style={styles.outputBox1}>Tube Mill No-1 {method === "Open Welded" && <><br/>- 8 Forming Pass<br/>- 3 Fin Pass</>} <br/>- 4 Sizing Pass </p>}
+          {check && tubeMill[1] && <p style={styles.outputBox1}>Tube Mill No-2 {method === "Open Welded" && <><br/>- 6 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass </p>}
+          {check && tubeMill[2] && <p style={styles.outputBox1}>Tube Mill No-3 {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass  </p>}
+          {check && tubeMill[3] && <p style={styles.outputBox1}>Tube Mill No-4 {method === "Open Welded" && <><br/>- 15 Forming Pass<br/>- 3 Fin Pass</>}<br/>- 6 Sizing Pass </p>}
+          {check && tubeMill[4] && <p style={styles.outputBox1}>Tube Mill No-5 {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 4 Fin Pass <br/>- 1 Seam Guide</>}<br/>- 5 Sizing Pass </p>}
           {check && !output && band !== "-0.3" && <p style={styles.outputBox2}>This part is not feasible. Please contact MI Engineering for further details.</p>}
         </div>
       </section>

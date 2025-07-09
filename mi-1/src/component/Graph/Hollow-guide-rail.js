@@ -212,8 +212,8 @@ function Hollow_guide_rail_graph({ thickness1, side11, side22, side33, side44, s
         <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - outerRadius} centerY={150 - side3 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} centerY={150 - side3 - outerRadius + thickness} angle={90} rotation={90} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + side5 - outerRadius + thickness} centerY={150 - side3 - outerRadius + thickness} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + side5 - outerRadius + thickness} centerY={150 - side4 + 2*outerRadius - thickness} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} centerY={150 - side4 + 2*outerRadius - thickness} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + side5 - outerRadius + thickness} centerY={150 - side4 + outerRadius + thickness} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side1/2 + side2/2 - side5 + outerRadius - thickness} centerY={150 - side4 + outerRadius + thickness} angle={90} rotation={180} thickness={thickness}/>
         <CircleSector radius={radius} centerX={50  + radius} centerY={150 - side4 + radius} angle={360 - angle} rotation={angle - 90} thickness={thickness}/>
         <CircleSector radius={radius} centerX={50  + side1 - radius} centerY={150 - side4 + radius} angle={360 - angle} rotation={270} thickness={thickness}/>
         <CircleSector radius={outerRadius} centerX={50 + side1/2 - side2/2 + side5 - outerRadius + thickness - l1} centerY={150 - side4 + thickness + outerRadius} angle={180 - angle} rotation={90 + angle} thickness={thickness}/>

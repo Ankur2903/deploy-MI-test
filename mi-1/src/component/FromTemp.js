@@ -433,7 +433,7 @@ function FromTemp() {
                 <ButtonWrapperContainer className='col-md-11'>
                   <ButtonWrapper>
                     <Link to="/figure_of_eight">
-                      <Button>
+                      <Button data-bs-dismiss="modal">
                         <Image src={image15} alt="Description of Image" />
                       </Button>
                     </Link>
@@ -441,7 +441,7 @@ function FromTemp() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/a-post">
-                      <Button>
+                      <Button data-bs-dismiss="modal">
                         <Image src={image45} alt="Description of Image" />
                       </Button>
                     </Link>
@@ -449,7 +449,7 @@ function FromTemp() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/d-pillar-rear">
-                      <Button>
+                      <Button data-bs-dismiss="modal">
                         <Image src={image74} alt="Description of Image"/>
                       </Button>
                     </Link>
@@ -457,7 +457,7 @@ function FromTemp() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/a-post-2">
-                      <Button>
+                      <Button data-bs-dismiss="modal">
                         <Image src={image72} alt="Description of Image" />
                       </Button>
                     </Link>
@@ -465,7 +465,7 @@ function FromTemp() {
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/c-pillar">
-                      <Button>
+                      <Button data-bs-dismiss="modal">
                         <Image src={image71} alt="Description of Image" />
                       </Button>
                     </Link>

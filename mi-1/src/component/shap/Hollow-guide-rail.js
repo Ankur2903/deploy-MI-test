@@ -60,15 +60,15 @@ function Hollow_guide_rail() {
   const l1 = side1/2 - side2/2 + side5 - outerRadius + thickness - (outerRadius*Math.sin(aa*angle) - l*Math.cos(aa*angle) + (radius - thickness)*Math.sin(aa*angle) + radius)
 
   const submitClick = () => {
-    setWeightPerLength(((2*(3*Math.PI - angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness))*thickness*7850*0.000001).toFixed(3));
+    setWeightPerLength(((2*(3*Math.PI - aa*angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - aa*angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness))*thickness*7850*0.000001).toFixed(3));
 
-    setTotalWeight(((2*(3*Math.PI - angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness))*thickness*7850*0.000001 * length).toFixed(2));
+    setTotalWeight(((2*(3*Math.PI - aa*angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - aa*angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness))*thickness*7850*0.000001 * length).toFixed(2));
 
-    setStripWidth((2*(3*Math.PI - angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness)).toFixed(3))
+    setStripWidth((2*(3*Math.PI - aa*angle)*(outerRadius - 0.596*thickness) + 2*(2*Math.PI - aa*angle)*(radius - 0.596*thickness) + 2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness)).toFixed(3))
 
-    setOutLine((2*(3*Math.PI - angle)*(2*outerRadius - thickness) + 2*(2*Math.PI - angle)*(2*radius - thickness) + 2*(2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness) + thickness)).toFixed(3));
+    setOutLine((2*(3*Math.PI - aa*angle)*(2*outerRadius - thickness) + 2*(2*Math.PI - aa*angle)*(2*radius - thickness) + 2*(2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness) + thickness)).toFixed(3));
 
-    setArea(((3*Math.PI - angle)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness, 2)) + (2*Math.PI - angle)*(Math.pow(radius,2) - Math.pow(radius - thickness, 2)) + thickness*(2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness) + thickness)).toFixed(3))
+    setArea(((3*Math.PI - aa*angle)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness, 2)) + (2*Math.PI - aa*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness, 2)) + thickness*(2*l + 2*l1 + (side1 - 2*radius) + (side2 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side5 - 2*outerRadius + thickness) + thickness)).toFixed(3))
   };
 
   const resetClick = () => {

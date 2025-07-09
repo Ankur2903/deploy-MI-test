@@ -20,20 +20,20 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
     setCheck(1);
     if(tubeMill[0] || tubeMill[1] || tubeMill[2] || tubeMill[3] || tubeMill[4]) setoutput(true)
     else setoutput(false)
-  }
+  } 
 
   const resetchange = () =>{
     setMethod("")
     setBand("")
     setMaterial("")
-    setYst("")
-    setCheck(false)
+    setYst("") 
+    setCheck(false) 
   }
-
+  
   return (
     <>
     <div style={styles.container}>
-      <h2 style={styles.title}>Feasibility Check</h2>
+      <h2 style={styles.title}>Feasibility Check</h2> 
       {/* Input Summary */}
       <section style={styles.section}>
         <h4 style={styles.subHeading}>Input Summary</h4>
@@ -41,7 +41,7 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
           <div style={styles.inputGroup}>
             <label>Strip Width :   {stripWidth} mm</label>
           </div>
-          <div style={styles.inputGroup}>
+          <div style={styles.inputGroup}> 
             <label>Profile Type : {type} Profile</label>
           </div>
         </div>
@@ -166,7 +166,7 @@ const styles = {
     border: '1px solid #ccc',
     marginTop: '5px'
   },
-  outputBox1: {
+  outputBox1: { 
   padding: '15px',
   backgroundColor: '#d4edda',      // light green
   borderLeft: '5px solid #28a745', // green

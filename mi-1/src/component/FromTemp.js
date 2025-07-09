@@ -75,6 +75,7 @@ import image71 from './Image/Image-71.png';
 import image72 from './Image/Image-72.png';
 import image73 from './Image/Image-73.png';
 import image74 from './Image/Image-74.png';
+import Footer from "./Footer";
 
 const Button = styled.button`
   padding: 10px 15px;
@@ -211,6 +212,7 @@ function FromTemp() {
     };
 
   return (
+    <>
     <ButtonContainer>
       <div style={containerStyle}>
       <div style={leftStyle}>
@@ -677,6 +679,7 @@ function FromTemp() {
 
       <div style={dividerStyle}></div>
       
+      
 
       <div style={rightStyle}>
       <Heading>Open Profile</Heading>
@@ -925,7 +928,20 @@ function FromTemp() {
       </div>
     </div>
     </ButtonContainer>
+    <Footer />
+    </>
   );
 }
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+  },
+  content: {
+    flex: 1,
+  },
+};
 
 export default FromTemp;

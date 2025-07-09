@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import '../App.css'
 import Image2 from './Image/HomeImage-2.jpg'
 import Image from './Image/background.png'
+import Footer from './Footer';
 
 
 
 function Home() {
   return (
+    <>
     <div className='button-container' style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "95vh"}}>
       <div style={{backgroundColor: "white", padding: "10px 40px", borderRadius: "40px",  boxShadow: '10px 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)', border: "1px solid black"}}>
       <h1 className='mb-4'>MI Profile Generator</h1>
@@ -47,7 +49,10 @@ function Home() {
         </div>
       </div>
       </div>
+      
     </div>
+    <Footer/>
+    </>
   );
 }
 

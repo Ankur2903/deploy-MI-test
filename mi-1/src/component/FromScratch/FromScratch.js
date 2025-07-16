@@ -493,7 +493,7 @@ const FromScratch = () => {
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">From Scratch</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title='Download PDF or STL' type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
@@ -522,25 +522,25 @@ const FromScratch = () => {
         }
         {selectedShapeId === null && 
         <><h5>Add a New Shape</h5>
-        <button className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===1 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("clockwise"); setno(1)}}><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Uhrzeigersinn.png" style={{height: "40px"}}/></button>
-        <button className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===2 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("Line"); setno(2)}}><img src="https://i.pinimg.com/originals/66/15/24/661524af491cfda437692eac19eed959.jpg" style={{height: "40px"}}/></button>
-        <button className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===3 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("anticlockwise"); setno(3)}}><img src="https://static.thenounproject.com/png/655477-200.png" style={{height: "40px"}}/></button></>
+        <button title='Add clockwise bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===1 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("clockwise"); setno(1)}}><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Uhrzeigersinn.png" style={{height: "40px"}}/></button>
+        <button title='Add straight line' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===2 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("Line"); setno(2)}}><img src="https://i.pinimg.com/originals/66/15/24/661524af491cfda437692eac19eed959.jpg" style={{height: "40px"}}/></button>
+        <button title='Add anticlockwise bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===3 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("anticlockwise"); setno(3)}}><img src="https://static.thenounproject.com/png/655477-200.png" style={{height: "40px"}}/></button></>
       }
         
         {newShapeType === 'clockwise' && selectedShapeId === null &&  (
           <>
             <div className="container1">
               <lable className="label">Outer Radius: (r) mm</lable>
-              <input className="input-field" type="number" value={newShapeRadius} step="0.01" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
              </div>
             <div className="container1">
               <lable className="label">Angle: (θ) degree</lable>
-              <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
             </div>
             {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Clockwise Rotation: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
               </div>
             }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -550,12 +550,12 @@ const FromScratch = () => {
           <>
             <div className="container1">
               <lable className="label">Length: (l) mm</lable>
-              <input className="input-field" type="number" value={newShapeLength} step="0.01" onChange={(e) => setNewShapeLength(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={newShapeLength} step="1" onChange={(e) => setNewShapeLength(Number(e.target.value))}/>
             </div>
             {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Angle From X: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
               </div>
             }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -567,16 +567,16 @@ const FromScratch = () => {
           <>
           <div className="container1">
             <lable className="label">Outer Radius: (r) mm</lable>
-            <input className="input-field" type="number" value={newShapeRadius} step="0.01" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
+            <input className="input-field" type="number" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
            </div>
           <div className="container1">
             <lable className="label">Angle: (θ) degree</lable>
-            <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
+            <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
           </div>
           {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Clockwise Rotation: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
               </div>
             }
           <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -591,16 +591,16 @@ const FromScratch = () => {
             <>
               <div className="container1">
               <lable className="label">Outer Radius: (r) mm</lable>
-              <input className="input-field" type="number" value={shapeRadius} step="0.01" onChange={(e) => setShapeRadius(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={shapeRadius} step="1" onChange={(e) => setShapeRadius(Number(e.target.value))}/>
              </div>
             <div className="container1">
               <lable className="label">Angle: (θ) degree</lable>
-              <input className="input-field" type="number" value={shapeAngle} step="0.01" onChange={(e) => setShapeAngle(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={shapeAngle} step="1" onChange={(e) => setShapeAngle(Number(e.target.value))}/>
             </div>
              {selectedShapeId === 1 &&
               <div className="container1">
                 <lable className="label">Clockwise Rotation: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
               </div>
             }
             </>
@@ -608,12 +608,12 @@ const FromScratch = () => {
             <>
             <div className="container1">
               <lable className="label">Length: (l) mm</lable>
-              <input className="input-field" type="number" value={shapeLength} step="0.01" onChange={(e) => setShapeLength(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={shapeLength} step="1" onChange={(e) => setShapeLength(Number(e.target.value))}/>
             </div>
             {selectedShapeId === 1 &&
               <div className="container1">
                 <lable className="label">Angle From X: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
               </div>
             }
             </>
@@ -672,9 +672,9 @@ const FromScratch = () => {
             {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="4"> {distance} mm</text>}
 
             </svg>
-            <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-            <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-            <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+            <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+            <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
           </div>
           </div>
         </div>

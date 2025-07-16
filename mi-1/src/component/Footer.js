@@ -1,30 +1,41 @@
 import React from 'react';
 
 const Footer = () => {
-  return (
-    <footer style={styles.footer}>
-      <p style={styles.text}>© {new Date().getFullYear()} Mother India Forming PVT. LTD. All rights reserved.</p>
-      <i class="fa-brands fa-whatsapp"></i>
-    </footer>
-  );
-};
 
-const styles = {
-  footer: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-    textAlign: 'center',
-    padding: '10px 0',
-    zIndex: 1000,
-  },
-  text: {
-    margin: 0,
-    fontSize: '14px',
-  },
+  const joinWhatsAppGroup = () => {
+    // Replace with your actual WhatsApp group invite link
+    window.open("https://chat.whatsapp.com/YourGroupInviteCode", "_blank");
+  };
+
+
+  return (
+    <div
+    title='Join our WhatsApp Group'
+      onClick={joinWhatsAppGroup}
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: '#25D366',
+        borderRadius: '50%',
+        width: '60px',
+        height: '60px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+        cursor: 'pointer',
+        zIndex: 1000,
+      }}
+    >
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+        alt="WhatsApp"
+        style={{ width: '30px', height: '30px' }}
+      />
+    </div>
+   
+  );
 };
 
 export default Footer;

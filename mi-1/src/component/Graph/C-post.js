@@ -225,9 +225,9 @@ function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickn
         <Linex x1={45 + outerRadius - side3*Math.cos(aa*angle1)} x2={45 + outerRadius - side3*Math.cos(aa*angle1)} y1={170 - side2 + side3*Math.cos(aa*angle1)} y2={170 - side2 + side3*Math.cos(aa*angle1)} text={'θ2'} val={angle22} textHeight={7} unit={" "}/>
 
       </svg>
-      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

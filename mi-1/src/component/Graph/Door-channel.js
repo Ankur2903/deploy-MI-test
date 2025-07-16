@@ -225,9 +225,9 @@ function Door_channel_graph({ side11, side22, side33, side44, lip11, thickness1,
         <Linex x1={100 - comx} x2={thickness + 100 - comx} y1={100 - comy - 5} y2={100 - comy - 5} text={'t'} val={thickness1} textHeight={-5}/>
       
       </svg>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='btn btn mx-2 mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

@@ -189,9 +189,9 @@ function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
         {/* Horizontal Arrow for Angle */}
         <Linex x1={100 - outerRadius*(Math.tan(aa*angle/2) + Math.cos(aa*angle/2))} x2={100 + outerRadius*(Math.tan(aa*angle/2) + Math.cos(aa*angle/2))} y1={50 + 2*outerRadius} y2={50 + 2*outerRadius} text={'θ'} val={angle} textHeight={10} unit={"°"}/>
       </svg>
-      <button className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

@@ -234,7 +234,8 @@ function Craftsman_c_rail() {
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
         <h1 className="heading">Craftsman C-Rail rail</h1>
         <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-          <button type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-download"></i>
+          <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+            <i className="fa-solid fa-download"></i>
           </button>
           <ul className="dropdown-menu">
             <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>

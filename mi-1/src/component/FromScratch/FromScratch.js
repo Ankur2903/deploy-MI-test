@@ -33,6 +33,7 @@ const FromScratch = () => {
   const [newShapeLength, setNewShapeLength] = useState(60);//Used for rectangle width
   const [newShapeRadius, setNewShapeRadius] = useState(10); // Used for circle radius
   const [newShapeAngle, setNewShapeAngle] = useState(90); // Used for circle radius
+  const [startAngle, setStartAngle] = useState(0)
 
   const [shapes, setShapes] = useState([]);
   const [thickness, setThickness] = useState(2);
@@ -98,7 +99,7 @@ const FromScratch = () => {
       (shapes.length === 0) ? newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa :
       (newShapeType === "Line") ? shapes[shapes.length - 1].outline + 2*newShapeLength : shapes[shapes.length - 1].outline + newShapeRadius*newShapeAngle*aa,
 
-      anglefromx: (shapes.length === 0) ? 0 : (shapes[shapes.length - 1].type === "Line") ? shapes[shapes.length - 1].anglefromx : (shapes[shapes.length - 1].type === "clockwise") ? (360 + shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle)%360 : (360 + shapes[shapes.length - 1].anglefromx - shapes[shapes.length - 1].angle)%360,
+      anglefromx: (shapes.length === 0) ? startAngle%360 : (shapes[shapes.length - 1].type === "Line") ? shapes[shapes.length - 1].anglefromx : (shapes[shapes.length - 1].type === "clockwise") ? (360 + shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle)%360 : (360 + shapes[shapes.length - 1].anglefromx - shapes[shapes.length - 1].angle)%360,
 
       x: (shapes.length ===0 ) ? 30 : 
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "Line") ?  shapes[shapes.length - 1].x + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
@@ -188,7 +189,7 @@ const FromScratch = () => {
       (i === 0) ? newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa :
       (newShapeType === "Line") ? shapes[i - 1].outline + 2*newShapeLength : shapes[i - 1].outline + newShapeRadius*newShapeAngle*aa;
 
-      shapes[i].anglefromx = (i === 0) ? 0 : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
+      shapes[i].anglefromx = (i === 0) ? startAngle%360 : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
 
       shapes[i].x = (i === 0) ? shapes[i].x :
         (shapes[i - 1].type === "Line" && shapes[i].type === "Line") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos(aa * (shapes[i - 1].anglefromx)) :
@@ -536,8 +537,13 @@ const FromScratch = () => {
               <lable className="label">Angle: (θ) degree</lable>
               <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
             </div>
+            {shapes.length === 0 &&
+              <div className="container1">
+                <lable className="label">Clockwise Rotation: (θ) degree</lable>
+                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+              </div>
+            }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
-
           </>
         )}
         {newShapeType === 'Line' && selectedShapeId === null && (
@@ -546,6 +552,12 @@ const FromScratch = () => {
               <lable className="label">Length: (l) mm</lable>
               <input className="input-field" type="number" value={newShapeLength} step="0.01" onChange={(e) => setNewShapeLength(Number(e.target.value))}/>
             </div>
+            {shapes.length === 0 &&
+              <div className="container1">
+                <lable className="label">Angle From X: (θ) degree</lable>
+                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+              </div>
+            }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
 
           </>
@@ -561,6 +573,12 @@ const FromScratch = () => {
             <lable className="label">Angle: (θ) degree</lable>
             <input className="input-field" type="number" value={newShapeAngle} step="0.01" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
           </div>
+          {shapes.length === 0 &&
+              <div className="container1">
+                <lable className="label">Clockwise Rotation: (θ) degree</lable>
+                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+              </div>
+            }
           <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
         </>
         )}
@@ -579,12 +597,26 @@ const FromScratch = () => {
               <lable className="label">Angle: (θ) degree</lable>
               <input className="input-field" type="number" value={shapeAngle} step="0.01" onChange={(e) => setShapeAngle(Number(e.target.value))}/>
             </div>
+             {selectedShapeId === 1 &&
+              <div className="container1">
+                <lable className="label">Clockwise Rotation: (θ) degree</lable>
+                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+              </div>
+            }
             </>
           ) : (
+            <>
             <div className="container1">
               <lable className="label">Length: (l) mm</lable>
               <input className="input-field" type="number" value={shapeLength} step="0.01" onChange={(e) => setShapeLength(Number(e.target.value))}/>
             </div>
+            {selectedShapeId === 1 &&
+              <div className="container1">
+                <lable className="label">Angle From X: (θ) degree</lable>
+                <input className="input-field" type="number" value={startAngle} step="0.01" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+              </div>
+            }
+            </>
           )}
 
           <button type='button' className="btn btn-dark mx-2 my-4" onClick={updateDimensions} style={{color: 'white', backgroundColor: '#1b065c'}}>Update Shape</button>
@@ -592,9 +624,9 @@ const FromScratch = () => {
       )}
 
       <div>    
-      <button disabled={shapes.length===0 ? true : false} type="button" className="btn btn-dark mx-2 my-4" onClick={submitClick}  style={{color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
-      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-2 my-4" onClick={removeShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Remove Last Shape</button>
-      <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-2 my-4"  style={{color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
+      <button disabled={shapes.length===0 ? true : false} type="button" className="btn btn-dark mx-1 my-4" onClick={submitClick}  style={{color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
+      <button type='button' disabled={(shapes.length ===0 || selectedShapeId === shapes.length) ? true : false} className="btn btn-dark mx-1 my-4" onClick={removeShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Remove Last Shape</button>
+      <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-1 my-4"  style={{color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
       </div>   
       </div>
       
@@ -617,7 +649,7 @@ const FromScratch = () => {
             {/* Apply grid pattern as background */}
             <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
-            {shapes.length>0 && ((shapes[0].type === "Line") ? <LineAtTheta x={shapes[0].x} y={shapes[0].y - 5} w={0.5} h={10 + thickness} angle={0} color={"black"}/> : (shapes[0].type === "clockwise") ? <LineAtTheta x={shapes[0].x} y={shapes[0].y - 5 - shapes[0].radius} w={0.5} h={10 + thickness} angle={0} color={"black"}/>:<LineAtTheta x={shapes[0].x} y={shapes[0].y - 5 + shapes[0].radius - thickness} w={0.5} h={10 + thickness} angle={0} color={"black"}/>)}
+            {shapes.length>0 && ((shapes[0].type === "Line") ? <LineAtTheta x={shapes[0].x + 5*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y - 5*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/> : (shapes[0].type === "clockwise") ? <LineAtTheta x={shapes[0].x + (5 + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y - (5 + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/>:<LineAtTheta x={shapes[0].x - (-5 + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y + (-5 + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/>)}
 
             {shapes.map((shape) => (
               (shape.type==="Line") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><LineAtTheta x={shape.x} y={shape.y} w={shape.length} h={thickness} angle={shape.anglefromx} color={shape.color}/></a>

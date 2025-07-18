@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import Result from './Result';
 import Z_section_graph from '../Graph/Z-section';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Z_section() {
   const [parameters, setParameters] = useState(0)
@@ -219,7 +220,7 @@ function Z_section() {
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Z Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

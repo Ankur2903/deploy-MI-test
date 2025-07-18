@@ -2,20 +2,21 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Linex from './Shap/Linex';
 import Linez from './Shap/Linez';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import { asin } from 'three/webgpu';
 import Liney from './Shap/Liney';
 
 function Round_graph_4({side1, radius1, thickness1, outerRadius1 }) {
 const mx = 2*radius1;
   const radius = 50;
-  const thickness = (thickness1 / (2 * radius1)) * 100;
-  const outerRadius = (outerRadius1*100)/mx;
-  const side = (side1*100)/mx;
+  const thickness = (thickness1 / (2 * radius1)) * Props.ratio
+  const outerRadius = (outerRadius1*Props.ratio)/mx;
+  const side = (side1*Props.ratio)/mx;
   const aa = 180/Math.PI
   const angle2 = Math.PI/2 - Math.asin((side - radius - outerRadius)/(radius - outerRadius))
   const angle1 = 2*Math.PI - 2*angle2;
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
@@ -98,13 +99,13 @@ const mx = 2*radius1;
 
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -147,7 +148,7 @@ const mx = 2*radius1;
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-        <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning}  type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+        <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning}  type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
         <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
       </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
@@ -178,9 +179,9 @@ const mx = 2*radius1;
         <Liney x1={160} x2={160} y1={100 - (radius - outerRadius)*Math.cos(angle2) - outerRadius} y2={150} text={'A'} val={side1} textHeight={17}/>
 
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

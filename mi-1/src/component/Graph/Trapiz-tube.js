@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import LineAtTheta from './Shap/LineAtθ';
 import Liney from './Shap/Liney';
@@ -9,13 +10,13 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
   const angle3 = (360 + (180/Math.PI)*Math.atan(side44/(side11/2 - side55/2 - side22/Math.tan(aa*angle1) - side33/Math.tan(aa*(angle1 + angle2)))) - angle2 - angle1)%360
   const angle4 = 540 - angle1 - angle2 - angle3;
   const mx = Math.max(side11 - 2*side22/Math.tan(aa*angle1), side33 + side22 + side44, side55 - 2*side44/Math.tan(aa*angle4));
-  const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const side3 = (side33/mx)*100;
-  const side4 = (side44/mx)*100;
-  const side5 = (side55/mx)*100;
-  const outerRadius = (outerRadius1/mx)*100;
+  const thickness = (thickness1/mx)*Props.ratio
+  const side1 = (side11/mx)*Props.ratio
+  const side2 = (side22/mx)*Props.ratio
+  const side3 = (side33/mx)*Props.ratio
+  const side4 = (side44/mx)*Props.ratio
+  const side5 = (side55/mx)*Props.ratio
+  const outerRadius = (outerRadius1/mx)*Props.ratio
 
   const x1 = side1/2 - outerRadius/Math.tan(aa*angle1/2)
   const y1 = 150 - outerRadius
@@ -29,13 +30,13 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
   const x3 = x4 - (side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle4/2)))*Math.cos(aa*angle4)
   const y3 = y4 + (side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle4/2)))*Math.sin(aa*angle4)
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -111,13 +112,13 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -160,7 +161,7 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
@@ -187,7 +188,7 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         <rect x={100 - x1} y={150 - thickness} width={side1 - 2*outerRadius/Math.tan(aa*angle1/2)} height={thickness} fill="black" />
@@ -238,9 +239,9 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
          <Liney  x1={95 - x2 - outerRadius} x2={95 - x2 - outerRadius} y1={150 - side2 - side3 - side4} y2={150 - side2 - side3} text={'D'} val={side44} textHeight={-17}/>
        
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

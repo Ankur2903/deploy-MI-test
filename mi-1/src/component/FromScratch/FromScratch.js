@@ -10,6 +10,10 @@ import logo from '../Image/logo.192.png'
 import LineAtTheta from '../Graph/Shap/LineAtθ';
 import Result from '../shap/Result';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
+import Image1 from '../Image/Anti-Clockwise.png'
+import Image2 from '../Image/Clockwise.png'
+import Image3 from '../Image/Line.png'
 
 const FromScratch = () => {
   const [parameters, setParameters] = useState(0)
@@ -493,7 +497,7 @@ const FromScratch = () => {
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">From Scratch</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">
@@ -522,9 +526,9 @@ const FromScratch = () => {
         }
         {selectedShapeId === null && 
         <><h5>Add a New Shape</h5>
-        <button title='Add clockwise bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===1 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("clockwise"); setno(1)}}><img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Uhrzeigersinn.png" style={{height: "40px"}}/></button>
-        <button title='Add straight line' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===2 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("Line"); setno(2)}}><img src="https://i.pinimg.com/originals/66/15/24/661524af491cfda437692eac19eed959.jpg" style={{height: "40px"}}/></button>
-        <button title='Add anticlockwise bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===3 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("anticlockwise"); setno(3)}}><img src="https://static.thenounproject.com/png/655477-200.png" style={{height: "40px"}}/></button></>
+        <button title='Add Clockwise Bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===1 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("clockwise"); setno(1)}}><img src={Image2} style={{height: "40px"}}/></button>
+        <button title='Add Straight Line' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===2 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("Line"); setno(2)}}><img src={Image3} style={{height: "40px"}}/></button>
+        <button title='Add Anti-Clockwise Bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===3 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("anticlockwise"); setno(3)}}><img src={Image1} style={{height: "40px"}}/></button></>
       }
         
         {newShapeType === 'clockwise' && selectedShapeId === null &&  (
@@ -635,11 +639,11 @@ const FromScratch = () => {
         <div className='box'>
         <div ref={cChannelGraphRef}>
         <div style={{ position: 'relative' }}>
-        <div className="form-check form-switch"  style={{color: 'white', backgroundColor: '#1b065c'}}>
+          <div className="form-check form-switch"  style={{color: 'white', backgroundColor: '#1b065c'}}>
             <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
-          <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
+          <svg viewBox={viewBox} style={{ width: '100%', height: '60vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
               {/* Define grid pattern */}
               <defs>
               <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">

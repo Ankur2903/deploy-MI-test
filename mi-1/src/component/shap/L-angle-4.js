@@ -9,6 +9,7 @@ import '../../App.css'
 import L_angle_4_graph from '../Graph/L-angle-4';
 import Result from './Result';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function L_angle_4() {
   const [parameters, setParameters] = useState(0)
@@ -185,7 +186,7 @@ function L_angle_4() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Track Profile</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

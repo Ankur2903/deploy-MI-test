@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import Result from './Result';
 import Sill_pressing_graph from '../Graph/Sill-pressing';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Sill_pressing() {
   const [parameters, setParameters] = useState(0)
@@ -224,7 +225,7 @@ function Sill_pressing() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Sill Pressing</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

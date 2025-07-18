@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
@@ -11,16 +12,16 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
   const l22 = (thickness1*Math.cos(aa*(angle1 + angle2)) - side33)/Math.sin(aa*(angle1 + angle2)) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))
   const l33 = - (side44 - thickness1*Math.cos(aa*(angle3 - angle1 - angle2)))/Math.sin(aa*(angle3 - angle1 - angle2)) - outerRadius1*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle4/2))
   const mx = Math.max(side11 - 2*l11*Math.cos(aa*angle1));
-  const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const side3 = (side33/mx)*100;
-  const side4 = (side44/mx)*100;
-  const outerRadius = (outerRadius1/mx)*100;
-  const radius = radius1*100/mx
-  const l1 = l11*100/mx
-  const l2 = l22*100/mx
-  const l3 = l33*100/mx
+  const thickness = (thickness1/mx)*Props.ratio
+  const side1 = (side11/mx)*Props.ratio
+  const side2 = (side22/mx)*Props.ratio
+  const side3 = (side33/mx)*Props.ratio
+  const side4 = (side44/mx)*Props.ratio
+  const outerRadius = (outerRadius1/mx)*Props.ratio
+  const radius = radius1*Props.ratio/mx
+  const l1 = l11*Props.ratio/mx
+  const l2 = l22*Props.ratio/mx
+  const l3 = l33*Props.ratio/mx
 
   const x1 = 100 - side1/2 + outerRadius + l1*Math.cos(aa*angle1)
   const y1 = 150 - outerRadius - l1*Math.sin(aa*angle1)
@@ -44,13 +45,13 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
 
   const y7 = y5 + outerRadius*Math.cos(aa*(angle3 - angle1 - angle2 - angle4)) - l4*Math.sin(aa*(angle3 - angle1 - angle2 - angle4)) + radius*Math.sin(aa*angle5) ;
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -126,13 +127,13 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -175,7 +176,7 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
@@ -193,7 +194,7 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
@@ -244,9 +245,9 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
         <Linex x1={10 + x5} x2={10 + x5} y1={y6} y2={y6} text={'θ4'} val={angle4} textHeight={5} unit={" "}/>
 
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import Result from './Result';
 import Al_lip_channel_graph from '../Graph/Al-lip-channel';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Al_lip_channel() {
   const [parameters, setParameters] = useState(0)
@@ -180,7 +181,7 @@ function Al_lip_channel() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">AL-Lip-Channel</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

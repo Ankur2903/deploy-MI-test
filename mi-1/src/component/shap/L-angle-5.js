@@ -9,6 +9,7 @@ import '../../App.css'
 import L_angle_5_graph from '../Graph/L-angle-5';
 import Result from './Result';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function L_angle_5() {
   const [parameters, setParameters] = useState(0)
@@ -175,7 +176,7 @@ function L_angle_5() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Z-Shape Profile</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

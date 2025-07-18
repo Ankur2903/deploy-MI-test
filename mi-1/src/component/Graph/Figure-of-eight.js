@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
@@ -7,13 +8,13 @@ import LineAtTheta from './Shap/LineAtθ';
 function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thickness1, outerRadius1}) {
   const aa = Math.PI/180
   const mx = Math.max(side11 + side33, side11 + side33 - side33*Math.cos(aa*angle1), side11 + side33 - side33*Math.cos(aa*angle1) - side22*Math.sin(aa*angle1) +  - side11*Math.cos(aa*angle1))
-  const side1 = side11*100/mx
-  const side2 = side22*100/mx
-  const side3 = side33*100/mx
-  const r1 = r11*100/mx
-  const r2 = r22*100/mx
-  const thickness = thickness1*100/mx
-  const outerRadius = outerRadius1*100/mx
+  const side1 = side11*Props.ratio/mx
+  const side2 = side22*Props.ratio/mx
+  const side3 = side33*Props.ratio/mx
+  const r1 = r11*Props.ratio/mx
+  const r2 = r22*Props.ratio/mx
+  const thickness = thickness1*Props.ratio/mx
+  const outerRadius = outerRadius1*Props.ratio/mx
 
   const x1 = 50 + side1 + side3 - r1/Math.tan(angle1*aa/2)
   const y1 = 50 + r1
@@ -29,13 +30,13 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
 
   const l = (x4 - 50 - r2  - (outerRadius - r2)*Math.cos(aa*angle1))/Math.sin(aa*angle1)
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -111,13 +112,13 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -160,7 +161,7 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
@@ -187,7 +188,7 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
@@ -226,9 +227,9 @@ function Figure_of_eight_graph({ side11, side22, side33, angle1, r11, r22, thick
         <Liney x1={55 + side1 + side3} x2={55 + side1 + side3} y1={50} y2={50 + r1} text={'R1'} val={r11} textHeight={17}/>
         
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

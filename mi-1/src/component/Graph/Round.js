@@ -2,19 +2,20 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Linex from './Shap/Linex';
 import Linez from './Shap/Linez';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 
 function Round_graph({ radius1, thickness1 }) {
 const mx = 2*radius1;
-  const radius = 50;
-  const thickness = (thickness1 / (2 * radius1)) * 100;
+  const radius = 40;
+  const thickness = (thickness1 / (2 * radius1)) * Props.ratio
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200 * (radius / 50);
-  const svgHeight = 200 * (radius / 50);
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -91,13 +92,13 @@ const mx = 2*radius1;
 
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -140,7 +141,7 @@ const mx = 2*radius1;
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-        <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning}  type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+        <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning}  type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
         <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
       </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
@@ -156,14 +157,14 @@ const mx = 2*radius1;
         <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)"/>
         {/* Draw X and Y axes */}
         <line x1="-1000" y1={50 + radius} x2={svgWidth + 1000} y2={50 + radius} stroke="gray" strokeWidth="1" />
-        <line x1={50 + radius} y1="-1000" x2={50 + radius} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
+        <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
         <CircleSector radius={radius} centerX={radius + 50} centerY={radius + 50} angle={360} rotation={0} thickness={thickness} />{/* Circle */}
         <Linez x1={50} y1={radius + 50} thickness={thickness} text={'t'} val={thickness1} textHeight={0}/>{/* Thickness Arrow */}
         <Linex x1={50} x2={2*radius + 50} y1={2.1 * radius + 50} y2={2.1 * radius + 50} text={'D'} val={2*radius1} textHeight={5}/>{/* Horizontal Arrow for Diameter */}
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

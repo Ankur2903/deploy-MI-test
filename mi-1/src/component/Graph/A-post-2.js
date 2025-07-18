@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
@@ -7,15 +8,15 @@ import LineAtTheta from './Shap/LineAtθ';
 function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, angle1, angle2, angle3, radius1}) {
   const aa = Math.PI/180;
   const mx = Math.max(side11 + side22, side33 + side44, side55 + side66);
-  const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const side3 = (side33/mx)*100;
-  const side4 = (side44/mx)*100;
-  const side5 = (side55/mx)*100;
-  const side6 = (side66/mx)*100;
-  const outerRadius = (outerRadius1/mx)*100;
-  const radius = radius1*100/mx
+  const thickness = (thickness1/mx)*Props.ratio
+  const side1 = (side11/mx)*Props.ratio
+  const side2 = (side22/mx)*Props.ratio
+  const side3 = (side33/mx)*Props.ratio
+  const side4 = (side44/mx)*Props.ratio
+  const side5 = (side55/mx)*Props.ratio
+  const side6 = (side66/mx)*Props.ratio
+  const outerRadius = (outerRadius1/mx)*Props.ratio
+  const radius = (radius1/mx)*Props.ratio
   
   const angle4 =  angle1 + angle2 + angle3 - 180
   const l1 = -side6/Math.cos(aa*angle1) - radius/Math.tan(aa*angle1/2) - outerRadius/Math.tan(aa*angle2/2)
@@ -36,13 +37,13 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
   const x2 = 50 + outerRadius + (2*outerRadius - thickness)*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3)
   const y2 = 150 - side2 - side1 + outerRadius/Math.tan(aa*angle3/2) - (2*outerRadius - thickness)*Math.sin(aa*angle3) + l3*Math.cos(aa*angle3)
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -118,13 +119,13 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -167,7 +168,7 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
@@ -185,7 +186,7 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
@@ -228,9 +229,9 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
         <Linex x1={50 + side3} x2={50 + side3 + side4} y1={155} y2={155} text={'D'} val={side44} textHeight={5} unit={""}/>
 
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

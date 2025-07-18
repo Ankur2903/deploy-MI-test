@@ -9,6 +9,7 @@ import '../../App.css'
 import Result from './Result';
 import Hollow_guide_rail_graph from '../Graph/Hollow-guide-rail';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Hollow_guide_rail() {
   const [parameters, setParameters] = useState(0)
@@ -206,7 +207,7 @@ function Hollow_guide_rail() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Hollow Guide Rail</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

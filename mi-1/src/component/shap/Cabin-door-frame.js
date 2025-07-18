@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import Result from './Result';
 import Cabin_door_frame_graph from '../Graph/Cabin-door-frame';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Cabin_door_frame() {
   const [parameters, setParameters] = useState(0)
@@ -188,7 +189,7 @@ function Cabin_door_frame() {
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Cabin Door frame</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

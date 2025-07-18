@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
 function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, sendValuey}) {
   const mx = Math.max(...[side11,side22]);
-  const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const outerRadius = (outerRadius1/mx)*100;
+  const thickness = (thickness1/mx)*Props.ratio
+  const side1 = (side11/mx)*Props.ratio
+  const side2 = (side22/mx)*Props.ratio
+  const outerRadius = (outerRadius1/mx)*Props.ratio
 
   const comx = parseFloat((((Math.PI*(outerRadius - thickness/2))*(side2/2) + (side2 - 2*outerRadius)*(side2/2) + (Math.PI*(outerRadius - thickness/2)/2)*(outerRadius - (4*outerRadius)/(3*Math.PI)) + (side1 - 2*outerRadius)*(thickness/2) + (Math.PI*(side2 - outerRadius)/2)*(outerRadius + (4*(side2 - outerRadius))/(3*Math.PI)) + (side1 - side2)*(side2 - thickness/2))/((3*Math.PI*(outerRadius - thickness/2)/2) + (side2 - 2*outerRadius) + (side1 - 2*outerRadius) + (Math.PI*(side2 - outerRadius)/2) + (side1 - side2))).toFixed(2))
 
@@ -22,13 +23,13 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
     sendValuey((comy/100)*mx);
   }, [sendValuey]);
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -105,13 +106,13 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
 
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -154,7 +155,7 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
   return (
       <div style={{ position: 'relative' }}>
         <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' className="form-check-input"  onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} className="form-check-input"  onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
@@ -181,7 +182,7 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
         {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
@@ -208,9 +209,9 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
         <Liney x1={105 - comx + side2} x2={105 - comx + side2} y1={100 - comy} y2={100 - comy + thickness} text={'t'} val={thickness1} textHeight={17}/>
 
         </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

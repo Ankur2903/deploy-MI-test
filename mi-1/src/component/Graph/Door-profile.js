@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
+import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
@@ -8,18 +9,18 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
   const aa = Math.PI/180;
   const l11 = side55/Math.sin(aa*angle1) - (2*outerRadius11 - thickness1)/Math.tan(aa*angle1/2)
   const mx = Math.max(side33 + side55, (side44 - (l11 + (2*outerRadius11 - thickness1)/Math.tan(aa*angle1/2))*Math.cos(aa*angle1) - thickness1/Math.tan(aa*angle1/2) + side66));
-  const thickness = (thickness1/mx)*100;
-  const side1 = (side11/mx)*100;
-  const side2 = (side22/mx)*100;
-  const side3 = (side33/mx)*100;
-  const side4 = (side44/mx)*100;
-  const side5 = (side55/mx)*100;
-  const side6 = (side66/mx)*100;
-  const side7 = (side77/mx)*100;
-  const side8 = (side88/mx)*100;
-  const outerRadius1 = (outerRadius11/mx)*100;
-  const outerRadius2 = (outerRadius22/mx)*100;
-  const l1 = l11*100/mx
+  const thickness = (thickness1/mx)*Props.ratio
+  const side1 = (side11/mx)*Props.ratio
+  const side2 = (side22/mx)*Props.ratio
+  const side3 = (side33/mx)*Props.ratio
+  const side4 = (side44/mx)*Props.ratio
+  const side5 = (side55/mx)*Props.ratio
+  const side6 = (side66/mx)*Props.ratio
+  const side7 = (side77/mx)*Props.ratio
+  const side8 = (side88/mx)*Props.ratio
+  const outerRadius1 = (outerRadius11/mx)*Props.ratio
+  const outerRadius2 = (outerRadius22/mx)*Props.ratio
+  const l1 = l11*Props.ratio/mx
 
   const x1 = 50 + side4 - (l1 + (2*outerRadius1 - thickness)/Math.tan(aa*angle1/2))*Math.cos(aa*angle1) + (outerRadius1 - thickness)/Math.tan(aa*angle1/2)
 
@@ -29,13 +30,13 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
 
   const y3 = 150 - outerRadius1 - (side7/Math.sin(aa*angle2) - outerRadius1/Math.tan(aa*angle2/2) - outerRadius1/Math.tan(aa*angle3/2))*Math.sin(aa*angle2)
 
-  const [viewBox, setViewBox] = useState('0 0 200 200');
+  const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
-  const svgWidth = 200;
-  const svgHeight = 200;
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -111,13 +112,13 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    setViewBox('0 0 200 200');
+    setViewBox(Props.title7);
   };
 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`0 0 ${newWidth} ${newHeight}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
   };
 
   useEffect(() => {
@@ -160,7 +161,7 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
   return (
     <div style={{ position: 'relative' }}>
       <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
+            <input title={Props.title1} onClick={clickOndimensioning} className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
           </div>
       <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
@@ -178,7 +179,7 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
@@ -232,9 +233,9 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
         <Linex x1={40 + side4} x2={40 + side4} y1={155 - side5} y2={155 - side5} text={'θ1'} val={angle1} textHeight={5} unit={" "}/>
       
       </svg>
-      <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
-      <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
-      <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
+      <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
+      <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
+      <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
     </div>
   );
 }

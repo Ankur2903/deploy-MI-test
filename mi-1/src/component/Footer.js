@@ -4,7 +4,7 @@ const Footer = () => {
 
   const joinWhatsAppGroup = () => {
     // Replace with your actual WhatsApp group invite link
-    window.open("https://chat.whatsapp.com/YourGroupInviteCode", "_blank");
+    window.open("https://chat.whatsapp.com/Lfy6xBKjPM76BMgGkuCiqF?mode=ac_t", "_blank");
   };
 
 

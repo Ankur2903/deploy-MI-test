@@ -9,6 +9,7 @@ import Figure_of_eight_graph from '../Graph/Figure-of-eight';
 import 'jspdf-autotable';
 import Result from './Result';
 import Feasibility from '../Feasibility';
+import * as Props from '../constant';
 
 function Figure_of_eight() {
   const [parameters, setParameters] = useState(0)
@@ -227,7 +228,7 @@ function Figure_of_eight() {
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">Butterfly  Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title='Download PDF or STL' type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
         </button>
         <ul className="dropdown-menu">

@@ -643,7 +643,7 @@ const FromScratch = () => {
             <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
-          <svg viewBox={viewBox} style={{ width: '100%', height: '60vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
+          <svg viewBox={viewBox} style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onClick={handleSVGClick} onTouchStart={handleTouchStart}>
               {/* Define grid pattern */}
               <defs>
               <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">

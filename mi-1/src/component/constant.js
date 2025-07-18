@@ -1,11 +1,11 @@
-export const ratio = 80;
+export const ratio = 100;
 export const x1 = 0;
 export const y1 = 20;
 export const x2 = 200;  
-export const y2 = 135;
+export const y2 = 160;
 export const title1 = "Click to Check Dimensions";
 export const title2 = "Download STL and PDF";
 export const title3 = "Zoom In";
 export const title4 = "Zoom Out";
 export const title6 = "Reset Zoom";
-export const title7 = '0 0 200 135';
+export const title7 = '0 0 200 200';

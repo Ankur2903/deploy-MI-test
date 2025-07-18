@@ -168,7 +168,7 @@ function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickn
           </div>
       <svg
         viewBox={viewBox}
-        style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
+        style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart} onClick={handleSVGClick}
       >
@@ -190,7 +190,7 @@ function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickn
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
           {/* Draw X and Y axes */}
-        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}

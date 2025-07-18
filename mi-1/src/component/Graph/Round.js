@@ -6,7 +6,7 @@ import * as Props from '../constant';
 
 function Round_graph({ radius1, thickness1 }) {
 const mx = 2*radius1;
-  const radius = 40;
+  const radius = 50;
   const thickness = (thickness1 / (2 * radius1)) * Props.ratio
 
   const [viewBox, setViewBox] = useState(Props.title7);
@@ -144,7 +144,7 @@ const mx = 2*radius1;
         <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning}  type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
         <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
       </div>
-      <svg viewBox={viewBox} style={{ width: '100%', height: 'auto', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
+      <svg viewBox={viewBox} style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} onClick={handleSVGClick}>
         {points.map((point, index) => (
           <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />))}
         {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
@@ -156,7 +156,7 @@ const mx = 2*radius1;
         </defs>
         <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)"/>
         {/* Draw X and Y axes */}
-        <line x1="-1000" y1={50 + radius} x2={svgWidth + 1000} y2={50 + radius} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
         <CircleSector radius={radius} centerX={radius + 50} centerY={radius + 50} angle={360} rotation={0} thickness={thickness} />{/* Circle */}
         <Linez x1={50} y1={radius + 50} thickness={thickness} text={'t'} val={thickness1} textHeight={0}/>{/* Thickness Arrow */}

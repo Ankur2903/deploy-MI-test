@@ -182,7 +182,7 @@ function D_shap_graph({ thickness1, side11, side22, outerRadius1, sendValuex, se
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
 
         {/* Draw X and Y axes */}
-        <line x1="-1000" y1={90} x2={svgWidth + 1000} y2={90} stroke="gray" strokeWidth="1" />
+        <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}

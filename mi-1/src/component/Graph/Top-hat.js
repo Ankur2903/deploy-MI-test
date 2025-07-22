@@ -128,12 +128,24 @@ function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  send
     const { left, top, width, height } = svg.getBoundingClientRect();
 
     const viewBox = svg.viewBox.baseVal;
-    const scaleX = viewBox.width / width;  
-    const scaleY = viewBox.height / height;
+    const ratio = width/height;
+    let scale = 0;
+    let startX = 0;
+    let startY = 0;
+    if(ratio >200/160){
+      scale = viewBox.height / height;
+      startY = viewBox.y;
+      startX = viewBox.x - (width*scale - viewBox.width)/2;
+    }  
+    else{
+     scale = viewBox.width / width;
+     startX = viewBox.x;
+     startY = viewBox.y - (height*scale - viewBox.height)/2;
+    }
 
     const newPoint = {
-      x: (event.clientX - left)*scaleX + viewBox.x ,
-      y: (event.clientY - top)*scaleY + viewBox.y,
+      x: (event.clientX - left)*scale + startX,
+      y: (event.clientY - top)*scale + startY,
     };
     if (points.length === 1) {
       const p1 = points[0];

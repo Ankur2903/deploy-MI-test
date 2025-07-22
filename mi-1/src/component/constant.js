@@ -8,4 +8,4 @@ export const title2 = "Download STL and PDF";
 export const title3 = "Zoom In";
 export const title4 = "Zoom Out";
 export const title6 = "Reset Zoom";
-export const title7 = '0 0 200 200';
+export const title7 = '0 0 200 160';

@@ -3,7 +3,6 @@ import Linex from './Shap/Linex';
 import Linez from './Shap/Linez';
 import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
-import { asin } from 'three/webgpu';
 import Liney from './Shap/Liney';
 
 function Round_graph_4({side1, radius1, thickness1, outerRadius1 }) {

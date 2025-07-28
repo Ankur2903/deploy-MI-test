@@ -3,6 +3,8 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Liney from './Shap/Liney';
 import Linex from './Shap/Linex';
+import PredefinedPoints from '../PredefinedPoints';
+import { COM } from '../AdvanceOutput/COM';
 
 function Square_graph({ side1, thickness1, outerRadius1}) {
   const mx = side1;
@@ -10,13 +12,30 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
   const side = Props.ratio;
   const outerRadius = (outerRadius1/side1)*Props.ratio;
 
+  const predefinedPoints = [
+  { id: 1, type: 'line', x: 50, y: 50 + outerRadius, w: thickness, h: side - 2*outerRadius, angle: 0 },
+  { id: 2, type: 'line', x: 50 + side - thickness, y: 50 + outerRadius, w: thickness, h: side - 2*outerRadius, angle: 0 },
+  { id: 3, type: 'line', x: 50 + outerRadius, y: side - thickness + 50, w: side-2*outerRadius, h: thickness, angle: 0 },
+  { id: 4, type: 'line', x: 50 + outerRadius, y: 50, w: side-2*outerRadius, h: thickness, angle: 0 },
+  { id: 5, type: 'circle', x: 50 + outerRadius, y: 50 + side - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+  { id: 6, type: 'circle', x: 50 + outerRadius, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+  { id: 7, type: 'circle', x: 50 + side - outerRadius, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+  { id: 8, type: 'circle', x: 50 + side - outerRadius, y: 50 + side - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+];
+
+const {a, b} = COM(predefinedPoints)
+
+console.log('COM:', a, b);
+
+
+
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
   const [scale, setScale] = useState(1);
 
   const svgWidth = Props.x2
-  const svgHeight = 135;
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -98,7 +117,7 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {
@@ -115,6 +134,7 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
   }
 
   const handleSVGClick = (event) => {
+    // return;
     if(!dimensioning) return;
     const svg = event.target.closest('svg');
     const { left, top, width, height } = svg.getBoundingClientRect();
@@ -178,7 +198,7 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-
+        {/* {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness}/>} */}
 
         {/* square Shape */}
         <rect x={50} y={50 + outerRadius} width={thickness} height={side-2*outerRadius} fill="black" />
@@ -187,11 +207,8 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
         <rect x={50+outerRadius} y={50} width={side-2*outerRadius} height={thickness} fill="black" />
         {/* outer radius */}
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={50 + side - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-
         <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={50 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-
         <CircleSector radius={outerRadius} centerX={50 + side - outerRadius} centerY={50 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-
         <CircleSector radius={outerRadius} centerX={50 + side - outerRadius} centerY={50 + side - outerRadius} angle={90} rotation={0} thickness={thickness}/>
 
         {/* Vertical Arrow for Height */}

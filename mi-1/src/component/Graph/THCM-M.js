@@ -105,7 +105,7 @@ function Thcm_m_graph({ side22, side33, thickness1, outerRadius1,  sendValuey}) 
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {

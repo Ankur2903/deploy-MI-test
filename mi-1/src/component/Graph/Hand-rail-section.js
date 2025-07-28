@@ -110,7 +110,7 @@ function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {

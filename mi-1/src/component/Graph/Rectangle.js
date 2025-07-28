@@ -193,12 +193,10 @@ function Rectangle_graph({ side1, side2, thickness1, outerRadius1}) {
         <rect x={50+outerRadius + (100 - sidex)/2} y={sidey - thickness + 50  + (100  - sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
         <rect x={50+outerRadius + (100 - sidex)/2} y={50+ (100  - sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
         {/* outer radius */}
+        
          <CircleSector radius={outerRadius} centerX={50 + outerRadius  + (100 - sidex)/2} centerY={50 + sidey - outerRadius + (100  - sidey)/2} angle={90} rotation={90} thickness={thickness}/>
-
          <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100 - sidex)/2} centerY={50 + outerRadius+ (100  - sidey)/2} angle={90} rotation={180} thickness={thickness}/>
-
          <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex)/2} centerY={50 + outerRadius+ (100  - sidey)/2} angle={90} rotation={270} thickness={thickness}/>
-
          <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex)/2} centerY={50 + sidey - outerRadius+ (100  - sidey)/2} angle={90} rotation={0} thickness={thickness}/>
        
 

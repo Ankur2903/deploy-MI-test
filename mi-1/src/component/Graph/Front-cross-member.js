@@ -118,7 +118,7 @@ function Front_cross_member_graph({ side11, side22, side33, side44, angle, thick
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {

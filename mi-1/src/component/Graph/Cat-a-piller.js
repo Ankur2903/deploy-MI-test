@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import PredefinedPoints from '../PredefinedPoints';
 
 function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, side77, side88, radius11, radius22, radius33, radius44, radius55, angle11, angle22, thickness1, outerRadius1}) {
   const aa = Math.PI/180;
@@ -30,6 +31,8 @@ function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, si
   const l1 = side1 - radius4 - radius5 - l2*Math.sin(aa*angle1) + thickness - side3 - side4 
   const l3 = (radius3 - radius3*Math.sin(aa*angle2) + radius2*Math.sin(aa*angle2) + side7 - radius2/Math.tan(aa*angle2/2) + side6 - side5)/(Math.cos(aa*angle2))
   const l4 = side1 - radius4 + radius3*Math.cos(angle2*aa) - l3*Math.sin(aa*angle2) - radius2 - radius2*Math.cos(aa*angle2)
+
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -119,7 +122,7 @@ function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, si
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {
@@ -219,7 +222,8 @@ function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, si
         <CircleSector radius={radius4} centerX={50 + radius4} centerY={150 - side5 + side8 - radius4} angle={90} rotation={90} thickness={thickness}/> 
         <CircleSector radius={radius3} centerX={50 + radius4 + l4} centerY={150 - side5 + radius3} angle={angle2 - 90} rotation={270} thickness={thickness}/> 
         <CircleSector radius={radius5} centerX={50 + radius4 + l1} centerY={150 - side5 + side8 - thickness + radius5} angle={angle1 - 90} rotation={270} thickness={thickness}/> 
-    
+
+       
         {/* Vertical Arrow for E */}
         <Liney x1={12} x2={12} y1={150 - side5} y2={150} text={'E'} val={side55} textHeight={17}/>
 
@@ -258,6 +262,7 @@ function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, si
         <Linex x1={50} x2={50 + radius4} y1={145 - side5} y2={145 - side5} text={'R4'} val={radius44} textHeight={-5}/>
 
         <Linex x1={50 + side1 - side4 - thickness} x2={50 + side1 - side4 - thickness + radius1} y1={145 - side6} y2={145 - side6} text={'R1'} val={radius11} textHeight={-5}/>
+        
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

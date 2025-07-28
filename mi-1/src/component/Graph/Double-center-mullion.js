@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function Double_center_mullion_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, sendValuey}) {
   const mx = Math.max(side44,side11);
@@ -14,6 +15,37 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
   const side5 = (side55/mx)*Props.ratio
   const side6 = (side66/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
+  
+  const predefinedPoints = [
+  // Lines
+  { id: 1, type: 'line', x: 50, y: 150 - side1 + side3 + outerRadius, w: thickness, h: side2 - 2 * outerRadius, angle: 0 },
+  { id: 2, type: 'line', x: 50 + outerRadius, y: 150 - side1 + side3 + side2 - thickness, w: side6 - outerRadius - thickness, h: thickness, angle: 0 },
+  { id: 3, type: 'line', x: 50 + side6, y: 150 - side1 + side3 + side2 + outerRadius - thickness, w: thickness, h: side1 - side2 - side3 - 2 * outerRadius + thickness, angle: 0 },
+  { id: 4, type: 'line', x: 50 + outerRadius + side6, y: 150 - thickness, w: side5 - 2 * outerRadius, h: thickness, angle: 0 },
+  { id: 5, type: 'line', x: 50 + side6 + side5 - thickness, y: 150 - side1 + side3 + side2 + outerRadius - thickness, w: thickness, h: side1 - side2 - side3 - 2 * outerRadius + thickness, angle: 0 },
+  { id: 6, type: 'line', x: 50 + side5 + side6 + outerRadius - thickness, y: 150 - side1 + side3 + side2 - thickness, w: side4 - side6 - side5 - 2 * outerRadius + thickness, h: thickness, angle: 0 },
+  { id: 7, type: 'line', x: 50 + side4 - thickness, y: 150 - side1 + side3 + outerRadius, w: thickness, h: side2 - 2 * outerRadius, angle: 0 },
+  { id: 8, type: 'line', x: 50 + side5 + side6 + outerRadius - thickness, y: 150 - side1 + side3, w: side4 - side6 - side5 - 2 * outerRadius + thickness, h: thickness, angle: 0 },
+  { id: 9, type: 'line', x: 50 + side6 + side5 - thickness, y: 150 - side1 + outerRadius, w: thickness, h: side3 - 2 * outerRadius + thickness, angle: 0 },
+  { id: 10, type: 'line', x: 50 + outerRadius + side6, y: 150 - side1, w: side5 - 2 * outerRadius, h: thickness, angle: 0 },
+  { id: 11, type: 'line', x: 50 + side6, y: 150 - side1 + outerRadius, w: thickness, h: side3 - 2 * outerRadius + thickness, angle: 0 },
+  { id: 12, type: 'line', x: 50 + outerRadius, y: 150 - side1 + side3, w: side6 - outerRadius - thickness, h: thickness, angle: 0 },
+
+  // Circle Sectors
+  { id: 13, type: 'circle', x: 50 + side6 + outerRadius, y: 150 - side1 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+  { id: 14, type: 'circle', x: 50 + side6 + side5 - outerRadius, y: 150 - side1 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+  { id: 15, type: 'circle', x: 50 + side6 + side5 + outerRadius - thickness, y: 150 - side1 + side3 - outerRadius + thickness, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+  { id: 16, type: 'circle', x: 50 + side4 - outerRadius, y: 150 - side1 + side3 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+  { id: 17, type: 'circle', x: 50 + side4 - outerRadius, y: 150 - side1 + side3 + side2 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  { id: 18, type: 'circle', x: 50 + side6 + side5 + outerRadius - thickness, y: 150 - side1 + side3 + side2 + outerRadius - thickness, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+  { id: 19, type: 'circle', x: 50 + side6 + side5 - outerRadius, y: 150 - side1 + side1 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  { id: 20, type: 'circle', x: 50 + side6 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+  { id: 21, type: 'circle', x: 50 + side6 - outerRadius + thickness, y: 150 - side1 + side3 + side2 + outerRadius - thickness, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+  { id: 22, type: 'circle', x: 50 + side6 - outerRadius + thickness, y: 150 - side1 + side3 - outerRadius + thickness, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  { id: 23, type: 'circle', x: 50 + outerRadius, y: 150 - side1 + side3 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+  { id: 24, type: 'circle', x: 50 + outerRadius, y: 150 - side1 + side3 + side2 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+];
+  const {a, b} = COM(predefinedPoints)
 
   const  comy = 50; 
 
@@ -109,7 +141,7 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
-    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2} ${Props.y2}`);
+    setViewBox(`${Props.x1} ${Props.y1} ${Props.x2/scale} ${Props.y2/scale}`);
   };
 
   useEffect(() => {
@@ -185,50 +217,41 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
         {/* L Shape */}
-        <rect x={50} y={150 - side1 + side3 + outerRadius} width={thickness} height={side2 - 2*outerRadius} fill="black"/>
-        <rect x={50 + outerRadius} y={150 - side1 + side3 + side2 - thickness} width={side6 - outerRadius - thickness} height={thickness} fill="black"/>
-        <rect x={50 + side6} y={150 - side1 + side3 + side2 + outerRadius - thickness} width={thickness} height={side1 - side2 - side3 - 2*outerRadius + thickness} fill="black"/>
-        <rect x={50 + outerRadius + side6} y={150 - thickness} width={side5 - 2*outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + side6 + side5 - thickness} y={150 - side1 + side3 + side2 + outerRadius - thickness} width={thickness} height={side1 - side2 - side3 - 2*outerRadius + thickness} fill="black"/>
-        <rect x={50 + side5 + side6 + outerRadius - thickness} y={150 - side1 + side3 + side2 - thickness} width={side4 - side6 - side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
-        <rect x={50 + side4 - thickness} y={150 - side1 + side3 + outerRadius} width={thickness} height={side2 - 2*outerRadius} fill="black"/>
-        <rect x={50 + side5 + side6 + outerRadius - thickness} y={150 - side1 + side3} width={side4 - side6 - side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
-        <rect x={50 + side6 + side5 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side3 - 2*outerRadius + thickness} fill="black"/>
-        <rect x={50 + outerRadius + side6} y={150 - side1} width={side5 - 2*outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + side6} y={150 - side1 + outerRadius} width={thickness} height={side3 - 2*outerRadius + thickness} fill="black"/>
-        <rect x={50 + outerRadius} y={150 - side1 + side3} width={side6 - outerRadius - thickness} height={thickness} fill="black"/>
+        <rect x={50 + 100 - a} y={150 - side1 + side3 + outerRadius + 100 - b} width={thickness} height={side2 - 2*outerRadius} fill="black"/>
+        <rect x={50 + outerRadius + 100 - a} y={150 - side1 + side3 + side2 - thickness + 100 - b} width={side6 - outerRadius - thickness} height={thickness} fill="black"/>
+        <rect x={50 + side6 + 100 - a} y={150 - side1 + side3 + side2 + outerRadius - thickness + 100 - b} width={thickness} height={side1 - side2 - side3 - 2*outerRadius + thickness} fill="black"/>
+        <rect x={50 + outerRadius + side6 + 100 - a} y={150 - thickness + 100 - b} width={side5 - 2*outerRadius} height={thickness} fill="black"/>
+        <rect x={50 + side6 + side5 - thickness + 100 - a} y={150 - side1 + side3 + side2 + outerRadius - thickness + 100 - b} width={thickness} height={side1 - side2 - side3 - 2*outerRadius + thickness} fill="black"/>
+        <rect x={50 + side5 + side6 + outerRadius - thickness + 100 - a} y={150 - side1 + side3 + side2 - thickness + 100 - b} width={side4 - side6 - side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
+        <rect x={50 + side4 - thickness + 100 - a} y={150 - side1 + side3 + outerRadius + 100 - b} width={thickness} height={side2 - 2*outerRadius} fill="black"/>
+        <rect x={50 + side5 + side6 + outerRadius - thickness + 100 - a} y={150 - side1 + side3 + 100 - b} width={side4 - side6 - side5 - 2*outerRadius + thickness} height={thickness} fill="black"/>
+        <rect x={50 + side6 + side5 - thickness + 100 - a} y={150 - side1 + outerRadius + 100 - b} width={thickness} height={side3 - 2*outerRadius + thickness} fill="black"/>
+        <rect x={50 + outerRadius + side6 + 100 - a} y={150 - side1 + 100 - b} width={side5 - 2*outerRadius} height={thickness} fill="black"/>
+        <rect x={50 + side6 + 100 - a} y={150 - side1 + outerRadius + 100 - b} width={thickness} height={side3 - 2*outerRadius + thickness} fill="black"/>
+        <rect x={50 + outerRadius + 100 - a} y={150 - side1 + side3 + 100 - b} width={side6 - outerRadius - thickness} height={thickness} fill="black"/>
 
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + side6 + outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 - outerRadius} centerY={150 - side1 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 + outerRadius - thickness} centerY={150 - side1 + side3 - outerRadius + thickness} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side4 - outerRadius} centerY={150 - side1 + side3 + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side4 - outerRadius} centerY={150 - side1 + side3 + side2 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 + outerRadius - thickness} centerY={150 - side1 + side3 + side2 + outerRadius - thickness} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 - outerRadius} centerY={150 - side1 + side1 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 - outerRadius + thickness} centerY={150 - side1 + side3 + side2 + outerRadius - thickness} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side6 - outerRadius + thickness} centerY={150 - side1 + side3 - outerRadius + thickness} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side1 + side3 + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - side1 + side3 + side2 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + outerRadius + 100 - a} centerY={150 - side1 + outerRadius + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 - outerRadius + 100 - a} centerY={150 - side1 + outerRadius + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 + outerRadius - thickness + 100 - a} centerY={150 - side1 + side3 - outerRadius + thickness + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side4 - outerRadius + 100 - a} centerY={150 - side1 + side3 + outerRadius + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side4 - outerRadius + 100 - a} centerY={150 - side1 + side3 + side2 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 + outerRadius - thickness + 100 - a} centerY={150 - side1 + side3 + side2 + outerRadius - thickness + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + side5 - outerRadius + 100 - a} centerY={150 - side1 + side1 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 - outerRadius + thickness + 100 - a} centerY={150 - side1 + side3 + side2 + outerRadius - thickness + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side6 - outerRadius + thickness + 100 - a} centerY={150 - side1 + side3 - outerRadius + thickness + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - side1 + side3 + outerRadius + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - side1 + side3 + side2 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
 
-        {/* Horizontal Arrow for side5 */}
-        <Linex x1={50 + side6} x2={50 + side6 + side5} y1={145 - side1} y2={145 - side1} text={'E'} val={side55} textHeight={-5}/>
 
-        {/* Horizontal Arrow for side6 */}
-        <Linex x1={50} x2={50 + side6} y1={145 - side1} y2={145 - side1} text={'F'} val={side66} textHeight={-5}/>
+        <Linex x1={50 + side6 + 100 - a} x2={50 + side6 + side5 + 100 - a} y1={145 - side1 + 100 - b} y2={145 - side1 + 100 - b} text={'E'} val={side55} textHeight={-5}/>
+      <Linex x1={50 + 100 - a} x2={50 + side6 + 100 - a} y1={145 - side1 + 100 - b} y2={145 - side1 + 100 - b} text={'F'} val={side66} textHeight={-5}/>
+      <Linex x1={50 + 100 - a} x2={50 + side4 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'D'} val={side44} textHeight={5}/>
+      <Liney x1={55 + side4 + 100 - a} x2={55 + side4 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={17}/>
+      <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + side3 + 100 - b} y2={150 - side1 + side3 + side2 + 100 - b} text={'B'} val={side22} textHeight={-17}/>
+      <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 - side1 + side3 + 100 - b} text={'C'} val={side33} textHeight={-17}/>
 
-        {/* Horizontal Arrow for side4 */}
-        <Linex x1={50} x2={50 + side4} y1={155} y2={155} text={'D'} val={side44} textHeight={5}/>
-
-        {/* Vertical Arrow for A */}
-        <Liney x1={55 + side4} x2={55 + side4} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={17}/>
-
-        {/* Vertical Arrow for B */}
-        <Liney x1={45} x2={45} y1={150 - side1 + side3} y2={150 - side1 + side3 + side2} text={'B'} val={side22} textHeight={-17}/>
-
-        {/* Vertical Arrow for C */}
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150 - side1 + side3} text={'C'} val={side33} textHeight={-17}/>
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function Al_c_section_graph({ side11, side22, side33, thickness1}) {
   const mx = Math.max(side22 ,side11);
@@ -13,6 +14,14 @@ function Al_c_section_graph({ side11, side22, side33, thickness1}) {
  
   const aa = 180/Math.PI
   const angle = Math.acos((side3 - side1)/side3)
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + side3, y: 150 - thickness, w: side2 - 2 * side3, h: thickness, angle: 0 },
+    { id: 2, type: 'circle', x: 50 + side3, y: 150 - side3, r: side3, angle: angle * aa, rotation: 90, t: thickness },
+    { id: 3, type: 'circle', x: 50 + side2 - side3, y: 150 - side3, r: side3, angle: angle * aa, rotation: 90 - aa * angle, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -179,17 +188,12 @@ function Al_c_section_graph({ side11, side22, side33, thickness1}) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50 + side3} y={150 - thickness} width={side2 - 2*side3} height={thickness} fill="black" />
-        
-        {/* outer radius */}
-        <CircleSector radius={side3} centerX={50 + side3} centerY={150 - side3} angle={angle*aa} rotation={90} thickness={thickness}/>
-        <CircleSector radius={side3} centerX={50  + side2 - side3} centerY={150 - side3} angle={angle*aa} rotation={90 - aa*angle} thickness={thickness}/>
+        <rect x={50 + side3 + 100 - a} y={150 - thickness + 100 - b} width={side2 - 2*side3} height={thickness} fill="black" />
+        <CircleSector radius={side3} centerX={50 + side3 + 100 - a} centerY={150 - side3 + 100 - b} angle={angle*aa} rotation={90} thickness={thickness}/>
+        <CircleSector radius={side3} centerX={50 + side2 - side3 + 100 - a} centerY={150 - side3 + 100 - b} angle={angle*aa} rotation={90 - aa*angle} thickness={thickness}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'B'} val={side22} textHeight={5}/>
 
-        {/* Horizontal Arrow for side2 */}
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
-
-        {/* Vertical Arrow for A */}
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

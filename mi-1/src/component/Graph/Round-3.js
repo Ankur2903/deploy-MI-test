@@ -4,6 +4,7 @@ import Linez from './Shap/Linez';
 import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
   const aa = Math.PI/180;
@@ -15,6 +16,19 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
   const thickness = (thickness1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
   const angle = Math.asin((side2/2 + outerRadius)/(radius - outerRadius))* (180 / Math.PI);
+
+  const predefinedPoints = [
+  { id: 1, type: 'line', x: 100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness, y: 100 - (radius - outerRadius)*Math.cos(angle*aa), w: thickness, h: radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness), angle: 0 },
+  { id: 2, type: 'line', x: 100 + (radius - outerRadius)*Math.sin(angle*aa) - outerRadius, y: 100 - (radius - outerRadius)*Math.cos(angle*aa), w: thickness, h: radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness), angle: 0 },
+  { id: 3, type: 'line', x: 100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness, y: 100 + radius - side1 - (outerRadius - thickness) + outerRadius - thickness, w: side2 - 2*(outerRadius - thickness), h: thickness, angle: 0 },
+  { id: 4, type: 'circle', x: 100, y: 100, r: radius, angle: 360 - 2*angle, rotation: angle - 90, t: thickness },
+  { id: 5, type: 'circle', x: 100 + (radius - outerRadius)*Math.sin(angle*aa), y: 100 - (radius - outerRadius)*Math.cos(angle*aa), r: outerRadius, angle: 90 + angle, rotation: 180, t: thickness },
+  { id: 6, type: 'circle', x: 100 - (radius - outerRadius)*Math.sin(angle*aa), y: 100 - (radius - outerRadius)*Math.cos(angle*aa), r: outerRadius, angle: 90 + angle, rotation: -angle - 90, t: thickness },
+  { id: 7, type: 'circle', x: 100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness, y: 100 + radius - side1 - (outerRadius - thickness), r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  { id: 8, type: 'circle', x: 100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness, y: 100 + radius - side1 - (outerRadius - thickness), r: outerRadius, angle: 90, rotation: 90, t: thickness }
+];
+
+  const {a, b} = COM(predefinedPoints)
   
   
   const [viewBox, setViewBox] = useState(Props.title7);
@@ -189,32 +203,27 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1 }) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* Add X and Y axis ticks and labels */}
-        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness} y={100 - (radius - outerRadius)*Math.cos(angle*aa)} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
+        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness + 100 - a} y={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
 
-        <rect x={100 + (radius - outerRadius)*Math.sin(angle*aa) - outerRadius} y={100 - (radius - outerRadius)*Math.cos(angle*aa)} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
+        <rect x={100 + (radius - outerRadius)*Math.sin(angle*aa) - outerRadius + 100 - a} y={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
 
-        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness} y={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness} width={side2 - 2*(outerRadius - thickness)} height={thickness} fill="black"/>
+        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness + 100 - a} y={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness + 100 - b} width={side2 - 2*(outerRadius - thickness)} height={thickness} fill="black"/>
 
-        {/* Circle */}
-        <CircleSector radius={radius} centerX={100} centerY={100} angle={360 - 2*angle} rotation={angle - 90} thickness={thickness} />
+        <CircleSector radius={radius} centerX={100 + 100 - a} centerY={100 + 100 - b} angle={360 - 2*angle} rotation={angle - 90} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa)} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa)} angle={90 + angle} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa) + 100 - a} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} angle={90 + angle} rotation={180} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa)} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa)} angle={90 + angle} rotation={-angle-90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa) + 100 - a} centerY={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} angle={90 + angle} rotation={-angle-90} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness} centerY={100 + radius  - side1 - (outerRadius - thickness)} angle={90} rotation={0} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle*aa) - 2*outerRadius + thickness + 100 - a} centerY={100 + radius  - side1 - (outerRadius - thickness) + 100 - b} angle={90} rotation={0} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness} centerY={100 + radius  - side1 - (outerRadius - thickness)} angle={90} rotation={90} thickness={thickness} />
-        
-        {/* Horizontal Arrow for side1 */}
-        <Linex x1={100 - radius} x2={100 + radius} y1={155} y2={155} text={'D'} val={diameter1} textHeight={5} />
+        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness + 100 - a} centerY={100 + radius  - side1 - (outerRadius - thickness) + 100 - b} angle={90} rotation={90} thickness={thickness} />
 
-        {/* Horizontal Arrow for side2 */}
-        <Liney x1={155} x2={155} y1={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness} y2={150} text={'A'} val={side11} textHeight={17} />
+        <Linex x1={100 - radius + 100 - a} x2={100 + radius + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'D'} val={diameter1} textHeight={5} />
 
-        {/* Horizontal Arrow for radius */}
-        <Linex x1={100 - side2/2} x2={100 + side2/2} y1={45} y2={45} text={'B'} val={side22} textHeight={-5} />
+        <Liney x1={155 + 100 - a} x2={155 + 100 - a} y1={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={17} />
 
+        <Linex x1={100 - side2/2 + 100 - a} x2={100 + side2/2 + 100 - a} y1={45 + 100 - b} y2={45 + 100 - b} text={'B'} val={side22} textHeight={-5} />
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

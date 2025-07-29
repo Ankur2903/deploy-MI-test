@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
 
 function M_diamond_tube_graph({ side11, side22, side33, thickness1, outerRadius1}) {
   const mx = Math.max(side22 ,side11);
@@ -16,6 +17,19 @@ function M_diamond_tube_graph({ side11, side22, side33, thickness1, outerRadius1
   const aa = 180/Math.PI
   const angle = Math.atan(side2/(side1 - side3))
   const l = side2/Math.sin(angle) - outerRadius*Math.tan(angle/2) - outerRadius/Math.tan(angle/2)
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: side2 - 2*outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50, y: 150 - side1 + outerRadius/Math.tan(angle/2), w: thickness, h: side1 - outerRadius - outerRadius/Math.tan(angle/2), angle: 0 },
+    { id: 3, type: 'line', x: 50 + side2 - thickness, y: 150 - side3 + outerRadius*Math.tan(angle/2), w: thickness, h: side3 - outerRadius - outerRadius*Math.tan(angle/2), angle: 0 },
+    { id: 4, type: 'line', x: 50 + (outerRadius/Math.tan(angle/2))*Math.sin(angle), y: 150 - side1 + (outerRadius/Math.tan(angle/2))*Math.cos(angle), w: l, h: thickness, angle: 90 - aa*angle },
+    { id: 5, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 6, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 7, type: 'circle', x: 50 + outerRadius, y: 150 - side1 + outerRadius/Math.tan(angle/2), r: outerRadius, angle: 180 - aa*angle, rotation: 180, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - side3 + outerRadius*Math.tan(angle/2), r: outerRadius, angle: aa*angle, rotation: 0 - aa*angle, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -182,26 +196,17 @@ function M_diamond_tube_graph({ side11, side22, side33, thickness1, outerRadius1
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50 + outerRadius} y={150 - thickness} width={side2 - 2*outerRadius} height={thickness} fill="black" />
-        <rect x={50} y={150 - side1 +  outerRadius/Math.tan(angle/2)} width={thickness} height={side1 - outerRadius - outerRadius/Math.tan(angle/2)} fill="black" />
-        <rect x={50 + side2 - thickness} y={150 - side3 +  outerRadius*Math.tan(angle/2)} width={thickness} height={side3 - outerRadius - outerRadius*Math.tan(angle/2)} fill="black" />
-        
-        <LineAtTheta x={50 + (outerRadius/Math.tan(angle/2))*Math.sin(angle)} y={150 - side1 + (outerRadius/Math.tan(angle/2))*Math.cos(angle)} w={l} h={thickness} angle={90 - aa*angle}/>
-
-        {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 +  outerRadius} centerY={150 - side1 +  outerRadius/Math.tan(angle/2)} angle={180 - aa*angle} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - side3 +  outerRadius*Math.tan(angle/2)} angle={aa*angle} rotation={0 - aa*angle} thickness={thickness}/>
-      
-        {/* Horizontal Arrow for side1 */}
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
-
-        {/* Horizontal Arrow for side3 */}
-        <Liney x1={55 + side2} x2={55 + side2} y1={150 - side3} y2={150} text={'C'} val={side33} textHeight={17}/>
-
-        {/* Vertical Arrow for B */}
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>s
+        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side2 - 2*outerRadius} height={thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - side1 + outerRadius/Math.tan(angle/2) + 100 - b} width={thickness} height={side1 - outerRadius - outerRadius/Math.tan(angle/2)} fill="black" />
+        <rect x={50 + side2 - thickness + 100 - a} y={150 - side3 + outerRadius*Math.tan(angle/2) + 100 - b} width={thickness} height={side3 - outerRadius - outerRadius*Math.tan(angle/2)} fill="black" />
+        <LineAtTheta x={50 + (outerRadius/Math.tan(angle/2))*Math.sin(angle) + 100 - a} y={150 - side1 + (outerRadius/Math.tan(angle/2))*Math.cos(angle) + 100 - b} w={l} h={thickness} angle={90 - aa*angle} />
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - side1 + outerRadius/Math.tan(angle/2) + 100 - b} angle={180 - aa*angle} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - side3 + outerRadius*Math.tan(angle/2) + 100 - b} angle={aa*angle} rotation={0 - aa*angle} thickness={thickness} />
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17} />
+        <Liney x1={55 + side2 + 100 - a} x2={55 + side2 + 100 - a} y1={150 - side3 + 100 - b} y2={150 + 100 - b} text={'C'} val={side33} textHeight={17} />
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'B'} val={side22} textHeight={5} />
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
 
 function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1, outerRadius1}) {
   const aa = Math.PI/180
@@ -18,6 +19,19 @@ function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1
   const x = 50 + x1*Props.ratio/mx
 
   const angle3 = (180/Math.PI)*Math.atan(((radius2 - outerRadius)*Math.sin(aa*angle2) - (radius1 + outerRadius)*Math.sin(aa*angle1))/((radius2 - outerRadius)*Math.cos(aa*angle2) - (radius1 + outerRadius)*Math.cos(aa*angle1)))
+
+  const predefinedPoints = [
+  { id: 1, type: 'line', x: x + radius1 + outerRadius, y: 150 - thickness, w: radius2 - radius1 - 2 * outerRadius, h: thickness, angle: 0},
+  {id: 2,type: 'line',x: x + (radius1 + outerRadius) * Math.cos(aa * angle1) - outerRadius * Math.sin(aa * angle3),y: 150 - outerRadius - (radius1 + outerRadius) * Math.sin(aa * angle1) - outerRadius * Math.cos(aa * angle3),w: ((radius2 - outerRadius) * Math.cos(aa * angle2) - (radius1 + outerRadius) * Math.cos(aa * angle1)) / Math.cos(aa * angle3),h: thickness,angle: -angle3},
+  {id: 3,type: 'circle',x: x,y: 150 - outerRadius,r: radius1 + thickness,angle: angle1,rotation: -angle1,t: thickness},
+  {id: 4,type: 'circle', x: x,y: 150 - outerRadius,r: radius2,angle: angle2,rotation: -angle2,t: thickness},
+  { id: 5, type: 'circle', x: x + radius1 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness},
+  { id: 6, type: 'circle', x: x + radius2 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness},
+  { id: 7, type: 'circle', x: x + (radius1 + outerRadius) * Math.cos(aa * angle1), y: 150 - outerRadius - (radius1 + outerRadius) * Math.sin(aa * angle1), r: outerRadius, angle: 90 + angle1 - angle3, rotation: 180 - angle1, t: thickness},
+  { id: 8, type: 'circle', x: x + (radius2 - outerRadius) * Math.cos(aa * angle2), y: 150 - outerRadius - (radius2 - outerRadius) * Math.sin(aa * angle2), r: outerRadius, angle: 90 - angle2 + angle3, rotation: 270 - angle3, t: thickness}
+];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -183,31 +197,27 @@ function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        <rect x={x + radius1 + outerRadius} y={150 - thickness} width={radius2 - radius1 - 2*outerRadius} height={thickness} fill="black"/>
+        <rect  x={x + 100 - a + radius1 + outerRadius}  y={150 + 100 - b - thickness}  width={radius2 - radius1 - 2 * outerRadius}  height={thickness}  fill="black" />
 
-        {/* L Shape */}
-        <LineAtTheta x = {x + (radius1 + outerRadius)*Math.cos(aa*angle1) - outerRadius*Math.sin(aa*angle3)} y = {150 - outerRadius - (radius1 + outerRadius)*Math.sin(aa*angle1) - outerRadius*Math.cos(aa*angle3)} w = {((radius2 - outerRadius)*Math.cos(aa*angle2) - (radius1 + outerRadius)*Math.cos(aa*angle1))/Math.cos(aa*angle3)} h = {thickness} angle={-angle3}/>
+      /* L Shape */
+      <LineAtTheta x={x + 100 - a + (radius1 + outerRadius) * Math.cos(aa * angle1) - outerRadius * Math.sin(aa * angle3)} y={150 + 100 - b - outerRadius - (radius1 + outerRadius) * Math.sin(aa * angle1) - outerRadius * Math.cos(aa * angle3)} w={( (radius2 - outerRadius) * Math.cos(aa * angle2) - (radius1 + outerRadius) * Math.cos(aa * angle1) ) / Math.cos(aa * angle3)} h={thickness} angle={-angle3} />
 
-        {/* outer radius */}
-        <CircleSector radius={radius1 + thickness} centerX={x} centerY={150 - outerRadius} angle={angle1} rotation={0 - angle1} thickness={thickness}/>
-        <CircleSector radius={radius2} centerX={x} centerY={150 - outerRadius} angle={angle2} rotation={0 - angle2} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x + radius1 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x + radius2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x + (radius1 + outerRadius)*Math.cos(aa*angle1)} centerY={150 - outerRadius - (radius1 + outerRadius)*Math.sin(aa*angle1)} angle={90 + angle1 - angle3} rotation={180 - angle1} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={x + (radius2 - outerRadius)*Math.cos(aa*angle2)} centerY={150 - outerRadius - (radius2 - outerRadius)*Math.sin(aa*angle2)} angle={90 - angle2 + angle3} rotation={270 - angle3} thickness={thickness}/>
-       
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={35} x2={35} y1={150} y2={150} text={'R1'} val={radius11} textHeight={-7}/>
+      /* outer radius */
+      <CircleSector radius={radius1 + thickness} centerX={x + 100 - a} centerY={150 + 100 - b - outerRadius} angle={angle1} rotation={0 - angle1} thickness={thickness} />
+      <CircleSector radius={radius2} centerX={x + 100 - a} centerY={150 + 100 - b - outerRadius} angle={angle2} rotation={0 - angle2} thickness={thickness} />
+      <CircleSector radius={outerRadius} centerX={x + 100 - a + radius1 + outerRadius} centerY={150 + 100 - b - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+      <CircleSector radius={outerRadius} centerX={x + 100 - a + radius2 - outerRadius} centerY={150 + 100 - b - outerRadius} angle={90} rotation={0} thickness={thickness}/>
+      <CircleSector  radius={outerRadius}  centerX={x + 100 - a + (radius1 + outerRadius) * Math.cos(aa * angle1)}  centerY={150 + 100 - b - outerRadius - (radius1 + outerRadius) * Math.sin(aa * angle1)}  angle={90 + angle1 - angle3}  rotation={180 - angle1}  thickness={thickness} />
+      <CircleSector radius={outerRadius} centerX={x + 100 - a + (radius2 - outerRadius) * Math.cos(aa * angle2)} centerY={150 + 100 - b - outerRadius - (radius2 - outerRadius) * Math.sin(aa * angle2)} angle={90 - angle2 + angle3} rotation={270 - angle3} thickness={thickness} />
+      /*  Horizontal Arrow for side2 */
+      <Linex x1={35 + 100 - a} x2={35 + 100 - a} y1={150 + 100 - b} y2={150 + 100 - b} text={'R1'} val={radius11} textHeight={-7}/>
+      /*  Horizontal Arrow for side2 */
+      <Linex x1={35 + 100 - a} x2={35 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'θ1'} val={angle1} textHeight={7}/>
 
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={35} x2={35} y1={155} y2={155} text={'θ1'} val={angle1} textHeight={7}/>
-        
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={x + radius2 + 15} x2={x + radius2 + 15} y1={150} y2={150} text={'R2'} val={radius22} textHeight={-7}/>
-
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={x + radius2 + 15} x2={x + radius2 + 15} y1={155} y2={155} text={'θ2'} val={angle2} textHeight={7}/>
-
+      /*  Horizontal Arrow for side2 */
+      <Linex x1={x + 100 - a + radius2 + 15} x2={x + 100 - a + radius2 + 15} y1={150 + 100 - b} y2={150 + 100 - b} text={'R2'} val={radius22} textHeight={-7} />
+      /*  Horizontal Arrow for side2 */
+      <Linex x1={x + 100 - a + radius2 + 15} x2={x + 100 - a + radius2 + 15} y1={155 + 100 - b} y2={155 + 100 - b} text={'θ2'} val={angle2} textHeight={7} />
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

@@ -4,6 +4,7 @@ import Linez from './Shap/Linez';
 import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function Round_graph_4({side1, radius1, thickness1, outerRadius1 }) {
 const mx = 2*radius1;
@@ -14,6 +15,15 @@ const mx = 2*radius1;
   const aa = 180/Math.PI
   const angle2 = Math.PI/2 - Math.asin((side - radius - outerRadius)/(radius - outerRadius))
   const angle1 = 2*Math.PI - 2*angle2;
+
+  const predefinedPoints = [
+  { id: 1, type: 'circle', r: radius, x: 100, y: 100, angle: angle1 * aa, rotation: angle2 * aa - 90, t: thickness },
+  { id: 2, type: 'circle', r: outerRadius, x: 100 + (radius - outerRadius) * Math.sin(angle2), y: 100 - (radius - outerRadius) * Math.cos(angle2), angle: angle2 * aa, rotation: -90, t: thickness },
+  { id: 3, type: 'circle', r: outerRadius, x: 100 - (radius - outerRadius) * Math.sin(angle2), y: 100 - (radius - outerRadius) * Math.cos(angle2), angle: angle2 * aa, rotation: -90 - aa * angle2, t: thickness },
+  { id: 4, type: 'line', x: 100 - (radius - outerRadius) * Math.sin(angle2), y: 100 - (radius - outerRadius) * Math.cos(angle2) - outerRadius, w: 2 * (radius - outerRadius) * Math.sin(angle2), h: thickness, angle: 0 },
+];
+
+const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -177,17 +187,13 @@ const mx = 2*radius1;
         <line x1="-1000" y1={50 + radius} x2={svgWidth + 1000} y2={50 + radius} stroke="gray" strokeWidth="1" />
         <line x1={50 + radius} y1="-1000" x2={50 + radius} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        <CircleSector radius={radius} centerX={100} centerY={100} angle={angle1*aa} rotation={angle2*aa - 90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius)*Math.sin(angle2)} centerY={100 - (radius - outerRadius)*Math.cos(angle2)} angle={angle2*aa} rotation={-90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius)*Math.sin(angle2)} centerY={100 - (radius - outerRadius)*Math.cos(angle2)} angle={angle2*aa} rotation={-90 - aa*angle2} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={100 + 100 - a} centerY={100 + 100 - b} angle={angle1 * aa} rotation={angle2 * aa - 90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius) * Math.sin(angle2) + 100 - a} centerY={100 - (radius - outerRadius) * Math.cos(angle2) + 100 - b} angle={angle2 * aa} rotation={-90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius) * Math.sin(angle2) + 100 - a} centerY={100 - (radius - outerRadius) * Math.cos(angle2) + 100 - b} angle={angle2 * aa} rotation={-90 - aa * angle2} thickness={thickness} />
+        <rect x={100 - (radius - outerRadius) * Math.sin(angle2) + 100 - a} y={100 - (radius - outerRadius) * Math.cos(angle2) - outerRadius + 100 - b} width={2 * ((radius - outerRadius) * Math.sin(angle2))} height={thickness} fill="black" />
+        <Linex x1={50 + 100 - a} x2={150 + 100 - a} y1={160 + 100 - b} y2={160 + 100 - b} text={'D'} val={2 * radius} textHeight={10} />
+        <Liney x1={160 + 100 - a} x2={160 + 100 - a} y1={100 - (radius - outerRadius) * Math.cos(angle2) - outerRadius + 100 - b} y2={150 + 100 - b} text={'A'} val={side1} textHeight={17} />
 
-        <rect x={100 - (radius - outerRadius)*Math.sin(angle2)} y={100 - (radius - outerRadius)*Math.cos(angle2) - outerRadius} width={2*((radius - outerRadius)*Math.sin(angle2))} height={thickness} fill="black" />
-
-         {/* Horizontal Arrow for side1 */}
-         <Linex x1={50} x2={150} y1={160} y2={160} text={'D'} val={2*radius} textHeight={10}/>
-
-        {/* Vertical Arrow for side2 */}
-        <Liney x1={160} x2={160} y1={100 - (radius - outerRadius)*Math.cos(angle2) - outerRadius} y2={150} text={'A'} val={side1} textHeight={17}/>
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

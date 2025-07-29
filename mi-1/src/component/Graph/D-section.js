@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
   const mx = Math.max(side1,side2);
@@ -11,6 +12,19 @@ function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
   const sidey = (side2/mx)*Props.ratio
   const radius = (radius1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + (100 - sidex)/2, y: 50 + outerRadius + (100 - sidey)/2, w: thickness, h: sidey - outerRadius - radius, angle: 0 },
+    { id: 2, type: 'line', x: 50 + sidex - thickness + (100 - sidex)/2, y: 50 + outerRadius + (100 - sidey)/2, w: thickness, h: sidey - outerRadius - radius, angle: 0 },
+    { id: 3, type: 'line', x: 50 + radius + (100 - sidex)/2, y: sidey - thickness + 50 + (100 - sidey)/2, w: sidex - 2 * radius, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + outerRadius + (100 - sidex)/2, y: 50 + (100 - sidey)/2, w: sidex - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 5, type: 'circle', x: 50 + radius + (100 - sidex)/2, y: 50 + sidey - radius + (100 - sidey)/2, r: radius, angle: 90, rotation: 90, t: thickness },
+    { id: 6, type: 'circle', x: 50 + outerRadius + (100 - sidex)/2, y: 50 + outerRadius + (100 - sidey)/2, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+    { id: 7, type: 'circle', x: 50 + sidex - outerRadius + (100 - sidex)/2, y: 50 + outerRadius + (100 - sidey)/2, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+    { id: 8, type: 'circle', x: 50 + sidex - radius + (100 - sidex)/2, y: 50 + sidey - radius + (100 - sidey)/2, r: radius, angle: 90, rotation: 0, t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -185,24 +199,25 @@ function D_section_graph({ side1, side2,radius1, thickness1, outerRadius1}) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* rectangle Shape */}
-        <rect x={50 + (100 - sidex)/2} y={50 + outerRadius+ (100  - sidey)/2} width={thickness} height={sidey-outerRadius - radius} fill="black" />
-        <rect x={50 + sidex - thickness + (100 - sidex)/2} y={50 + outerRadius+ (100  - sidey)/2} width={thickness} height={sidey-outerRadius - radius} fill="black" />
-        <rect x={50+radius + (100 - sidex)/2} y={sidey - thickness + 50  + (100  - sidey)/2} width={sidex-2*radius} height={thickness} fill="black" />
-        <rect x={50+outerRadius + (100 - sidex)/2} y={50+ (100  - sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
+        <rect x={50 + (100 - sidex)/2 + 100 - a} y={50 + outerRadius + (100 - sidey)/2 + 100 - b} width={thickness} height={sidey - outerRadius - radius} fill="black" />
+        <rect x={50 + sidex - thickness + (100 - sidex)/2 + 100 - a} y={50 + outerRadius + (100 - sidey)/2 + 100 - b} width={thickness} height={sidey - outerRadius - radius} fill="black" />
+        <rect x={50 + radius + (100 - sidex)/2 + 100 - a} y={sidey - thickness + 50 + (100 - sidey)/2 + 100 - b} width={sidex - 2 * radius} height={thickness} fill="black" />
+        <rect x={50 + outerRadius + (100 - sidex)/2 + 100 - a} y={50 + (100 - sidey)/2 + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />
+
         {/* outer radius */}
-         <CircleSector radius={radius} centerX={50 + radius  + (100 - sidex)/2} centerY={50 + sidey - radius + (100  - sidey)/2} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + radius + (100 - sidex)/2 + 100 - a} centerY={50 + sidey - radius + (100 - sidey)/2 + 100 - b} angle={90} rotation={90} thickness={thickness}/>
 
-         <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100 - sidex)/2} centerY={50 + outerRadius+ (100  - sidey)/2} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100 - sidex)/2 + 100 - a} centerY={50 + outerRadius + (100 - sidey)/2 + 100 - b} angle={90} rotation={180} thickness={thickness}/>
 
-         <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex)/2} centerY={50 + outerRadius+ (100  - sidey)/2} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex)/2 + 100 - a} centerY={50 + outerRadius + (100 - sidey)/2 + 100 - b} angle={90} rotation={270} thickness={thickness}/>
 
-         <CircleSector radius={radius} centerX={50 + sidex - radius + (100 - sidex)/2} centerY={50 + sidey - radius+ (100  - sidey)/2} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + sidex - radius + (100 - sidex)/2 + 100 - a} centerY={50 + sidey - radius + (100 - sidey)/2 + 100 - b} angle={90} rotation={0} thickness={thickness} />
 
-         {/* Horizontal Arrow for width */}
-         <Linex x1={50  + (100 - sidex)/2} x2={sidex + 50  + (100 - sidex)/2} y1={sidey+ 55+ (100  - sidey)/2} y2={sidey + 55+ (100  - sidey)/2} text={'w'} val={side1} textHeight={5}/>
+        {/* Horizontal Arrow for width */}
+        <Linex x1={50 + (100 - sidex)/2 + 100 - a} x2={sidex + 50 + (100 - sidex)/2 + 100 - a} y1={sidey + 55 + (100 - sidey)/2 + 100 - b} y2={sidey + 55 + (100 - sidey)/2 + 100 - b} text={'w'} val={side1} textHeight={5}/>
 
         {/* Vertical Arrow for Height */}
-        <Liney x1={55 + sidex  + (100 - sidex)/2} x2={55 + sidex  + (100 - sidex)/2} y1={50+ (100  - sidey)/2} y2={50 + sidey+ (100  - sidey)/2} text={'h'} val={side2} textHeight={17}/>
+        <Liney x1={55 + sidex + (100 - sidex)/2 + 100 - a} x2={55 + sidex + (100 - sidex)/2 + 100 - a} y1={50 + (100 - sidey)/2 + 100 - b} y2={50 + sidey + (100 - sidey)/2 + 100 - b} text={'h'} val={side2} textHeight={17}/>
        
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

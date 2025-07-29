@@ -4,7 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
-function L_angle_graph({ thickness1, length1, height1, outerRadius1, sendValuex, sendValuey}) {
+function L_angle_graph({ thickness1, length1, height1, outerRadius1}) {
   const mx = Math.max(...[length1,height1]);
   const thickness = (thickness1/mx)*Props.ratio
   const length = (length1/mx)*Props.ratio
@@ -12,14 +12,6 @@ function L_angle_graph({ thickness1, length1, height1, outerRadius1, sendValuex,
   const outerRadius = (outerRadius1/mx)*Props.ratio
   const comx = parseFloat(((((length-outerRadius)*(length/2-thickness/2)) + (((44 / 7) * (outerRadius - thickness / 2))*(outerRadius - thickness/2 -((4*7*(outerRadius-thickness))/(3*22)))))/(((11 / 7) * (outerRadius - thickness / 2)) + (height - outerRadius) +  (length - outerRadius))).toFixed(2))
   const comy = parseFloat(((((height-outerRadius)*(height/2-thickness/2)) + (((44 / 7) * (outerRadius - thickness / 2))*(outerRadius - thickness/2 -((4*7*(outerRadius-thickness))/(3*22)))))/(((11 / 7) * (outerRadius - thickness / 2)) + (height - outerRadius) +  (length - outerRadius))).toFixed(2))
-
-  React.useEffect(() => {
-    sendValuex((comx/100)*mx);
-  }, [sendValuex]);
-
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

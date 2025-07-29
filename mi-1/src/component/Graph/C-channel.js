@@ -3,19 +3,29 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
-function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValuey}) {
+function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1}) {
   const mx = Math.max(side1,side2);
   const thickness = (thickness1/mx)*Props.ratio
   const sidex = (side1/mx)*Props.ratio
   const sidey = (side2/mx)*Props.ratio
   const lip = (lip1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comy = parseFloat((((((((44/7)*(outerRadius - (thickness/2))) + 2*(sidey - 2*outerRadius) + 2*(sidex - 2*outerRadius)))*(sidey/2) - (sidex - 2*lip)*(thickness/2))/(((44/7)*(outerRadius - (thickness/2))) + 2*(sidey - 2*outerRadius) + 2*(sidex - 2*outerRadius) -(sidex-2*lip)))).toFixed(2));
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + (100 - sidex) / 2, y: 50 + outerRadius, w: thickness, h: sidey - 2 * outerRadius, angle: 0 },
+    { id: 2, type: 'line', x: 50 + sidex - thickness + (100 - sidex) / 2, y: 50 + outerRadius, w: thickness, h: sidey - 2 * outerRadius, angle: 0 },
+    { id: 3, type: 'line', x: 50 + outerRadius + (100 - sidex) / 2, y: 50 + sidey - thickness, w: sidex - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + outerRadius + (100 - sidex) / 2, y: 50, w: lip - outerRadius, h: thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + sidex - lip + (100 - sidex) / 2, y: 50, w: lip - outerRadius, h: thickness, angle: 0 },
+    { id: 6, type: 'circle', x: 50 + outerRadius + (100 - sidex) / 2, y: 50 + sidey - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + outerRadius + (100 - sidex) / 2, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+    { id: 8, type: 'circle', x: 50 + sidex - outerRadius + (100 - sidex) / 2, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+    { id: 9, type: 'circle', x: 50 + sidex - outerRadius + (100 - sidex) / 2, y: 50 + sidey - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -191,30 +201,30 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50 + (100-sidex)/2} y={100-comy + outerRadius} width={thickness} height={sidey-2*outerRadius} fill="black" />
-        <rect x={50 + sidex - thickness + (100-sidex)/2} y={100-comy + outerRadius} width={thickness} height={sidey-2*outerRadius} fill="black" />
-        <rect x={50+outerRadius + (100-sidex)/2} y={sidey - thickness + 100-comy} width={sidex-2*outerRadius} height={thickness} fill="black" />
-        <rect x={50+outerRadius + (100-sidex)/2} y={100-comy} width={lip-outerRadius} height={thickness} fill="black" />
-        <rect x={50+sidex-lip + (100-sidex)/2} y={100-comy} width={lip-outerRadius} height={thickness} fill="black" />
+        <rect x={50 + (100 - sidex) / 2 + 100 - a} y={50 + outerRadius + 100 - b} width={thickness} height={sidey - 2 * outerRadius} fill="black" />
+        <rect x={50 + sidex - thickness + (100 - sidex) / 2 + 100 - a} y={50 + outerRadius + 100 - b} width={thickness} height={sidey - 2 * outerRadius} fill="black" />
+        <rect x={50 + outerRadius + (100 - sidex) / 2 + 100 - a} y={sidey - thickness + 50 + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />
+        <rect x={50 + outerRadius + (100 - sidex) / 2 + 100 - a} y={50 + 100 - b} width={lip - outerRadius} height={thickness} fill="black" />
+        <rect x={50 + sidex - lip + (100 - sidex) / 2 + 100 - a} y={50 + 100 - b} width={lip - outerRadius} height={thickness} fill="black" />
+
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100-sidex)/2} centerY={100-comy + sidey - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100-sidex)/2} centerY={100-comy + outerRadius} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100 - sidex) / 2 + 100 - a} centerY={50 + sidey - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (100 - sidex) / 2 + 100 - a} centerY={50 + outerRadius + 100 - b} angle={90} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex) / 2 + 100 - a} centerY={50 + outerRadius + 100 - b} angle={90} rotation={270} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100 - sidex) / 2 + 100 - a} centerY={50 + sidey - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100-sidex)/2} centerY={100-comy + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-
-        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + (100-sidex)/2} centerY={100-comy + sidey - outerRadius} angle={90} rotation={0} thickness={thickness}/>
         {/* Horizontal Arrow for Lip */}
-        <Linex  x1={50 + sidex - lip + (100-sidex)/2} x2={sidex + 50 + (100-sidex)/2} y1={100-comy-5} y2={100-comy-5} text={'l'} val={lip1} textHeight={-5}/>
+        <Linex x1={50 + sidex - lip + (100 - sidex) / 2 + 100 - a} x2={sidex + 50 + (100 - sidex) / 2 + 100 - a} y1={50 - 5 + 100 - b} y2={50 - 5 + 100 - b} text={'l'} val={lip1} textHeight={-5} />
 
         {/* Horizontal Arrow for width */}
-        <Linex x1={50 + (100-sidex)/2} x2={sidex + 50 + (100-sidex)/2} y1={sidey+ 100-comy + 5} y2={sidey + 100-comy + 5} text={'w'} val={side1} textHeight={5}/>
+        <Linex x1={50 + (100 - sidex) / 2 + 100 - a} x2={sidex + 50 + (100 - sidex) / 2 + 100 - a} y1={sidey + 50 + 5 + 100 - b} y2={sidey + 50 + 5 + 100 - b} text={'w'} val={side1} textHeight={5} />
 
         {/* Vertical Arrow for Height */}
-        <Liney x1={45 + (100-sidex)/2} x2={45 + (100-sidex)/2} y1={100-comy} y2={100-comy + sidey} text={'h'} val={side2} textHeight={-17}/>       
-        
+        <Liney x1={45 + (100 - sidex) / 2 + 100 - a} x2={45 + (100 - sidex) / 2 + 100 - a} y1={50 + 100 - b} y2={50 + sidey + 100 - b} text={'h'} val={side2} textHeight={-17} />
+
         {/* Horizontal Arrow for Thickness */}
-        <Linex x1={50 + (100-sidex)/2} x2={thickness + 50 + (100-sidex)/2} y1={100-comy-5} y2={100-comy-5} text={'t'} val={thickness1} textHeight={-5}/>
+        <Linex x1={50 + (100 - sidex) / 2 + 100 - a} x2={thickness + 50 + (100 - sidex) / 2 + 100 - a} y1={50 - 5 + 100 - b} y2={50 - 5 + 100 - b} text={'t'} val={thickness1} textHeight={-5} />
+
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

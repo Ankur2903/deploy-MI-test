@@ -3,19 +3,30 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
-function Thcm_m_graph({ side22, side33, thickness1, outerRadius1,  sendValuey}) {
+function Thcm_m_graph({ side22, side33, thickness1, outerRadius1}) {
   const mx = Math.max(side33,side22);
   const thickness = (thickness1/mx)*Props.ratio
   const side2 = (side22/mx)*Props.ratio
   const side3 = (side33/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comy = 50 
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness - outerRadius, angle: 0 },
 
+    { id: 3, type: 'line', x: 50 + thickness + outerRadius, y: 150 - thickness, w: side3 - 2 * outerRadius - 2 * thickness, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side3 - thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + side3 - 2 * thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness - outerRadius, angle: 0 },
+
+    { id: 6, type: 'circle', x: 50 + thickness + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + thickness, y: 150 - side2 + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side3 - thickness, y: 150 - side2 + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+    { id: 9, type: 'circle', x: 50 + side3 - thickness - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -193,28 +204,24 @@ function Thcm_m_graph({ side22, side33, thickness1, outerRadius1,  sendValuey}) 
 
         
         {/* Top hat Shape */}
-        <rect x={50} y={150 - side2 + thickness} width={thickness} height={side2-thickness} fill="black" />
-        <rect x={50  + thickness} y={150 - side2 + thickness} width={thickness} height={side2-thickness - outerRadius} fill="black" />
-        
-        <rect x={50 + thickness + outerRadius} y={150 - thickness} width={side3-2*outerRadius - 2*thickness} height={thickness} fill="black" />
-        <rect x={50 + side3 - thickness} y={150 - side2 + thickness} width={thickness} height={side2-thickness} fill="black" />
-        <rect x={50 + side3 - 2*thickness} y={150 - side2 + thickness} width={thickness} height={side2-thickness - outerRadius} fill="black" />
+        <rect x={50 + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness} fill="black" />
+        <rect x={50 + thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness - outerRadius} fill="black" />
+        <rect x={50 + thickness + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side3 - 2 * outerRadius - 2 * thickness} height={thickness} fill="black" />
+        <rect x={50 + side3 - thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness} fill="black" />
+        <rect x={50 + side3 - 2 * thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness - outerRadius} fill="black" />
 
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + thickness + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + thickness + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + thickness + 100 - a} centerY={150 - side2 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + side3 - thickness + 100 - a} centerY={150 - side2 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side3 - thickness - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
 
-        <CircleSector radius={thickness} centerX={50 + thickness} centerY={150 - side2 + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + side3 - thickness} centerY={150 - side2 + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={outerRadius} centerX={50 + side3 - thickness - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-       
-
-         {/* Horizontal Arrow for B */}
-         <Linex x1={50} x2={50 + side3} y1={155} y2={155} text={'w'} val={side33} textHeight={5}/>
+        {/* Horizontal Arrow for B */}
+        <Linex x1={50 + 100 - a} x2={50 + side3 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'w'} val={side33} textHeight={5} />
 
         {/* Vertical Arrow for Height */}
-        <Liney x1={45} x2={45} y1={150 - side2} y2={150} text={'h'} val={side22} textHeight={-17}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side2 + 100 - b} y2={150 + 100 - b} text={'h'} val={side22} textHeight={-17} />
+
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

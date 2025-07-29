@@ -10,9 +10,9 @@ export function COM(predefinedPoints) {
             b = b + (predefinedPoints[i].y + predefinedPoints[i].h*Math.cos(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.sin(aa*predefinedPoints[i].angle)/2)*(predefinedPoints[i].w*predefinedPoints[i].h);
         }
         else{
-            sum = sum + aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r;
-            a = a + (predefinedPoints[i].x + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r);
-            b = b + (predefinedPoints[i].y +(4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r);
+            sum = sum + (aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r - aa*predefinedPoints[i].angle*(predefinedPoints[i].r - predefinedPoints[i].t)*(predefinedPoints[i].r - predefinedPoints[i].t))/2;
+            a = a + (predefinedPoints[i].x + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r)/2 - (predefinedPoints[i].x + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*(predefinedPoints[i].r - predefinedPoints[i].t)*(predefinedPoints[i].r - predefinedPoints[i].t))/2;
+            b = b + (predefinedPoints[i].y + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*predefinedPoints[i].r*predefinedPoints[i].r)/2 -(predefinedPoints[i].y + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2)))*(aa*predefinedPoints[i].angle*(predefinedPoints[i].r - predefinedPoints[i].t)*(predefinedPoints[i].r - predefinedPoints[i].t))/2;
         }
     }
     a = (a/sum).toFixed(2);

@@ -3,6 +3,7 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
 function Stiffner_front_edge_graph({ side11, side22, side33, side44, thickness1, outerRadius1}) {
   const mx = Math.max(side22,(side11 + side33));
@@ -12,6 +13,20 @@ function Stiffner_front_edge_graph({ side11, side22, side33, side44, thickness1,
   const side3 = (side33/mx)*Props.ratio
   const side4 = (side44/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50, y: 150 - side1, w: thickness, h: side1 - outerRadius, angle: 0 },
+    { id: 2, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: side2 - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 3, type: 'line', x: 50 + side2 - thickness, y: 150 - side1 + side4 + outerRadius - thickness, w: thickness, h: side1 - side4 - 2 * outerRadius + thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side2 + outerRadius - thickness, y: 150 - side1 + side4 - thickness, w: side3 - 2 * outerRadius + thickness, h: thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + side2 + side3 - thickness, y: 150 - side1, w: thickness, h: side4 - outerRadius, angle: 0 },
+    { id: 6, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side2 + outerRadius - thickness, y: 150 - side1 + side4 + outerRadius - thickness, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+    { id: 9, type: 'circle', x: 50 + side2 + side3 - outerRadius, y: 150 - side1 + side4 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
 
   const [viewBox, setViewBox] = useState(Props.title7);
@@ -187,29 +202,30 @@ function Stiffner_front_edge_graph({ side11, side22, side33, side44, thickness1,
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* Line Shape */}
-        <rect x={50} y={150 - side1} width={thickness} height={side1 - outerRadius} fill="black"/>
-        <rect x={50 + outerRadius} y={150 - thickness} width={side2 - 2*outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + side2 - thickness} y={150 -side1 + side4 + outerRadius - thickness} width={thickness} height={side1 - side4 -2*outerRadius + thickness} fill="black"/>
-        <rect x={50 + side2 + outerRadius- thickness} y={150 -side1 + side4 - thickness} width={side3 - 2*outerRadius + thickness} height={thickness} fill="black"/>
-        <rect x={50 + side2 + side3 - thickness} y={150 -side1} width={thickness} height={side4 - outerRadius} fill="black"/>
-        
+        <rect x={50 + 100 - a} y={150 - side1 + 100 - b} width={thickness} height={side1 - outerRadius} fill="black"/>
+        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side2 - 2*outerRadius} height={thickness} fill="black"/>
+        <rect x={50 + side2 - thickness + 100 - a} y={150 -side1 + side4 + outerRadius - thickness + 100 - b} width={thickness} height={side1 - side4 -2*outerRadius + thickness} fill="black"/>
+        <rect x={50 + side2 + outerRadius- thickness + 100 - a} y={150 -side1 + side4 - thickness + 100 - b} width={side3 - 2*outerRadius + thickness} height={thickness} fill="black"/>
+        <rect x={50 + side2 + side3 - thickness + 100 - a} y={150 -side1 + 100 - b} width={thickness} height={side4 - outerRadius} fill="black"/>
+
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness} centerY={150 - side1 + side4 + outerRadius - thickness} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 + side3 - outerRadius} centerY={150 - side1 + side4 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-       
-         {/* Horizontal Arrow for side1*/}
-         <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness + 100 - a} centerY={150 - side1 + side4 + outerRadius - thickness + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 + side3 - outerRadius + 100 - a} centerY={150 - side1 + side4 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
 
-        {/* Vertical Arrow for side2*/}
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>
+        {/* Horizontal Arrow for side1 */}
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
 
-        {/* Vertical Arrow for side2*/}
-        <Linex x1={50 + side2} x2={50 + side2 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>
+        {/* Vertical Arrow for side2 */}
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'B'} val={side22} textHeight={5}/>
 
-        {/* Horizontal Arrow for side1*/}
-        <Liney x1={55 + side2 + side3} x2={55 + side2 + side3} y1={150 - side1} y2={150 - side1 + side4} text={'D'} val={side44} textHeight={17}/>
+        {/* Vertical Arrow for side3 */}
+        <Linex x1={50 + side2 + 100 - a} x2={50 + side2 + side3 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'C'} val={side33} textHeight={5}/>
+
+        {/* Horizontal Arrow for side4 */}
+        <Liney x1={55 + side2 + side3 + 100 - a} x2={55 + side2 + side3 + 100 - a} y1={150 - side1 + 100 - b} y2={150 - side1 + side4 + 100 - b} text={'D'} val={side44} textHeight={17}/>
+
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

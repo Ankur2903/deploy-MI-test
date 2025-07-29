@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
 
 function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, outerRadius11, outerRadius22}) {
   const aa = Math.PI/180
@@ -19,10 +20,18 @@ function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, out
 
   const l = radius2/Math.cos(aa*angle2) - (radius1 - thickness)/Math.cos(aa*angle1)  - radius2*Math.tan(aa*angle2) - (radius1 - thickness)*Math.tan(aa*angle1)
 
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 100 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)) - (outerRadius2 - thickness)*Math.cos(aa*angle/2), y: 50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2)) + (outerRadius2 - thickness)*Math.sin(aa*angle/2), w: l, h: thickness, angle: 90 - angle/2 },
+    { id: 2, type: 'line', x: 100 + (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)) + (outerRadius1 - thickness)*Math.cos(aa*angle/2), y: 50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1)) + (outerRadius1 - thickness)*Math.sin(aa*angle/2), w: l, h: thickness, angle: angle/2 - 90 },
+    { id: 3, type: 'circle', x: 100, y: 50 + radius2, r: radius2, angle: angle - 2*angle2, rotation: 270 - angle/2 + angle2, t: thickness },
+    { id: 4, type: 'circle', x: 100, y: 50 + radius2, r: radius1, angle: angle - 2*angle1, rotation: 270 - angle/2 + angle1, t: thickness },
+    { id: 5, type: 'circle', x: 100 + (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)), y: 50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1)), r: outerRadius1, angle: 90 - angle1, rotation: angle/2, t: thickness },
+    { id: 6, type: 'circle', x: 100 - (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)), y: 50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1)), r: outerRadius1, angle: 90 - angle1, rotation: 90 - angle/2 + angle1, t: thickness },
+    { id: 7, type: 'circle', x: 100 + (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)), y: 50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2)), r: outerRadius2, angle: angle2 + 90, rotation: angle/2 - 90 - angle2, t: thickness },
+    { id: 8, type: 'circle', x: 100 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)), y: 50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2)), r: outerRadius2, angle: angle2 + 90, rotation: 180 - angle/2, t: thickness },
+  ];
 
-  console.log({angle1, angle2})
-
-  const  comy = 1//parseFloat(((1)/(1)).toFixed(2))
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -189,29 +198,30 @@ function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, out
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <LineAtTheta x = {100 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)) - (outerRadius2 - thickness)*Math.cos(aa*angle/2)} y = {50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2)) +  (outerRadius2 - thickness)*Math.sin(aa*angle/2)} w = {l} h = {thickness} angle={90 - angle/2}/>
+        <LineAtTheta x={100 - a + 100 - (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2)) - (outerRadius2 - thickness) * Math.cos(aa * angle / 2)} y={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2)) + (outerRadius2 - thickness) * Math.sin(aa * angle / 2)} w={l} h={thickness} angle={90 - angle / 2} />
 
-        <LineAtTheta x = {100 + (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)) + (outerRadius1 - thickness)*Math.cos(aa*angle/2)} y = {50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1)) +  (outerRadius1 - thickness)*Math.sin(aa*angle/2)} w = {l} h = {thickness} angle={angle/2 - 90}/>
+        <LineAtTheta x={100 - a + 100 + (radius1 - thickness + outerRadius1) * Math.sin(aa * (angle / 2 - angle1)) + (outerRadius1 - thickness) * Math.cos(aa * angle / 2)} y={100 - b + 50 + radius2 - (radius1 - thickness + outerRadius1) * Math.cos(aa * (angle / 2 - angle1)) + (outerRadius1 - thickness) * Math.sin(aa * angle / 2)} w={l} h={thickness} angle={angle / 2 - 90} />
 
-        {/* outer radius */}
-        <CircleSector radius={radius2} centerX={100} centerY={50 + radius2} angle={angle - 2*angle2} rotation={270 - angle/2 + angle2} thickness={thickness}/>
-        <CircleSector radius={radius1} centerX={100} centerY={50 + radius2} angle={angle - 2*angle1} rotation={270 - angle/2 + angle1} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 + (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1))} centerY={50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1))} angle={90 - angle1} rotation={angle/2} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 - (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1))} centerY={50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1))} angle={90 - angle1} rotation={90 - angle/2 + angle1} thickness={thickness}/>
-        <CircleSector radius={outerRadius2} centerX={100 + (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2))} centerY={50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2))} angle={angle2 + 90} rotation={angle/2 - 90 - angle2} thickness={thickness}/>
-        <CircleSector radius={outerRadius2} centerX={100 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2))} centerY={50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2))} angle={angle2 + 90} rotation={180 - angle/2} thickness={thickness}/>
-       
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={95 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)) - outerRadius2} x2={95 - (radius2 - outerRadius2)*Math.sin(aa*(angle/2 - angle2)) - outerRadius2} y1={50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2))} y2={50 + radius2 - (radius2 - outerRadius2)*Math.cos(aa*(angle/2 - angle2))} text={'r2'} val={outerRadius22} textHeight={-10}/>
+        <CircleSector radius={radius2} centerX={100 - a + 100} centerY={100 - b + 50 + radius2} angle={angle - 2 * angle2} rotation={270 - angle / 2 + angle2} thickness={thickness} />
 
-        {/* Horizontal Arrow for side1 */}
-       <Linex x1={90 - (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)) - outerRadius1} x2={90 - (radius1 - thickness + outerRadius1)*Math.sin(aa*(angle/2 - angle1)) - outerRadius1} y1={50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1))} y2={50 + radius2 - (radius1 - thickness + outerRadius1)*Math.cos(aa*(angle/2 - angle1))} text={'r1'} val={outerRadius11} textHeight={10}/>
+        <CircleSector radius={radius1} centerX={100 - a + 100} centerY={100 - b + 50 + radius2} angle={angle - 2 * angle1} rotation={270 - angle / 2 + angle1} thickness={thickness} />
 
-        {/* Horizontal Arrow for radius2 */}
-       <Linex x1={100} x2={100} y1={45} y2={45} text={'R2'} val={radius22} textHeight={-5}/>
+        <CircleSector radius={outerRadius1} centerX={100 - a + 100 + (radius1 - thickness + outerRadius1) * Math.sin(aa * (angle / 2 - angle1))} centerY={100 - b + 50 + radius2 - (radius1 - thickness + outerRadius1) * Math.cos(aa * (angle / 2 - angle1))} angle={90 - angle1} rotation={angle / 2} thickness={thickness} />
 
-        {/* Horizontal Arrow for radius1 */}
-       <Linex x1={100} x2={100} y1={55 + radius2  - radius1} y2={55 + radius2  - radius1} text={'R1'} val={radius11} textHeight={7}/>
+        <CircleSector radius={outerRadius1} centerX={100 - a + 100 - (radius1 - thickness + outerRadius1) * Math.sin(aa * (angle / 2 - angle1))} centerY={100 - b + 50 + radius2 - (radius1 - thickness + outerRadius1) * Math.cos(aa * (angle / 2 - angle1))} angle={90 - angle1} rotation={90 - angle / 2 + angle1} thickness={thickness} />
+
+        <CircleSector radius={outerRadius2} centerX={100 - a + 100 + (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2))} centerY={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2))} angle={angle2 + 90} rotation={angle / 2 - 90 - angle2} thickness={thickness} />
+
+        <CircleSector radius={outerRadius2} centerX={100 - a + 100 - (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2))} centerY={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2))} angle={angle2 + 90} rotation={180 - angle / 2} thickness={thickness} />
+
+        <Linex x1={100 - a + 95 - (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2)) - outerRadius2} x2={100 - a + 95 - (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2)) - outerRadius2} y1={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2))} y2={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2))} text={'r2'} val={outerRadius22} textHeight={-10} />
+
+        <Linex x1={100 - a + 90 - (radius1 - thickness + outerRadius1) * Math.sin(aa * (angle / 2 - angle1)) - outerRadius1} x2={100 - a + 90 - (radius1 - thickness + outerRadius1) * Math.sin(aa * (angle / 2 - angle1)) - outerRadius1} y1={100 - b + 50 + radius2 - (radius1 - thickness + outerRadius1) * Math.cos(aa * (angle / 2 - angle1))} y2={100 - b + 50 + radius2 - (radius1 - thickness + outerRadius1) * Math.cos(aa * (angle / 2 - angle1))} text={'r1'} val={outerRadius11} textHeight={10} />
+
+        <Linex x1={100 - a + 100} x2={100 - a + 100} y1={100 - b + 45} y2={100 - b + 45} text={'R2'} val={radius22} textHeight={-5} />
+
+        <Linex x1={100 - a + 100} x2={100 - a + 100} y1={100 - b + 55 + radius2 - radius1} y2={100 - b + 55 + radius2 - radius1} text={'R1'} val={radius11} textHeight={7} />
+
 
 
 

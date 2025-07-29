@@ -3,16 +3,27 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Linez from './Shap/Linez';
+import { COM } from '../AdvanceOutput/COM';
 
-function Triangular_slit_graph({side11, side22, thickness1, outerRadius1, sendValuey}){
+function Triangular_slit_graph({side11, side22, thickness1, outerRadius1}){
   const mx = Math.max(side11,side11);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
   const side2 = (side22/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
 
-  const comy = parseFloat(((2*(side2 - outerRadius)*Math.pow(thickness,2)/2 + 2*(side1 - 2*outerRadius)*thickness*(outerRadius + (outerRadius - thickness)/2 + (side1 - 2*outerRadius)*Math.sqrt(3)/4)  + Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))*(outerRadius + (side1 - 2*outerRadius)*Math.sqrt(3)/6))/(thickness*(side1 - 2*outerRadius)*3  +  Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)))).toFixed(2))
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + outerRadius, y: 50, w: side2 - outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + outerRadius + side1 - 2 * outerRadius - side2 + outerRadius, y: 50, w: side2 - outerRadius, h: thickness, angle: 0 },
+    { id: 3, type: 'line', x: 50 + outerRadius - (outerRadius - thickness) * (Math.sqrt(3) / 2), y: 50 + outerRadius + (outerRadius - thickness) * (1 / 2), w: side1 - 2 * outerRadius, h: thickness, angle: 60 },
+    { id: 4, type: 'line', x: 50 + outerRadius + (side1 - 2 * outerRadius) + outerRadius * (2 / Math.sqrt(2.4)), y: 50 + outerRadius + outerRadius * (1 / 1.34), w: side1 - 2 * outerRadius, h: thickness, angle: 120 },
+    { id: 5, type: 'circle', x: 50 + outerRadius, y: 50 + outerRadius, r: outerRadius, angle: 120, rotation: 150, t: thickness },
+    { id: 6, type: 'circle', x: 50 + side1 - outerRadius, y: 50 + outerRadius, r: outerRadius, angle: 120, rotation: 270, t: thickness },
+    { id: 7, type: 'circle', x: 50 + outerRadius + (side1 - 2 * outerRadius) / 2, y: 50 + side1 * (Math.sqrt(3) / 2) - 0.76 * outerRadius, r: outerRadius, angle: 120, rotation: 30, t: thickness }
+  ];
 
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -21,10 +32,6 @@ function Triangular_slit_graph({side11, side22, thickness1, outerRadius1, sendVa
 
   const svgWidth = Props.x2
   const svgHeight = Props.y2
-
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -193,38 +200,31 @@ function Triangular_slit_graph({side11, side22, thickness1, outerRadius1, sendVa
 
    
        
-        <rect x={50 + outerRadius} y={100-comy} width={side2- outerRadius} height={thickness} fill="black" />
-        <rect x={50 + outerRadius + side1-2*outerRadius - side2 + outerRadius} y={100-comy} width={side2 - outerRadius} height={thickness} fill="black" />
-        <rect
-        x={50 + outerRadius - (outerRadius-thickness)*((Math.sqrt(3))/2)}
-        y={100-comy + outerRadius + (outerRadius-thickness)*(1/2)}
-        width={side1 - 2*outerRadius}
-        height={thickness}
-        fill="black"
-        transform={`rotate(${60}, ${50 + outerRadius - (outerRadius-thickness)*((Math.sqrt(3))/2)}, ${100-comy + outerRadius + (outerRadius-thickness)*(1/2)})`} // Rotate around (rotateX, rotateY)
+        <rect x={50 + outerRadius + 100 - a} y={50 + 100 - b} width={side2 - outerRadius} height={thickness} fill="black" />
+        <rect x={50 + outerRadius + side1 - 2 * outerRadius - side2 + outerRadius + 100 - a} y={50 + 100 - b} width={side2 - outerRadius} height={thickness} fill="black" />
+        <rect 
+          x={50 + outerRadius - (outerRadius - thickness) * (Math.sqrt(3)) / 2 + 100 - a} 
+          y={50 + outerRadius + (outerRadius - thickness) * (1 / 2) + 100 - b} 
+          width={side1 - 2 * outerRadius} 
+          height={thickness} 
+          fill="black" 
+          transform={`rotate(${60}, ${50 + outerRadius - (outerRadius - thickness) * (Math.sqrt(3)) / 2 + 100 - a}, ${50 + outerRadius + (outerRadius - thickness) * (1 / 2) + 100 - b})`} 
         />
-        <rect
-        x={50 + outerRadius + (side1 - 2*outerRadius) + outerRadius*(2/(Math.sqrt(2.4)))}
-        y={100-comy + outerRadius + outerRadius*(1/1.34)}
-        width={side1 - 2*outerRadius}
-        height={thickness}
-        fill="black"
-        transform={`rotate(${120}, ${50 + outerRadius + (side1 - 2*outerRadius) + outerRadius*(2/(Math.sqrt(3)))}, ${100-comy + outerRadius + outerRadius*(1/2)})`} // Rotate around (rotateX, rotateY)
+        <rect 
+          x={50 + outerRadius + (side1 - 2 * outerRadius) + outerRadius * (2 / Math.sqrt(2.4)) + 100 - a} 
+          y={50 + outerRadius + outerRadius * (1 / 1.34) + 100 - b} 
+          width={side1 - 2 * outerRadius} 
+          height={thickness} 
+          fill="black" 
+          transform={`rotate(${120}, ${50 + outerRadius + (side1 - 2 * outerRadius) + outerRadius * (2 / Math.sqrt(3)) + 100 - a}, ${50 + outerRadius + outerRadius * (1 / 2) + 100 - b})`} 
         />
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={50 + outerRadius + 100 - b} angle={120} rotation={150} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius + 100 - a} centerY={50 + outerRadius + 100 - b} angle={120} rotation={270} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (side1 - 2 * outerRadius) / 2 + 100 - a} centerY={50 + side1 * (Math.sqrt(3) / 2) - 0.76 * outerRadius + 100 - b} angle={120} rotation={30} thickness={thickness} />
+        <Linex x1={50 + 100 - a} x2={side1 + 50 + 100 - a} y1={50 - 15 + 100 - b} y2={50 - 15 + 100 - b} text={'A'} val={side11} textHeight={-5} />
+        <Linex x1={50 + 100 - a} x2={side2 + 50 + 100 - a} y1={50 - 5 + 100 - b} y2={50 - 5 + 100 - b} text={'l'} val={side22} textHeight={-5} />
+        <Linez x1={side1 + 50 - outerRadius + thickness + 100 - a} y1={50 + outerRadius + 100 - b} thickness={thickness} text={'t'} val={thickness1} textHeight={side1} />
 
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={100-comy + outerRadius} angle={120} rotation={150} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius} centerY={100-comy + outerRadius} angle={120} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius + (side1 - 2*outerRadius)/2} centerY={100-comy + side1*(Math.sqrt(3)/2) -  0.76*outerRadius} angle={120} rotation={30} thickness = {thickness}/>
-      
-
-         {/* Horizontal Arrow for width */}
-         <Linex  x1={50} x2={side1 + 50} y1={100-comy-15} y2={100-comy-15} text={'A'} val={side11} textHeight={-5}/>
-
-         {/* Horizontal Arrow for lip */}
-         <Linex  x1={50} x2={side2 + 50} y1={100-comy-5} y2={100-comy-5} text={'l'} val={side22} textHeight={-5}/>
-       
-         {/* Horizontal Arrow for thickness */}
-         <Linez x1 = {side1 + 50 - outerRadius+thickness} y1={100-comy + outerRadius} thickness={thickness} text={'t'} val={thickness1} textHeight={side1}/>
 
         
 

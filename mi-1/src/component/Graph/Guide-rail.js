@@ -3,8 +3,9 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
-function Guide_rail_graph({ thickness1, side11, side22, sendValuex, sendValuey}) {
+function Guide_rail_graph({ thickness1, side11, side22}) {
   const mx = Math.max(side11,side22);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -15,15 +16,16 @@ function Guide_rail_graph({ thickness1, side11, side22, sendValuex, sendValuey})
   const angle = Math.acos((thickness)/(side2 - thickness))
   const aa = 180/Math.PI
 
-  console.log(thickness, side2 - thickness, angle)
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + side2 / 2, y: 150 - thickness, w: side1 - side2, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + side2 / 2 + (side2 - thickness) * Math.sin(angle), y: 150 - 2 * thickness, w: side1 - 2 * (side2 / 2 + (side2 - thickness) * Math.sin(angle)), h: thickness, angle: 0 },
+    { id: 3, type: 'circle', x: 50 + side2 / 2, y: 150 - side2 / 2, r: side2 / 2, angle: 180 + angle * aa, rotation: 90, t: thickness },
+    { id: 4, type: 'circle', x: 50 + side1 - side2 / 2, y: 150 - side2 / 2, r: side2 / 2, angle: 180 + angle * aa, rotation: 270 - angle * aa, t: thickness },
+    { id: 5, type: 'circle', x: 50 + side1 - side2 / 2 - (side2 - thickness) * Math.sin(angle), y: 150 - side2 / 2 - (side2 - thickness) * Math.cos(angle), r: side2 / 2, angle: angle * aa, rotation: 90 - angle * aa, t: thickness },
+    { id: 6, type: 'circle', x: 50 + side2 / 2 + (side2 - thickness) * Math.sin(angle), y: 150 - side2 / 2 - (side2 - thickness) * Math.cos(angle), r: side2 / 2, angle: angle * aa, rotation: 90, t: thickness }
+  ];
 
-  React.useEffect(() => {
-    sendValuex((comx/100)*mx);
-  }, [sendValuex]);
-
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -197,18 +199,17 @@ function Guide_rail_graph({ thickness1, side11, side22, sendValuex, sendValuey})
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50 + side2/2} y={150 - thickness} width={side1 - side2} height={thickness} fill="black"/>
-        <rect x={50 + side2/2 + (side2 - thickness)*Math.sin(angle)} y={150 - 2*thickness} width={side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))} height={thickness} fill="black"/>
+        <rect x={50 + side2/2 + 100 - a} y={150 - thickness + 100 - b} width={side1 - side2} height={thickness} fill="black"/>
+        <rect x={50 + side2/2 + (side2 - thickness)*Math.sin(angle) + 100 - a} y={150 - 2*thickness + 100 - b} width={side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))} height={thickness} fill="black"/>
 
-        <CircleSector radius={side2/2} centerX={50 + side2/2} centerY={150 - side2/2} angle={180 + angle*aa} rotation={90} thickness={thickness}/>
-        <CircleSector radius={side2/2} centerX={50 +side1 -  side2/2} centerY={150 - side2/2} angle={180 + angle*aa} rotation={270 - angle*aa} thickness={thickness}/>
-        <CircleSector radius={side2/2} centerX={50 +side1 -  side2/2 - ((side2 - thickness)*Math.sin(angle))} centerY={150 - side2/2 - ((side2 - thickness)*Math.cos(angle))} angle={angle*aa} rotation={90 - angle*aa} thickness={thickness}/>
-        <CircleSector radius={side2/2} centerX={50 + side2/2 + ((side2 - thickness)*Math.sin(angle))} centerY={150 - side2/2 - ((side2 - thickness)*Math.cos(angle))} angle={angle*aa} rotation={90 } thickness={thickness}/>
+        <CircleSector radius={side2/2} centerX={50 + side2/2 + 100 - a} centerY={150 - side2/2 + 100 - b} angle={180 + angle*aa} rotation={90} thickness={thickness}/>
+        <CircleSector radius={side2/2} centerX={50 + side1 - side2/2 + 100 - a} centerY={150 - side2/2 + 100 - b} angle={180 + angle*aa} rotation={270 - angle*aa} thickness={thickness}/>
+        <CircleSector radius={side2/2} centerX={50 + side1 - side2/2 - ((side2 - thickness)*Math.sin(angle)) + 100 - a} centerY={150 - side2/2 - ((side2 - thickness)*Math.cos(angle)) + 100 - b} angle={angle*aa} rotation={90 - angle*aa} thickness={thickness}/>
+        <CircleSector radius={side2/2} centerX={50 + side2/2 + ((side2 - thickness)*Math.sin(angle)) + 100 - a} centerY={150 - side2/2 - ((side2 - thickness)*Math.cos(angle)) + 100 - b} angle={angle*aa} rotation={90} thickness={thickness}/>
 
-        {/*Arrow for sid1 */}
-        <Linex x1={50} x2={50 + side1} y1={155} y2={155} text={'A'} val={side11} textHeight={5}/>
-        {/* Arrow for side2 */}
-        <Liney x1={45} x2={45} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={-17}/>
+        <Linex x1={50 + 100 - a} x2={50 + side1 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'A'} val={side11} textHeight={5}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side2 + 100 - b} y2={150 + 100 - b} text={'B'} val={side22} textHeight={-17}/>
+
         </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

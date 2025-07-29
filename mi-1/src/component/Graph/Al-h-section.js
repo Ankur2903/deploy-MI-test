@@ -3,8 +3,9 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
-function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadius1,  sendValuey}) {
+function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadius1}) {
   const mx = Math.max(side11,side22);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -12,11 +13,24 @@ function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadi
   const side3 = (side33/mx)*Props.ratio
   const lip = (lip1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comy = 50 
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50, y: 150 - side1 + thickness, w: thickness, h: side1 - 2 * thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + thickness, y: 150 - side1 + thickness, w: thickness, h: side3 - thickness - outerRadius, angle: 0 },
+    { id: 3, type: 'line', x: 50 + thickness + outerRadius, y: 150 - side1 + side3 - thickness, w: side2 - 2 * outerRadius - 2 * thickness, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side2 - thickness, y: 150 - side1 + thickness, w: thickness, h: side1 - 2 * thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + side2 - 2 * thickness, y: 150 - side1 + thickness, w: thickness, h: side3 - thickness - outerRadius, angle: 0 },
+    { id: 6, type: 'line', x: 50 + thickness, y: 150 - lip, w: thickness, h: lip - thickness, angle: 0 },
+    { id: 7, type: 'line', x: 50 + side2 - 2 * thickness, y: 150 - lip, w: thickness, h: lip - thickness, angle: 0 },
+    { id: 8,  type: 'circle', x: 50 + thickness + outerRadius, y: 150 - side1 + side3 - outerRadius, r: outerRadius, angle: 90,  rotation: 90,  t: thickness },
+    { id: 9,  type: 'circle', x: 50 + thickness, y: 150 - side1 + thickness,                  r: thickness,   angle: 180, rotation: 180, t: thickness },
+    { id: 10, type: 'circle', x: 50 + side2 - thickness, y: 150 - side1 + thickness,         r: thickness,   angle: 180, rotation: 180, t: thickness },
+    { id: 11, type: 'circle', x: 50 + side2 - thickness - outerRadius, y: 150 - side1 + side3 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 12, type: 'circle', x: 50 + side2 - thickness, y: 150 - thickness,                 r: thickness,   angle: 180, rotation: 0,   t: thickness },
+    { id: 13, type: 'circle', x: 50 + thickness, y: 150 - thickness,                         r: thickness,   angle: 180, rotation: 0,   t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -194,39 +208,24 @@ function Al_h_section_graph({side11, side22, side33, lip1, thickness1, outerRadi
 
   
         {/* Top hat Shape */}
-        <rect x={50} y={150 - side1 + thickness} width={thickness} height={side1-2*thickness} fill="black" />
-        <rect x={50  + thickness} y={150 - side1 + thickness} width={thickness} height={side3-thickness - outerRadius} fill="black" />
-        <rect x={50 + thickness + outerRadius} y={150 - side1 + side3 - thickness} width={side2-2*outerRadius - 2*thickness} height={thickness} fill="black" />
-        <rect x={50 + side2 - thickness} y={150 - side1 + thickness} width={thickness} height={side1-2*thickness} fill="black" />
-        <rect x={50 + side2 - 2*thickness} y={150 - side1 + thickness} width={thickness} height={side3-thickness - outerRadius} fill="black" />
-        <rect x={50 + thickness} y={150 - lip} width={thickness} height={lip - thickness} fill="black" />
-        <rect x={50 + side2 - 2*thickness} y={150 - lip} width={thickness} height={lip - thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - side1 + thickness + 100 - b} width={thickness} height={side1-2*thickness} fill="black" />
+        <rect x={50 + thickness + 100 - a} y={150 - side1 + thickness + 100 - b} width={thickness} height={side3-thickness - outerRadius} fill="black" />
+        <rect x={50 + thickness + outerRadius + 100 - a} y={150 - side1 + side3 - thickness + 100 - b} width={side2-2*outerRadius - 2*thickness} height={thickness} fill="black" />
+        <rect x={50 + side2 - thickness + 100 - a} y={150 - side1 + thickness + 100 - b} width={thickness} height={side1-2*thickness} fill="black" />
+        <rect x={50 + side2 - 2*thickness + 100 - a} y={150 - side1 + thickness + 100 - b} width={thickness} height={side3-thickness - outerRadius} fill="black" />
+        <rect x={50 + thickness + 100 - a} y={150 - lip + 100 - b} width={thickness} height={lip - thickness} fill="black" />
+        <rect x={50 + side2 - 2*thickness + 100 - a} y={150 - lip + 100 - b} width={thickness} height={lip - thickness} fill="black" />
+        <CircleSector radius={outerRadius} centerX={50 + thickness + outerRadius + 100 - a} centerY={150 - side1 + side3 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={50 + thickness + 100 - a} centerY={150 - side1 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={50 + side2 - thickness + 100 - a} centerY={150 - side1 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 - thickness - outerRadius + 100 - a} centerY={150 - side1 + side3 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={50 + side2 - thickness + 100 - a} centerY={150 - thickness + 100 - b} angle={180} rotation={0} thickness={thickness}/>
+        <CircleSector radius={thickness} centerX={50 + thickness + 100 - a} centerY={150 - thickness + 100 - b} angle={180} rotation={0} thickness={thickness}/>
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'B'} val={side22} textHeight={5}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
+        <Liney x1={55 + side2 + 100 - a} x2={55 + side2 + 100 - a} y1={150 - side1 + 100 - b} y2={150 - side1 + side3 + 100 - b} text={'C'} val={side11} textHeight={17}/>
+        <Liney x1={55 + side2 + 100 - a} x2={55 + side2 + 100 - a} y1={150 - lip + 100 - b} y2={150 + 100 - b} text={'l'} val={lip1} textHeight={17}/>
 
-        {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + thickness + outerRadius} centerY={150 - side1 + side3 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + thickness} centerY={150 - side1 + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + side2 - thickness} centerY={150 - side1 + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={outerRadius} centerX={50 + side2 - thickness - outerRadius} centerY={150 - side1 + side3 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + side2 - thickness} centerY={150 - thickness} angle={180} rotation={0} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + thickness} centerY={150 - thickness} angle={180} rotation={0} thickness={thickness}/>
-       
-
-        {/* Horizontal Arrow for B */}
-        <Linex x1={50} x2={50 + side2} y1={155} y2={155} text={'B'} val={side22} textHeight={5}/>
-
-        {/* Vertical Arrow for A */}
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
-
-        {/* Vertical Arrow for C */}
-        <Liney x1={55 + side2} x2={55 + side2} y1={150 - side1} y2={150 - side1 + side3} text={'C'} val={side11} textHeight={17}/>
-
-        {/* Vertical Arrow for lip */}
-        <Liney x1={55 + side2} x2={55 + side2} y1={150 - lip} y2={150} text={'l'} val={lip1} textHeight={17}/>
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

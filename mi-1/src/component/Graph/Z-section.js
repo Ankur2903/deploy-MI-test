@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
 
 function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickness1, outerRadius1, sendValuey}) {
   const mx = Math.max(side11,side33);
@@ -20,9 +21,27 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
 
   const l = (side1 - side4 - outerRadius - (outerRadius - thickness) - (2*outerRadius - thickness)*Math.cos(aa*angle))/(Math.sin(aa*angle));
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + side3 - side2 - (outerRadius - thickness) + (2 * outerRadius - thickness) * Math.sin(aa * angle) - l * Math.cos(aa * angle), y: 150 - thickness, w: side3 - (radius + side3 - side2 - (outerRadius - thickness) + (2 * outerRadius - thickness) * Math.sin(aa * angle) - l * Math.cos(aa * angle)), h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + radius, y: 150 - side1, w: side2 - outerRadius - radius, h: thickness, angle: 0 },
+    { id: 3, type: 'line', x: 50 + side2 - thickness, y: 150 - side1 + outerRadius, w: thickness, h: side1 - side4 - 2 * outerRadius + thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side2 + outerRadius - thickness, y: 150 - side4, w: side3 - side2 - outerRadius + thickness - radius, h: thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + radius, y: 150 - side1 + side4 - thickness, w: side3 - side2 - radius - outerRadius + thickness, h: thickness, angle: 0 },
+    { id: 6, type: 'line', x: 50, y: 150 - side1 + radius, w: thickness, h: side4 - 2 * radius, angle: 0 },
+    { id: 7, type: 'line', x: 50 + side3 - thickness, y: 150 - side4 + radius, w: thickness, h: side4 - 2 * radius, angle: 0 },
+    { id: 8, type: 'line', x: 50 + side3 - side2 - outerRadius + thickness + outerRadius * Math.sin(aa * angle), y: 150 - side1 + side4 + outerRadius - thickness + outerRadius * Math.cos(aa * angle), w: l, h: thickness, angle: 180 - angle },
+    { id: 9, type: 'circle', x: 50 + side3 - side2 - (outerRadius - thickness) + (2 * outerRadius - thickness) * Math.sin(aa * angle) - l * Math.cos(aa * angle), y: 150 - outerRadius, r: outerRadius, angle: 180 - angle, rotation: 90, t: thickness },
+    { id: 10, type: 'circle', x: 50 + radius, y: 150 - side1 + radius, r: radius, angle: 90, rotation: 180, t: thickness },
+    { id: 11, type: 'circle', x: 50 + radius, y: 150 - side1 + side4 - radius, r: radius, angle: 90, rotation: 90, t: thickness },
+    { id: 12, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - side1 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+    { id: 13, type: 'circle', x: 50 + side2 + outerRadius - thickness, y: 150 - side4 - outerRadius + thickness, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 14, type: 'circle', x: 50 + side3 - radius, y: 150 - side4 + radius, r: radius, angle: 90, rotation: 270, t: thickness },
+    { id: 15, type: 'circle', x: 50 + side3 - radius, y: 150 - radius, r: radius, angle: 90, rotation: 0, t: thickness },
+    { id: 16, type: 'circle', x: 50 + side3 - side2 - outerRadius + thickness, y: 150 - side1 + side4 + outerRadius - thickness, r: outerRadius, angle: 180 - angle, rotation: 270, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -199,46 +218,36 @@ function Z_section_graph({ side11, side22,side33,side44, angle1, radius1, thickn
 
 
         {/* Line Shape */}
-        <rect x={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)} y={150 - thickness} width={side3 - (radius + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle))} height={thickness} fill="black" />
-        <rect x={50 + radius} y={150 - side1} width={side2 - outerRadius - radius} height={thickness} fill="black" />
-        <rect x={50 + side2 - thickness} y={150 - side1 + outerRadius} width={thickness} height={side1 - side4 - 2*outerRadius + thickness} fill="black" />
-        <rect x={50 + side2 + outerRadius - thickness} y={150 - side4} width={side3 - side2 - outerRadius + thickness - radius} height={thickness} fill="black" />
-        <rect x={50 + radius} y={150 - side1 + side4 - thickness} width={side3 - side2 - radius - outerRadius + thickness} height={thickness} fill="black" />
-        <rect x={50} y={150 - side1 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
-        <rect x={50 + side3 - thickness} y={150 - side4 + radius} width={thickness} height={side4 - 2*radius} fill="black" />
+        <rect x={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle) + 100 - a} y={150 - thickness + 100 - b} width={side3 - (radius + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle))} height={thickness} fill="black" />
+        <rect x={50 + radius + 100 - a} y={150 - side1 + 100 - b} width={side2 - outerRadius - radius} height={thickness} fill="black" />
+        <rect x={50 + side2 - thickness + 100 - a} y={150 - side1 + outerRadius + 100 - b} width={thickness} height={side1 - side4 - 2*outerRadius + thickness} fill="black" />
+        <rect x={50 + side2 + outerRadius - thickness + 100 - a} y={150 - side4 + 100 - b} width={side3 - side2 - outerRadius + thickness - radius} height={thickness} fill="black" />
+        <rect x={50 + radius + 100 - a} y={150 - side1 + side4 - thickness + 100 - b} width={side3 - side2 - radius - outerRadius + thickness} height={thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - side1 + radius + 100 - b} width={thickness} height={side4 - 2*radius} fill="black" />
+        <rect x={50 + side3 - thickness + 100 - a} y={150 - side4 + radius + 100 - b} width={thickness} height={side4 - 2*radius} fill="black" />
 
-        <LineAtTheta x={50 + side3 - side2 - outerRadius + thickness + outerRadius*Math.sin(aa*angle)} y={150 - side1 + side4 + outerRadius - thickness + outerRadius*Math.cos(aa*angle)} w={l} h={thickness} angle={180 - angle}/>
-        
+        <LineAtTheta x={50 + side3 - side2 - outerRadius + thickness + outerRadius*Math.sin(aa*angle) + 100 - a} y={150 - side1 + side4 + outerRadius - thickness + outerRadius*Math.cos(aa*angle) + 100 - b} w={l} h={thickness} angle={180 - angle}/>
 
-        {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)} centerY={150 - outerRadius} angle={180 - angle} rotation={90} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + radius} centerY={150 -side1 +  radius} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + radius} centerY={150 -side1 + side4 - radius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 -side1 +  outerRadius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness} centerY={150 - side4 - outerRadius + thickness} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + side3 - radius} centerY={150 - side4 +  radius} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={radius} centerX={50 + side3 - radius} centerY={150 - radius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 -outerRadius + thickness} centerY={150 - side1 + side4 + outerRadius - thickness} angle={180 - angle} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle) + 100 - a} centerY={150 - outerRadius + 100 - b} angle={180 - angle} rotation={90} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + radius + 100 - a} centerY={150 - side1 + radius + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + radius + 100 - a} centerY={150 - side1 + side4 - radius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - side1 + outerRadius + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 + outerRadius - thickness + 100 - a} centerY={150 - side4 - outerRadius + thickness + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + side3 - radius + 100 - a} centerY={150 - side4 + radius + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={radius} centerX={50 + side3 - radius + 100 - a} centerY={150 - radius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side3 - side2 - outerRadius + thickness + 100 - a} centerY={150 - side1 + side4 + outerRadius - thickness + 100 - b} angle={180 - angle} rotation={270} thickness={thickness}/>
 
-        {/* Horizontal Arrow for side1 */}
-        <Liney  x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
 
-         {/* Horizontal Arrow for side4 */}
-         <Linex x1={50} x2={50 + side2} y1={145 - side1} y2={145 - side1} text={'B'} val={side22} textHeight={-5}/>
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={145 - side1 + 100 - b} y2={145 - side1 + 100 - b} text={'B'} val={side22} textHeight={-5}/>
 
-        {/* Vertical Arrow for side3 */}
-        <Linex x1={50} x2={50 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>       
-        
-        {/* Horizontal Arrow for side4 */}
-        <Liney x1={55 + side3} x2={55 + side3} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
+        <Linex x1={50 + 100 - a} x2={50 + side3 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'C'} val={side33} textHeight={5}/>       
 
-        {/* Vertical Arrow for radius */}
-        <Linex x1={50 + side3 - radius} x2={50 + side3} y1={145 - side4} y2={145 - side4} text={'R'} val={side33} textHeight={-5}/>  
+        <Liney x1={55 + side3 + 100 - a} x2={55 + side3 + 100 - a} y1={150 - side4 + 100 - b} y2={150 + 100 - b} text={'D'} val={side44} textHeight={17}/>
 
-          {/* Vertical Arrow for radius */}
-        <Linex x1={40 + side3 - side2} x2={40 + side3 - side2} y1={155 - side1 + side4} y2={155 - side1 + side4} text={'θ'} val={side33} textHeight={7} unit={" "}/>  
+        <Linex x1={50 + side3 - radius + 100 - a} x2={50 + side3 + 100 - a} y1={145 - side4 + 100 - b} y2={145 - side4 + 100 - b} text={'R'} val={side33} textHeight={-5}/>  
 
-        
+        <Linex x1={40 + side3 - side2 + 100 - a} x2={40 + side3 - side2 + 100 - a} y1={155 - side1 + side4 + 100 - b} y2={155 - side1 + side4 + 100 - b} text={'θ'} val={side33} textHeight={7} unit={" "}/>  
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

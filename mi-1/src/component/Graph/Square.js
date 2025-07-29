@@ -134,7 +134,7 @@ console.log('COM:', a, b);
   }
 
   const handleSVGClick = (event) => {
-    // return;
+    return;
     if(!dimensioning) return;
     const svg = event.target.closest('svg');
     const { left, top, width, height } = svg.getBoundingClientRect();
@@ -198,7 +198,7 @@ console.log('COM:', a, b);
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        {/* {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness}/>} */}
+        {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness}/>}
 
         {/* square Shape */}
         <rect x={50} y={50 + outerRadius} width={thickness} height={side-2*outerRadius} fill="black" />

@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
 
 function Support_tube_graph({ side11, side22, side33, angle, thickness1, outerRadius1}) {
   const mx = Math.max(side22,side11);
@@ -15,6 +16,22 @@ function Support_tube_graph({ side11, side22, side33, angle, thickness1, outerRa
 
   const aa = Math.PI/180;
   const l = (side2/2 - outerRadius)/Math.sin(aa*angle/2)
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: side3 - outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50, y: 150 - (side1 - l * Math.cos(angle * aa / 2) - outerRadius), w: thickness, h: side1 - 2 * outerRadius - l * Math.cos(angle * aa / 2), angle: 0 },
+    { id: 3, type: 'line', x: 50 + side2 - side3, y: 150 - thickness, w: side3 - outerRadius, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side2 - thickness, y: 150 - (side1 - l * Math.cos(angle * aa / 2) - outerRadius), w: thickness, h: side1 - 2 * outerRadius - l * Math.cos(angle * aa / 2), angle: 0 },
+    { id: 5, type: 'line', x: 50 + outerRadius - outerRadius * Math.cos(aa * angle / 2), y: 150 - (side1 - l * Math.cos(angle * aa / 2) - outerRadius) - outerRadius * Math.sin(aa * angle / 2), w: l, h: thickness, angle: angle / 2 - 90 },
+    { id: 6, type: 'line', x: 50 + side2 / 2 + outerRadius * Math.cos(aa * angle / 2), y: 150 - side1 + outerRadius - outerRadius * Math.sin(aa * angle / 2), w: l, h: thickness, angle: 90 - angle / 2 },
+    { id: 7, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 9, type: 'circle', x: 50 + outerRadius, y: 150 - (side1 - l * Math.cos(angle * aa / 2) - outerRadius), r: outerRadius, angle: angle / 2, rotation: 180, t: thickness },
+    { id: 10, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - (side1 - l * Math.cos(angle * aa / 2) - outerRadius), r: outerRadius, angle: angle / 2, rotation: 0 - (angle / 2), t: thickness },
+    { id: 11, type: 'circle', x: 50 + side2 / 2, y: 150 - side1 + outerRadius, r: outerRadius, angle: 180 - angle, rotation: 180 + angle / 2, t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -180,33 +197,25 @@ function Support_tube_graph({ side11, side22, side33, angle, thickness1, outerRa
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        {/* L Shape */}
-        <rect x={50 + outerRadius} y={150 - thickness} width={side3 - outerRadius} height={thickness} fill="black" />
-        <rect x={50} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius)} width={thickness} height={side1 - 2*outerRadius - l*Math.cos(angle*aa/2)} fill="black"/>
-        <rect x={50 + side2 - side3} y={150 - thickness} width={side3 - outerRadius} height={thickness} fill="black" />
-        <rect x={50 + side2 - thickness} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius)} width={thickness} height={side1 - 2*outerRadius - l*Math.cos(angle*aa/2)} fill="black"/>
-        <LineAtTheta x={50 + outerRadius - outerRadius*Math.cos(aa*angle/2)} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) - outerRadius*Math.sin(aa*angle/2)} w={l} h={thickness} angle={angle/2 - 90}/>
-        <LineAtTheta x={50 + side2/2 + outerRadius*Math.cos(aa*angle/2)} y={150 - side1 + outerRadius - outerRadius*Math.sin(aa*angle/2)} w={l} h={thickness} angle={90 - angle/2}/>
-        
-        {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius)} angle={angle/2} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius} centerY={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius)} angle={angle/2} rotation={0 - (angle/2)} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2/2} centerY={150 - side1 + outerRadius} angle={180 - angle} rotation={180 + angle/2} thickness={thickness}/>
-      
+       
+        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side3 - outerRadius} height={thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) + 100 - b} width={thickness} height={side1 - 2*outerRadius - l*Math.cos(angle*aa/2)} fill="black"/>
+        <rect x={50 + side2 - side3 + 100 - a} y={150 - thickness + 100 - b} width={side3 - outerRadius} height={thickness} fill="black" />
+        <rect x={50 + side2 - thickness + 100 - a} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) + 100 - b} width={thickness} height={side1 - 2*outerRadius - l*Math.cos(angle*aa/2)} fill="black"/>
+        <LineAtTheta x={50 + outerRadius - outerRadius*Math.cos(aa*angle/2) + 100 - a} y={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) - outerRadius*Math.sin(aa*angle/2) + 100 - b} w={l} h={thickness} angle={angle/2 - 90}/>
+        <LineAtTheta x={50 + side2/2 + outerRadius*Math.cos(aa*angle/2) + 100 - a} y={150 - side1 + outerRadius - outerRadius*Math.sin(aa*angle/2) + 100 - b} w={l} h={thickness} angle={90 - angle/2}/>
 
-        {/* Horizontal Arrow for side2 */}
-        <Linex x1={50} x2={50 + side2} y1={165} y2={165} text={'B'} val={side22} textHeight={5}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) + 100 - b} angle={angle/2} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - (side1 - l*Math.cos(angle*aa/2) - outerRadius) + 100 - b} angle={angle/2} rotation={0 - (angle/2)} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side2/2 + 100 - a} centerY={150 - side1 + outerRadius + 100 - b} angle={180 - angle} rotation={180 + angle/2} thickness={thickness}/>
 
-        {/* Horizontal Arrow for side3 */}
-        <Linex x1={50} x2={50 + side3} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>
+        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={165 + 100 - b} y2={165 + 100 - b} text={'B'} val={side22} textHeight={5}/>
+        <Linex x1={50 + 100 - a} x2={50 + side3 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'C'} val={side33} textHeight={5}/>
+        <Linex x1={50 + side2/2 - 10 + 100 - a} x2={50 + side2/2 + 10 + 100 - a} y1={160 - side1 + 100 - b} y2={160 - side1 + 100 - b} text={'θ'} val={angle} textHeight={-15} unit={" "}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
 
-        {/* Horizontal Arrow for side3 */}
-        <Linex x1={50 + side2/2 - 10} x2={50 + side2/2 + 10} y1={160 - side1} y2={160 - side1} text={'θ'} val={angle} textHeight={-15} unit={" "}/>
-
-        {/* Vertical Arrow for A */}
-        <Liney x1={45} x2={45} y1={150 - side1} y2={150} text={'A'} val={side11} textHeight={-17}/>
       
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

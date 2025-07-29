@@ -5,6 +5,7 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import Linez from './Shap/Linez';
+import { COM } from '../AdvanceOutput/COM';
 
 function Trip_tube_graph({ side11, side22, side33, side44, side55, thickness1, outerRadius11, outerRadius22, outerRadius33, outerRadius44, angle1, angle2, angle3, sendValuey}) {
   const mx = Math.max(side22,side11);
@@ -33,6 +34,26 @@ function Trip_tube_graph({ side11, side22, side33, side44, side55, thickness1, o
   const x = 50 + outerRadius1 + outerRadius1*Math.cos(aa*angle2) + l4*Math.sin(aa*angle2) - outerRadius2*Math.cos(aa*(angle3 + angle4))
 
   const y = 150 - side2 + outerRadius1 - outerRadius1*Math.sin(aa*angle2) + l4*Math.cos(aa*angle2) - outerRadius2*Math.sin(aa*(angle3 + angle4))
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + side1 - side3 + outerRadius2, y: 150 - thickness, w: side3 - outerRadius1 - outerRadius2, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + side1 - side3, y: 150 - outerRadius2 - l2, w: thickness, h: l2, angle: 0 },
+    { id: 3, type: 'line', x: 50 + side1 - thickness, y: 150 - side4 + outerRadius2 / Math.tan(aa * angle4 / 2), w: thickness, h: side4 - outerRadius1 - outerRadius2 / Math.tan(aa * angle4 / 2), angle: 0 },
+    { id: 4, type: 'line', x: 50, y: 150 - side2 + outerRadius1, w: thickness, h: side5 - outerRadius1 - outerRadius3 / Math.tan(aa * angle1 / 2), angle: 0 },
+    { id: 5, type: 'line', x: 50 + outerRadius3 + (outerRadius3 - thickness) * Math.cos(aa * angle1), y: 150 - side2 + side5 - outerRadius3 / Math.tan(aa * angle1 / 2) + (outerRadius3 - thickness) * Math.sin(aa * angle1), w: l1, h: thickness, angle: angle1 - 90 },
+    { id: 6, type: 'line', x: 50 + side1 - outerRadius2 - (outerRadius2 - thickness) * Math.cos(aa * angle4), y: 150 - side4 + outerRadius2 / Math.tan(aa * angle4 / 2) - (outerRadius2 - thickness) * Math.sin(aa * angle4), w: l3, h: thickness, angle: angle4 + 90 },
+    { id: 7, type: 'line', x: 50 + outerRadius1 + outerRadius1 * Math.cos(aa * angle2), y: 150 - side2 + outerRadius1 - outerRadius1 * Math.sin(aa * angle2), w: l4, h: thickness, angle: 90 - angle2 },
+    { id: 8, type: 'circle', x: 50 + side1 - side3 + outerRadius2, y: 150 - outerRadius2, r: outerRadius2, angle: 90, rotation: 90, t: thickness },
+    { id: 9, type: 'circle', x: 50 + side1 - outerRadius1, y: 150 - outerRadius1, r: outerRadius1, angle: 90, rotation: 0, t: thickness },
+    { id: 10, type: 'circle', x: 50 + side1 - side3 + thickness - outerRadius4, y: 150 - outerRadius2 - l2, r: outerRadius4, angle: 180 - angle1, rotation: angle1 - 180, t: thickness },
+    { id: 11, type: 'circle', x: 50 + side1 - outerRadius2, y: 150 - side4 + outerRadius2 / Math.tan(aa * angle4 / 2), r: outerRadius2, angle: 180 - angle4, rotation: angle4 - 180, t: thickness },
+    { id: 12, type: 'circle', x: 50 + outerRadius1, y: 150 - side2 + outerRadius1, r: outerRadius1, angle: 180 - angle2, rotation: 180, t: thickness },
+    { id: 13, type: 'circle', x: 50 + outerRadius3, y: 150 - side2 + side5 - outerRadius3 / Math.tan(aa * angle1 / 2), r: outerRadius3, angle: 180 - angle1, rotation: angle1, t: thickness },
+    { id: 14, type: 'circle', x: x, y: y, r: outerRadius2, angle: 180 - angle3, rotation: angle3 + angle4 - 360, t: thickness },
+  ];
+
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -199,73 +220,56 @@ function Trip_tube_graph({ side11, side22, side33, side44, side55, thickness1, o
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50 + side1 - side3 + outerRadius2} y={150 - thickness} width={side3 - outerRadius1 - outerRadius2} height={thickness} fill="black" />
-        <rect x={50 + side1 - side3} y={150 - outerRadius2 - l2} width={thickness} height={l2} fill="black" />
-        <rect x={50 + side1 - thickness} y={150 - side4 + outerRadius2/Math.tan(aa*angle4/2)} width={thickness} height={side4 - outerRadius1 - outerRadius2/Math.tan(aa*angle4/2)} fill="black" />
-        <rect x={50} y={150 - side2 + outerRadius1} width={thickness} height={side5 - outerRadius1 - outerRadius3/Math.tan(aa*angle1/2)} fill="black" />
-       
-       
-        <LineAtTheta x={50 + outerRadius3 + (outerRadius3 - thickness)*Math.cos(aa*angle1)} y = {150 - side2 + side5 - outerRadius3/Math.tan(aa*angle1/2) + (outerRadius3 - thickness)*Math.sin(aa*angle1)} w={l1} h={thickness} angle={angle1 - 90}/>
+        <rect x={50 + side1 - side3 + outerRadius2 + 100 - a} y={150 - thickness + 100 - b} width={side3 - outerRadius1 - outerRadius2} height={thickness} fill="black" />
+        <rect x={50 + side1 - side3 + 100 - a} y={150 - outerRadius2 - l2 + 100 - b} width={thickness} height={l2} fill="black" />
+        <rect x={50 + side1 - thickness + 100 - a} y={150 - side4 + outerRadius2/Math.tan(aa*angle4/2) + 100 - b} width={thickness} height={side4 - outerRadius1 - outerRadius2/Math.tan(aa*angle4/2)} fill="black" />
+        <rect x={50 + 100 - a} y={150 - side2 + outerRadius1 + 100 - b} width={thickness} height={side5 - outerRadius1 - outerRadius3/Math.tan(aa*angle1/2)} fill="black" />
 
-        <LineAtTheta x={50 + side1 - outerRadius2 - (outerRadius2 - thickness)*Math.cos(aa*angle4)} y = {150 - side4 + outerRadius2/Math.tan(aa*angle4/2) - (outerRadius2 - thickness)*Math.sin(aa*angle4)} w={l3} h={thickness} angle={angle4 + 90}/>
+        <LineAtTheta x={50 + outerRadius3 + (outerRadius3 - thickness)*Math.cos(aa*angle1) + 100 - a} y={150 - side2 + side5 - outerRadius3/Math.tan(aa*angle1/2) + (outerRadius3 - thickness)*Math.sin(aa*angle1) + 100 - b} w={l1} h={thickness} angle={angle1 - 90}/>
+        <LineAtTheta x={50 + side1 - outerRadius2 - (outerRadius2 - thickness)*Math.cos(aa*angle4) + 100 - a} y={150 - side4 + outerRadius2/Math.tan(aa*angle4/2) - (outerRadius2 - thickness)*Math.sin(aa*angle4) + 100 - b} w={l3} h={thickness} angle={angle4 + 90}/>
+        <LineAtTheta x={50 + outerRadius1 + outerRadius1*Math.cos(aa*angle2) + 100 - a} y={150 - side2 + outerRadius1 - outerRadius1*Math.sin(aa*angle2) + 100 - b} w={l4} h={thickness} angle={90 - angle2}/>
 
-        <LineAtTheta x={50 + outerRadius1 + outerRadius1*Math.cos(aa*angle2)} y = {150 - side2 + outerRadius1 - outerRadius1*Math.sin(aa*angle2)} w={l4} h={thickness} angle={90 - angle2}/>
-        
+        <CircleSector radius={outerRadius2} centerX={50 + side1 - side3 + outerRadius2 + 100 - a} centerY={150 - outerRadius2 + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={50 + side1 - outerRadius1 + 100 - a} centerY={150 - outerRadius1 + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius4} centerX={50 + side1 - side3 + thickness - outerRadius4 + 100 - a} centerY={150 - outerRadius2 - l2 + 100 - b} angle={180 - angle1} rotation={angle1 - 180} thickness={thickness}/>
+        <CircleSector radius={outerRadius2} centerX={50 + side1 - outerRadius2 + 100 - a} centerY={150 - side4 + outerRadius2/Math.tan(aa*angle4/2) + 100 - b} angle={180 - angle4} rotation={angle4 - 180} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={50 + outerRadius1 + 100 - a} centerY={150 - side2 + outerRadius1 + 100 - b} angle={180 - angle2} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius3} centerX={50 + outerRadius3 + 100 - a} centerY={150 - side2 + side5 - outerRadius3/Math.tan(aa*angle1/2) + 100 - b} angle={180 - angle1} rotation={angle1} thickness={thickness}/>
+        <CircleSector radius={outerRadius2} centerX={x + 100 - a} centerY={y + 100 - b} angle={180 - angle3} rotation={angle3 + angle4 - 360} thickness={thickness}/>
 
-        {/* outer radius */}
-        <CircleSector radius={outerRadius2} centerX={50 + side1 - side3 + outerRadius2} centerY={150 - outerRadius2} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={50 + side1 - outerRadius1} centerY={150 - outerRadius1} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius4} centerX={50 + side1 - side3 + thickness - outerRadius4} centerY={150 - outerRadius2 - l2} angle={180 - angle1} rotation={angle1 - 180} thickness={thickness}/>
-        <CircleSector radius={outerRadius2} centerX={50 + side1 - outerRadius2} centerY={150 - side4 + outerRadius2/Math.tan(aa*angle4/2)} angle={180 - angle4} rotation={angle4 - 180} thickness={thickness}/>
-       <CircleSector radius={outerRadius1} centerX={50 + outerRadius1} centerY={150 - side2 + outerRadius1} angle={180 - angle2} rotation={180} thickness={thickness}/>
-       <CircleSector radius={outerRadius3} centerX={50 + outerRadius3} centerY={150 - side2 + side5 - outerRadius3/Math.tan(aa*angle1/2)} angle={180 - angle1} rotation={angle1} thickness={thickness}/>
-       <CircleSector radius={outerRadius2} centerX={x} centerY={y} angle={180 - angle3} rotation={angle3 + angle4 - 360} thickness={thickness}/>
        
 
         {/* Horizontal Arrow for A */}
-        <Linex x1={50} x2={50 + side1} y1={45} y2={45} text={'A'} val={side11} textHeight={-5}/>
+        <Linex x1={50 + 100 - a} x2={50 + side1 + 100 - a} y1={45 + 100 - b} y2={45 + 100 - b} text={'A'} val={side11} textHeight={-5}/>
 
-        {/* Vertical Arrow for B */}
-        <Liney x1={10} x2={10} y1={150 - side2} y2={150} text={'B'} val={side22} textHeight={17}/>
+        <Liney x1={10 + 100 - a} x2={10 + 100 - a} y1={150 - side2 + 100 - b} y2={150 + 100 - b} text={'B'} val={side22} textHeight={17}/>
 
-        {/* Vertical Arrow for E */}
-        <Liney x1={45} x2={45} y1={150 - side2} y2={150 - side2 + side5} text={'E'} val={side55} textHeight={-17}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side2 + 100 - b} y2={150 - side2 + side5 + 100 - b} text={'E'} val={side55} textHeight={-17}/>
 
-         {/* Vertical Arrow for D */}
-        <Liney x1={55 + side1} x2={55 + side1} y1={150 - side4} y2={150} text={'D'} val={side44} textHeight={17}/>
+        <Liney x1={55 + side1 + 100 - a} x2={55 + side1 + 100 - a} y1={150 - side4 + 100 - b} y2={150 + 100 - b} text={'D'} val={side44} textHeight={17}/>
 
-        {/* Vertical Arrow for C */}
-        <Linex x1={50 + side1 - side3} x2={50 + side1} y1={155} y2={155} text={'C'} val={side33} textHeight={5}/>
+        <Linex x1={50 + side1 - side3 + 100 - a} x2={50 + side1 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'C'} val={side33} textHeight={5}/>
 
-        {/* Vertical Arrow for r1 */}
-        <Liney x1={55 + side1} x2={55 + side1} y1={155} y2={155} text={'R1'} val={outerRadius11} textHeight={17}/>
+        <Liney x1={55 + side1 + 100 - a} x2={55 + side1 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'R1'} val={outerRadius11} textHeight={17}/>
 
-        {/* Vertical Arrow for r1 */}
-        <Liney x1={45} x2={45} y1={145 - side2} y2={145 - side2} text={'R1'} val={outerRadius11} textHeight={-17}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={145 - side2 + 100 - b} y2={145 - side2 + 100 - b} text={'R1'} val={outerRadius11} textHeight={-17}/>
 
-        {/* Vertical Arrow for r2 */}
-        <Liney x1={55 + side1} x2={55 + side1} y1={145 - side4} y2={145 - side4} text={'R2'} val={outerRadius22} textHeight={17}/>
+        <Liney x1={55 + side1 + 100 - a} x2={55 + side1 + 100 - a} y1={145 - side4 + 100 - b} y2={145 - side4 + 100 - b} text={'R2'} val={outerRadius22} textHeight={17}/>
 
-        {/* Vertical Arrow for r2 */}
-        <Liney x1={55 + l4 + outerRadius1 + outerRadius2} x2={55 + l4 + outerRadius1 + outerRadius2} y1={150 - side4 - l3} y2={150 - side4 - l3} text={'R2'} val={outerRadius22} textHeight={17}/>
+        <Liney x1={55 + l4 + outerRadius1 + outerRadius2 + 100 - a} x2={55 + l4 + outerRadius1 + outerRadius2 + 100 - a} y1={150 - side4 - l3 + 100 - b} y2={150 - side4 - l3 + 100 - b} text={'R2'} val={outerRadius22} textHeight={17}/>
 
-        {/* Vertical Arrow for r2 */}
-        <Liney x1={45 + side1 - side3} x2={45 + side1 - side3} y1={145} y2={145} text={'R2'} val={outerRadius22} textHeight={-17}/>
+        <Liney x1={45 + side1 - side3 + 100 - a} x2={45 + side1 - side3 + 100 - a} y1={145 + 100 - b} y2={145 + 100 - b} text={'R2'} val={outerRadius22} textHeight={-17}/>
 
-        {/* Vertical Arrow for r3 */}
-        <Liney x1={45} x2={45 } y1={155 - side2 + side5} y2={155 - side2 + side5} text={'R3'} val={outerRadius33} textHeight={-17}/>
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={155 - side2 + side5 + 100 - b} y2={155 - side2 + side5 + 100 - b} text={'R3'} val={outerRadius33} textHeight={-17}/>
 
-         {/* Vertical Arrow for r4 */}
-        <Liney x1={45 + side1 - side3} x2={45 + side1 - side3} y1={150 - l2} y2={150 - l2} text={'R4'} val={outerRadius44} textHeight={-17}/>
+        <Liney x1={45 + side1 - side3 + 100 - a} x2={45 + side1 - side3 + 100 - a} y1={150 - l2 + 100 - b} y2={150 - l2 + 100 - b} text={'R4'} val={outerRadius44} textHeight={-17}/>
 
-        {/* Vertical Arrow for angle1 */}
-        <Linex x1={60 + thickness} x2={60 + thickness} y1={145 - side2 + side5} y2={145 - side2 + side5} text={'θ1'} val={angle1} textHeight={-5} unit={" "}/>
+        <Linex x1={60 + thickness + 100 - a} x2={60 + thickness + 100 - a} y1={145 - side2 + side5 + 100 - b} y2={145 - side2 + side5 + 100 - b} text={'θ1'} val={angle1} textHeight={-5} unit={" "}/>
 
-        {/* Vertical Arrow for r1 */}
-        <Linex x1={60 + thickness} x2={60 + thickness} y1={155 - side2 + outerRadius1} y2={155 - side2 + outerRadius1} text={'θ2'} val={angle2} textHeight={5} unit={" "}/>
+        <Linex x1={60 + thickness + 100 - a} x2={60 + thickness + 100 - a} y1={155 - side2 + outerRadius1 + 100 - b} y2={155 - side2 + outerRadius1 + 100 - b} text={'θ2'} val={angle2} textHeight={5} unit={" "}/>
 
-        {/* Vertical Arrow for r1 */}
-        <Linex x1={40 + l4 + outerRadius1 + outerRadius2} x2={40 + l4 + outerRadius1 + outerRadius2} y1={155 - side4 - l3} y2={155 - side4 - l3} text={'θ3'} val={angle3} textHeight={5} unit={" "}/>
+        <Linex x1={40 + l4 + outerRadius1 + outerRadius2 + 100 - a} x2={40 + l4 + outerRadius1 + outerRadius2 + 100 - a} y1={155 - side4 - l3 + 100 - b} y2={155 - side4 - l3 + 100 - b} text={'θ3'} val={angle3} textHeight={5} unit={" "}/>
+
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

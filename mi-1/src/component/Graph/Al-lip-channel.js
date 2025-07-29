@@ -3,19 +3,29 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
 
-function Al_lip_channel_graph({ side1, side2, lip1, thickness1, outerRadius1, sendValuey}) {
+function Al_lip_channel_graph({ side1, side2, lip1, thickness1, outerRadius1}) {
   const mx = Math.max(side1,side2);
   const thickness = (thickness1/mx)*Props.ratio
   const sidex = (side1/mx)*Props.ratio
   const sidey = (side2/mx)*Props.ratio
   const lip = (lip1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comy = 50
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50, y: 150 - sidey + thickness, w: thickness, h: sidey - outerRadius - thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + sidex - thickness, y: 150 - sidey + thickness, w: thickness, h: sidey - outerRadius - thickness, angle: 0 },
+    { id: 3, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: sidex - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + thickness, y: 150 - sidey + thickness, w: thickness, h: lip - thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + sidex - 2 * thickness, y: 150 - sidey + thickness, w: thickness, h: lip - thickness, angle: 0 },
+    { id: 6, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + sidex - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 8, type: 'circle', x: 50 + thickness, y: 150 - sidey + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+    { id: 9, type: 'circle', x: 50 + sidex - thickness, y: 150 - sidey + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+  ];
+
+  const {a, b} = COM(predefinedPoints)
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -191,26 +201,20 @@ function Al_lip_channel_graph({ side1, side2, lip1, thickness1, outerRadius1, se
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={50} y={150 - sidey + thickness} width={thickness} height={sidey-outerRadius - thickness} fill="black" />
-        <rect x={50 + sidex - thickness} y={150 - sidey + thickness} width={thickness} height={sidey-outerRadius - thickness} fill="black" />
-        <rect x={50+outerRadius} y={150 - thickness} width={sidex-2*outerRadius} height={thickness} fill="black" />
-        <rect x={50+thickness} y={150 - sidey + thickness} width={thickness} height={lip - thickness} fill="black" />
-        <rect x={50 + sidex - 2*thickness} y={150 - sidey + thickness} width={thickness} height={lip - thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - sidey + thickness + 100 - b} width={thickness} height={sidey - outerRadius - thickness} fill="black" />
+        <rect x={50 + sidex - thickness + 100 - a} y={150 - sidey + thickness + 100 - b} width={thickness} height={sidey - outerRadius - thickness} fill="black" />
+        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />
+        <rect x={50 + thickness + 100 - a} y={150 - sidey + thickness + 100 - b} width={thickness} height={lip - thickness} fill="black" />
+        <rect x={50 + sidex - 2 * thickness + 100 - a} y={150 - sidey + thickness + 100 - b} width={thickness} height={lip - thickness} fill="black" />
 
-        {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius} centerY={150 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + thickness + 100 - a} centerY={150 - sidey + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + sidex - thickness + 100 - a} centerY={150 - sidey + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={50 + sidex - outerRadius} centerY={150 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
+        <Linex x1={50 + 100 - a} x2={50 + sidex + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'w'} val={side1} textHeight={5} />
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - sidey + 100 - b} y2={150 + 100 - b} text={'h'} val={side2} textHeight={-17} />
 
-        <CircleSector radius={thickness} centerX={50 + thickness} centerY={150 - sidey + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={thickness} centerX={50 + sidex - thickness} centerY={150 - sidey + thickness} angle={180} rotation={180} thickness={thickness}/>
-
-        {/* Horizontal Arrow for width */}
-        <Linex x1={50} x2={50 + sidex} y1={155} y2={155} text={'w'} val={side1} textHeight={5}/>
-
-        {/* Vertical Arrow for Height */}
-        <Liney x1={45} x2={45} y1={150 - sidey} y2={150} text={'h'} val={side2} textHeight={-17}/>
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

@@ -4,19 +4,13 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 
-function U_channel_graph({ side1, side2, thickness1, outerRadius1, sendValuey}) {
+function U_channel_graph({ side1, side2, thickness1, outerRadius1}) {
   const mx = Math.max(side1,side2);
   const thickness = (thickness1/mx)*Props.ratio
   const sidex = (side1/mx)*Props.ratio
   const sidey = (side2/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
   const comy = parseFloat(((2*(sidey-outerRadius)*((sidey-outerRadius)/2) + 2*((11*(outerRadius-thickness/2))/7)*(((4*7*(outerRadius - thickness/2))/(66)) + (sidey-outerRadius)) + (sidex - 2*outerRadius)*(sidey - thickness/2))/(((22/7)*(outerRadius - (thickness/2))) + 2*(sidey - outerRadius) + (sidex - 2 * outerRadius))).toFixed(2))
-
-
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
-
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

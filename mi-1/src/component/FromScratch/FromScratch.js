@@ -528,7 +528,7 @@ const FromScratch = () => {
           <input className="input-field" type="number" value={thickness} onChange={(e)=>setThickness(Number(e.target.value))}/>
         </div>
         <div className="container1">
-          <lable className="label">Length: (L) mm</lable>
+          <lable className="label">Length: (L) m</lable>
           <input className="input-field" type="number" value={length} onChange={(e) => setLength(Number(e.target.value))}/>
         </div>
         </>

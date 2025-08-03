@@ -13,7 +13,7 @@ import * as Props from '../constant';
 
 function Square() {
   const [parameters, setParameters] = useState(0)
-  const [side, setSide] = useState(100);
+  const [side, setSide] = useState(40);
   const sideChange = (event) => {
     setSide(parseFloat(event.target.value));
   };

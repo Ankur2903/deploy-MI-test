@@ -8,7 +8,7 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
   const [check, setCheck] = useState(false)
   const [output, setoutput] = useState(false)
   const [tubeMill, setTubeMill] = useState([false, false, false, false, false]);
-  const [openSectionMIll, setOpenSectionMill] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false])
+  const [openSectionMill, setOpenSectionMill] = useState([false, false, false, false, false, false, false, false, false, false, false, false, false, false, false])
 
   const checkchange = () =>{
     tubeMill[0] = (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=320 ) && ( thickness>=0.8 && thickness<=4 ) && method!=="Open Profile" && ["IS 277", "IS 513", "IS 2062", "IS 5986"].includes(material) && ["250", "350"].includes(yst)) ? true : false
@@ -17,8 +17,10 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
     tubeMill[3] = (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=380 ) && ( thickness>=0.8 && thickness<=5 ) && method!=="Open Profile" && ["IS 277", "IS 513", "IS 2062", "IS 5986"].includes(material) && ["250", "350", "450", "550"].includes(yst)) ? true : false
     tubeMill[4] = (band !== "-0.3" &&  ( stripWidth>=35 && stripWidth<=570 ) && ( thickness>=4 && thickness<=12 ) && method!=="Open Profile" && ["IS 2062", "IS 5986"].includes(material) && ["250", "350", "450", "550"].includes(yst)) ? true : false
     setTubeMill([...tubeMill])
+    openSectionMill[0] = (band !== "-0.3" &&  ( stripWidth>=10 && stripWidth<=220 ) && ( thickness>=0.6 && thickness<=3 ) && type==="Open" && ["IS 277", "IS 513", "IS 2062", "IS 5986"].includes(material) && ["250", "350", "450"].includes(yst)) ? true : false
+    setOpenSectionMill([...openSectionMill])
     setCheck(1);
-    if(tubeMill[0] || tubeMill[1] || tubeMill[2] || tubeMill[3] || tubeMill[4]) setoutput(true)
+    if(tubeMill[0] || tubeMill[1] || tubeMill[2] || tubeMill[3] || tubeMill[4] || openSectionMill[0]) setoutput(true)
     else setoutput(false)
   } 
 
@@ -62,9 +64,9 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
             <label>Method of Forming</label>
             <select value={method} onChange={(e) => {setMethod(e.target.value); setCheck(false)}} style={styles.select}>
               <option value="">Select One</option>
-              <option value="Shape">Shape Tube</option>
-              <option value="Open Welded">Open Welded Tube</option>
-              <option value="Open Profile">Open Profile</option>
+              {type === "Close" && <option value="Shape">Shape Tube</option>}
+              {type === "Close" && <option value="Open Welded">Open Welded Tube</option>}
+              {type === "Open" && <option value="Open Profile">Open Profile</option>}
             </select>
           </div>
           <div style={styles.inputGroup}>
@@ -95,7 +97,7 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
               <option value="250">250</option>
               <option value="350">350</option>
               <option value="450">450</option>
-              <option value="550">550</option>
+              <option value="550">550</option >
             </select>
           </div>
         </div>
@@ -105,7 +107,8 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
         <h4 style={styles.subHeading}>Output</h4>
         <div>
           {check && band === "-0.3" && <p style={styles.outputBox2}>This tool cannot check feasibility as the tolerance band is less than 0.3 mm. Please contact the Mother India Engineering Department for a detailed feasibility analysis.</p>}
-          {check && output && band !== "-0.3" && <p style={styles.outputBox1}> This part is feasible under the machine conditions mentioned below.</p>}
+          {check && type === "Close" && output && band !== "-0.3" && <p style={styles.outputBox1}> This part is feasible under the machine conditions mentioned below.</p>}
+          {check && type === "Open" && output && band !== "-0.3" && <p style={styles.outputBox1}> This profile is feasible within the machine conditions available at Mother India. Please contact Mother India Engineering for a detailed feasibility report.</p>}
           {check && tubeMill[0] && <p style={styles.outputBox1}>Tube Mill No-1 {method === "Open Welded" && <><br/>- 8 Forming Pass<br/>- 3 Fin Pass</>} <br/>- 4 Sizing Pass </p>}
           {check && tubeMill[1] && <p style={styles.outputBox1}>Tube Mill No-2 {method === "Open Welded" && <><br/>- 6 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass </p>}
           {check && tubeMill[2] && <p style={styles.outputBox1}>Tube Mill No-3 {method === "Open Welded" && <><br/>- 4 Forming Pass<br/>- 2 Fin Pass</>} <br/>- 3 Sizing Pass  </p>}

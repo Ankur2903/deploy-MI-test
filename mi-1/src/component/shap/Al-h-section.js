@@ -166,7 +166,7 @@ function Al_h_section() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+                <Feasibility type={"Open"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
               </div>  
             </div>
           </div>

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {BrowserRouter as Router, Routes, Route, Navigate,  useLocation} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './component/Navbar'
 import Home from './component/Home'
 import FromTemp from './component/FromTemp';

@@ -114,7 +114,7 @@ function App() {
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
-       <RouteModalCloser/>
+       // <RouteModalCloser/>
         {!loading && 
         <Routes>
           <Route exact path="/" element={<Start/>}/>

@@ -111,10 +111,10 @@ function App() {
     
     <div>
       <Router>
+        <RouteModalCloser/>
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
-       <RouteModalCloser/>
         {!loading && 
         <Routes>
           <Route exact path="/" element={<Start/>}/>

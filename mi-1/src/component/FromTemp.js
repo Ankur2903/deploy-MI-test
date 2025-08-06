@@ -220,7 +220,7 @@ function FromTemp() {
       <ButtonWrapperContainer className='col-md-12'>      
         {/* <!-- Button trigger modal --> */}
         <ButtonWrapper>
-          <Button type="button" className="btn btn" onClick={() => {setTimeout(() => { const modal = new window.bootstrap.Modal(document.getElementById('exampleModal')); modal.show(); }, 500);}}>
+          <Button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
             <Image src={image3} alt="Description of Image" />
           </Button>
           <ButtonText>Round Tube</ButtonText>

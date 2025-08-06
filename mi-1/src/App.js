@@ -88,7 +88,7 @@ import C_pillar from './component/shap/C-pillar';
 import A_post_2 from './component/shap/A-post-2';
 import Front_st_a_pillar from './component/shap/Front-st-a-pillar';
 import D_pillar_rear from './component/shap/D-pillar-rear';
-import RouteModalCloser from './component/RouteModalCloser';
+// import RouteModalCloser from './component/RouteModalCloser';
 
 
 function App() {
@@ -114,7 +114,7 @@ function App() {
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
-       <RouteModalCloser/>
+      
         {!loading && 
         <Routes>
           <Route exact path="/" element={<Start/>}/>

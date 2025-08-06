@@ -14,6 +14,7 @@ import * as Props from '../constant';
 import Image1 from '../Image/Anti-Clockwise.png'
 import Image2 from '../Image/Clockwise.png'
 import Image3 from '../Image/Line.png'
+import e from 'cors';
 
 const FromScratch = () => {
   const [parameters, setParameters] = useState(0)
@@ -54,6 +55,9 @@ const FromScratch = () => {
   const [area, setArea] = useState(0);
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [type, setType] = useState("Open"); 
+  let x;
+  let y;
 
   const handleSVGClick = (event) => {
     if(!dimensioning) return;
@@ -185,6 +189,38 @@ const FromScratch = () => {
     const newHeight = (endY - startY)/ scale;
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
+
+
+  
+  useEffect(() => {
+    const l = shapes.length;
+    if(shapes.length >= 2){
+      x = (shapes[l - 1].type === "Line" && shapes[0].type === "Line") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "Line" && shapes[0].type === "clockwise") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) - shapes[0].radius * Math.sin(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "Line" && shapes[0].type === "anticlockwise") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) + (shapes[0].radius - thickness) * Math.sin(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "Line") ? shapes[l - 1].x + shapes[l - 1].radius * Math.cos(aa * (90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "clockwise") ? shapes[l- 1].x + (shapes[l - 1].radius - shapes[0].radius)*Math.cos(aa*(90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "anticlockwise") ? shapes[l - 1].x + (shapes[l - 1].radius + shapes[0].radius - thickness) * Math.cos(aa * (90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "Line") ? shapes[l - 1].x + (shapes[l - 1].radius - thickness) * Math.cos(aa * (90 - shapes[l - 1].angle + shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "clockwise") ? shapes[l - 1].x + (shapes[l - 1].radius + shapes[0].radius - thickness) * Math.cos(aa * (90 - shapes[l - 1].angle + shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "anticlockwise") ? shapes[l - 1].x + (shapes[l - 1].radius - shapes[0].radius)*Math.cos(aa*(90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) : 0;
+
+        y = (shapes[l - 1].type === "Line" && shapes[0].type === "Line") ? shapes[l - 1].y + shapes[l - 1].length * Math.sin(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "Line" && shapes[0].type === "clockwise") ? shapes[l - 1].y + shapes[l - 1].length * Math.sin(aa * (shapes[l - 1].anglefromx)) + shapes[0].radius * Math.cos(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "Line" && shapes[0].type === "anticlockwise") ? shapes[l - 1].y + shapes[l - 1].length * Math.sin(aa * (shapes[l - 1].anglefromx)) - (shapes[0].radius - thickness) * Math.cos(aa * (shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "Line") ? shapes[l - 1].y - shapes[l - 1].radius * Math.sin(aa * (90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "clockwise") ? shapes[l - 1].y - (shapes[l - 1].radius - shapes[0].radius)*Math.sin(aa*(90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle)))  :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "anticlockwise") ? shapes[l - 1].y - (shapes[l - 1].radius + shapes[0].radius - thickness) * Math.sin(aa * (90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "Line") ? shapes[l - 1].y + (shapes[l - 1].radius - thickness) * Math.sin(aa * (90 - shapes[l - 1].angle + shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "clockwise") ? shapes[l - 1].y + (shapes[l - 1].radius + shapes[0].radius - thickness) * Math.sin(aa * (90 - shapes[l - 1].angle + shapes[l - 1].anglefromx)) :
+        (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "anticlockwise") ? shapes[l - 1].y - (shapes[l - 1].radius - shapes[0].radius)*Math.sin(aa*(90 - (shapes[l - 1].anglefromx + shapes[l - 1].angle))) : 0;
+
+        if((x.toFixed(0)) == shapes[0].x && (y.toFixed(0)) == shapes[0].y) setType("Close");
+        else setType("Open");
+    };
+    
+
+  }, [thickness, click, shapes])
 
   
 
@@ -498,7 +534,7 @@ const FromScratch = () => {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
-              <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
             </div>  
           </div>
         </div>
@@ -512,10 +548,8 @@ const FromScratch = () => {
         <ul className="dropdown-menu">
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li> 
-          
         </ul>
-                <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
-
+          <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
       </div>
     </div>
       <div className = "container">

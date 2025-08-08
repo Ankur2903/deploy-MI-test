@@ -114,7 +114,7 @@ const FromScratch = () => {
 
       outline: (shapes.length === 0 && newShapeType === "Line") ? 2*newShapeLength :
       (shapes.length === 0) ? newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa :
-      (newShapeType === "Line") ? shapes[shapes.length - 1].outline + 2*newShapeLength : shapes[shapes.length - 1].outline + newShapeRadius*newShapeAngle*aa,
+      (newShapeType === "Line") ? shapes[shapes.length - 1].outline + 2*newShapeLength : shapes[shapes.length - 1].outline + newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa,
 
       anglefromx: (shapes.length === 0) ? startAngle%360 : (shapes[shapes.length - 1].type === "Line") ? shapes[shapes.length - 1].anglefromx : (shapes[shapes.length - 1].type === "clockwise") ? (360 + shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle)%360 : (360 + shapes[shapes.length - 1].anglefromx - shapes[shapes.length - 1].angle)%360,
 
@@ -236,7 +236,7 @@ const FromScratch = () => {
 
       shapes[i].outline = (i === 0 && newShapeType === "Line") ? 2*newShapeLength :
       (i === 0) ? newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa :
-      (newShapeType === "Line") ? shapes[i - 1].outline + 2*newShapeLength : shapes[i - 1].outline + newShapeRadius*newShapeAngle*aa;
+      (newShapeType === "Line") ? shapes[i - 1].outline + 2*newShapeLength : shapes[i - 1].outline + newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa;
 
       shapes[i].anglefromx = (i === 0) ? startAngle%360 : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
 

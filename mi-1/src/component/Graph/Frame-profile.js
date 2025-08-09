@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Frame_profile_graph({ side11, side22, side33, side44, side55, thickness1, outerRadius11, outerRadius22, outerRadius33, outerRadius44, angle1, angle2, angle3, angle4, sendValuey}) {
+function Frame_profile_graph({ side11, side22, side33, side44, side55, thickness1, outerRadius11, outerRadius22, outerRadius33, outerRadius44, angle1, angle2, angle3, angle4, sendValue}) {
   const mx = Math.max(side22,side11);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -61,6 +62,18 @@ function Frame_profile_graph({ side11, side22, side33, side44, side55, thickness
     { id: 16, type: 'circle', x: 50 + side1 - outerRadius4, y: 150 - l5 + outerRadius4, r: outerRadius4, angle: 270 - angle4 - angle5, rotation: 90 + angle4 + angle5, t: thickness }
   ];
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

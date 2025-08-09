@@ -45,13 +45,33 @@ function D_section() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
+  const [data, setData] = useState({});
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
-  const [stripWidth,setStripWidth] = useState(0);
+  const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
-  const [area, setArea] = useState(0)
-  const [inertiax, setInertiaX] = useState(0);
-  const [inertiay, setInertiaY] = useState(0);
+  const [area, setArea] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
+  const [inertiax, setInertiax] = useState(0);
+  const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
+
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
+  };
 
   const submitClick = () => {
     setWeightPerLength((((2*side1 - 2*outerRadius - 2*radius) + 2*(side2 - outerRadius - radius) + Math.PI*(outerRadius - 0.6*thickness) + Math.PI*(radius - thickness/2))*thickness*7850*0.000001).toFixed(3));
@@ -63,6 +83,9 @@ function D_section() {
     setOutLine((2*(2*side1 - 2*outerRadius - 2*radius) + 4*(side2 - outerRadius - radius) + Math.PI*(outerRadius -thickness) + Math.PI*(outerRadius) + Math.PI*(2*radius - thickness) + 2*thickness).toFixed(3))
 
     setArea((thickness*((2*side1 - 2*outerRadius - 2*radius) + 4*(side2 - outerRadius - radius)) + (Math.PI/2)*(Math.pow(radius,2) - Math.pow(radius - thickness,2)) +  (Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   };
 
   const resetClick = () => {
@@ -226,7 +249,7 @@ function D_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><D_section_graph side1={side1} side2={side2} radius1 = {radius} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><D_section_graph side1={side1} side2={side2} radius1 = {radius} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

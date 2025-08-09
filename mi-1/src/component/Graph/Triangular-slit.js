@@ -4,8 +4,9 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Linez from './Shap/Linez';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Triangular_slit_graph({side11, side22, thickness1, outerRadius1}){
+function Triangular_slit_graph({side11, side22, thickness1, outerRadius1, sendValue}){
   const mx = Math.max(side11,side11);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -24,6 +25,18 @@ function Triangular_slit_graph({side11, side22, thickness1, outerRadius1}){
 
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

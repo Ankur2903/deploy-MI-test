@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1, outerRadius1}) {
+function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180;
   const A1 = 2*(radius1*Math.sin(aa*angle22) + (outerRadius1 - thickness1)*( - Math.sin(aa*angle11) + Math.sin(aa*angle22)) + ((side11 - thickness1)/Math.sin(aa*angle11) - outerRadius1/Math.tan(aa*(angle11 + angle22)/2) + thickness1/Math.tan(aa*angle11/2))*Math.cos(aa*angle11))
   const B1 = radius1*Math.cos(aa*angle22) + (outerRadius1 - thickness1)*(Math.cos(aa*angle11) + Math.cos(aa*angle22)) + ((side11 - thickness1)/Math.sin(aa*angle11) - outerRadius1/Math.tan(aa*(angle11 + angle22)/2) + thickness1/Math.tan(aa*angle11/2))*Math.sin(aa*angle11)
@@ -35,6 +36,18 @@ function Hand_rail_section_graph({ side11, angle11, angle22, radius1, thickness1
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadius1, angle1, angle2, angle3, angle4, radius1, sendValuey}) {
+function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadius1, angle1, angle2, angle3, angle4, radius1, sendValue}) {
   const aa = Math.PI/180;
   const angle5 = 270 + angle3 - angle1 - angle2 - angle4
   const l11 = side22/Math.sin(aa*angle1) - outerRadius1*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))
@@ -68,6 +69,18 @@ function C_pillar_graph({ side11, side22, side33, side44, thickness1, outerRadiu
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

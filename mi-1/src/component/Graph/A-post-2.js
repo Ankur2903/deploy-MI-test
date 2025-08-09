@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, angle1, angle2, angle3, radius1}) {
+function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, angle1, angle2, angle3, radius1, sendValue }) {
   const aa = Math.PI/180;
   const mx = Math.max(side11 + side22, side33 + side44, side55 + side66);
   const thickness = (thickness1/mx)*Props.ratio
@@ -38,34 +39,38 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
   const x2 = 50 + outerRadius + (2*outerRadius - thickness)*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3)
   const y2 = 150 - side2 - side1 + outerRadius/Math.tan(aa*angle3/2) - (2*outerRadius - thickness)*Math.sin(aa*angle3) + l3*Math.cos(aa*angle3)
 
-
   const predefinedPoints = [
-  // Straight segments
-  { id: 1, type: 'line', x: 50 + outerRadius + side3, y: 150 - thickness, w: side4 - 2 * outerRadius, h: thickness, angle: 0 },
-  { id: 2, type: 'line', x: 50 + side3 + side4 - thickness, y: 150 - side5 + radius / Math.tan(aa * angle1 / 2), w: thickness, h: side5 - outerRadius - radius / Math.tan(aa * angle1 / 2), angle: 0 },
-  { id: 3, type: 'line', x: 50 + side3, y: 150 - side2 + outerRadius - thickness, w: thickness, h: side2 - 2 * outerRadius + thickness, angle: 0 },
-  { id: 4, type: 'line', x: 50, y: 150 - side1 - side2 + outerRadius / Math.tan(aa * angle3 / 2), w: thickness, h: side1 - outerRadius - outerRadius / Math.tan(aa * angle3 / 2), angle: 0 },
-  { id: 5, type: 'line', x: 50 + outerRadius, y: 150 - side2 - thickness, w: side3 - 2 * outerRadius + thickness, h: thickness, angle: 0 },
-
-  // Angled lines
-  { id: 6, type: 'line', x: x1 - (radius - thickness) * Math.cos(aa * angle1), y: y1 - (radius - thickness) * Math.sin(aa * angle1), w: l1, h: thickness, angle: 90 + angle1 },
-  { id: 7, type: 'line', x: x4 + outerRadius * Math.cos(aa * angle3), y: y4 - outerRadius * Math.sin(aa * angle3), w: l3, h: thickness, angle: 90 - angle3 },
-  { id: 8, type: 'line', x: x3 + (outerRadius - thickness) * Math.cos(aa * (angle1 + angle2)), y: y3 + (outerRadius - thickness) * Math.sin(aa * (angle1 + angle2)), w: l2, h: thickness, angle: angle1 + angle2 - 90 },
-
-  // Circle Sectors (rounded corners)
-  { id: 9, type: 'circle', x: 50 + outerRadius, y: 150 - side2 - side1 + outerRadius / Math.tan(aa * angle3 / 2), r: outerRadius, angle: 180 - angle3, rotation: 180, t: thickness },
-  { id: 10, type: 'circle', x: 50 + outerRadius, y: 150 - side2 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
-  { id: 11, type: 'circle', x: 50 + side3 - outerRadius + thickness, y: 150 - side2 + outerRadius - thickness, r: outerRadius, angle: 90, rotation: 270, t: thickness },
-  { id: 12, type: 'circle', x: 50 + side3 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
-  { id: 13, type: 'circle', x: 50 + side3 + side4 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
-  { id: 14, type: 'circle', x: 50 + side3 + side4 - radius, y: 150 - side5 + radius / Math.tan(aa * angle1 / 2), r: radius, angle: 180 - angle1, rotation: angle1 - 180, t: thickness },
-  { id: 15, type: 'circle', x: x3, y: y3, r: outerRadius, angle: 180 - angle2, rotation: angle1 + angle2, t: thickness },
-  { id: 16, type: 'circle', x: x2, y: y2, r: outerRadius, angle: 180 - angle4, rotation: -angle3 + angle4, t: thickness }
-];
+    { id: 1, type: 'line', x: 50 + outerRadius + side3, y: 150 - thickness, w: side4 - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + side3 + side4 - thickness, y: 150 - side5 + radius / Math.tan(aa * angle1 / 2), w: thickness, h: side5 - outerRadius - radius / Math.tan(aa * angle1 / 2), angle: 0 },
+    { id: 3, type: 'line', x: 50 + side3, y: 150 - side2 + outerRadius - thickness, w: thickness, h: side2 - 2 * outerRadius + thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50, y: 150 - side1 - side2 + outerRadius / Math.tan(aa * angle3 / 2), w: thickness, h: side1 - outerRadius - outerRadius / Math.tan(aa * angle3 / 2), angle: 0 },
+    { id: 5, type: 'line', x: 50 + outerRadius, y: 150 - side2 - thickness, w: side3 - 2 * outerRadius + thickness, h: thickness, angle: 0 },
+    { id: 6, type: 'line', x: x1 - (radius - thickness) * Math.cos(aa * angle1), y: y1 - (radius - thickness) * Math.sin(aa * angle1), w: l1, h: thickness, angle: 90 + angle1 },
+    { id: 7, type: 'line', x: x4 + outerRadius * Math.cos(aa * angle3), y: y4 - outerRadius * Math.sin(aa * angle3), w: l3, h: thickness, angle: 90 - angle3 },
+    { id: 8, type: 'line', x: x3 + (outerRadius - thickness) * Math.cos(aa * (angle1 + angle2)), y: y3 + (outerRadius - thickness) * Math.sin(aa * (angle1 + angle2)), w: l2, h: thickness, angle: angle1 + angle2 - 90 },
+    { id: 9, type: 'circle', x: 50 + outerRadius, y: 150 - side2 - side1 + outerRadius / Math.tan(aa * angle3 / 2), r: outerRadius, angle: 180 - angle3, rotation: 180, t: thickness },
+    { id: 10, type: 'circle', x: 50 + outerRadius, y: 150 - side2 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 11, type: 'circle', x: 50 + side3 - outerRadius + thickness, y: 150 - side2 + outerRadius - thickness, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+    { id: 12, type: 'circle', x: 50 + side3 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 13, type: 'circle', x: 50 + side3 + side4 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
+    { id: 14, type: 'circle', x: 50 + side3 + side4 - radius, y: 150 - side5 + radius / Math.tan(aa * angle1 / 2), r: radius, angle: 180 - angle1, rotation: angle1 - 180, t: thickness },
+    { id: 15, type: 'circle', x: x3, y: y3, r: outerRadius, angle: 180 - angle2, rotation: angle1 + angle2, t: thickness },
+    { id: 16, type: 'circle', x: x2, y: y2, r: outerRadius, angle: 180 - angle4, rotation: -angle3 + angle4, t: thickness }
+  ];
 
   const {a, b} = COM(predefinedPoints)
-  console.log('COM:', a, b);
 
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

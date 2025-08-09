@@ -4,8 +4,9 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function L_angle_4_graph({ thickness1, side11, side22, side33, side44, side55, side66, outerRadius1}) {
+function L_angle_4_graph({ thickness1, side11, side22, side33, side44, side55, side66, outerRadius1, sendValue}) {
   const mx = Math.max(side11 + side55 - thickness1,side22 + side66 - thickness1);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -31,6 +32,18 @@ function L_angle_4_graph({ thickness1, side11, side22, side33, side44, side55, s
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

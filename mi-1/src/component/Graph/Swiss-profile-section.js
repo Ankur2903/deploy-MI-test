@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, outerRadius11, outerRadius22}) {
+function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, outerRadius11, outerRadius22, sendValue}) {
   const aa = Math.PI/180
   const mx = Math.max(2*radius22*Math.sin(aa*angle/2), radius22 - (radius22 - radius11)*Math.cos(aa*angle/2));
   const radius1 = (radius11/mx)*Props.ratio
@@ -32,6 +33,18 @@ function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, out
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

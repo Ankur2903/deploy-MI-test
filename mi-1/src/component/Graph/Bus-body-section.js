@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickness1, outerRadius1, sendValuey}) {
+function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickness1, outerRadius1, sendValue}) {
   const mx = Math.max(side11,side33);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -38,6 +39,18 @@ function Bus_body_section_graph({ side11, side22,side33, side44, side55, thickne
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

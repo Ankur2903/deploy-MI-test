@@ -6,8 +6,9 @@ import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import PredefinedPoints from '../PredefinedPoints';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, side77, side88, radius11, radius22, radius33, radius44, radius55, angle11, angle22, thickness1, outerRadius1}) {
+function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, side77, side88, radius11, radius22, radius33, radius44, radius55, angle11, angle22, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180;
   const mx = Math.max(side11, side55);
   const thickness = (thickness1/mx)*Props.ratio
@@ -58,6 +59,18 @@ function Cat_a_piller_graph({ side11, side22, side33, side44, side55, side66, si
 
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

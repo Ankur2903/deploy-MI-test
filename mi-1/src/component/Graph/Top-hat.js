@@ -3,19 +3,42 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  sendValuey}) {
+function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  sendValue}) {
   const mx = Math.max(2*side11 + side33 -2*thickness1,side22);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
   const side2 = (side22/mx)*Props.ratio
   const side3 = (side33/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comy = parseFloat((((((((44/7)*(outerRadius - (thickness/2))) + 2*(side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius)))*(side2/2) - (side3 - 2*side1)*(thickness/2))/(((44/7)*(outerRadius - (thickness/2))) + 2*(side2 - 2*outerRadius) + 2*(side3 - 2*outerRadius) -(side3-2*side1)))).toFixed(2));
 
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50, w: side1 - outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + side1 - thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + outerRadius, w: thickness, h: side2 - 2 * outerRadius, angle: 0 },
+    { id: 3, type: 'line', x: 50 + side1 + outerRadius - thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: side2 - thickness + 50, w: side3 - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side1 + side3 - 2 * thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + outerRadius, w: thickness, h: side2 - 2 * outerRadius, angle: 0 },
+    { id: 5, type: 'line', x: 50 + side1 + side3 - 2 * thickness + outerRadius + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50, w: side1 - outerRadius, h: thickness, angle: 0 },
+    { id: 6, type: 'circle', x: 50 + side1 + outerRadius - thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + side2 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + side1 - outerRadius + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 270, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side1 + side3 + outerRadius - 2 * thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
+    { id: 9, type: 'circle', x: 50 + side1 + side3 - outerRadius - thickness + (100 - (2 * side1 + side3 - 2 * thickness)) / 2, y: 50 + side2 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
+  
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);
@@ -194,33 +217,30 @@ function Top_hat_graph({ side11, side22, side33, thickness1, outerRadius1,  send
 
         
         {/* Top hat Shape */}
-        <rect x={50 + (100 - (2*side1 + side3 -2*thickness))/2} y={100 - comy} width={side1-outerRadius} height={thickness} fill="black" />
-        <rect x={50  + side1 - thickness + (100 - (2*side1 + side3 -2*thickness))/2} y={100 - comy + outerRadius} width={thickness} height={side2-2*outerRadius} fill="black" />
-        <rect x={50 + side1 + outerRadius-thickness + (100 - (2*side1 + side3 -2*thickness))/2} y={side2 - thickness + 100 - comy} width={side3-2*outerRadius} height={thickness} fill="black" />
-        <rect x={50 + side1 + side3-2*thickness + (100 - (2*side1 + side3 -2*thickness))/2} y={100 - comy + outerRadius} width={thickness} height={side2-2*outerRadius} fill="black" />
-        <rect x={50 +side1 + side3 -2*thickness + outerRadius + (100 - (2*side1 + side3 -2*thickness))/2} y={100 - comy} width={side1-outerRadius} height={thickness} fill="black" />
+        <rect x={50 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y={50 + 100 - b} width={side1-outerRadius} height={thickness} fill="black" />
+        <rect x={50 + side1 - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y={50 + outerRadius + 100 - b} width={thickness} height={side2-2*outerRadius} fill="black" />
+        <rect x={50 + side1 + outerRadius - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y={side2 - thickness + 50 + 100 - b} width={side3-2*outerRadius} height={thickness} fill="black" />
+        <rect x={50 + side1 + side3 - 2*thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y={50 + outerRadius + 100 - b} width={thickness} height={side2-2*outerRadius} fill="black" />
+        <rect x={50 + side1 + side3 - 2*thickness + outerRadius + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y={50 + 100 - b} width={side1-outerRadius} height={thickness} fill="black" />
 
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={50 + side1 + outerRadius-thickness + (100 - (2*side1 + side3 -2*thickness))/2} centerY={100 - comy + side2 - outerRadius} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius} centerX={50 + side1 + outerRadius - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} centerY={50 + side2 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side1 - outerRadius + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} centerY={50 + outerRadius + 100 - b} angle={90} rotation={270} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side1 + side3 + outerRadius - 2*thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} centerY={50 + outerRadius + 100 - b} angle={90} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side1 + side3 - outerRadius - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} centerY={50 + side2 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
 
-        <CircleSector radius={outerRadius} centerX={50 + side1 -outerRadius + (100 - (2*side1 + side3 -2*thickness))/2} centerY={100 - comy + outerRadius} angle={90} rotation={270} thickness={thickness}/>
-
-        <CircleSector radius={outerRadius} centerX={50  + side1 + side3 + outerRadius-2*thickness + (100 - (2*side1 + side3 -2*thickness))/2} centerY={100 - comy + outerRadius} angle={90} rotation={180} thickness={thickness}/>
-
-        <CircleSector radius={outerRadius} centerX={50 + side1 + side3 -outerRadius-thickness + (100 - (2*side1 + side3 -2*thickness))/2} centerY={100 - comy + side2 - outerRadius} angle={90} rotation={0} thickness={thickness}/>
-       
-
-         {/* Horizontal Arrow for B */}
-         <Linex x1={50 + side1 - thickness + (100 - (2*side1 + side3 -2*thickness))/2} x2={50 + side1 + side3 -thickness + (100 - (2*side1 + side3 -2*thickness))/2} y1={side2 + 100 - comy + 5} y2={side2 + 100 - comy + 5} text={'w'} val={side33} textHeight={5}/>
+        {/* Horizontal Arrow for B */}
+        <Linex x1={50 + side1 - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} x2={50 + side1 + side3 - thickness + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y1={side2 + 50 + 5 + 100 - b} y2={side2 + 50 + 5 + 100 - b} text={'w'} val={side33} textHeight={5} />
 
         {/* Vertical Arrow for Height */}
-        <Liney x1={45 + (100 - (2*side1 + side3 -2*thickness))/2} x2={45 + (100 - (2*side1 + side3 -2*thickness))/2} y1={100 - comy} y2={100 - comy + side2} text={'h'} val={side22} textHeight={-17}/>
+        <Liney x1={45 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} x2={45 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y1={50 + 100 - b} y2={50 + side2 + 100 - b} text={'h'} val={side22} textHeight={-17} />
 
         {/* Vertical Arrow for thickness */}
-        <Liney x1={55 + side1 + (100 - (2*side1 + side3 -2*thickness))/2} x2={55 + side1 + (100 - (2*side1 + side3 -2*thickness))/2} y1={100 - comy} y2={100 - comy + thickness} text={'t'} val={thickness1} textHeight={15}/>
+        <Liney x1={55 + side1 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} x2={55 + side1 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y1={50 + 100 - b} y2={50 + thickness + 100 - b} text={'t'} val={thickness1} textHeight={15} />
 
         {/* Horizontal Arrow for side1 */}
-        <Linex x1={50 + (100 - (2*side1 + side3 -2*thickness))/2} x2={50+ side1 + (100 - (2*side1 + side3 -2*thickness))/2} y1={100 - comy-5} y2={100 - comy-5} text={'l'} val={side11} textHeight={-5}/>
+        <Linex x1={50 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} x2={50 + side1 + (100 - (2*side1 + side3 -2*thickness))/2 + 100 - a} y1={50 - 5 + 100 - b} y2={50 - 5 + 100 - b} text={'l'} val={side11} textHeight={-5} />
+
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

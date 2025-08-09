@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Door_profile_graph({ side11, side22, side33, side44, side55, side66, side77, side88, angle1, angle2, angle3, thickness1, outerRadius11, outerRadius22}) {
+function Door_profile_graph({ side11, side22, side33, side44, side55, side66, side77, side88, angle1, angle2, angle3, thickness1, outerRadius11, outerRadius22, sendValue}) {
   const aa = Math.PI/180;
   const l11 = side55/Math.sin(aa*angle1) - (2*outerRadius11 - thickness1)/Math.tan(aa*angle1/2)
   const mx = Math.max(side33 + side55, (side44 - (l11 + (2*outerRadius11 - thickness1)/Math.tan(aa*angle1/2))*Math.cos(aa*angle1) - thickness1/Math.tan(aa*angle1/2) + side66));
@@ -51,6 +52,18 @@ function Door_profile_graph({ side11, side22, side33, side44, side55, side66, si
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

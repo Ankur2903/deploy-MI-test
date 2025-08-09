@@ -3,13 +3,37 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
+function Flat_oval_graph({ side1, thickness1, outerRadius1, sendValue}) {
   const mx = Math.max(side1,2*outerRadius1);
   const thickness = (thickness1/mx)*Props.ratio
   const sidex = (side1/mx)*Props.ratio
   const sidey = (2*outerRadius1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
+
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 50 + outerRadius, y: sidey - thickness + 50 + (100 - sidey) / 2, w: sidex - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + outerRadius, y: 50 + (100 - sidey) / 2, w: sidex - 2 * outerRadius, h: thickness, angle: 0 },
+    { id: 3, type: 'circle', x: 50 + outerRadius, y: 50 + sidey - outerRadius + (100 - sidey) / 2, r: sidey / 2, angle: 180, rotation: 90, t: thickness },
+    { id: 4, type: 'circle', x: 50 + sidex - outerRadius, y: 50 + sidey - outerRadius + (100 - sidey) / 2, r: sidey / 2, angle: 180, rotation: 270, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -186,21 +210,14 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1}) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* flatoval Shape */}
-        <rect x={50+outerRadius} y={sidey - thickness + 50 + (100-sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
-        <rect x={50+outerRadius} y={50 + (100-sidey)/2} width={sidex-2*outerRadius} height={thickness} fill="black" />
-        {/* outer radius */}
-        <CircleSector radius={sidey/2} centerX={50 + outerRadius} centerY={50 + sidey - outerRadius + (100-sidey)/2} angle={180} rotation={90} thickness={thickness}/>
+        <rect x={50 + outerRadius + 100 - a} y={sidey - thickness + 50 + (100 - sidey) / 2 + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />
+        <rect x={50 + outerRadius + 100 - a} y={50 + (100 - sidey) / 2 + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />
+        <CircleSector radius={sidey / 2} centerX={50 + outerRadius + 100 - a} centerY={50 + sidey - outerRadius + (100 - sidey) / 2 + 100 - b} angle={180} rotation={90} thickness={thickness} />
+        <CircleSector radius={sidey / 2} centerX={50 + sidex - outerRadius + 100 - a} centerY={50 + sidey - outerRadius + (100 - sidey) / 2 + 100 - b} angle={180} rotation={270} thickness={thickness} />
+        <Linex x1={50 + 100 - a} x2={sidex + 50 + 100 - a} y1={sidey + 55 + (100 - sidey) / 2 + 100 - b} y2={sidey + 55 + (100 - sidey) / 2 + 100 - b} text={'w'} val={side1} textHeight={5} />
+        <Liney x1={55 + sidex + 100 - a} x2={55 + sidex + 100 - a} y1={50 + (100 - sidey) / 2 + 100 - b} y2={50 + sidey + (100 - sidey) / 2 + 100 - b} text={'h'} val={2 * outerRadius1} textHeight={17} />
+        <Linex x1={50 + 100 - a} x2={thickness + 50 + 100 - a} y1={45 + (100 - sidey) / 2 + 100 - b} y2={45 + (100 - sidey) / 2 + 100 - b} text={'t'} val={thickness1} textHeight={-5} />
 
-        <CircleSector radius={sidey/2} centerX={50 + sidex - outerRadius} centerY={50 + sidey - outerRadius + (100-sidey)/2} angle={180} rotation={270} thickness={thickness}/>
-
-        {/* Horizontal Arrow for width */}
-        <Linex x1={50} x2={sidex + 50} y1={sidey+ 55 + (100-sidey)/2} y2={sidey + 55 + (100-sidey)/2} text={'w'} val={side1} textHeight={5}/>
-
-        {/* Vertical Arrow for Height */}
-        <Liney x1={55 + sidex} x2={55 + sidex} y1={50 + (100-sidey)/2} y2={50 + sidey + (100-sidey)/2} text={'h'} val={2*outerRadius1} textHeight={17}/>
-        
-        {/* Horizontal Arrow for Thickness */}
-        <Linex x1={50} x2={thickness + 50} y1={45 + (100-sidey)/2} y2={45 + (100-sidey)/2} text={'t'} val={thickness1} textHeight={-5}/>
         
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

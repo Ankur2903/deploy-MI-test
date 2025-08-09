@@ -54,17 +54,32 @@ function Bus_body_section() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
   const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
 
-  const handleComy = (e) => {
-    setComy(e);
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
   };
 
   const angle = Math.asin((Math.sqrt(Math.pow(2*thickness*(side1 - side4 - side5),2) - 4*(Math.pow(side1 - side4 - side5,2) + Math.pow(side3 - side2 + thickness,2))*(thickness*thickness - (side3 - side2 + thickness)*(side3 - side2 + thickness))) -(2*thickness*(side1 - side4 - side5))) /(2*(Math.pow(side1 - side4 - side5,2) + Math.pow(side3 - side2 + thickness,2))))
@@ -72,7 +87,7 @@ function Bus_body_section() {
   const l = (side3 - side2 + thickness - thickness*Math.cos(angle))/Math.sin(angle) - 2*outerRadius*Math.tan(angle/2)
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001).toFixed(3));
+    setWeightPerLength((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001).toFixed(3));
 
     setTotalWeight(((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001)*length).toFixed(3));
 
@@ -81,6 +96,9 @@ function Bus_body_section() {
     setOutLine(((2*Math.PI + 2*angle)*(2*outerRadius - thickness) + 2*(side1 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*(side2 - 2*outerRadius) + 2*l + 2*(side5 - outerRadius - outerRadius*Math.tan(angle/2)) + 2*(side4 - outerRadius - outerRadius*Math.tan(angle/2)) +  2*thickness).toFixed(3));
 
     setArea((thickness*((side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2))) + (angle + Math.PI)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -92,7 +110,7 @@ function Bus_body_section() {
     setSide3(0);
     setSide4(0);
     setSide5(0);
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -255,7 +273,7 @@ function Bus_body_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><Bus_body_section_graph side11={side1} side22={side2} side33={side3} side44={side4} side55={side5}  thickness1={thickness} outerRadius1={outerRadius} sendValuey={handleComy}/>
+          <div ref={GraphRef}><Bus_body_section_graph side11={side1} side22={side2} side33={side3} side44={side4} side55={side5}  thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/>
         </div></div>
         <div className='box'>
          <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import LineAtTheta from './Shap/LineAtθ';
 import Liney from './Shap/Liney';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angle2, thickness1, outerRadius1}){
+function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angle2, thickness1, outerRadius1, sendValue}){
   const aa = Math.PI/180
   const angle3 = (360 + (180/Math.PI)*Math.atan(side44/(side11/2 - side55/2 - side22/Math.tan(aa*angle1) - side33/Math.tan(aa*(angle1 + angle2)))) - angle2 - angle1)%360
   const angle4 = 540 - angle1 - angle2 - angle3;
@@ -52,6 +53,18 @@ function Trapiz_tube_graph({side11, side22, side33, side44, side55, angle1, angl
 
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

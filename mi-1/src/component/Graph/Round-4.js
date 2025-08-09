@@ -5,8 +5,9 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Liney from './Shap/Liney';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Round_graph_4({side1, radius1, thickness1, outerRadius1 }) {
+function Round_graph_4({side1, radius1, thickness1, outerRadius1, sendValue }) {
 const mx = 2*radius1;
   const radius = 50;
   const thickness = (thickness1 / (2 * radius1)) * Props.ratio
@@ -24,6 +25,18 @@ const mx = 2*radius1;
 ];
 
 const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

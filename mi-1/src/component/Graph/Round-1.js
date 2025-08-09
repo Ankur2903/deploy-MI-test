@@ -5,8 +5,9 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
+function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 , sendValue}) {
   const aa = Math.PI/180;
   const mx = outerRadius1 + radius1 + (radius1 - outerRadius1)/Math.sin(aa*angle1/2);
   const radius = (radius1/mx)*Props.ratio
@@ -22,8 +23,20 @@ function Round_1_graph({ radius1, thickness1, angle1, outerRadius1 }) {
   ];
 
   const {a, b} = COM(predefinedPoints)
-    
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));    
   
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

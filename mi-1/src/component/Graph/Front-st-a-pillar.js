@@ -4,8 +4,9 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1, outerRadius1}) {
+function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180
   const x1 = outerRadius1 - (radius11 + outerRadius1)*Math.cos(aa*angle1)
   const xmx = radius22 + x1
@@ -32,6 +33,18 @@ function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1
 ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

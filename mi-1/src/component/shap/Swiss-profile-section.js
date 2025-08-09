@@ -51,14 +51,33 @@ function Swiss_profile_section() {
     setOuterRadius2(parseFloat(event.target.value));
   };
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
-  const [area, setArea] = useState(0);
   const [outLine, setOutLine] = useState(0);
-  const [inertia, setInertia] = useState(0);
+  const [area, setArea] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
+
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
+  };
 
   const angle2 = (180/Math.PI)*Math.asin(outerRadius2/(radius2 - outerRadius2))
   const angle1 = (180/Math.PI)*Math.asin(outerRadius1/(radius1 - thickness + outerRadius1))
@@ -78,7 +97,7 @@ function Swiss_profile_section() {
   const l = radius2/Math.cos(aa*angle2) - (radius1 - thickness)/Math.cos(aa*angle1)  - radius2*Math.tan(aa*angle2) - (radius1 - thickness)*Math.tan(aa*angle1)
 
   const submitClick = () => {
-    setWeightPerLenght(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001).toFixed(3));
+    setWeightPerLength(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001).toFixed(3));
 
     setTotalWeight(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001* length).toFixed(3));
 
@@ -87,6 +106,9 @@ function Swiss_profile_section() {
     setOutLine((aa*(angle - 2*angle2)*((2*radius1 - thickness) + (2*radius2 - thickness)) + 2*aa*(90 - angle1)*(2*outerRadius1 - thickness)  + 2*aa*(90 + angle2)*(2*outerRadius2 - thickness) + 2*l + 2*thickness).toFixed(3))
 
     setArea(((aa/2)*(angle - 2*angle2)*(Math.pow(radius1,2) + Math.pow(radius2,2) - Math.pow(radius1 - thickness,2) - Math.pow(radius2 - thickness, 2)) + aa*(90 - angle1)*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness, 2)) + aa*(90 + angle2)*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness, 2)) + thickness*l*2).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -97,7 +119,7 @@ function Swiss_profile_section() {
     setAngle(0);
     setOuterRadius1(0);
     setOuterRadius2(0);
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -182,8 +204,8 @@ function Swiss_profile_section() {
     const rows2 = [
       ["Center of mass (x)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
       ["Center of mass (y)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Moment of inertia I(x)", `${inertia} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
-      ["Moment of inertia I(y)", `${inertia} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
+      ["Moment of inertia I(x)", `${inertiax} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
+      ["Moment of inertia I(y)", `${inertiay} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
       ["Moment of resistance W(v)", `___ cm^3`,"Principal axis angle", "___ deg"],
       ["Radius of gyration i(v)", `___ cm`, "Moment of resistance W(x)", "___ cm^3"],
       ["Radius of gyration i(u)", `___ cm`, "Radius of gyration i(x)", "___ cm"],
@@ -257,7 +279,7 @@ function Swiss_profile_section() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><Swiss_profile_section_graph radius11 = {radius1} radius22 = {radius2} angle = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2}/></div>
+          <div ref={GraphRef}><Swiss_profile_section_graph radius11 = {radius1} radius22 = {radius2} angle = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

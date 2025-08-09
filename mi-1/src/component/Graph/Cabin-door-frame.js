@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, outerRadius1}) {
+function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180
   const mx = Math.max(side11 - 2*thickness1 + 2*side33*Math.sin(aa*angle),side22 - side33*Math.cos(aa*angle));
   const thickness = (thickness1/mx)*Props.ratio
@@ -28,6 +29,18 @@ function Cabin_door_frame_graph({ side11, side22, side33, angle, thickness1, out
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

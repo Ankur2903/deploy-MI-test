@@ -38,23 +38,38 @@ function Al_c_section() {
     setSide3(parseFloat(event.target.value));
   };
   
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
   const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
 
-  const handleComy = (e) => {
-    setComy(e);
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
   };
 
   const angle = Math.acos((side3 - side1)/side3)
 
   const submitClick = () => {
-    setWeightPerLenght((7850*(2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3))*thickness*0.000001).toFixed(3));
+    setWeightPerLength((7850*(2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3))*thickness*0.000001).toFixed(3));
 
     setTotalWeight((7850*(2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3))*thickness*0.000001*length).toFixed(3));
 
@@ -63,6 +78,9 @@ function Al_c_section() {
     setOutLine((2*angle*(2*side3 - thickness) + 2*(side2 - 2*side3) + 2*thickness).toFixed(3))
 
     setArea((angle*(Math.pow(side3,2) - Math.pow(thickness,2)) + thickness*(side2 - 2*side3)).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -71,7 +89,7 @@ function Al_c_section() {
     setSide1(0);
     setSide2(0);
     setSide3(0);
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -209,7 +227,7 @@ function Al_c_section() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={GraphRef}><Al_c_section_graph side11 = {side1} side22={side2} side33={side3} thickness1={thickness} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Al_c_section_graph side11 = {side1} side22={side2} side33={side3} thickness1={thickness} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

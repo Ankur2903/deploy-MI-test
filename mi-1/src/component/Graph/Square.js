@@ -5,8 +5,9 @@ import Liney from './Shap/Liney';
 import Linex from './Shap/Linex';
 import PredefinedPoints from '../PredefinedPoints';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Square_graph({ side1, thickness1, outerRadius1}) {
+function Square_graph({ side1, thickness1, outerRadius1, sendValue}) {
   const mx = side1;
   const thickness = (thickness1/side1)*Props.ratio;
   const side = Props.ratio;
@@ -25,8 +26,17 @@ function Square_graph({ side1, thickness1, outerRadius1}) {
 
 const {a, b} = COM(predefinedPoints)
 
-console.log('COM:', a, b);
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
 
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

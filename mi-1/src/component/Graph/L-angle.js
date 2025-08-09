@@ -3,15 +3,36 @@ import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
+import { COM } from '../AdvanceOutput/COM';
 
-function L_angle_graph({ thickness1, length1, height1, outerRadius1}) {
+function L_angle_graph({ thickness1, length1, height1, outerRadius1, sendValue}) {
   const mx = Math.max(...[length1,height1]);
   const thickness = (thickness1/mx)*Props.ratio
   const length = (length1/mx)*Props.ratio
   const height = (height1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
-  const comx = parseFloat(((((length-outerRadius)*(length/2-thickness/2)) + (((44 / 7) * (outerRadius - thickness / 2))*(outerRadius - thickness/2 -((4*7*(outerRadius-thickness))/(3*22)))))/(((11 / 7) * (outerRadius - thickness / 2)) + (height - outerRadius) +  (length - outerRadius))).toFixed(2))
-  const comy = parseFloat(((((height-outerRadius)*(height/2-thickness/2)) + (((44 / 7) * (outerRadius - thickness / 2))*(outerRadius - thickness/2 -((4*7*(outerRadius-thickness))/(3*22)))))/(((11 / 7) * (outerRadius - thickness / 2)) + (height - outerRadius) +  (length - outerRadius))).toFixed(2))
+
+  const predefinedPoints = [
+  { id: 1, type: 'line', x: 50, y: 150 - height, w: thickness, h: height - outerRadius, angle: 0 },
+  { id: 2, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: length - outerRadius, h: thickness, angle: 0 },
+  { id: 3, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness }
+];
+
+const {a, b} = COM(predefinedPoints);
+
+const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -185,19 +206,21 @@ function L_angle_graph({ thickness1, length1, height1, outerRadius1}) {
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={100  - comx - thickness/2} y={100 + comy -height + thickness/2} width={thickness} height={height-outerRadius} fill="black" />
-        <rect x={100  - comx - thickness/2+outerRadius} y={100 - thickness/2 + comy} width={length-outerRadius} height={thickness} fill="black" />
+        <rect x={50 + 100 - a} y={150 - height + 100 - b} width={thickness} height={height - outerRadius} fill="black" />
+        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={length - outerRadius} height={thickness} fill="black" />
+
         {/* Horizontal Arrow for Width */}
-        <Linex x1={100  - comx - thickness/2} x2={length + 100  - comx - thickness/2} y1={height + 100 + comy -height + 5 + thickness/2} y2={height + 100 + comy -height + 5 + thickness/2} text={'w'} val={length1} textHeight={5}/>
-        
+        <Linex x1={50 + 100 - a} x2={50 + length + 100 - a} y1={height + 150 - height + 5 + thickness / 2 + 100 - b} y2={height + 150 - height + 5 + thickness / 2 + 100 - b} text={'w'} val={length1} textHeight={5} />
+
         {/* outer radius */}
-        <CircleSector radius={outerRadius} centerX={100  - comx - thickness/2 + outerRadius} centerY={100 + comy -height + height - outerRadius + thickness/2} angle={90} rotation={90} thickness={thickness}/>
-        
-          {/* Horizontal Arrow for height */}
-        <Liney x1={100  - comx - thickness/2 - 5} x2={100  - comx - thickness/2 - 5} y1={100 + comy -height + thickness/2} y2={100 + comy -height + height + thickness/2} text={'h'} val={height1} textHeight={-17}/>
+        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+
+        {/* Horizontal Arrow for height */}
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - height + 100 - b} y2={150 + 100 - b} text={'h'} val={height1} textHeight={-17} />
 
         {/* Horizontal Arrow for Thickness */}
-        <Linex x1={100  - comx - thickness/2} x2={thickness + 100  - comx - thickness/2} y1={100 + comy -height - 5 + thickness/2} y2={100 + comy -height - 5 + thickness/2} text={'t'} val={thickness1} textHeight={-5}/>
+        <Linex x1={50 + 100 - a} x2={thickness + 50 + 100 - a} y1={145 - height - 5 + thickness / 2 + 100 - b} y2={145 - height - 5 + thickness / 2 + 100 - b} text={'t'} val={thickness1} textHeight={-5} />
+
         </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>

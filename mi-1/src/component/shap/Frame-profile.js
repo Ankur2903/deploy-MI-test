@@ -111,21 +111,36 @@ function Frame_profile() {
 
   const l5 = outerRadius3 + outerRadius3*Math.cos(aa*(angle4 + angle5)) + l4*Math.sin(aa*(angle4 + angle5)) + (outerRadius4 - thickness)*Math.cos(aa*(angle4 + angle5)) + outerRadius4 + thickness
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
   const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
 
-  const handleComy = (e) => {
-    setComy(e);
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
   };
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))*thickness*0.000001).toFixed(3));
+    setWeightPerLength((7850*((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))*thickness*0.000001).toFixed(3));
 
     setTotalWeight((7850*((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))*thickness*0.000001*length).toFixed(3));
 
@@ -134,6 +149,9 @@ function Frame_profile() {
     setOutLine(((3*Math.PI - aa*angle1 - aa*angle3)*(2*outerRadius1 - thickness) + (Math.PI)*(2*outerRadius4 - thickness) +  (Math.PI - aa*angle4)*(2*outerRadius3 - thickness) + (Math.PI - aa*angle2)*(2*outerRadius2 - thickness) + 2*(l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1)))) + 2* thickness).toFixed(3))
 
     setArea(((3*Math.PI/2 - aa*angle1/2 - aa*angle3/2)*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2)) + (Math.PI/2)*(Math.pow(outerRadius4,2) - Math.pow(outerRadius2 - thickness,2)) + (Math.PI/2 - aa*angle4/2)*(Math.pow(outerRadius3,2) - Math.pow(outerRadius3 - thickness,2)) + (Math.PI/2 - aa*angle2/2)*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness,2)) + thickness*(l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -152,7 +170,7 @@ function Frame_profile() {
     setAngle2(0)
     setAngle3(0)
     setAngle4(0)
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -348,7 +366,7 @@ function Frame_profile() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={GraphRef}><Frame_profile_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} outerRadius33={outerRadius3} outerRadius44={outerRadius4} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><Frame_profile_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} outerRadius33={outerRadius3} outerRadius44={outerRadius4} angle1={angle1} angle2={angle2} angle3={angle3} angle4={angle4} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

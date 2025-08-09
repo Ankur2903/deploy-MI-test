@@ -9,6 +9,7 @@ function Elliptical_graph({ thickness1, side11, side22}) {
   const side1 = (side11/mx)*Props.ratio
   const side2 = (side22/mx)*Props.ratio
 
+
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });

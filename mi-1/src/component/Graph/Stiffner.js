@@ -4,8 +4,10 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
+import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Stiffner_graph({side11, side22, side33, side44, angle1, thickness1, outerRadius11, outerRadius22}) {
+function Stiffner_graph({side11, side22, side33, side44, angle1, thickness1, outerRadius11, outerRadius22, sendValue}) {
   const aa = Math.PI/180
   const mx = Math.max(side33, side11);
   const side1 = (side11/mx)*Props.ratio
@@ -17,7 +19,47 @@ function Stiffner_graph({side11, side22, side33, side44, angle1, thickness1, out
   const outerRadius1 = (outerRadius11/mx)*Props.ratio
   const outerRadius2 = (outerRadius22/mx)*Props.ratio
 
-  const  comy = 1//parseFloat(((1)/(1)).toFixed(2))
+  const predefinedPoints = [
+    { id: 1, type: 'line', x: 100 - side3/2, y: 100 - side1/2 + outerRadius1, w: thickness, h: side1 - 2 * outerRadius1, angle: 0 },
+    { id: 2, type: 'line', x: 100 + side3/2 - thickness, y: 100 - side1/2 + outerRadius1, w: thickness, h: side1 - 2 * outerRadius1, angle: 0 },
+    { id: 3, type: 'line', x: 100 - side3/2 + outerRadius1, y: 100 - side1/2, w: side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2), h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 100 - side3/2 + outerRadius1, y: 100 + side1/2 - thickness, w: side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2), h: thickness, angle: 0 },
+    { id: 5, type: 'line', x: 100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2)), y: 100 - side1/2, w: side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2), h: thickness, angle: 0 },
+    { id: 6, type: 'line', x: 100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2)), y: 100 + side1/2 - thickness, w: side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2), h: thickness, angle: 0 },
+    { id: 7, type: 'line', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 - side1/2 + side4, w: side3 - 2 * (side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle)), h: thickness, angle: 0 },
+    { id: 8, type: 'line', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 + side1/2 - side4 - thickness, w: side3 - 2 * (side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle)), h: thickness, angle: 0 },
+    { id: 9, type: 'line', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle), y: 100 - side1/2 + outerRadius1 - outerRadius1 * Math.cos(aa * angle), w: (side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle), h: thickness, angle: angle },
+    { id: 10, type: 'line', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + (outerRadius1 - thickness) * Math.sin(aa * angle), y: 100 + side1/2 - outerRadius1 + (outerRadius1 - thickness) * Math.cos(aa * angle), w: (side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle), h: thickness, angle: -angle },
+    { id: 11, type: 'line', x: 100 + side3/2 - side2 + outerRadius1 * Math.tan(aa * angle / 2) - (outerRadius1 - thickness) * Math.sin(aa * angle), y: 100 - side1/2 + outerRadius1 - (outerRadius1 - thickness) * Math.cos(aa * angle), w: (side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle), h: thickness, angle: 180 - angle },
+    { id: 12, type: 'line', x: 100 + side3/2 - side2 + outerRadius1 * Math.tan(aa * angle / 2) - outerRadius1 * Math.sin(aa * angle), y: 100 + side1/2 - outerRadius1 + outerRadius1 * Math.cos(aa * angle), w: (side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle), h: thickness, angle: 180 + angle },
+    { id: 13, type: 'circle', x: 100 - side3/2 + outerRadius1, y: 100 - side1/2 + outerRadius1, r: outerRadius1, angle: 90, rotation: 180, t: thickness },
+    { id: 14, type: 'circle', x: 100 + side3/2 - outerRadius1, y: 100 - side1/2 + outerRadius1, r: outerRadius1, angle: 90, rotation: 270, t: thickness },
+    { id: 15, type: 'circle', x: 100 - side3/2 + outerRadius1, y: 100 + side1/2 - outerRadius1, r: outerRadius1, angle: 90, rotation: 90, t: thickness },
+    { id: 16, type: 'circle', x: 100 + side3/2 - outerRadius1, y: 100 + side1/2 - outerRadius1, r: outerRadius1, angle: 90, rotation: 0, t: thickness },
+    { id: 17, type: 'circle', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2), y: 100 + side1/2 - outerRadius1, r: outerRadius1, angle: angle, rotation: 90 - angle, t: thickness },
+    { id: 18, type: 'circle', x: 100 - side3/2 + outerRadius1 + side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2), y: 100 - side1/2 + outerRadius1, r: outerRadius1, angle: angle, rotation: 270, t: thickness },
+    { id: 19, type: 'circle', x: 100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2)), y: 100 + side1/2 - outerRadius1, r: outerRadius1, angle: angle, rotation: 90, t: thickness },
+    { id: 20, type: 'circle', x: 100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1 * Math.tan(aa * angle / 2)), y: 100 - side1/2 + outerRadius1, r: outerRadius1, angle: angle, rotation: 270 - angle, t: thickness },
+    { id: 21, type: 'circle', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 - side1/2 + side4 - (outerRadius2 - thickness), r: outerRadius2, angle: angle, rotation: 90, t: thickness },
+    { id: 22, type: 'circle', x: 100 - side3/2 + side2 - outerRadius1 * Math.tan(aa * angle / 2) + outerRadius1 * Math.sin(aa * angle) + ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) + (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 + side1/2 - side4 + (outerRadius2 - thickness), r: outerRadius2, angle: angle, rotation: 270 - angle, t: thickness },
+    { id: 23, type: 'circle', x: 100 + side3/2 - side2 + outerRadius1 * Math.tan(aa * angle / 2) - outerRadius1 * Math.sin(aa * angle) - ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) - (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 + side1/2 - side4 + (outerRadius2 - thickness), r: outerRadius2, angle: angle, rotation: 270, t: thickness },
+    { id: 24, type: 'circle', x: 100 + side3/2 - side2 + outerRadius1 * Math.tan(aa * angle / 2) - outerRadius1 * Math.sin(aa * angle) - ((side4 + outerRadius1 * Math.cos(aa * angle) - outerRadius1 - (outerRadius2 - thickness) * (1 - Math.cos(aa * angle))) / Math.sin(aa * angle)) * Math.cos(aa * angle) - (outerRadius2 - thickness) * Math.sin(aa * angle), y: 100 - side1/2 + side4 - (outerRadius2 - thickness), r: outerRadius2, angle: angle, rotation: 90 - angle, t: thickness }
+  ];
+
+  const {a, b} = COM(predefinedPoints)
+  
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
@@ -193,63 +235,59 @@ function Stiffner_graph({side11, side22, side33, side44, angle1, thickness1, out
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
         {/* L Shape */}
-        <rect x={100 - side3/2} y={100 - side1/2 + outerRadius1} width={thickness} height={side1 - 2*outerRadius1} fill="black" />
-        <rect x={100 + side3/2 - thickness} y={100 - side1/2 + outerRadius1} width={thickness} height={side1 - 2*outerRadius1} fill="black" />
-        <rect x={100 - side3/2 + outerRadius1} y={100 - side1/2} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
-        <rect x={100 - side3/2 + outerRadius1} y={100 + side1/2 - thickness} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
-        <rect x={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))} y={100 - side1/2} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
-        <rect x={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))} y={100 + side1/2 - thickness} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
-
-        <rect x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle)} y={100 - side1/2 + side4} width={side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} height={thickness} fill="black" />
-
-        <rect x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle)} y={100 + side1/2 - side4 - thickness} width={side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} height={thickness} fill="black" />
-       
-        <LineAtTheta x = {100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)} y = {100 - side1/2 + outerRadius1 - outerRadius1*Math.cos(aa*angle)} w = {(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h = {thickness} angle={angle}/>
-
-        <LineAtTheta x = {100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + (outerRadius1 - thickness)*Math.sin(aa*angle)} y = {100 + side1/2 - outerRadius1 + (outerRadius1 - thickness)*Math.cos(aa*angle)} w = {(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h = {thickness} angle={-angle}/>
-
-        <LineAtTheta x = {100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - (outerRadius1 - thickness)*Math.sin(aa*angle)} y = {100 - side1/2 + outerRadius1 - (outerRadius1 - thickness)*Math.cos(aa*angle)} w = {(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h = {thickness} angle={180 - angle}/>
-
-        <LineAtTheta x = {100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle)} y = {100 + side1/2 - outerRadius1 + outerRadius1*Math.cos(aa*angle)} w = {(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h = {thickness} angle={180 + angle}/>
-       
+        <rect x={100 - side3/2 + 100 - a} y={100 - side1/2 + outerRadius1 + 100 - b} width={thickness} height={side1 - 2*outerRadius1} fill="black" />
+        <rect x={100 + side3/2 - thickness + 100 - a} y={100 - side1/2 + outerRadius1 + 100 - b} width={thickness} height={side1 - 2*outerRadius1} fill="black" />
+        <rect x={100 - side3/2 + outerRadius1 + 100 - a} y={100 - side1/2 + 100 - b} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
+        <rect x={100 - side3/2 + outerRadius1 + 100 - a} y={100 + side1/2 - thickness + 100 - b} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
+        <rect x={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 100 - a} y={100 - side1/2 + 100 - b} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
+        <rect x={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 100 - a} y={100 + side1/2 - thickness + 100 - b} width={side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} height={thickness} fill="black" />
 
 
+        <rect x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle) + 100 - a} y={100 - side1/2 + side4 + 100 - b} width={side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} height={thickness} fill="black" />
 
-        
+        <rect x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle) + 100 - a} y={100 + side1/2 - side4 - thickness + 100 - b} width={side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} height={thickness} fill="black"/>
+
+        <LineAtTheta x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle) + 100 - a} y={100 - side1/2 + outerRadius1 - outerRadius1*Math.cos(aa*angle) + 100 - b} w={(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h={thickness} angle={angle}/>
+
+        <LineAtTheta x={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + (outerRadius1 - thickness)*Math.sin(aa*angle) + 100 - a} y={100 + side1/2 - outerRadius1 + (outerRadius1 - thickness)*Math.cos(aa*angle) + 100 - b} w={(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h={thickness} angle={-angle}/>
+
+        <LineAtTheta x={100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - (outerRadius1 - thickness)*Math.sin(aa*angle) + 100 - a} y={100 - side1/2 + outerRadius1 - (outerRadius1 - thickness)*Math.cos(aa*angle) + 100 - b} w={(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h={thickness} angle={180 - angle}/>
+
+        <LineAtTheta x={100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle) + 100 - a} y={100 + side1/2 - outerRadius1 + outerRadius1*Math.cos(aa*angle) + 100 - b} w={(side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)} h={thickness} angle={180 + angle}/>
 
         {/* outer radius */}
-        <CircleSector radius={outerRadius1} centerX={100 - side3/2 + outerRadius1} centerY={100 - side1/2 + outerRadius1} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 + side3/2 - outerRadius1} centerY={100 - side1/2 + outerRadius1} angle={90} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 - side3/2 + outerRadius1} centerY={100 + side1/2 - outerRadius1} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 + side3/2 - outerRadius1} centerY={100 + side1/2 - outerRadius1} angle={90} rotation={0} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2)} centerY={100 + side1/2 - outerRadius1} angle={angle} rotation={90 - angle} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 - side3/2 + outerRadius1 + side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)} centerY={100 - side1/2 + outerRadius1} angle={angle} rotation={270} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))} centerY={100 + side1/2 - outerRadius1} angle={angle} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius1} centerX={100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))} centerY={100 - side1/2 + outerRadius1} angle={angle} rotation={270 - angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 - side3/2 + outerRadius1) + 100 - a} centerY={(100 - side1/2 + outerRadius1) + 100 - b} angle={90} rotation={180} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 + side3/2 - outerRadius1) + 100 - a} centerY={(100 - side1/2 + outerRadius1) + 100 - b} angle={90} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 - side3/2 + outerRadius1) + 100 - a} centerY={(100 + side1/2 - outerRadius1) + 100 - b} angle={90} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 + side3/2 - outerRadius1) + 100 - a} centerY={(100 + side1/2 - outerRadius1) + 100 - b} angle={90} rotation={0} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2)) + 100 - a} centerY={(100 + side1/2 - outerRadius1) + 100 - b} angle={angle} rotation={90 - angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 - side3/2 + outerRadius1 + side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 100 - a} centerY={(100 - side1/2 + outerRadius1) + 100 - b} angle={angle} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))) + 100 - a} centerY={(100 + side1/2 - outerRadius1) + 100 - b} angle={angle} rotation={90} thickness={thickness}/>
+        <CircleSector radius={outerRadius1} centerX={(100 + side3/2 - outerRadius1 - (side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2))) + 100 - a} centerY={(100 - side1/2 + outerRadius1) + 100 - b} angle={angle} rotation={270 - angle} thickness={thickness}/>
 
-        <CircleSector radius={outerRadius2} centerX={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle)} centerY={100 - side1/2 + side4 - (outerRadius2 - thickness)} angle={angle} rotation={90} thickness={thickness}/>
 
-        <CircleSector radius={outerRadius2} centerX={100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle)} centerY={100 + side1/2 - side4 + (outerRadius2 - thickness)} angle={angle} rotation={270 - angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius2} centerX={100 - a + (100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle) + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} centerY={100 - b + (100 - side1/2 + side4 - (outerRadius2 - thickness))} angle={angle} rotation={90} thickness={thickness} />
 
-        <CircleSector radius={outerRadius2} centerX={100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle) - ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) - (outerRadius2 - thickness)*Math.sin(aa*angle)} centerY={100 + side1/2 - side4 + (outerRadius2 - thickness)} angle={angle} rotation={270} thickness={thickness}/>
+        <CircleSector radius={outerRadius2} centerX={100 - a + (100 - side3/2 + side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle) + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))} centerY={100 - b + (100 + side1/2 - side4 + (outerRadius2 - thickness))} angle={angle} rotation={270 - angle} thickness={thickness} />
 
-        <CircleSector radius={outerRadius2} centerX={100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle)  - ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) - (outerRadius2 - thickness)*Math.sin(aa*angle)} centerY={100 - side1/2 + side4 - (outerRadius2 - thickness)} angle={angle} rotation={90 - angle} thickness={thickness}/>
+        <CircleSector radius={outerRadius2} centerX={100 - a + (100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle) - ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) - (outerRadius2 - thickness)*Math.sin(aa*angle))} centerY={100 - b + (100 + side1/2 - side4 + (outerRadius2 - thickness))} angle={angle} rotation={270} thickness={thickness} />
+
+        <CircleSector radius={outerRadius2} centerX={100 - a + (100 + side3/2 - side2 + outerRadius1*Math.tan(aa*angle/2) - outerRadius1*Math.sin(aa*angle) - ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) - (outerRadius2 - thickness)*Math.sin(aa*angle))} centerY={100 - b + (100 - side1/2 + side4 - (outerRadius2 - thickness))} angle={angle} rotation={90 - angle} thickness={thickness} />
+
 
        
-        {/*  Horizontal Arrow for side2*/}
-        <Linex x1={100 - side3/2} x2={100 - side3/2 + side2} y1={95 - side1/2} y2={95 - side1/2} text={'B'} val={side22} textHeight={-10}/>
+        <CircleSector radius={outerRadius2} centerX={100 - side3 / 2 + side2 + 100 - a} />
 
-        {/* Horizontal Arrow for side1 */}
-        <Linex x1={100 - side3/2} x2={100 + side3/2} y1={105 + side1/2} y2={105 + side1/2} text={'C'} val={side33} textHeight={10}/>
+        <Linex x1={100 - side3 / 2 + 100 - a} x2={100 - side3 / 2 + side2 + 100 - a} y1={95 - side1 / 2 + 100 - b} y2={95 - side1 / 2 + 100 - b} text={'B'} val={side22} textHeight={-10} />
 
-        {/* Vertical Arrow for side2 */}
-        <Liney x1={95 - side3/2} x2={95 - side3/2} y1={100 - side1/2} y2={100 + side1/2} text={'A'} val={side11} textHeight={-17}/>
+        <Linex x1={100 - side3 / 2 + 100 - a} x2={100 + side3 / 2 + 100 - a} y1={105 + side1 / 2 + 100 - b} y2={105 + side1 / 2 + 100 - b} text={'C'} val={side33} textHeight={10} />
 
-        {/*Vertical Arrow for r2 */}
-        <Liney x1={100} x2={100} y1={100 - side1/2} y2={100 - side1/2 + side4} text={'D'} val={side44} textHeight={13}/>
+        <Liney x1={95 - side3 / 2 + 100 - a} x2={95 - side3 / 2 + 100 - a} y1={100 - side1 / 2 + 100 - b} y2={100 + side1 / 2 + 100 - b} text={'A'} val={side11} textHeight={-17} />
 
-        {/*Horizontal Arrow for r1 */}
-        <Liney x1={105 - side3/2 + side2} x2={105 - side3/2 + side2} y1={100 + side1/2} y2={100 + side1/2} text={'θ'} val={angle1} textHeight={17}/>
+        <Liney x1={100 + 100 - a} x2={100 + 100 - a} y1={100 - side1 / 2 + 100 - b} y2={100 - side1 / 2 + side4 + 100 - b} text={'D'} val={side44} textHeight={13} />
+
+        <Liney x1={105 - side3 / 2 + side2 + 100 - a} x2={105 - side3 / 2 + side2 + 100 - a} y1={100 + side1 / 2 + 100 - b} y2={100 + side1 / 2 + 100 - b} text={'θ'} val={angle1} textHeight={17} />
+
 
 
       

@@ -5,8 +5,9 @@ import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickness1, outerRadius1}) {
+function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180
   const mx = Math.max(side11, side22, side22 - side33*Math.cos(aa*angle11), side22 - side33*Math.cos(aa*angle11) + side44*Math.cos(aa*(angle11 + angle22)), side33*Math.sin(aa*angle11), side33*Math.sin(aa*angle11) - side44*Math.sin(aa*(angle11 + angle22)))
   const side1 = (side11*Props.ratio)/mx
@@ -47,6 +48,18 @@ function C_post_graph({ side11, side22, side33, side44, angle11, angle22, thickn
   ];
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

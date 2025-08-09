@@ -78,6 +78,34 @@ function A_post_2() {
     setAngle3(parseFloat(event.target.value));
   };
 
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
+  const [totalWeight, setTotalWeight] = useState(0);
+  const [stripWidth, setStripWidth] = useState(0);
+  const [outLine, setOutLine] = useState(0);
+  const [area, setArea] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
+  const [inertiax, setInertiax] = useState(0);
+  const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
+
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
+  };
+
   const aa = Math.PI/180;
   const angle4 =  angle1 + angle2 + angle3 - 180
   const l1 = -side6/Math.cos(aa*angle1) - radius/Math.tan(aa*angle1/2) - outerRadius/Math.tan(aa*angle2/2)
@@ -95,21 +123,9 @@ function A_post_2() {
   const x2 = outerRadius + (2*outerRadius - thickness)*Math.cos(aa*angle3) + l3*Math.sin(aa*angle3)
   const y2 = side2 + side1 - outerRadius/Math.tan(aa*angle3/2) + (2*outerRadius - thickness)*Math.sin(aa*angle3) - l3*Math.cos(aa*angle3)
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
-  const [totalWeight, setTotalWeight] = useState(0);
-  const [stripWidth, setStripWidth] = useState(0);
-  const [outLine, setOutLine] = useState(0);
-  const [area, setArea] = useState(0);
-  const [comy, setComy] = useState(0);
-  const [inertiax, setInertiax] = useState(0);
-  const [inertiay, setInertiay] = useState(0);
-
-  const handleComy = (e) => {
-    setComy(e);
-  };
 
   const submitClick = () => {
-    setWeightPerLenght((7850*((6*Math.PI - aa*(angle2 + angle3 + angle4))*(outerRadius - 0.596*thickness) + (Math.PI - aa*(angle1))*(radius - 0.596*thickness) + (side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)) + (side2 - 2*outerRadius + thickness) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius) + (side5 - outerRadius - radius/Math.tan(aa*angle1/2)) + l1 + l2 + l3)*thickness*0.000001).toFixed(3));
+    setWeightPerLength((7850*((6*Math.PI - aa*(angle2 + angle3 + angle4))*(outerRadius - 0.596*thickness) + (Math.PI - aa*(angle1))*(radius - 0.596*thickness) + (side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)) + (side2 - 2*outerRadius + thickness) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius) + (side5 - outerRadius - radius/Math.tan(aa*angle1/2)) + l1 + l2 + l3)*thickness*0.000001).toFixed(3));
 
     setTotalWeight((7850*((6*Math.PI - aa*(angle2 + angle3 + angle4))*(outerRadius - 0.596*thickness) + (Math.PI - aa*(angle1))*(radius - 0.596*thickness) + (side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)) + (side2 - 2*outerRadius + thickness) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius) + (side5 - outerRadius - radius/Math.tan(aa*angle1/2)) + l1 + l2 + l3)*thickness*0.000001*length).toFixed(3));
 
@@ -118,6 +134,9 @@ function A_post_2() {
     setOutLine(((6*Math.PI - aa*(angle2 + angle3 + angle4))*(2*outerRadius - thickness) + (Math.PI - aa*(angle1))*(2*outerRadius - thickness) + 2*((side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)) + (side2 - 2*outerRadius + thickness) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius) + (side5 - outerRadius - radius/Math.tan(aa*angle1/2)) + l1 + l2 + l3) + 2* thickness).toFixed(3))
 
     setArea(((3*Math.PI - aa*(angle2 + angle3 + angle4)/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + (Math.PI/2 - aa*(angle1)/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + thickness*((side1 - outerRadius - outerRadius/Math.tan(aa*angle3/2)) + (side2 - 2*outerRadius + thickness) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius) + (side5 - outerRadius - radius/Math.tan(aa*angle1/2)) + l1 + l2 + l3)).toFixed(3))
+
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -134,7 +153,7 @@ function A_post_2() {
     setAngle1(0)
     setAngle2(0)
     setAngle3(0)
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -322,7 +341,7 @@ function A_post_2() {
           <button type="button" className="btn btn mx-2" style={{ color: 'white', backgroundColor: '#1b065c'}} onClick={resetClick}>Reset</button>
         </div>
         <div className='box'>
-        <div ref={GraphRef}><A_post_2_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} radius1={radius} sendValuey={handleComy}/></div>
+        <div ref={GraphRef}><A_post_2_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} radius1={radius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

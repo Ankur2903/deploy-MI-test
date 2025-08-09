@@ -34,17 +34,36 @@ function Square() {
     setOuterRadius(parseFloat(event.target.value));
   };
 
-  const [weightPerLength, setWeightPerLenght] = useState(0);
+  const [data, setData] = useState({});
+  const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
   const [stripWidth, setStripWidth] = useState(0);
-  const [area, setArea] = useState(0);
   const [outLine, setOutLine] = useState(0);
-  const [inertia, setInertia] = useState(0);
+  const [area, setArea] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
+
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
+  };
 
   const submitClick = () => {
-    setWeightPerLenght(((2*Math.PI*(outerRadius - thickness*0.6) + 4*(side - 2*outerRadius))*thickness*7850*0.000001).toFixed(3));
+    setWeightPerLength(((2*Math.PI*(outerRadius - thickness*0.6) + 4*(side - 2*outerRadius))*thickness*7850*0.000001).toFixed(3));
 
     setTotalWeight(((2*Math.PI*(outerRadius - thickness*0.6) + 4*(side - 2*outerRadius))*thickness*7850*0.000001* length).toFixed(3));
 
@@ -54,7 +73,8 @@ function Square() {
 
     setArea((thickness*4*(side - 2*outerRadius) + Math.PI*Math.pow(outerRadius,2) - Math.PI*Math.pow(outerRadius - thickness,2)).toFixed(3))
 
-    // setInertia(((4*((Math.pow(outerRadius,4) - Math.pow(outerRadius-thickness,4))*((Math.PI/16) - (4/(9*Math.PI))) + ((Math.PI*(outerRadius - thickness))/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*(outerRadius-thickness))/(3*Math.PI))),2)) +  ((Math.PI*outerRadius)/4)*(Math.pow((((side-2*outerRadius)/2) + ((4*outerRadius)/(3*Math.PI))),2)))  +  2*((side - 2*outerRadius)*(thickness)*((Math.pow(thickness,2)/12) + (Math.pow((side/2 - thickness/2),2))))  +  2*((side - 2*outerRadius)*(thickness)*(Math.pow((side-2*outerRadius),2)/12)))*0.0001).toFixed(3))
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   }
 
   const resetClick = () => {
@@ -62,7 +82,7 @@ function Square() {
     setThickness(0);
     setSide(0);
     setOuterRadius(0);
-    setWeightPerLenght(0);
+    setWeightPerLength(0);
     setTotalWeight(0);
   }
 
@@ -142,8 +162,8 @@ function Square() {
     const rows2 = [
       ["Center of mass (x)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
       ["Center of mass (y)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Moment of inertia I(x)", `${inertia} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
-      ["Moment of inertia I(y)", `${inertia} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
+      ["Moment of inertia I(x)", `${inertiax} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
+      ["Moment of inertia I(y)", `${inertiay} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
       ["Moment of resistance W(v)", `___ cm^3`,"Principal axis angle", "___ deg"],
       ["Radius of gyration i(v)", `___ cm`, "Moment of resistance W(x)", "___ cm^3"],
       ["Radius of gyration i(u)", `___ cm`, "Radius of gyration i(x)", "___ cm"],
@@ -205,7 +225,7 @@ function Square() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><Square_graph side1 = {side} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Square_graph side1 = {side} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

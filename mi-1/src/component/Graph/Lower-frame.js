@@ -4,8 +4,9 @@ import * as Props from '../constant';
 import Linex from './Shap/Linex';
 import Liney from './Shap/Liney';
 import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, side77,thickness1, outerRadius1}) {
+function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, side77,thickness1, outerRadius1, sendValue}) {
   const mx = Math.max(side11,side22, side33, side11 - 2*outerRadius1 + side66, side11 - 2*outerRadius1 + side77, side11 - 4*outerRadius1 + side66 + side77);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -37,6 +38,18 @@ function Lower_frame_graph({ side11, side22, side33, side44, side55, side66, sid
 
 
   const {a, b} = COM(predefinedPoints)
+
+  const translatedPoints = predefinedPoints.map(point => ({
+    ...point,
+    x: point.x + 100 - a,
+    y: point.y + 100 - b
+  }));
+  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
+  }, [Ix, Iy]);
+
 
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);

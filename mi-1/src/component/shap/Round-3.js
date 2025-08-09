@@ -44,13 +44,33 @@ function Round_3() {
     setLength(parseFloat(event.target.value));
   };
 
+  const [data, setData] = useState({});
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [totalWeight, setTotalWeight] = useState(0);
-  const [stripWidth,setStripWidth] = useState(0);
+  const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
-  const [area, setArea] = useState(0)
-  const [inertiax, setInertiaX] = useState(0);
-  const [inertiay, setInertiaY] = useState(0);
+  const [area, setArea] = useState(0);
+  const [comx, setComx] = useState(0); // Center of mass x-coordinate
+  const [comy, setComy] = useState(0); // Center of mass y-coordinate
+  const [inertiax, setInertiax] = useState(0);
+  const [inertiay, setInertiay] = useState(0);
+  const [morx, setMorx] = useState(0); // Moment of resistance W(x)
+  const [mory, setMory] = useState(0); // Moment of resistance W(y)
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
+  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
+  const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
+  const [moru, setMoru] = useState(0); // Moment of resistance W(u)
+  const [morv, setMorv] = useState(0); // Moment of resistance W(v)
+  const [rogu, setRogu] = useState(0); // Radius of gyration I(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration I(v)
+
+  const handleData = (data) => {
+    setData(data); // Receive and store the object
+  };
 
   const submitClick = () => {
     const angle = Math.asin((side2/2 + outerRadius)/(diameter/2 - outerRadius))* (180 / Math.PI);
@@ -65,9 +85,8 @@ function Round_3() {
 
     setOutLine((4*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + 2*(side2 - 2*(outerRadius - thickness)) + 2*(Math.PI/2)*(2*outerRadius - thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(2*outerRadius - thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter - thickness) + 2* thickness).toFixed(3))
 
-    // setInertiaX(((((Math.PI/4)*(Math.pow(side2/2,4) - Math.pow((side2-2*thickness)/2,4))) + ((side1 - side2)*thickness*(Math.pow(thickness,2) + Math.pow(-thickness + side2/2,2)))/6)*0.0001).toFixed(2))
-
-    // setInertiaY(((  2*((Math.pow(side2/2,4) - Math.pow(side2/2 - thickness),4)*(Math.PI/8 - 8/(9*Math.PI)) + ((Math.PI*side2/2)/2)*Math.pow(side1/2 - side2/2 + (4*side2/2)/(3*Math.PI),2) + ((Math.PI*(side2-2*thickness)/2)/2)*Math.pow(side1/2 - (side2-2*thickness)/2 + (4*(side2-2*thickness)/2)/(3*Math.PI),2))  +  (thickness*Math.pow(side1 - side2,3))/6)*0.0001).toFixed(2))
+    setInertiax(data.Ix);
+    setInertiay(data.Iy);
   };
 
   const resetClick = () => {
@@ -234,7 +253,7 @@ function Round_3() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><Round_3_graph side11={side1} side22={side2} diameter1={diameter} thickness1={thickness} outerRadius1={outerRadius}/></div>
+          <div ref={GraphRef}><Round_3_graph side11={side1} side22={side2} diameter1={diameter} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>

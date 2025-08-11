@@ -56,8 +56,7 @@ function Sole_bar_section() {
   const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
   const [area, setArea] = useState(0);
-  const [comx, setComx] = useState(0); // Center of mass x-coordinate
-  const [comy, setComy] = useState(0); // Center of mass y-coordinate
+  
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
   const [morx, setMorx] = useState(0); // Moment of resistance W(x)

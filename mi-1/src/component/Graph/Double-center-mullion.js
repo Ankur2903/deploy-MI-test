@@ -6,7 +6,7 @@ import Liney from './Shap/Liney';
 import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
-function Double_center_mullion_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, sendValuey, sendValue}) {
+function Double_center_mullion_graph({ side11, side22, side33, side44, side55, side66, thickness1, outerRadius1, sendValue}) {
   const mx = Math.max(side44,side11);
   const thickness = (thickness1/mx)*Props.ratio
   const side1 = (side11/mx)*Props.ratio
@@ -53,11 +53,6 @@ function Double_center_mullion_graph({ side11, side22, side33, side44, side55, s
     x: point.x + 100 - a,
     y: point.y + 100 - b
   }));
-  const  comy = 50; 
-
-  React.useEffect(() => {
-    sendValuey((comy/100)*mx);
-  }, [sendValuey]);
 
   const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
 

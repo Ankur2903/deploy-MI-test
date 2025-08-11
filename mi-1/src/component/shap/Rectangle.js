@@ -45,8 +45,7 @@ function Rectangle() {
   const [stripWidth, setStripWidth] = useState(0);
   const [outLine, setOutLine] = useState(0);
   const [area, setArea] = useState(0);
-  const [comx, setComx] = useState(0); // Center of mass x-coordinate
-  const [comy, setComy] = useState(0); // Center of mass y-coordinate
+  
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
   const [morx, setMorx] = useState(0); // Moment of resistance W(x)
@@ -69,15 +68,10 @@ function Rectangle() {
 
   const submitClick = () => {
     setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
-
     setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
-
     setStripWidth((data.sw))
-
     setOutLine(data.ol)
-
     setArea(data.acs)
-
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

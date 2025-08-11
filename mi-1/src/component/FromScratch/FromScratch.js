@@ -14,7 +14,6 @@ import * as Props from '../constant';
 import Image1 from '../Image/Anti-Clockwise.png'
 import Image2 from '../Image/Clockwise.png'
 import Image3 from '../Image/Line.png'
-import e from 'cors';
 
 const FromScratch = () => {
   const [parameters, setParameters] = useState(0)
@@ -146,7 +145,6 @@ const FromScratch = () => {
     (newShape.type === 'Line') ? Math.min(startX , newShape.x + newShape.length*Math.cos(aa*(newShape.anglefromx))) : 
     (newShape.type === 'clockwise' && (newShape.anglefromx<=270 && newShape.angle + newShape.anglefromx >= 270)) ?  Math.min(startX , newShape.x - newShape.radius) : Math.min(startX , newShape.x + newShape.radius*Math.cos(aa*(90 - newShape.anglefromx - newShape.angle)));
 
-
     newShape.endx = 
     (newShape.type === 'Line') ? Math.max(endX , newShape.x + newShape.length*Math.cos(aa*(newShape.anglefromx))) : 
     (newShape.type === 'clockwise' && (newShape.anglefromx<=90 && newShape.angle + newShape.anglefromx >= 90)) ?  Math.max(endX , newShape.x + newShape.radius) : Math.max(endX , newShape.x + newShape.radius*Math.cos(aa*(90 - newShape.anglefromx - newShape.angle)));
@@ -154,7 +152,6 @@ const FromScratch = () => {
     newShape.starty =
     (newShape.type === 'Line') ? Math.min(startY , newShape.y + newShape.length*Math.sin(aa*(newShape.anglefromx))) : 
     (newShape.type === 'clockwise' && (newShape.anglefromx<=360 && newShape.angle + newShape.anglefromx >= 0)) ?  Math.min(startY , newShape.y - newShape.radius) : Math.min(startY , newShape.y + newShape.radius*Math.cos(aa*(90 - newShape.anglefromx - newShape.angle)));
-
 
     newShape.endy = 
     (newShape.type === 'Line') ? Math.max(endY , newShape.y + newShape.length*Math.sin(aa*(newShape.anglefromx))) : 
@@ -183,14 +180,11 @@ const FromScratch = () => {
     setShapes([]);
   }
   
-
   useEffect(() => {
     const newWidth =  (endX - startX)/ scale;
     const newHeight = (endY - startY)/ scale;
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
-
-
   
   useEffect(() => {
     const l = shapes.length;
@@ -218,25 +212,21 @@ const FromScratch = () => {
         if((x.toFixed(0)) == shapes[0].x && (y.toFixed(0)) == shapes[0].y) setType("Close");
         else setType("Open");
     };
-    
-
   }, [thickness, click, shapes])
-
-  
 
   useEffect(() => {
     for (let i = 0; i < shapes.length; i++) {
-      shapes[i].area = (i == 0 && newShapeType === "Line") ? newShapeLength*thickness:
-      (i ===0) ? (aa*newShapeAngle/2)*(Math.pow(newShapeRadius,2) - Math.pow(newShapeRadius - thickness,2)):
-      (newShapeType === "Line") ?  shapes[i - 1].area + newShapeLength*thickness : shapes[i - 1].area + (aa*newShapeAngle/2)*(Math.pow(newShapeRadius,2) - Math.pow(newShapeRadius - thickness,2));
+      shapes[i].area = (i === 0 && shapes[i].type === "Line") ? shapes[i].length*thickness:
+      (i ===0) ? (aa*shapes[i].angle/2)*(Math.pow(shapes[i].radius,2) - Math.pow(shapes[i].radius - thickness,2)):
+      (shapes[i].type === "Line") ?  shapes[i - 1].area + shapes[i].length*thickness : shapes[i - 1].area + (aa*shapes[i].angle/2)*(Math.pow(shapes[i].radius,2) - Math.pow(shapes[i].radius - thickness,2));
 
-      shapes[i].stripwidth = (i === 0 && newShapeType === "Line") ? newShapeLength :
-      (i === 0) ? (newShapeRadius - 0.596*thickness)*newShapeAngle*aa :
-      (newShapeType === "Line") ? shapes[i - 1].stripwidth + newShapeLength : shapes[i - 1].stripwidth + (newShapeRadius - 0.596*thickness)*newShapeAngle*aa;
+      shapes[i].stripwidth = (i === 0 && shapes[i].type === "Line") ? shapes[i].length :
+      (i === 0) ? (shapes[i].radius - 0.596*thickness)*shapes[i].angle*aa :
+      (shapes[i].type === "Line") ? shapes[i - 1].stripwidth + shapes[i].length : shapes[i - 1].stripwidth + (shapes[i].radius - 0.596*thickness)*shapes[i].angle*aa;
 
-      shapes[i].outline = (i === 0 && newShapeType === "Line") ? 2*newShapeLength :
-      (i === 0) ? newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa :
-      (newShapeType === "Line") ? shapes[i - 1].outline + 2*newShapeLength : shapes[i - 1].outline + newShapeRadius*newShapeAngle*aa + (newShapeRadius - thickness)*newShapeAngle*aa;
+      shapes[i].outline = (i === 0 && shapes[i].type === "Line") ? 2*shapes[i].length :
+      (i === 0) ? shapes[i].radius*shapes[i].angle*aa + (shapes[i].radius - thickness)*shapes[i].angle*aa :
+      (shapes[i].type === "Line") ? shapes[i - 1].outline + 2*shapes[i].length : shapes[i - 1].outline + shapes[i].radius*shapes[i].angle*aa + (shapes[i].radius - thickness)*shapes[i].angle*aa;
 
       shapes[i].anglefromx = (i === 0) ? startAngle%360 : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
 
@@ -278,7 +268,6 @@ const FromScratch = () => {
         (shapes[i].type === 'Line') ? Math.max(endY , shapes[i].y + shapes[i].length*Math.sin(aa*(shapes[i].anglefromx))) : 
         (shapes[i].type === 'clockwise' && (shapes[i].anglefromx<=180 && shapes[i].angle + shapes[i].anglefromx >= 180)) ?  Math.max(endY , shapes[i].y + shapes[i].radius) : Math.max(endY , shapes[i].y + shapes[i].radius*Math.cos(aa*(90 - shapes[i].anglefromx - shapes[i].angle)));
 
-
         setStartX(Math.min(startX,shapes[i].startx));
         setStartY(Math.min(startY,shapes[i].starty));
         setEndX(Math.max(endX , shapes[i].endx));
@@ -296,6 +285,7 @@ const FromScratch = () => {
     setSelectedShapeId(id);
     if (selectedShape.type === 'Line') {
       setShapeLength(selectedShape.length);
+      if(id === 1) setStartAngle(selectedShape.anglefromx);
     } 
     else{
       setShapeRadius(selectedShape.radius); 
@@ -316,7 +306,11 @@ const FromScratch = () => {
 
         shapes[i].color = 
         (shapes[i].id === selectedShapeId) ? "black" : shapes[i].color;
+
+        shapes[i].anglefromx = 
+        (shapes[i].id === selectedShapeId && i === 0) ? startAngle : shapes[i].anglefromx;
     }
+    setShapes([...shapes]);
     setClick(1 - click)
     setSelectedShapeId(null)
   };
@@ -467,8 +461,6 @@ const FromScratch = () => {
       STLShapes.push(STLShape) 
     }
 
-       
-
     STLShapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
       const material = new THREE.MeshNormalMaterial();
@@ -526,8 +518,6 @@ const FromScratch = () => {
     });
   };
 
-
-
   return (
     <div>
       <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -573,7 +563,6 @@ const FromScratch = () => {
         <button title='Add Straight Line' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===2 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("Line"); setno(2)}}><img src={Image3} style={{height: "40px"}}/></button>
         <button title='Add Anti-Clockwise Bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===3 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("anticlockwise"); setno(3)}}><img src={Image1} style={{height: "40px"}}/></button></>
       }
-        
         {newShapeType === 'clockwise' && selectedShapeId === null &&  (
           <>
             <div className="container1">
@@ -606,9 +595,7 @@ const FromScratch = () => {
               </div>
             }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
-
           </>
-          
         )}
         {newShapeType === 'anticlockwise' && selectedShapeId === null && (
           <>
@@ -629,7 +616,6 @@ const FromScratch = () => {
           <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
         </>
         )}
-        
 
       {selectedShapeId !== null && !dimensioning && (
         <div className="controls">
@@ -676,8 +662,6 @@ const FromScratch = () => {
       <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-1 my-4"  style={{color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
       </div>   
       </div>
-      
-        
 
         <div className='box'>
         <div ref={cChannelGraphRef}>

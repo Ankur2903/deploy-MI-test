@@ -97,19 +97,14 @@ function Swiss_profile_section() {
   const l = radius2/Math.cos(aa*angle2) - (radius1 - thickness)/Math.cos(aa*angle1)  - radius2*Math.tan(aa*angle2) - (radius1 - thickness)*Math.tan(aa*angle1)
 
   const submitClick = () => {
-    setWeightPerLength(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l)*thickness*7850*0.000001* length).toFixed(3));
-
-    setStripWidth((aa*(angle - 2*angle2)*((radius1 - thickness*0.596) + (radius2 - thickness*0.596)) + 2*aa*(90 - angle1)*(outerRadius1 - thickness*0.596)  + 2*aa*(90 + angle2)*(outerRadius2 - thickness*0.596)  + 2*l).toFixed(3))
-
-    setOutLine((aa*(angle - 2*angle2)*((2*radius1 - thickness) + (2*radius2 - thickness)) + 2*aa*(90 - angle1)*(2*outerRadius1 - thickness)  + 2*aa*(90 + angle2)*(2*outerRadius2 - thickness) + 2*l + 2*thickness).toFixed(3))
-
-    setArea(((aa/2)*(angle - 2*angle2)*(Math.pow(radius1,2) + Math.pow(radius2,2) - Math.pow(radius1 - thickness,2) - Math.pow(radius2 - thickness, 2)) + aa*(90 - angle1)*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness, 2)) + aa*(90 + angle2)*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness, 2)) + thickness*l*2).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

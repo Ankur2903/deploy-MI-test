@@ -90,19 +90,14 @@ function Stiffner() {
   };
 
   const submitClick = () => {
-    setWeightPerLength(((2*Math.PI*(outerRadius1 - thickness*0.596) + 4*aa*angle*(outerRadius1 - thickness*0.596)  + 4*aa*angle*(outerRadius2 - thickness*0.596) + 2*(side1 - 2*outerRadius1) + 4*(side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((2*Math.PI*(outerRadius1 - thickness*0.596) + 4*aa*angle*(outerRadius1 - thickness*0.596)  + 4*aa*angle*(outerRadius2 - thickness*0.596) + 2*(side1 - 2*outerRadius1) + 4*(side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)))*thickness*7850*0.000001* length).toFixed(3));
-
-    setStripWidth((2*Math.PI*(outerRadius1 - thickness*0.596) + 4*aa*angle*(outerRadius1 - thickness*0.596)  + 4*aa*angle*(outerRadius2 - thickness*0.596) + 2*(side1 - 2*outerRadius1) + 4*(side2 - outerRadius1 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))).toFixed(3))
-
-    setOutLine((2*Math.PI*(2*outerRadius1 - thickness) + 4*aa*angle*(2*outerRadius1 - thickness)  + 4*aa*angle*(2*outerRadius2 - thickness) + 2*(side1 - 2*outerRadius2) + 4*(side2 - outerRadius2 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))).toFixed(3))
-
-    setArea((Math.PI*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2)) + 2*aa*angle*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2))  + 2*aa*angle*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness,2)) + thickness*(2*(side1 - 2*outerRadius2) + 4*(side2 - outerRadius2 - outerRadius1*Math.tan(aa*angle/2)) + 2*(side3 - 2*(side2 - outerRadius1*Math.tan(aa*angle/2) + outerRadius1*Math.sin(aa*angle)  + ((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle))*Math.cos(aa*angle) + (outerRadius2 - thickness)*Math.sin(aa*angle))) + 4*((side4 + outerRadius1*Math.cos(aa*angle) - outerRadius1 - (outerRadius2 - thickness)*(1 - Math.cos(aa*angle)))/Math.sin(aa*angle)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

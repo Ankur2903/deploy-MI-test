@@ -139,19 +139,14 @@ function D_pillar_rear() {
   const y3 = y2 - outerRadius*Math.cos(aa*(angle1 + angle2)) - l2*Math.sin(aa*(angle1 + angle2)) - (radius3 - thickness)*Math.cos(aa*(angle1 + angle2))
 
   const submitClick = () => {
-    setWeightPerLength((7850*((3*Math.PI - aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius2 - 0.596*thickness) + (Math.PI - aa*angle3)*(radius3 - 0.596*thickness) + (Math.PI - aa*angle4)*(radius4 - 0.596*thickness) +  (Math.PI - aa*angle5)*(radius1 - 0.596*thickness) + (side1 - 2*outerRadius + thickness) + (side2 - 2*outerRadius) + l1 + l2 + l3 + (side5 - outerRadius))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((3*Math.PI - aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius2 - 0.596*thickness) + (Math.PI - aa*angle3)*(radius3 - 0.596*thickness) + (Math.PI - aa*angle4)*(radius4 - 0.596*thickness) +  (Math.PI - aa*angle5)*(radius1 - 0.596*thickness) + (side1 - 2*outerRadius + thickness) + (side2 - 2*outerRadius) + l1 + l2 + l3 + (side5 - outerRadius))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((3*Math.PI - aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius2 - 0.596*thickness) + (Math.PI - aa*angle3)*(radius3 - 0.596*thickness) + (Math.PI - aa*angle4)*(radius4 - 0.596*thickness) +  (Math.PI - aa*angle5)*(radius1 - 0.596*thickness) + (side1 - 2*outerRadius + thickness) + (side2 - 2*outerRadius) + l1 + l2 + l3 + (side5 - outerRadius)).toFixed(3));
-
-    setOutLine(((3*Math.PI - aa*(angle1 + angle2))*(2*outerRadius - thickness) + (Math.PI/2)*(2*radius2 - thickness) + (Math.PI - aa*angle3)*(2*radius3 - thickness) + (Math.PI - aa*angle4)*(2*radius4 - thickness) +  (Math.PI - aa*angle5)*(2*radius1 - thickness) + 2*(thickness + (side1 - 2*outerRadius + thickness) + (side2 - 2*outerRadius) + l1 + l2 + l3 + (side5 - outerRadius))).toFixed(3))
-
-    setArea(((3*Math.PI/2 - aa*(angle1 + angle2)/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + (Math.PI/4)*(Math.pow(radius2,2) - Math.pow(radius2 - thickness,2)) + (Math.PI/2 - aa*angle3/2)*(Math.pow(radius3,2) - Math.pow(radius3 - thickness,2)) + (Math.PI/2 - aa*angle4/2)*(Math.pow(radius4,2) - Math.pow(radius4 - thickness,2)) + (Math.PI/2 - aa*angle5/2)*(Math.pow(radius1,2) - Math.pow(radius1 - thickness,2)) + thickness*((side1 - 2*outerRadius + thickness) + (side2 - 2*outerRadius) + l1 + l2 + l3 + (side5 - outerRadius))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

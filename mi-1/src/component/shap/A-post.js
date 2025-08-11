@@ -207,24 +207,15 @@ function A_post() {
     });
   };
 
-  const handleComy = (e) => {
-    setComy(e);
-  };
-
   const submitClick = () => {
-    setWeightPerLength((7850*((3*Math.PI + aa*angle)*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + (l) + 2*(side4 - outerRadius - outerRadius*Math.tan(aa*angle/4)) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((3*Math.PI + aa*angle)*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + (l) + 2*(side4 - outerRadius - outerRadius*Math.tan(aa*angle/4)) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((3*Math.PI + aa*angle)*(outerRadius - 0.596*thickness) + aa*(180 - angle)*(r1 - thickness/2) + 2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + (l) + 2*(side4 - outerRadius - outerRadius*Math.tan(aa*angle/4)) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2))).toFixed(3));    
-
-    setOutLine(((3*Math.PI + aa*angle)*(2*outerRadius - thickness) + aa*(180 - angle)*(2*r1 - thickness) + 4*(side1 - 2*outerRadius + thickness) + 4*(side2 - 2*outerRadius + thickness) + 2*(l) + 4*(side3 - outerRadius - r1/Math.tan(angle1*aa/2))  + 4*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)) + 2* thickness).toFixed(3))
-    
-    setArea(((1.5*Math.PI + aa*angle/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + aa*(90 - angle/2)*(Math.pow(r1,2) - Math.pow(r1 - thickness,2)) + (2*(side1 - 2*outerRadius + thickness) + 2*(side2 - 2*outerRadius + thickness) + (l) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)) + 2*(side3 - outerRadius - r1/Math.tan(angle1*aa/2)))*thickness).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

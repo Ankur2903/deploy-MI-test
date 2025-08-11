@@ -95,19 +95,14 @@ function Z_section() {
   const x1 = side3 - side2 - (outerRadius - thickness) + (2*outerRadius - thickness)*Math.sin(aa*angle) - l*Math.cos(aa*angle)
 
   const submitClick = () => {
-    setWeightPerLength((7850*((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness))*thickness*0.000001)*length).toFixed(3));
-
-    setStripWidth(((Math.PI + 2*(Math.PI - aa*angle))*(outerRadius - 0.596*thickness) + 2*Math.PI*(radius - 0.596*thickness) + 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l1 + l + (side1 - side4 - 2*outerRadius + thickness)).toFixed(3));
-
-    setOutLine(((Math.PI + 2*(Math.PI - aa*angle))*(2*outerRadius - thickness) + 2*Math.PI*(2*radius - thickness) +  4*(side4 - 2*radius) + 2*(side2 - outerRadius - radius) + 2*l + 2*l1 + 2*(side1 - side4 - 2*outerRadius + thickness) +  2*thickness).toFixed(3));
-
-    setArea((thickness*( 2*(side4 - 2*radius) + (side2 - outerRadius - radius) + l + l1 + (side1 - side4 - 2*outerRadius + thickness)) + (Math.PI/2 + (Math.PI - aa*angle))*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + Math.PI*(Math.pow(radius,2) - Math.pow(radius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

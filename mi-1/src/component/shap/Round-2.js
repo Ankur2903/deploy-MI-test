@@ -73,18 +73,11 @@ function Round_2() {
   };
 
   const submitClick = () => {
-    const angle = Math.asin(((side2/2) - outerRadius)/(radius - outerRadius));
-
-    setWeightPerLength(((thickness*(2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness))) + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2)*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((thickness*(2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness))) + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2)*7850*0.000001*length).toFixed(3));
-
-    setStripWidth((2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(outerRadius - 0.596*thickness)) + 2*(2*angle)*(radius - thickness/2)).toFixed(3));
-
-    setArea((2*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle)))*thickness + 4*((Math.PI/2 - angle)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)))/2 + 2*(2*angle)*(Math.pow(radius,2) - Math.pow(radius - thickness,2))/2).toFixed(3))
-
-    setOutLine((4*(side1 - 2*(radius - (radius - outerRadius)*Math.cos(angle))) + 4*((Math.PI/2 - angle)*(2*outerRadius - thickness)) + 2*(2*angle)*(2*radius - thickness) + 2*thickness).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

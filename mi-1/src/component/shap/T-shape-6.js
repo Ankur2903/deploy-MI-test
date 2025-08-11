@@ -104,19 +104,14 @@ function T_shape_6() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (4*angle)*(outerRadius1 - 0.596*thickness) +  (4*angle)*(outerRadius2 - 0.596*thickness) + 2*l1 + 2*(side3 - 2*outerRadius) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*(side5 - outerRadius - l2))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(4*Math.PI*(outerRadius - 0.596*thickness) + (4*angle)*(outerRadius1 - 0.596*thickness) +  (4*angle)*(outerRadius2 - 0.596*thickness) + 2*l1 + 2*(side3 - 2*outerRadius) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*(side5 - outerRadius - l2))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((4*Math.PI*(outerRadius - 0.596*thickness) + (4*angle)*(outerRadius1 - 0.596*thickness) +  (4*angle)*(outerRadius2 - 0.596*thickness) + 2*l1 + 2*(side3 - 2*outerRadius) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*(side5 - outerRadius - l2)).toFixed(3));
-
-    setOutLine((4*Math.PI*(2*outerRadius - thickness) + (4*angle)*(2*outerRadius1 - thickness) +  (4*angle)*(2*outerRadius2 - thickness) + 2*(2*l1 + 2*(side3 - 2*outerRadius) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*(side5 - outerRadius - l2)) + 2* thickness).toFixed(3))
-
-    setArea((2*Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (2*angle)*(Math.pow(outerRadius1,2) - Math.pow(thickness,2)) + (2*angle)*(Math.pow(outerRadius2,2) - Math.pow(thickness,2)) + thickness*(2*l1 + 2*(side3 - 2*outerRadius) + (side2 - 2*outerRadius) + (side4 - 2*outerRadius) + 2*(side5 - outerRadius - l2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

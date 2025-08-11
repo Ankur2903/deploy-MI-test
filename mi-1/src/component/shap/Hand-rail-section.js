@@ -85,19 +85,14 @@ function Hand_rail_section() {
   const l1 = (side1 - thickness)/Math.sin(aa*angle1) - outerRadius/Math.tan(aa*(angle1 + angle2)/2) - (outerRadius - thickness)/Math.tan(aa*angle1/2)
 
   const submitClick = () => {
-    setWeightPerLength((7850*((2*Math.PI - 2*aa*angle2)*(radius - 0.596*thickness) + (2*Math.PI - 2*aa*angle1)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + A + l1)*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((2*Math.PI - 2*aa*angle2)*(radius - 0.596*thickness) + (2*Math.PI - 2*aa*angle1)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + A + l1)*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((2*Math.PI - 2*aa*angle2)*(radius - 0.596*thickness) + (2*Math.PI - 2*aa*angle1)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*aa*(angle1 + angle2))*(outerRadius - 0.596*thickness) + A + l1).toFixed(3));
-
-    setOutLine(((2*Math.PI - 2*aa*angle2)*(2*radius - thickness) + (2*Math.PI - 2*aa*angle1)*(2*outerRadius - thickness) + (2*Math.PI - 2*aa*(angle1 + angle2))*(2*outerRadius - thickness) + 2*(A + l1)).toFixed(3))
-
-    setArea(((Math.PI - aa*angle2)*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (Math.PI - aa*angle1)*(Math.pow(radius,2) - Math.pow(thickness,2)) + (Math.PI - aa*(angle1 + angle2))*(Math.pow(radius,2) - Math.pow(thickness,2)) + thickness*(A + l1)).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

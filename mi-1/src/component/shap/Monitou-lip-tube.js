@@ -88,19 +88,14 @@ function Monitou_lip_tube() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius2 - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius2) + (side5 - 2*outerRadius1 + thickness) + (side2 - side5 - side4 - 2*outerRadius1 - thickness)  + 2*(side3 - 2*outerRadius1) + 2*(side1 - side3 - outerRadius1 - outerRadius2 + thickness))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius2 - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius2) + (side5 - 2*outerRadius1 + thickness) + (side2 - side5 - side4 - 2*outerRadius1 - thickness)  + 2*(side3 - 2*outerRadius1) + 2*(side1 - side3 - outerRadius1 - outerRadius2 + thickness))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius2 - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius2) + (side5 - 2*outerRadius1 + thickness) + (side2 - side5 - side4 - 2*outerRadius1 - thickness)  + 2*(side3 - 2*outerRadius1) + 2*(side1 - side3 - outerRadius1 - outerRadius2 + thickness)).toFixed(3));
-
-    setOutLine((3*Math.PI*(2*outerRadius1 - thickness) + Math.PI*(2*outerRadius2 - thickness) + 2*(thickness + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius2) + (side5 - 2*outerRadius1 + thickness) + (side2 - side5 - side4 - 2*outerRadius1 - thickness)  + 2*(side3 - 2*outerRadius1) + 2*(side1 - side3 - outerRadius1 - outerRadius2 + thickness))).toFixed(3))
-
-    setArea((1.5*Math.PI*(Math.pow(outerRadius1,2) - Math.pow(thickness,2)) + 0.5*Math.PI*(Math.pow(outerRadius2,2) - Math.pow(thickness,2)) + thickness*((side2 - 2*outerRadius1) + (side4 - 2*outerRadius2) + (side5 - 2*outerRadius1 + thickness) + (side2 - side5 - side4 - 2*outerRadius1 - thickness)  + 2*(side3 - 2*outerRadius1) + 2*(side1 - side3 - outerRadius1 - outerRadius2 + thickness))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

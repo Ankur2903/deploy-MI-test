@@ -87,19 +87,14 @@ function Al_lip_cover() {
   const l = side1 - side4 - outerRadius + outerRadius/Math.tan(aa*angle/2) + thickness*Math.sin(aa*angle) + x*Math.cos(aa*angle) - 2*outerRadius*Math.sin(aa*angle)
 
   const submitClick = () => {
-    setWeightPerLength((7850*(Math.PI*(outerRadius - 0.596*thickness) + 4*(Math.PI - angle*aa)*(outerRadius - 0.596*thickness) + 2*l + 2*x + (side2 - 2*outerRadius) - 2*(side4 - outerRadius/Math.tan(aa*angle/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(Math.PI*(outerRadius - 0.596*thickness) + 4*(Math.PI - angle*aa)*(outerRadius - 0.596*thickness) + 2*l + 2*x + (side2 - 2*outerRadius) - 2*(side4 - outerRadius/Math.tan(aa*angle/2)))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((Math.PI*(outerRadius - 0.596*thickness) + 4*(Math.PI - angle*aa)*(outerRadius - 0.596*thickness) + 2*l + 2*x + (side2 - 2*outerRadius) - 2*(side4 - outerRadius/Math.tan(aa*angle/2))).toFixed(3));
-
-    setOutLine((Math.PI*(2*outerRadius - thickness) + 4*(Math.PI - angle*aa)*(2*outerRadius - thickness) + 4*l + 4*x + 2*(side2 - 2*outerRadius) - 4*(side4 - outerRadius/Math.tan(aa*angle/2)) + 2*thickness).toFixed(3))
-
-    setArea((Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + 2*(Math.PI - angle*aa)*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + thickness*(2*l + 2*x + (side2 - 2*outerRadius) - 2*(side4 - outerRadius/Math.tan(aa*angle/2)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

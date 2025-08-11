@@ -87,19 +87,14 @@ function Bus_body_section() {
   const l = (side3 - side2 + thickness - thickness*Math.cos(angle))/Math.sin(angle) - 2*outerRadius*Math.tan(angle/2)
 
   const submitClick = () => {
-    setWeightPerLength((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2)))*thickness*0.000001)*length).toFixed(3));
-
-    setStripWidth(((2*Math.PI + 2*angle)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2))).toFixed(3));
-
-    setOutLine(((2*Math.PI + 2*angle)*(2*outerRadius - thickness) + 2*(side1 - 2*outerRadius) + 2*(side3 - 2*outerRadius) + 2*(side2 - 2*outerRadius) + 2*l + 2*(side5 - outerRadius - outerRadius*Math.tan(angle/2)) + 2*(side4 - outerRadius - outerRadius*Math.tan(angle/2)) +  2*thickness).toFixed(3));
-
-    setArea((thickness*((side1 - 2*outerRadius) + (side3 - 2*outerRadius) + (side2 - 2*outerRadius) + l + (side5 - outerRadius - outerRadius*Math.tan(angle/2)) + (side4 - outerRadius - outerRadius*Math.tan(angle/2))) + (angle + Math.PI)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

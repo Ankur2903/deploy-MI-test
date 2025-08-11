@@ -68,20 +68,15 @@ function U_channel() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(Math.PI*(outerRadius - 0.596*thickness) + 2*(side2 - outerRadius) + (side1 - 2*outerRadius))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*(Math.PI*(outerRadius - 0.596*thickness) + 2*(side2 - outerRadius) + (side1 - 2*outerRadius))*thickness*0.000001)*length).toFixed(3));
-
-    setStripWidth((Math.PI*(outerRadius - 0.596*thickness) + 2*(side2 - outerRadius) + (side1 - 2*outerRadius)).toFixed(3));
-
-    setOutLine((Math.PI*(2*outerRadius - thickness) + 4*(side2 - outerRadius) + 2*(side1 - 2*outerRadius) + 2*thickness).toFixed(3))
-
-    setArea((thickness*(2*(side2 - outerRadius) + (side1 - 2*outerRadius)) + (Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };
-
+  
   const resetClick = () => {
     setLength(parseFloat(0));
     setThickness(parseFloat(0));

@@ -111,19 +111,14 @@ function Al_skirt_rail() {
 
 
   const submitClick = () => {
-    setWeightPerLength((7850*((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((Math.PI + 2*aa*angle2)*(outerRadius - 0.596*thickness) + (Math.PI)*(radius - 0.596*thickness) + l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius)).toFixed(3));
-
-    setOutLine(((Math.PI + 2*aa*angle2)*(2*outerRadius - thickness) + (Math.PI)*(2*radius - thickness) + 2*(thickness +  l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))).toFixed(3))
-
-    setArea(((Math.PI/2 + aa*angle2)*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + (Math.PI/2)*(Math.pow(radius,2) - Math.pow(thickness,2)) + thickness*(thickness +  l + l2 + (side1 - radius - outerRadius/Math.tan(aa*angle1/2)) + (side3 - outerRadius(Math.tan(aa*angle1) + 1/Math.tan(aa*angle2/2))) + (x4 - radius))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

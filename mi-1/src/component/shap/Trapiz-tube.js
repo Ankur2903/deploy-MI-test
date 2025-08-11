@@ -92,16 +92,11 @@ function Trapiz_tube() {
 
 
   const submitClick = () => {
-    setWeightPerLength((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))*thickness* 0.000001*length).toFixed(3));
-
-    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2)))).toFixed(3));
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*(2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))).toFixed(3))
-
-    setArea((Math.PI*(Math.pow(outerRadius, 2) - Math.pow(outerRadius  - thickness,2)) + thickness( 2*(side2/Math.sin(aa*angle1) - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side1 - 2*outerRadius/Math.tan(aa*angle1/2)) + (side5 - 2*outerRadius/Math.tan(aa*angle4/2)) + 2*(side4/Math.sin(aa*angle4) - outerRadius*(1/Math.tan(aa*angle4/2) + 1/Math.tan(aa*angle3/2))) + 2*(-side3/Math.sin(aa*(angle1 + angle2)) - outerRadius*(1/Math.tan(aa*angle3/2) + 1/Math.tan(aa*angle2/2))))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

@@ -83,19 +83,14 @@ function Front_st_a_pillar() {
   const l = ((radius2 - outerRadius)*Math.cos(aa*angle2) - (radius1 + outerRadius)*Math.cos(aa*angle1))/Math.cos(aa*angle3)
 
   const submitClick = () => {
-    setWeightPerLength(((aa*(angle1)*((radius1 - thickness*0.596) + aa*(angle2)*(radius2 - thickness*0.596)) + (2*Math.PI + aa*(angle1 - angle2))*(outerRadius - thickness*0.596) + (radius2 - radius1) + l)*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((aa*(angle1)*((radius1 - thickness*0.596) + aa*(angle2)*(radius2 - thickness*0.596)) + (2*Math.PI + aa*(angle1 - angle2))*(outerRadius - thickness*0.596) + (radius2 - radius1) + l)*thickness*7850*0.000001* length).toFixed(3));
-
-    setStripWidth((aa*(angle1)*((radius1 - thickness*0.596) + aa*(angle2)*(radius2 - thickness*0.596)) + (2*Math.PI + aa*(angle1 - angle2))*(outerRadius - thickness*0.596) + (radius2 - radius1) + l).toFixed(3))
-
-    setOutLine((aa*(angle1)*((2*radius1 - thickness) + aa*(angle2)*(2*radius2 - thickness)) + (2*Math.PI + aa*(angle1 - angle2))*(2*outerRadius - thickness) + 2*((radius2 - radius1) + l) + 2*thickness).toFixed(3))
-
-    setArea((aa*(angle1/2)*(Math.pow(radius1,2) - Math.pow(radius1 - thickness, 2)) + aa*(angle2/2)*(Math.pow(radius2,2) - Math.pow(radius2 - thickness, 2)) + (Math.PI + aa*(angle1 - angle2)/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness, 2)) + thickness*((radius2 - radius1) + l)).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

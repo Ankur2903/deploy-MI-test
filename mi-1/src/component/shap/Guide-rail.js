@@ -56,20 +56,15 @@ function Guide_rail() {
   const side2Change = (event) => setSide2(parseFloat(event.target.value));
 
   const submitClick = () => {
-    setWeightPerLength(((2*(Math.PI + 2*angle)*(side2/2 - thickness/2) + (side1 - side2) + (side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((2*(Math.PI + 2*angle)*(side2/2 - thickness/2) + (side1 - side2) + (side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))))*thickness*7850*0.000001 * length).toFixed(2));
-
-    setStripWidth((2*(Math.PI + 2*angle)*(side2/2 - thickness/2) + (side1 - side2) + (side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle)))).toFixed(3))
-
-    setOutLine((2*(Math.PI + 2*angle)*(side2 - thickness) + 2*((side1 - side2) + (side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))))).toFixed(3));
-
-    setArea(((Math.PI + 2*angle)*(Math.pow(side2/2, 2) - Math.pow(side2/2 - thickness, 2)) + thickness*((side1 - side2) + (side1 - 2*(side2/2 + (side2 - thickness)*Math.sin(angle))))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };
-
+  
   const resetClick = () => {
     setLength(0);
     setThickness(0);

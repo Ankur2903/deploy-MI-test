@@ -131,19 +131,14 @@ function C_pillar() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*((9*Math.PI - 2*aa*(angle1 + angle2 + angle3 + angle4 + angle5))*(outerRadius - 0.596*thickness) +  (side1 - 2*outerRadius/Math.tan(aa*angle1)) + 2*(l1 + l2 + l3 + l4))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((9*Math.PI - 2*aa*(angle1 + angle2 + angle3 + angle4 + angle5))*(outerRadius - 0.596*thickness) +  (side1 - 2*outerRadius/Math.tan(aa*angle1)) + 2*(l1 + l2 + l3 + l4))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((9*Math.PI - 2*aa*(angle1 + angle2 + angle3 + angle4 + angle5))*(outerRadius - 0.596*thickness) +  (side1 - 2*outerRadius/Math.tan(aa*angle1)) + 2*(l1 + l2 + l3 + l4)).toFixed(3));
-
-    setOutLine(((9*Math.PI - 2*aa*(angle1 + angle2 + angle3 + angle4 + angle5))*(2*outerRadius - thickness) + 2*((side1 - 2*outerRadius/Math.tan(aa*angle1)) + 2*(l1 + l2 + l3 + l4)) + 2* thickness).toFixed(3))
-
-    setArea(((9*Math.PI/2 - aa*(angle1 + angle2 + angle3 + angle4 + angle5))*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + thickness*((side1 - 2*outerRadius/Math.tan(aa*angle1)) + 2*(l1 + l2 + l3 + l4))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

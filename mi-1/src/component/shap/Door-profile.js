@@ -126,19 +126,14 @@ function Door_profile() {
   const y3 = outerRadius1 + (side7/Math.sin(aa*angle2) + outerRadius1/Math.tan(aa*angle2/2) + outerRadius1/Math.tan(aa*angle3/2))*Math.sin(aa*angle2)
 
   const submitClick = () => {
-    setWeightPerLength((7850*((Math.PI)*(outerRadius2 - 0.596*thickness) + (9*Math.PI/2 - 2*aa*angle1 - aa*angle2 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (side1 - outerRadius2) + (side3 - outerRadius1 - outerRadius2) + (side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)) + l1 + (side5 - outerRadius1*(1/Math.tan(aa*angle1/2 + 1/Math.tan(aa*angle2/2)))) + (side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))) + (-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((Math.PI)*(outerRadius2 - 0.596*thickness) + (9*Math.PI/2 - 2*aa*angle1 - aa*angle2 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (side1 - outerRadius2) + (side3 - outerRadius1 - outerRadius2) + (side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)) + l1 + (side5 - outerRadius1*(1/Math.tan(aa*angle1/2 + 1/Math.tan(aa*angle2/2)))) + (side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))) + (-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2)))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((Math.PI)*(outerRadius2 - 0.596*thickness) + (9*Math.PI/2 - 2*aa*angle1 - aa*angle2 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (side1 - outerRadius2) + (side3 - outerRadius1 - outerRadius2) + (side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)) + l1 + (side5 - outerRadius1*(1/Math.tan(aa*angle1/2 + 1/Math.tan(aa*angle2/2)))) + (side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))) + (-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2))).toFixed(3));
-
-    setOutLine(((Math.PI)*(2*outerRadius2 - thickness) + (9*Math.PI/2 - 2*aa*angle1 - aa*angle2 - aa*angle3)*(2*outerRadius1 - thickness) + 2*(thickness +  (side1 - outerRadius2) + (side3 - outerRadius1 - outerRadius2) + (side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)) + l1 + (side5 - outerRadius1*(1/Math.tan(aa*angle1/2 + 1/Math.tan(aa*angle2/2)))) + (side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))) + (-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2)))).toFixed(3))
-
-    setArea(((Math.PI/2)*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness,2)) + (9*Math.PI/4 - aa*angle1 - aa*angle2/2 - aa*angle3/2)*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2)) + thickness*( (side1 - outerRadius2) + (side3 - outerRadius1 - outerRadius2) + (side4 - outerRadius1 - outerRadius1/Math.tan(aa*angle1/2)) + l1 + (side5 - outerRadius1*(1/Math.tan(aa*angle1/2 + 1/Math.tan(aa*angle2/2)))) + (side7/Math.sin(aa*angle2) - outerRadius1*(1/Math.tan(aa*angle2/2) + 1/Math.tan(aa*angle3/2))) + (-side8/Math.sin(aa*(angle2 + angle3)) - outerRadius1/Math.tan(aa*angle3/2)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

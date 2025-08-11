@@ -63,16 +63,11 @@ function Cover_tray() {
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const submitClick = () => {
-    setWeightPerLength((7850*(1.5*Math.PI*(outerRadius - 0.596*thickness) + 0.5*Math.PI*(thickness - 0.596*thickness)+ (side1 - outerRadius) + (side2 - 2*outerRadius) + (side3 - outerRadius) + (side4 - thickness) + (side5 - thickness - outerRadius))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*(1.5*Math.PI*(outerRadius - 0.596*thickness) + 0.5*Math.PI*(thickness - 0.596*thickness)+ (side1 - outerRadius) + (side2 - 2*outerRadius) + (side3 - outerRadius) + (side4 - thickness) + (side5 - thickness - outerRadius))*thickness*0.000001)*length).toFixed(2));
-
-    setStripWidth((1.5*Math.PI*(outerRadius - 0.596*thickness) + 0.5*Math.PI*(thickness - 0.596*thickness) + (side1 - outerRadius) + (side2 - 2*outerRadius) + (side3 - outerRadius) + (side4 - thickness) + (side5 - thickness - outerRadius)).toFixed(3));
-
-    setOutLine((1.5*Math.PI*(2*outerRadius - thickness) + 0.5*Math.PI*thickness + 2*(side1 - outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side3 - outerRadius) + 2*(side4 - thickness) + 2*(side5 - thickness - outerRadius)).toFixed(3));
-
-    setArea((0.75*Math.PI*(Math.pow(outerRadius, 2) - Math.pow(thickness,2)) + 0.25*Math.pow*thickness*thickness + thickness*((side1 - outerRadius) + (side2 - 2*outerRadius) + (side3 - outerRadius) + (side4 - thickness) + (side5 - thickness - outerRadius))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

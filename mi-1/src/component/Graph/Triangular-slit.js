@@ -31,11 +31,11 @@ function Triangular_slit_graph({side11, side22, thickness1, outerRadius1, sendVa
     x: point.x + 100 - a,
     y: point.y + 100 - b
   }));
-  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
 
   useEffect(() => {
-    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
-  }, [Ix, Iy]);
+    sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
+  }, [Ix, Iy, sw, ol, acs]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

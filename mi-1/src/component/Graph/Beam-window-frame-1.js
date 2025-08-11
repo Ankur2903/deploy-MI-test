@@ -39,11 +39,11 @@ function Beam_window_frame_1_graph({ side11, side22,side33, side44, radius1, thi
     y: point.y + 100 - b
   }));
 
-  const {Ix, Iy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio);
+  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
 
   useEffect(() => {
-    sendValue({ Ix, Iy });// Send all consts as an object when the component mounts
-  }, [Ix, Iy]);
+    sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
+  }, [Ix, Iy, sw, ol, acs]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

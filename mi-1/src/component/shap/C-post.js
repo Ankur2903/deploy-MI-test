@@ -199,24 +199,17 @@ function C_post() {
     });
   };
 
-  const handleComy = (e) => {
-    setComy(e);
-  };
+  
 
   const submitClick = () => {
-    setWeightPerLength((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius*(1 + 1/Math.tan(aa*angle3))) + (side2 - outerRadius*(1 + 1/Math.tan(aa*angle1))) + (side3 - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side4 - outerRadius*(1/Math.tan(aa*angle2) + 1/Math.tan(aa*angle))))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius*(1 + 1/Math.tan(aa*angle3))) + (side2 - outerRadius*(1 + 1/Math.tan(aa*angle1))) + (side3 - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side4 - outerRadius*(1/Math.tan(aa*angle2) + 1/Math.tan(aa*angle))))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius*(1 + 1/Math.tan(aa*angle3))) + (side2 - outerRadius*(1 + 1/Math.tan(aa*angle1))) + (side3 - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side4 - outerRadius*(1/Math.tan(aa*angle2) + 1/Math.tan(aa*angle)))).toFixed(3));    
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*((side1 - outerRadius*(1 + 1/Math.tan(aa*angle3))) + (side2 - outerRadius*(1 + 1/Math.tan(aa*angle1))) + (side3 - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side4 - outerRadius*(1/Math.tan(aa*angle2) + 1/Math.tan(aa*angle))) + thickness)).toFixed(3))
-    
-    setArea((Math.PI*(Math.pow(outerRadius,2)) + ((side1 - outerRadius*(1 + 1/Math.tan(aa*angle3))) + (side2 - outerRadius*(1 + 1/Math.tan(aa*angle1))) + (side3 - outerRadius*(1/Math.tan(aa*angle1/2) + 1/Math.tan(aa*angle2/2))) + (side4 - outerRadius*(1/Math.tan(aa*angle2) + 1/Math.tan(aa*angle))))*thickness).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

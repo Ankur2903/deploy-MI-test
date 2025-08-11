@@ -97,19 +97,14 @@ function L_t_cabin_section() {
   };
 
   const submitClick = () => {
-    setWeightPerLength(((3*Math.PI*(outerRadius - thickness*0.596) + (side1 - 2*outerRadius) + 2*(side2 - side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius + thickness) + (side4/Math.cos(angle)))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((3*Math.PI*(outerRadius - thickness*0.596) + (side1 - 2*outerRadius) + 2*(side2 - side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius + thickness) + (side4/Math.cos(angle)))*thickness*7850*0.000001* length).toFixed(3));
-
-    setStripWidth((3*Math.PI*(outerRadius - thickness*0.596) + (side1 - 2*outerRadius) + 2*(side2 - side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius + thickness) + (side4/Math.cos(angle))).toFixed(3))
-
-    setOutLine((3*Math.PI*(2*outerRadius - thickness) + 2*(side1 - 2*outerRadius) + 4*(side2 - side4 - 2*outerRadius) + 2*(side3 - 2*outerRadius + thickness) + 2*(side4 - 2*outerRadius + thickness) + 2*(side4/Math.cos(angle))).toFixed(3))
-
-    setArea(((3/2)*Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + thickness*((side1 - 2*outerRadius) + 2*(side2 - side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side4 - 2*outerRadius + thickness) + (side4/Math.cos(angle)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

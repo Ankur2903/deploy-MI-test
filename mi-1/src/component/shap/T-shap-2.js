@@ -92,20 +92,16 @@ function T_shap_2() {
   const handleData = (data) => {
     setData(data); // Receive and store the object
   };
-  const submitClick = () => {
-    setWeightPerLength((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))*thickness*0.000001).toFixed(3));
 
-    setTotalWeight((7850*(3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((3*Math.PI*(outerRadius1 - 0.596*thickness) + Math.PI*(outerRadius - 0.596*thickness) + (side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1)).toFixed(3));
-
-    setOutLine((3*Math.PI*(2*outerRadius1 - thickness) + Math.PI*(2*outerRadius - thickness) + 2*((side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1)) + 2* thickness).toFixed(3))
-
-    setArea((1.5*Math.PI*(Math.pow(outerRadius1,2) - Math.pow(thickness,2)) + 0.5*Math.PI*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + thickness*((side2 - 2*outerRadius1) + (side4 - 2*outerRadius1) + 2*x + 2*l + 2*(side3 - 2*outerRadius1))).toFixed(3))
-
+ const submitClick = () => {
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

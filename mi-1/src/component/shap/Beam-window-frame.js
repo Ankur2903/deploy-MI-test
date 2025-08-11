@@ -84,19 +84,14 @@ function Beam_window_frame() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(6*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius - side5) + (side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side2 - side4 - 2*outerRadius + thickness) + (side1 - side3 - outLine - side5) + (side2 - 2*(outerRadius + (side5- outerRadius)/Math.tan(aa*30))))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*(6*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius - side5) + (side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side2 - side4 - 2*outerRadius + thickness) + (side1 - side3 - outLine - side5) + (side2 - 2*(outerRadius + (side5- outerRadius)/Math.tan(aa*30))))*thickness*0.000001)*length).toFixed(3));
-
-    setStripWidth((6*Math.PI*(outerRadius - 0.596*thickness) + (side1 - outerRadius - side5) + (side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side2 - side4 - 2*outerRadius + thickness) + (side1 - side3 - outLine - side5) + (side2 - 2*(outerRadius + (side5- outerRadius)/Math.tan(aa*30)))).toFixed(3));
-
-    setOutLine((3*Math.PI*(2*outerRadius - thickness) + 2*(side1 - outerRadius - side5) + 2*(side4 - 2*outerRadius) + 2*(side3 - 2*outerRadius + thickness) + 2*(side2 - side4 - 2*outerRadius + thickness) + 2*(side1 - side3 - outLine - side5) + 2*(side2 - 2*(outerRadius + (side5- outerRadius)/Math.tan(aa*30))) + 2*thickness).toFixed(3));
-
-    setArea((thickness*((side1 - outerRadius - side5) + (side4 - 2*outerRadius) + (side3 - 2*outerRadius + thickness) + (side2 - side4 - 2*outerRadius + thickness) + (side1 - side3 - outLine - side5) + (side2 - 2*(outerRadius + (side5- outerRadius)/Math.tan(aa*30)))) + (3/2)*Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

@@ -78,19 +78,14 @@ function Stiffner_front_edge() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness)  + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 2*thickness + 2*(side1-outerRadius) + 2*(side2 - 2*outerRadius) + 2*(side3-2*outerRadius + 2*thickness) + 2*(side1-4*outerRadius+thickness)).toFixed(3))
-
-    setArea((thickness*((side1-outerRadius) + (side2 - 2*outerRadius) + (side3-2*outerRadius + thickness) + (side1-4*outerRadius+2*thickness) ) + (4*Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(6);

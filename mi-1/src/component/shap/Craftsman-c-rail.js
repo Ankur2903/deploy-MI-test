@@ -103,19 +103,14 @@ function Craftsman_c_rail() {
   const h = side2 + 2*(2*outerRadius - thickness)*Math.sin(aa*angle2) - 2*outerRadius*Math.tan(aa*angle2/2) + side4 + (2*outerRadius - thickness)*Math.sin(aa*angle1) - l*Math.cos(aa*angle1) - 2*outerRadius/Math.tan(aa*angle1/2) + side6
 
   const submitClick = () => {
-    setWeightPerLength((7850*((6*Math.PI + 8*aa*angle2 - 4*aa*angle1)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 - outerRadius - outerRadius/Math.tan(aa*angle1/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((6*Math.PI + 8*aa*angle2 - 4*aa*angle1)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 - outerRadius - outerRadius/Math.tan(aa*angle1/2)))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((6*Math.PI + 8*aa*angle2 - 4*aa*angle1)*(outerRadius - 0.596*thickness) + (side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 - outerRadius - outerRadius/Math.tan(aa*angle1/2))).toFixed(3));
-
-    setOutLine(((6*Math.PI + 8*aa*angle2 - 4*aa*angle1)*(2*outerRadius - thickness) + 2*(thickness +  (side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 - outerRadius - outerRadius/Math.tan(aa*angle1/2)))).toFixed(3))
-
-    setArea(((3*Math.PI + 4*aa*angle2 - 2*aa*angle1)*(Math.pow(outerRadius,2) - Math.pow(thickness,2)) + thickness*((side1 - 2*outerRadius) + 2*l + 2*(side2 - outerRadius - outerRadius*Math.tan(aa*angle2/2)) + 2*(side4 - outerRadius*Math.tan(aa*angle2/2) - outerRadius/Math.tan(aa*angle1/2)) + (side7 - outerRadius) + (side6 - outerRadius - outerRadius/Math.tan(aa*angle1/2)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

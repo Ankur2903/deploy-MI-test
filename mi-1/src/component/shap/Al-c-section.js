@@ -69,19 +69,14 @@ function Al_c_section() {
   const angle = Math.acos((side3 - side1)/side3)
 
   const submitClick = () => {
-    setWeightPerLength((7850*(2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth((2*angle*(side3 - 0.596*thickness) + (side2 - 2*side3)).toFixed(3));
-
-    setOutLine((2*angle*(2*side3 - thickness) + 2*(side2 - 2*side3) + 2*thickness).toFixed(3))
-
-    setArea((angle*(Math.pow(side3,2) - Math.pow(thickness,2)) + thickness*(side2 - 2*side3)).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

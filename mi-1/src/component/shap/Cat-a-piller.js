@@ -139,19 +139,14 @@ function Cat_a_piller() {
   const l4 = side1 - radius4 + radius3*Math.cos(angle2*aa) - l3*Math.sin(aa*angle2) - radius2 - radius2*Math.cos(aa*angle2)
 
   const submitClick = () => {
-    setWeightPerLength((7850*((1.5*Math.PI)*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius1 - 0.596*thickness) + (Math.PI - aa*angle2)*(radius2 - 0.596*thickness) + (aa*angle2 - Math.PI/2)*(radius3 - 0.596*thickness) +  (Math.PI)*(radius4 - 0.596*thickness) + (Math.PI/2)*(radius5 - 0.596*thickness) + (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2)))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((1.5*Math.PI)*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius1 - 0.596*thickness) + (Math.PI - aa*angle2)*(radius2 - 0.596*thickness) + (aa*angle2 - Math.PI/2)*(radius3 - 0.596*thickness) +  (Math.PI)*(radius4 - 0.596*thickness) + (Math.PI/2)*(radius5 - 0.596*thickness) + (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2)))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((1.5*Math.PI)*(outerRadius - 0.596*thickness) + (Math.PI/2)*(radius1 - 0.596*thickness) + (Math.PI - aa*angle2)*(radius2 - 0.596*thickness) + (aa*angle2 - Math.PI/2)*(radius3 - 0.596*thickness) +  (Math.PI)*(radius4 - 0.596*thickness) + (Math.PI/2)*(radius5 - 0.596*thickness) + (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2))).toFixed(3));
-
-    setOutLine(((1.5*Math.PI)*(2*outerRadius - thickness) + (Math.PI/2)*(2*radius1 - thickness) + (Math.PI - aa*angle2)*(2*radius2 - thickness) + (aa*angle2 - Math.PI/2)*(2*radius3 - thickness) +  (Math.PI)*(2*radius4 - thickness) + (Math.PI/2)*(2*radius5 - thickness) + 2*(thickness +  (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2)))).toFixed(3))
-
-    setArea(((0.75*Math.PI)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + (Math.PI/4)*(Math.pow(radius1,2) - Math.pow(radius1 - thickness,2)) + (Math.PI/2 - aa*angle2/2)*(Math.pow(radius2,2) - Math.pow(radius2 - thickness,2)) + (aa*angle2/2 - Math.PI/4)*(Math.pow(radius3,2) - Math.pow(radius3 - thickness,2)) + (Math.PI/2)*(Math.pow(radius4,2) - Math.pow(radius4 - thickness,2)) + (Math.PI/4)*(Math.pow(radius5,2) - Math.pow(radius5 - thickness,2)) + thickness*( (side3 - 2* outerRadius) + (side4 - radius1 - outerRadius + thickness) + (side6 - outerRadius - radius1 + thickness) + (side7 - outerRadius - radius2/Math.tan(aa*angle2/2)) + l3 + l4 + l2 + l1 + (side2 - outLine - radius5/Math.tan(aa*angle1/2)))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

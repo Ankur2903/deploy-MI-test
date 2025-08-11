@@ -61,16 +61,11 @@ function Flat_oval() {
   };
 
   const submitClick = () => {
-    setWeightPerLength(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2))*thickness*7850*0.000001*length).toFixed(3));
-
-    setStripWidth((2*Math.PI*(side2/2 - thickness/2) +  2*(side1 - side2)).toFixed(3));
-
-    setArea((2*(side1 - side2)*thickness + Math.PI*(Math.pow(side2/2,2) - Math.pow(side2/2 - thickness,2))).toFixed(3))
-
-    setOutLine((2*Math.PI*(side2/2) +  4*(side1 - side2) + 2*Math.PI*(side2/2 - thickness) + 2*thickness).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

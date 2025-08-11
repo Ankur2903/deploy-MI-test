@@ -57,16 +57,11 @@ function Triangular() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(3*(side - 2*outerRadius) + 2*Math.PI*(outerRadius - 0.596*thickness))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850 * ((3 * (side - outerRadius) + ((44 / 7) * (outerRadius - (thickness) / 2)))) * thickness * 0.000001) * length).toFixed(2));
-
-    setStripWidth((3*(side - 2*outerRadius) + 2*Math.PI*(outerRadius - 0.596*thickness)).toFixed(3))
-
-    setOutLine((6*(side - 2*outerRadius) + 2*Math.PI*(outerRadius) + 2*Math.PI*(outerRadius - thickness) + 2*thickness).toFixed(3));
-
-    setArea((3*(side - 2*outerRadius)*thickness + Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

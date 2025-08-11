@@ -73,18 +73,11 @@ function Round_3() {
   };
 
   const submitClick = () => {
-    const angle = Math.asin((side2/2 + outerRadius)/(diameter/2 - outerRadius))* (180 / Math.PI);
-
-    setWeightPerLength(((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2))*thickness*7850*0.000001*length).toFixed(3));
-
-    setStripWidth((2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness) + 2*(Math.PI/2)*(outerRadius - 0.596*thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(outerRadius - 0.596*thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter/2 - thickness/2)).toFixed(3));
-
-    setArea((thickness*(2*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + side2 - 2*(outerRadius - thickness)) + 2*(Math.PI/2)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))/2 + 2*(Math.PI/2 + angle*Math.PI/180)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))/2 + (2*Math.PI - 2*angle*Math.PI/180)*(Math.pow(diameter/2,2) - Math.pow(diameter/2 - thickness,2))/2).toFixed(3))
-
-    setOutLine((4*(diameter/2 + (diameter/2 - outerRadius)*Math.cos(angle*Math.PI/180) - side1 - (outerRadius - thickness)) + 2*(side2 - 2*(outerRadius - thickness)) + 2*(Math.PI/2)*(2*outerRadius - thickness) + 2*(Math.PI/2 + angle*Math.PI/180)*(2*outerRadius - thickness) + (2*Math.PI - 2*angle*Math.PI/180)*(diameter - thickness) + 2* thickness).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

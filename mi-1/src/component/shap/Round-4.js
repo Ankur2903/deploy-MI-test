@@ -57,20 +57,15 @@ function Round_4() {
   const angle1 = 2*Math.PI - 2*angle2;
   
   const submitClick = () => {
-    setWeightPerLength((7850*(angle1*(radius - thickness) + 2*angle2*(outerRadius - 0.596*thickness) + 2*(radius - outerRadius)*Math.sin(angle2))*0.000001).toFixed(3));
-
-    setTotalWeight((7850*(angle1*(radius - thickness) + 2*angle2*(outerRadius - 0.596*thickness) + 2*(radius - outerRadius)*Math.sin(angle2))*0.000001*length).toFixed(3));
-
-    setStripWidth((angle1*(radius - thickness) + 2*angle2*(outerRadius - 0.596*thickness) + 2*(radius - outerRadius)*Math.sin(angle2)).toFixed(3));
-
-    setArea(((angle1/2)*(Math.pow(radius,2) - Math.pow(radius - thickness,2)) + angle2*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2)) + thickness*2*(radius - outerRadius)*Math.sin(angle2)).toFixed(3))
-
-    setOutLine((angle1*(2*radius - thickness) + 2*angle2*(2*outerRadius - thickness) + 4*(radius - outerRadius)*Math.sin(angle2)).toFixed(3));
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };
-
+  
   const resetClick = () => {
     setLength(0);
     setThickness(0);

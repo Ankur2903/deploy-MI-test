@@ -59,16 +59,11 @@ function Top_hat() {
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const submitClick = () => {
-    setWeightPerLength((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius) + 2*(side3 - outerRadius))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight(((7850*(2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius) + 2*(side3 - outerRadius))*thickness*0.000001)*length).toFixed(2));
-
-    setStripWidth((2*Math.PI*(outerRadius - 0.596*thickness) + 2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius) + 2*(side3 - outerRadius)).toFixed(3));
-
-    setOutLine((2*Math.PI*(2*outerRadius - thickness) + 4*(side1 - 2*outerRadius) + 2*(side2 - 2*outerRadius) + 4*(side3 - outerRadius) + 2*thickness).toFixed(3));
-
-    setArea((thickness*(2*(side1 - 2*outerRadius) + (side2 - 2*outerRadius) + 2*(side3 - outerRadius)) + Math.PI*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

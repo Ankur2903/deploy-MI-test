@@ -65,16 +65,11 @@ function L_angle_2() {
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const submitClick = () => {
-    setWeightPerLength(((5*Math.PI*(outerRadius - 0.596*thickness)/2+ (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + (side4 - 2*outerRadius) + (side5 - outerRadius) + (side6 - outerRadius) +  (side1 - 2*outerRadius))*thickness*7850*0.000001).toFixed(3));
-
-    setTotalWeight(((5*Math.PI*(outerRadius - 0.596*thickness)/2+ (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + (side4 - 2*outerRadius) + (side5 - outerRadius) + (side6 - outerRadius) +  (side1 - 2*outerRadius))*thickness*7850*0.000001 * length).toFixed(2));
-
-    setStripWidth((5*Math.PI*(outerRadius - 0.596*thickness)/2 + (side2 - 2*outerRadius) + (side3 - 2*outerRadius) + (side4 - 2*outerRadius) + (side5 - outerRadius) + (side6 - outerRadius) +  (side1 - 2*outerRadius)).toFixed(3))
-
-    setOutLine((5*Math.PI*(2*outerRadius - thickness)/2 + 2*(side2 - 2*outerRadius) +  2*(side1 - 2*outerRadius) + 2*(side3 - 2*outerRadius) +  2*(side4 - 2*outerRadius) + 2*(side5 - outerRadius) + 2*(side6 - outerRadius) + 2* thickness).toFixed(3));
-
-    setArea((thickness*((side2 - 2*outerRadius) +  (side1 - 2*outerRadius) + (side3 - 2*outerRadius) +  (side4 - 2*outerRadius) + (side5 - outerRadius) + (side6 - outerRadius)) + 5*(Math.PI/4)*(Math.pow(outerRadius,2) - Math.pow(outerRadius - thickness,2))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

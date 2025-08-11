@@ -46,16 +46,11 @@ function Round() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*((22/7)*((diameter*diameter)/4) - (22/7)*((diameter - 2*thickness)*(diameter - 2*thickness))/4)*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((22/7)*((diameter*diameter)/4) - (22/7)*((diameter - 2*thickness)*(diameter - 2*thickness))/4)*0.000001*length).toFixed(3));
-
-    setStripWidth((Math.PI*(diameter - thickness)).toFixed(3));
-
-    setArea((Math.PI*Math.pow(diameter/2,2) - Math.PI*Math.pow(diameter/2 - thickness,2)).toFixed(3))
-
-    setOutLine((Math.PI*(diameter) + Math.PI*(diameter - 2*thickness) + 2*thickness).toFixed(3));
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
   };

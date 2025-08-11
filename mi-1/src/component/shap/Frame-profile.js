@@ -140,19 +140,14 @@ function Frame_profile() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))*thickness*0.000001).toFixed(3));
-
-    setTotalWeight((7850*((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))*thickness*0.000001*length).toFixed(3));
-
-    setStripWidth(((3*Math.PI - aa*angle1 - aa*angle3)*(outerRadius1 - 0.596*thickness) + (Math.PI)*(outerRadius4 - 0.596*thickness) +  (Math.PI - aa*angle4)*(outerRadius3 - 0.596*thickness) + (Math.PI - aa*angle2)*(outerRadius2 - 0.596*thickness) +  l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1)))).toFixed(3));
-
-    setOutLine(((3*Math.PI - aa*angle1 - aa*angle3)*(2*outerRadius1 - thickness) + (Math.PI)*(2*outerRadius4 - thickness) +  (Math.PI - aa*angle4)*(2*outerRadius3 - thickness) + (Math.PI - aa*angle2)*(2*outerRadius2 - thickness) + 2*(l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1)))) + 2* thickness).toFixed(3))
-
-    setArea(((3*Math.PI/2 - aa*angle1/2 - aa*angle3/2)*(Math.pow(outerRadius1,2) - Math.pow(outerRadius1 - thickness,2)) + (Math.PI/2)*(Math.pow(outerRadius4,2) - Math.pow(outerRadius2 - thickness,2)) + (Math.PI/2 - aa*angle4/2)*(Math.pow(outerRadius3,2) - Math.pow(outerRadius3 - thickness,2)) + (Math.PI/2 - aa*angle2/2)*(Math.pow(outerRadius2,2) - Math.pow(outerRadius2 - thickness,2)) + thickness*(l1 + l2 + l3 + l4 + (l5 - 2*outerRadius4)  + (side1 - outerRadius1 - outerRadius4) + (side4 - 2*outerRadius1) + (side3 - outerRadius1*(1 + 1/Math.tan(aa*angle1))))).toFixed(3))
-
+    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setStripWidth((data.sw))
+    setOutLine(data.ol)
+    setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
-  }
+  };
 
   const resetClick = () => {
     setLength(0);

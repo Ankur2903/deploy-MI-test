@@ -131,6 +131,9 @@ function A_post_2() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const resetClick = () => {
@@ -338,7 +341,7 @@ function A_post_2() {
         <div ref={GraphRef}><A_post_2_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} side66={side6} thickness1={thickness} outerRadius1={outerRadius} angle1={angle1} angle2={angle2} angle3={angle3} radius1={radius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

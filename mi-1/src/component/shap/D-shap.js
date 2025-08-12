@@ -74,6 +74,9 @@ function D_shap() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const resetClick = () => {
@@ -237,7 +240,7 @@ function D_shap() {
         <div ref={GraphRef}><D_shap_graph side11={side1} thickness1={thickness} side22={side2} outerRadius1={outerRadius} sendValue={handleData}/>
         </div></div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

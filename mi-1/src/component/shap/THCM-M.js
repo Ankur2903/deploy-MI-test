@@ -63,6 +63,9 @@ function Thcm_m() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const resetClick = () => {
@@ -217,7 +220,7 @@ function Thcm_m() {
           <div ref={GraphRef}><Thcm_m_graph side22 = {side3} side33 = {side2} outerRadius1 = {outerRadius} thickness1 = {thickness}  sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

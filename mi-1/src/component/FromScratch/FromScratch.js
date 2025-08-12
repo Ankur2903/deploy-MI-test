@@ -54,6 +54,9 @@ const FromScratch = () => {
   const [area, setArea] = useState(0);
   const [inertiax, setInertiax] = useState(0);
   const [inertiay, setInertiay] = useState(0);
+  const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
+  const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
+  const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
   const [type, setType] = useState("Open"); 
   let x;
   let y;
@@ -710,7 +713,7 @@ const FromScratch = () => {
           </div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

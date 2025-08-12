@@ -103,6 +103,9 @@ function Swiss_profile_section() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const resetClick = () => {
@@ -276,7 +279,7 @@ function Swiss_profile_section() {
           <div ref={GraphRef}><Swiss_profile_section_graph radius11 = {radius1} radius22 = {radius2} angle = {angle} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

@@ -106,6 +106,9 @@ function Niko_bts() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const resetClick = () => {
@@ -279,7 +282,7 @@ function Niko_bts() {
         <div ref={GraphRef}><Niko_bts_graph side11 = {side1} side22={side2} side33={side3} side44={side4} angle={angle} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

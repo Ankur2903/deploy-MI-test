@@ -53,10 +53,6 @@ function Door_channel() {
   const outerRadiusChange = (event) => {
     setOuterRadius(parseFloat(event.target.value));
   };
-
-  const handleComx = (e) => {
-    setComx(e);
-  };
   
 
   const [data, setData] = useState({});
@@ -95,6 +91,9 @@ function Door_channel() {
     setArea(data.acs)
     setInertiax(data.Ix);
     setInertiay(data.Iy);
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
   };
 
   const GraphRef = useRef()
@@ -279,7 +278,7 @@ function Door_channel() {
           <div ref={GraphRef}><Door_channel_graph side11 = {side2} side22={side1} side33={side3} side44={side4} lip11={lip} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
         </div>
       </div>
     </div>

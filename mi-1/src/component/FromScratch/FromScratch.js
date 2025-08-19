@@ -14,6 +14,8 @@ import * as Props from '../constant';
 import Image1 from '../Image/Anti-Clockwise.png'
 import Image2 from '../Image/Clockwise.png'
 import Image3 from '../Image/Line.png'
+import { COM } from '../AdvanceOutput/COM';
+import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
 const FromScratch = () => {
   const [parameters, setParameters] = useState(0)
@@ -40,6 +42,7 @@ const FromScratch = () => {
   const [startAngle, setStartAngle] = useState(0)
 
   const [shapes, setShapes] = useState([]);
+  const [predefinedPoints, setPredefinedPoints] = useState([]);
   const [thickness, setThickness] = useState(2);
   const [selectedShapeId, setSelectedShapeId] = useState(null);
   const [shapeLength, setShapeLength] = useState(100); // Rectangle shape edit state
@@ -161,18 +164,32 @@ const FromScratch = () => {
     (newShape.type === 'clockwise' && (newShape.anglefromx<=180 && newShape.angle + newShape.anglefromx >= 180)) ?  Math.max(endY , newShape.y + newShape.radius) : Math.max(endY , newShape.y + newShape.radius*Math.cos(aa*(90 - newShape.anglefromx - newShape.angle)));
 
     setShapes([...shapes, newShape]);
-
     setStartX(Math.min(startX,newShape.startx));
     setStartY(Math.min(startY,newShape.starty));
     setEndX(Math.max(endX , newShape.endx));
     setEndY(Math.max(endY,newShape.endy))
-
     setNewShapeType(null);
+
+
+    const newPoint = {
+      id : newShape.id,
+      type : (newShape.type === 'Line') ? 'line' : 'circle',
+      x : newShape.x,
+      y : newShape.y,
+      w : newShape.length,
+      h : thickness,
+      r : newShape.radius,
+      angle : (newShape.type === 'Line') ? newShape.anglefromx : newShape.angle,
+      rotation : newShape.anglefromx + 270,
+      t : thickness,
+    }
+    setPredefinedPoints([...predefinedPoints, newPoint])
     setno(0);
   };
 
   const removeShape =()=>{
     setShapes(prevArray => prevArray.slice(0, -1));
+    setPredefinedPoints(prevArray => prevArray.slice(0, -1));
     setStartX((shapes.length > 1) ? shapes[shapes.length - 2].startx :30);
     setStartY((shapes.length > 1) ? shapes[shapes.length - 2].starty :30);
     setEndX((shapes.length > 1) ? shapes[shapes.length - 2].endx :60)
@@ -181,6 +198,7 @@ const FromScratch = () => {
 
   const resetClick = () => {
     setShapes([]);
+    setPredefinedPoints([]);
   }
   
   useEffect(() => {
@@ -271,12 +289,18 @@ const FromScratch = () => {
         (shapes[i].type === 'Line') ? Math.max(endY , shapes[i].y + shapes[i].length*Math.sin(aa*(shapes[i].anglefromx))) : 
         (shapes[i].type === 'clockwise' && (shapes[i].anglefromx<=180 && shapes[i].angle + shapes[i].anglefromx >= 180)) ?  Math.max(endY , shapes[i].y + shapes[i].radius) : Math.max(endY , shapes[i].y + shapes[i].radius*Math.cos(aa*(90 - shapes[i].anglefromx - shapes[i].angle)));
 
+        predefinedPoints[i].angle =  (shapes[i].type === 'Line') ? shapes[i].anglefromx : shapes[i].angle;
+        predefinedPoints[i].rotation = shapes[i].anglefromx + 270;
+        predefinedPoints[i].x = shapes[i].x;  
+        predefinedPoints[i].y = shapes[i].y;
+
         setStartX(Math.min(startX,shapes[i].startx));
         setStartY(Math.min(startY,shapes[i].starty));
         setEndX(Math.max(endX , shapes[i].endx));
         setEndY(Math.max(endY,shapes[i].endy))
     }
     setShapes([...shapes]);
+    setPredefinedPoints([...predefinedPoints]);
   }, [thickness, click]);
 
 
@@ -296,6 +320,7 @@ const FromScratch = () => {
     }
   };
 
+
   const updateDimensions = () => {
     for(let i = 0;i < shapes.length;i++){
         shapes[i].length = 
@@ -312,8 +337,23 @@ const FromScratch = () => {
 
         shapes[i].anglefromx = 
         (shapes[i].id === selectedShapeId && i === 0) ? startAngle : shapes[i].anglefromx;
+
+        predefinedPoints[i].w = 
+        (shapes[i].id === selectedShapeId) ? shapeLength : shapes[i].length;
+
+        predefinedPoints[i].r = 
+        (shapes[i].id === selectedShapeId) ? shapeRadius : shapes[i].radius;
+
+        predefinedPoints[i].angle = 
+        (shapes[i].id === selectedShapeId && shapes[i] === 'Line') ? startAngle : (shapes[i].id === selectedShapeId) ? shapeAngle : shapes[i].angle;
+
+        predefinedPoints[i].rotation = 
+        (shapes[i].id === selectedShapeId && i === 0) ? startAngle + 270 : shapes[i].anglefromx + 270;
+
+        predefinedPoints[i].h = thickness;
     }
     setShapes([...shapes]);
+    setPredefinedPoints([...predefinedPoints]);
     setClick(1 - click)
     setSelectedShapeId(null)
   };
@@ -325,13 +365,24 @@ const FromScratch = () => {
     if(selectedShapeId !==null) shapes[shapes.findIndex((shape) => shape.id === selectedShapeId)].color = "black"
   }
 
+  const {a, b} = COM(predefinedPoints)
+
+  const mx = 100;
+  const ratio = 100;
+  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, ratio, thickness);
+
   const submitClick = () => {
     if(shapes.length === 0) return;
-    setStripWidth((shapes[shapes.length-1].stripwidth).toFixed(3));
-    setArea((shapes[shapes.length-1].area).toFixed(3));
-    setWeightPerLength((7850*(shapes[shapes.length-1].stripwidth*thickness)*0.000001).toFixed(3))
-    setTotalWeight((7850*(shapes[shapes.length-1].stripwidth*thickness)*length*0.000001).toFixed(3))
-    setOutLine((shapes[shapes.length-1].outline + 2*thickness).toFixed(3))
+    setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3))
+    setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3))
+    setStripWidth((sw));
+    setOutLine(ol)
+    setArea(acs);
+    setInertiax(Ix);
+    setInertiay(Iy);
+    setRogx((Math.sqrt(Ix/acs)*10).toFixed(3))
+    setRogy((Math.sqrt(Iy/acs)*10).toFixed(3))
+    setPmoi((Number(Ix) + Number(Iy)).toFixed(3));
   }
 
   const handlePan = useCallback((dx, dy) => {

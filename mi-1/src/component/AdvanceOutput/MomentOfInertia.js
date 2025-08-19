@@ -1,4 +1,5 @@
 export function ComputeMomentOfInertia(predefinedPoints,a, b, mx, ratio, thickness) {
+    console.log("===================")
     let Ix = 0;
     let Iy = 0;
     let sw = 0;
@@ -7,9 +8,9 @@ export function ComputeMomentOfInertia(predefinedPoints,a, b, mx, ratio, thickne
     const aa = Math.PI/180;
     for(let i = 0;i< predefinedPoints.length;i++){
         if(predefinedPoints[i].type === 'line'){
-            Ix = Ix + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.sin(aa*predefinedPoints[i].angle) + Math.pow(predefinedPoints[i].h, 2)*Math.cos(aa*predefinedPoints[i].angle))/12 + Math.pow(predefinedPoints[i].y + predefinedPoints[i].h*Math.cos(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.sin(aa*predefinedPoints[i].angle)/2 - b, 2));
+            Ix = Ix + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.pow(Math.sin(aa*predefinedPoints[i].angle), 2) + Math.pow(predefinedPoints[i].h, 2)*Math.pow(Math.cos(aa*predefinedPoints[i].angle), 2))/12 + Math.pow(predefinedPoints[i].y + predefinedPoints[i].h*Math.cos(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.sin(aa*predefinedPoints[i].angle)/2 - b, 2));
 
-            Iy = Iy + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.cos(aa*predefinedPoints[i].angle) + Math.pow(predefinedPoints[i].h, 2)*Math.sin(aa*predefinedPoints[i].angle))/12 + Math.pow(predefinedPoints[i].x - predefinedPoints[i].h*Math.sin(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.cos(aa*predefinedPoints[i].angle)/2 - a, 2));
+            Iy = Iy + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.pow(Math.cos(aa*predefinedPoints[i].angle), 2) + Math.pow(predefinedPoints[i].h, 2)*Math.pow(Math.sin(aa*predefinedPoints[i].angle), 2))/12 + Math.pow(predefinedPoints[i].x - predefinedPoints[i].h*Math.sin(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.cos(aa*predefinedPoints[i].angle)/2 - a, 2));
 
             if(predefinedPoints[i].w === thickness){
                 sw = sw + predefinedPoints[i].h;
@@ -30,9 +31,9 @@ export function ComputeMomentOfInertia(predefinedPoints,a, b, mx, ratio, thickne
             - (((Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 4)/4)*(aa*predefinedPoints[i].angle/2 + (Math.sin(aa*(4*predefinedPoints[i].rotation + 2*predefinedPoints[i].angle)) - Math.sin(aa*(4*predefinedPoints[i].rotation)))/4)) - (aa*predefinedPoints[i].angle*Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 2)/2)*(Math.pow((predefinedPoints[i].x + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - predefinedPoints[i].x, 2) - Math.pow((predefinedPoints[i].x + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - a,2)));
 
             sw = sw + aa*predefinedPoints[i].angle*(predefinedPoints[i].r - 0.596*thickness)
-
             ol = ol + aa*predefinedPoints[i].angle*(2*predefinedPoints[i].r - thickness);
             acs = acs + (aa*predefinedPoints[i].angle)*(Math.pow(predefinedPoints[i].r, 2) - Math.pow(predefinedPoints[i].r - predefinedPoints[i].t,2))/2;
+           
         }
     }
     ol = ol + 2*thickness;

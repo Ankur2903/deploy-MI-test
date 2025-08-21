@@ -88,7 +88,7 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
             <>
               <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="green" strokeWidth="1"/>
               <text x={(p1.x + p2.x)/2 + 2.5*thickness} y={(p1.y + p2.y)/2 - 2.5*thickness} fontSize="5" fill="green" transform={`rotate(${Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI)},  ${(p1.x + p2.x) / 2 + 2 * thickness}, ${(p1.y + p2.y) / 2 - 2 * thickness})`}>{(dist*mx/100).toFixed(2)} mm</text>
-              {p2.x != p1.x && p2.y !== p1.y && <>
+              {(p2.x).toFixed(2) != (p1.x).toFixed(2) && (p2.y).toFixed(2) !== (p1.y).toFixed(2) && <>
               {/* Horizontal line from p1 to aligned x of p2 */}
               <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p1.y} stroke="green" strokeWidth="1" />
               <text x={(p1.x + p2.x)/2} y={p1.y + 5 + 2.5*thickness} fontSize="5" fill="green">{(Math.abs(p2.x - p1.x)*mx/100).toFixed(2)} mm</text>

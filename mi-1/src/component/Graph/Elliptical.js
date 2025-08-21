@@ -114,41 +114,7 @@ function Elliptical_graph({ thickness1, side11, side22}) {
     setPoints([])
   }
 
-  const handleSVGClick = (event) => {
-    if(!dimensioning) return;
-    const svg = event.target.closest('svg');
-    const { left, top, width, height } = svg.getBoundingClientRect();
-
-    const viewBox = svg.viewBox.baseVal;
-    const ratio = width/height;
-    let scale = 0;
-    let startX = 0;
-    let startY = 0;
-    if(ratio >200/160){
-      scale = viewBox.height / height;
-      startY = viewBox.y;
-      startX = viewBox.x - (width*scale - viewBox.width)/2;
-    }  
-    else{
-     scale = viewBox.width / width;
-     startX = viewBox.x;
-     startY = viewBox.y - (height*scale - viewBox.height)/2;
-    }
-
-    const newPoint = {
-      x: (event.clientX - left)*scale + startX,
-      y: (event.clientY - top)*scale + startY,
-    };
-    if (points.length === 1) {
-      const p1 = points[0];
-      const p2 = newPoint;
-      const dx = p2.x - p1.x;
-      const dy = p2.y - p1.y;
-      const calculatedDistance = Math.sqrt(dx * dx + dy * dy).toFixed(2);
-      setDistance(calculatedDistance);
-    }
-    setPoints((prevPoints) => prevPoints.length === 1 ? [prevPoints[0], newPoint] : [newPoint]);
-  };
+  
 
   return (
     <div style={{ position: 'relative' }}>
@@ -157,11 +123,7 @@ function Elliptical_graph({ thickness1, side11, side22}) {
             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
       <svg
-        viewBox={viewBox}
-        style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
-        onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart} onClick={handleSVGClick}
-      >
+        viewBox={viewBox} style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown} onTouchStart={handleTouchStart} >
 
         {/* Define grid pattern */}
         <defs>
@@ -169,13 +131,7 @@ function Elliptical_graph({ thickness1, side11, side22}) {
             <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
           </pattern>
         </defs>
-        {points.map((point, index) => (
-              <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
-            ))}
-
-            {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
-
-            {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="5"> {(distance*mx/100).toFixed(3)} mm</text>}
+        
 
          {/* Apply grid pattern as background */}
          <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />

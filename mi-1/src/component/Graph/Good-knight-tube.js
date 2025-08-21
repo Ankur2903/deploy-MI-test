@@ -6,6 +6,7 @@ import Liney from './Shap/Liney';
 import LineAtTheta from './Shap/LineAtθ';
 import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
+import PredefinedPoints from '../PredefinedPoints';
 
 function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickness1, outerRadius1, sendValue}) {
   const aa = Math.PI/180
@@ -151,41 +152,7 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
     setPoints([])
   }
 
-  const handleSVGClick = (event) => {
-    if(!dimensioning) return;
-    const svg = event.target.closest('svg');
-    const { left, top, width, height } = svg.getBoundingClientRect();
-
-    const viewBox = svg.viewBox.baseVal;
-    const ratio = width/height;
-    let scale = 0;
-    let startX = 0;
-    let startY = 0;
-    if(ratio >200/160){
-      scale = viewBox.height / height;
-      startY = viewBox.y;
-      startX = viewBox.x - (width*scale - viewBox.width)/2;
-    }  
-    else{
-     scale = viewBox.width / width;
-     startX = viewBox.x;
-     startY = viewBox.y - (height*scale - viewBox.height)/2;
-    }
-
-    const newPoint = {
-      x: (event.clientX - left)*scale + startX,
-      y: (event.clientY - top)*scale + startY,
-    };
-    if (points.length === 1) {
-      const p1 = points[0];
-      const p2 = newPoint;
-      const dx = p2.x - p1.x;
-      const dy = p2.y - p1.y;
-      const calculatedDistance = Math.sqrt(dx * dx + dy * dy).toFixed(2);
-      setDistance(calculatedDistance);
-    }
-    setPoints((prevPoints) => prevPoints.length === 1 ? [prevPoints[0], newPoint] : [newPoint]);
-  };
+  
 
   return (
     <div style={{ position: 'relative' }}>
@@ -197,15 +164,9 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
         viewBox={viewBox}
         style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
         onMouseDown={handleMouseDown}
-        onTouchStart={handleTouchStart} onClick={handleSVGClick}
+        onTouchStart={handleTouchStart} 
       >
-        {points.map((point, index) => (
-              <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
-            ))}
-
-            {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
-
-            {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="5"> {(distance*mx/100).toFixed(3)} mm</text>}
+        
           {/* Define grid pattern */}
           <defs>
           <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -219,6 +180,8 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
           {/* Draw X and Y axes */}
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
+
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
 
         {/* L Shape */}
         <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side1 - 2 * outerRadius} height={thickness} fill="black" />

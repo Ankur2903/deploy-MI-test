@@ -88,11 +88,8 @@ import C_pillar from './component/shap/C-pillar';
 import A_post_2 from './component/shap/A-post-2';
 import Front_st_a_pillar from './component/shap/Front-st-a-pillar';
 import D_pillar_rear from './component/shap/D-pillar-rear';
-// import RouteModalCloser from './component/RouteModalCloser';<RouteModalCloser/>
-
 
 function App() {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [users, setUsers] = useState([]);
   const [permission,setPermission] = useState(false)
@@ -108,10 +105,8 @@ function App() {
   }
 
   return (
-    
     <div>
       <Router>
-        
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
         <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
         <Navbar/>
@@ -204,7 +199,6 @@ function App() {
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>
-      
     </div>
   )
 }

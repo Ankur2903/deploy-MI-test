@@ -211,6 +211,18 @@ function FromTemp() {
       height: `${dividerHeight - 60}px`
     };
 
+    useEffect(() => {
+        return () => {
+          // Remove leftover modal backdrop
+          document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+    
+          // Reset body state
+          document.body.classList.remove('modal-open');
+          document.body.style.overflow = "auto";   // ✅ re-enable scroll
+          document.body.style.removeProperty('padding-right');
+        };
+      }, []);
+
   return (
     <>
     <ButtonContainer>

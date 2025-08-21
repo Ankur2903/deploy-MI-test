@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import '../App.css'
 import Image2 from './Image/HomeImage-2.jpg'
@@ -8,6 +8,20 @@ import Footer from './Footer';
 
 
 function Home() {
+
+  useEffect(() => {
+    return () => {
+      // Remove leftover modal backdrop
+      document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+
+      // Reset body state
+      document.body.classList.remove('modal-open');
+      document.body.style.overflow = "auto";   // ✅ re-enable scroll
+      document.body.style.removeProperty('padding-right');
+    };
+  }, []);
+
+
   return (
     <>
     <div className='button-container' style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "95vh"}}>

@@ -181,7 +181,7 @@ const FromScratch = () => {
       h : thickness,
       r : newShape.radius,
       angle : (newShape.type === 'Line') ? newShape.anglefromx : newShape.angle,
-      rotation : newShape.anglefromx + 270,
+      rotation : (newShape.type === 'clockwise') ? newShape.anglefromx + 270 : 90 + newShape.anglefromx - newShape.angle,
       t : thickness,
     }
     setPredefinedPoints([...predefinedPoints, newPoint])
@@ -207,6 +207,8 @@ const FromScratch = () => {
     const newHeight = (endY - startY)/ scale;
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
+
+  console.log(viewBox)
   
   useEffect(() => {
     const l = shapes.length;
@@ -291,7 +293,7 @@ const FromScratch = () => {
         (shapes[i].type === 'clockwise' && (shapes[i].anglefromx<=180 && shapes[i].angle + shapes[i].anglefromx >= 180)) ?  Math.max(endY , shapes[i].y + shapes[i].radius) : Math.max(endY , shapes[i].y + shapes[i].radius*Math.cos(aa*(90 - shapes[i].anglefromx - shapes[i].angle)));
 
         predefinedPoints[i].angle =  (shapes[i].type === 'Line') ? shapes[i].anglefromx : shapes[i].angle;
-        predefinedPoints[i].rotation = shapes[i].anglefromx + 270;
+        predefinedPoints[i].rotation = (shapes[i].type === 'clockwise') ? shapes[i].anglefromx + 270 : 90 + shapes[i].anglefromx - shapes[i].angle;
         predefinedPoints[i].x = shapes[i].x;  
         predefinedPoints[i].y = shapes[i].y;
 
@@ -349,7 +351,7 @@ const FromScratch = () => {
         (shapes[i].id === selectedShapeId && shapes[i] === 'Line') ? startAngle : (shapes[i].id === selectedShapeId) ? shapeAngle : shapes[i].angle;
 
         predefinedPoints[i].rotation = 
-        (shapes[i].id === selectedShapeId && i === 0) ? startAngle + 270 : shapes[i].anglefromx + 270;
+        (shapes[i].id === selectedShapeId && i === 0 && shapes[i].type === 'clockwise') ? startAngle + 270 : (shapes[i].id === selectedShapeId && i === 0 && shapes[i].type === 'clockwise') ? 90 + startAngle - shapes[i].angle: predefinedPoints[i].rotation;
 
         predefinedPoints[i].h = thickness;
     }
@@ -727,6 +729,7 @@ const FromScratch = () => {
           </div>
           <svg viewBox={viewBox} style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown}  onTouchStart={handleTouchStart}> {/* onClick={handleSVGClick} */}
               {/* Define grid pattern */}
+               
               <defs>
               <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
                 <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />

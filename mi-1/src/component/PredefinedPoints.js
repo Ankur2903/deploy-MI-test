@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 
 const PredefinedPoints = ({ points, mx, thickness }) => {
   const aa = Math.PI / 180;
-
+  
   // Generate predefined points only once
   const predefinedPoints = useMemo(() => {
     const result = [];
@@ -12,48 +12,44 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
         result.push(
           {
             id: base.id + 0.1,
-            x: base.x,
-            y: base.y,
+            x: 0 + base.x,
+            y: 0 + base.y,
           },
           {
             id: base.id + 0.2,
-            x: base.x + base.w * Math.cos(aa * base.angle),
-            y: base.y + base.w * Math.sin(aa * base.angle),
+            x: 0 + base.x + base.w * Math.cos(aa * base.angle),
+            y: 0 + base.y + base.w * Math.sin(aa * base.angle),
           },
           {
             id: base.id + 0.3,
-            x: base.x - base.h * Math.sin(aa * base.angle),
-            y: base.y + base.h * Math.cos(aa * base.angle),
+            x: 0 + base.x - base.h * Math.sin(aa * base.angle),
+            y: 0 + base.y + base.h * Math.cos(aa * base.angle),
           },
           {
             id: base.id + 0.4,
-            x: base.x - base.h * Math.sin(aa * base.angle) + base.w * Math.cos(aa * base.angle),
-            y: base.y + base.h * Math.cos(aa * base.angle) + base.w * Math.sin(aa * base.angle),
+            x: 0 + base.x - base.h * Math.sin(aa * base.angle) + base.w * Math.cos(aa * base.angle),
+            y: 0 + base.y + base.h * Math.cos(aa * base.angle) + base.w * Math.sin(aa * base.angle),
           }
         );
       } 
       else if (base.type === 'circle') {
         result.push({
             id: base.id + 0.1,
-            x: base.x,
-            y: base.y,
+            x: 0 + base.x,
+            y: 0 + base.y,
           },
           {
             id: base.id + 0.2,
-            x:
-              base.x +
-              (base.r / Math.cos(aa * base.angle / 2)) *
-                Math.cos(aa * (base.rotation + base.angle / 2)),
-            y:
-              base.y +
-              (base.r / Math.cos(aa * base.angle / 2)) *
-                Math.sin(aa * (base.rotation + base.angle / 2)),
+            x: 0 + base.x + (base.r/Math.cos(aa*base.angle/2))*Math.cos(aa*(base.rotation + base.angle/2)),
+            y: 0 + base.y + (base.r/Math.cos(aa*base.angle/2))*Math.sin(aa*(base.rotation + base.angle/2)),
           }
         );
       }
     }
     return result;
   }, [points]);
+
+  console.log("Predefined Points:", predefinedPoints);
 
   const [selectedIds, setSelectedIds] = useState([]);
 
@@ -75,9 +71,8 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
 
   return (
     <>
-      <svg width="100%" height="500px" style={{ border: '1px solid black' }}>
         {predefinedPoints.map((point) => (
-          <circle key={point.id} cx={point.x} cy={point.y} r="1.3" fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
+          <circle key={point.id} cx={0 + point.x} cy={0 + point.y} r="1.3" fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
         ))}
 
         {selectedIds.length === 2 && (() => {
@@ -100,8 +95,6 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
             </>
           );
         })()}
-      </svg>
-      <p>Click any two points to measure distance.</p>
     </>
   );
 };

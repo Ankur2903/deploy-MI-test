@@ -209,7 +209,7 @@ const FromScratch = () => {
   }, [startX, startY, endX, endY])
 
   console.log(viewBox)
-  
+
   useEffect(() => {
     const l = shapes.length;
     if(shapes.length >= 2){
@@ -760,7 +760,7 @@ const FromScratch = () => {
 
             {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="4"> {distance} mm</text>} */}
 
-            {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness}/>}
+            {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
             </svg>
             <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

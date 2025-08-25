@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
-const PredefinedPoints = ({ points, mx, thickness }) => {
+const PredefinedPoints = ({ points, mx, thickness, scale }) => {
   const aa = Math.PI / 180;
   
   // Generate predefined points only once
@@ -49,8 +49,6 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
     return result;
   }, [points]);
 
-  console.log("Predefined Points:", predefinedPoints);
-
   const [selectedIds, setSelectedIds] = useState([]);
 
   const handlePointClick = (id) => {
@@ -72,7 +70,7 @@ const PredefinedPoints = ({ points, mx, thickness }) => {
   return (
     <>
         {predefinedPoints.map((point) => (
-          <circle key={point.id} cx={0 + point.x} cy={0 + point.y} r="1.3" fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
+          <circle key={point.id} cx={0 + point.x} cy={0 + point.y} r={0.3/(scale) + 1} fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
         ))}
 
         {selectedIds.length === 2 && (() => {

@@ -30,6 +30,7 @@ const ManagerDashboard = () => {
         prevUsers.map((user) =>
           user._id === id ? { ...user, status: status} : user
         ));
+     }
       const message = await response.json();
     } catch (error) {
       alert("Failed to update status");
@@ -51,6 +52,7 @@ const ManagerDashboard = () => {
           prevUsers.map((user) =>
             user._id === id ? { ...user, manager: !user.manager } : user
           ));
+      }
       const message = await response.json();
     } catch (error) {
       alert("Failed to change user type");

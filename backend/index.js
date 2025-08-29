@@ -91,42 +91,43 @@ app.get("/data",ensureAuthenticated,async (req, res) => {
     }
   });
 
-app.put("/update-status/:id", async (req, res) => {
-  const userId = req.params.id; // Get the user ID from the URL
+app.put("/update-status", async (req, res) => {
    const status = req.body; // Get the new status from the request body
-  console.log(status.status)
+   const selectedUsers = req.body.selectedUsers;
   try {
      // Find the user by ID and update the status
-     const user = await User.findById(userId);
-     if (!user) {
-       return res.status(404).json({ message: "User not found" });
-     }
-     user.status = status.status;
-     const updatedUser = await user.save();
+     for(let i=0; i<selectedUsers.length; i++){
+      const userId = selectedUsers[i];
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      user.status = status.status;
+      const updatedUser = await user.save();
 
-      let string;
-     if(user.status === 'approved'){
-      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account on https://miforming.com/login.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}. \n\nThanks and Regards,\nIT-Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for the use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
-     }
-     else if(user.status === 'rejected'){
-      string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe regret to inform you that your login request has not been approved at this time. If you believe this is an error or require further assistance, please contact us at ${process.env.USER_EMAIL}. \n\nThanks and regards,\nIT Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
-     }
-     
-     const email1 = {
-      message: {
-          subject: "Status Update",
-          body: {
-              contentType: "Text",
-              content: `${string}\n\n`
-          },
-          toRecipients: [
-              { emailAddress: { address: `${user.email}` } }
-          ],
-      },
-      saveToSentItems: true
-  };
-  const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
-     
+        let string;
+      if(user.status === 'approved'){
+        string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe are pleased to inform you that your login request has been approved. You can now access your account on https://miforming.com/login.\nIf you have any questions or need any assistance, please feel free to contact us at ${process.env.USER_EMAIL}. \n\nThanks and Regards,\nIT-Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for the use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
+      }
+      else if(user.status === 'rejected'){
+        string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe regret to inform you that your login request has not been approved at this time. If you believe this is an error or require further assistance, please contact us at ${process.env.USER_EMAIL}. \n\nThanks and regards,\nIT Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
+      }
+      
+      const email1 = {
+        message: {
+            subject: "Status Update",
+            body: {
+                contentType: "Text",
+                content: `${string}\n\n`
+            },
+            toRecipients: [
+                { emailAddress: { address: `${user.email}` } }
+            ],
+        },
+        saveToSentItems: true
+    };
+    const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
+     }     
     res.json({
       message: "User status updated successfully",
       user: updatedUser,
@@ -135,13 +136,15 @@ app.put("/update-status/:id", async (req, res) => {
     res.status(500).json({ message: "Error updating user status", error });
   }
 });
-
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete", async (req, res) => {
   try {
-    const userId = req.params.id; // Get the user ID from the URL
-    const deleteID = await User.findByIdAndDelete(userId);
-    if (!deleteID) {
-      return res.status(404).json({ message: "User not found" });
+    const selectedUsers = req.body.selectedUsers;
+    for(let i=0; i<selectedUsers.length; i++){
+      const userId = selectedUsers[i];
+      const deleteID = await User.findByIdAndDelete(userId);
+      if (!deleteID) {
+        return res.status(404).json({ message: "User not found" });
+      }
     }
     res.json({
       message: "User removed successfully",
@@ -151,21 +154,23 @@ app.delete("/delete/:id", async (req, res) => {
   }
 })
 
-app.put("/change-type/:id", async (req, res) => {
-  const userId = req.params.id; // Get the user ID from the URL
+app.put("/change-type", async (req, res) => {
+  const users = req.body.selectedUsers;
   try {
-    // Find the user by ID and update the status
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    for(let i=0; i<users.length; i++){
+      const userId = users[i];
+      // Find the user by ID and update the status
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      user.manager = !user.manager;
+      const updatedUser = await user.save();
     }
-    user.manager = !user.manager;
-    const updatedUser = await user.save();
-    
     res.json({
-      message: "User type updated successfully",
-      user: updatedUser,
-    });
+        message: "User type updated successfully",
+        user: updatedUser,
+      });
   } catch (error) {
     res.status(500).json({ message: "Error in updating user Type", error });
   }

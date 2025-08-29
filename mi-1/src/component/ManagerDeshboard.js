@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CollectData from "../CollectData";
+import '../App.css'
 
 const ManagerDashboard = () => {
   const [users, setUsers] = useState([]);

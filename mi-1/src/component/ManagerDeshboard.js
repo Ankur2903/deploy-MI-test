@@ -4,7 +4,7 @@ import '../App.css'
 
 const ManagerDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedUsers, setSelectedUsers] = useState([]);
   
   const addUser = (id) => {
     if(selectedUsers.includes(id)){

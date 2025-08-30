@@ -185,6 +185,8 @@ function Triangular_graph({ side1, thickness1, outerRadius1, sendValue}) {
         <Linex x1={50 + 100 - a} x2={side + 50 + 100 - a} y1={50 - 5 + 100 - b} y2={50 - 5 + 100 - b} text={'A'} val={side1} textHeight={-5} />
         <Linez x1={50 + 100 - a} y1={50 + outerRadius + 100 - b} thickness={thickness} text={'t'} val={thickness1} textHeight={5} />
 
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
+
 
       </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>

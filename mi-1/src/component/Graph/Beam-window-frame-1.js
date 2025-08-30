@@ -179,7 +179,7 @@ function Beam_window_frame_1_graph({ side11, side22,side33, side44, radius1, thi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* Line Shape */}
        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side3 - outerRadius - radius} height={thickness} fill="black" />

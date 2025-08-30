@@ -195,7 +195,7 @@ function Craftsman_c_rail_graph({ side11, side22, side33, side44, side55, side66
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <rect x={100 - side1/2 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side1 - 2*outerRadius} height={thickness} fill="black" />

@@ -172,7 +172,7 @@ function Swiss_profile_section_graph({radius11, radius22, angle, thickness1, out
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <LineAtTheta x={100 - a + 100 - (radius2 - outerRadius2) * Math.sin(aa * (angle / 2 - angle2)) - (outerRadius2 - thickness) * Math.cos(aa * angle / 2)} y={100 - b + 50 + radius2 - (radius2 - outerRadius2) * Math.cos(aa * (angle / 2 - angle2)) + (outerRadius2 - thickness) * Math.sin(aa * angle / 2)} w={l} h={thickness} angle={90 - angle / 2} />

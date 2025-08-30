@@ -177,7 +177,7 @@ function Front_st_a_pillar_graph({radius11, radius22, angle1, angle2, thickness1
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         <rect  x={x + 100 - a + radius1 + outerRadius}  y={150 + 100 - b - thickness}  width={radius2 - radius1 - 2 * outerRadius}  height={thickness}  fill="black" />
 

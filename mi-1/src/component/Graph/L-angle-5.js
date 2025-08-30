@@ -172,7 +172,7 @@ function L_angle_5_graph({ thickness1, side11, side22, side33, side44, outerRadi
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <LineAtTheta x={50 + outerRadius - outerRadius / (Math.sqrt(2)) + 100 - a} y={150 - side1 + thickness * (1 / Math.sqrt(2)) - outerRadius * (1 / Math.sqrt(2)) + 100 - b} w={side3 - (outerRadius - thickness) * (1 / Math.sqrt(2))} h={thickness} angle={315} />

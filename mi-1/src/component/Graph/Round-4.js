@@ -163,6 +163,8 @@ const {a, b} = COM(predefinedPoints)
         <line x1="-1000" y1={50 + radius} x2={svgWidth + 1000} y2={50 + radius} stroke="gray" strokeWidth="1" />
         <line x1={50 + radius} y1="-1000" x2={50 + radius} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
+
         <CircleSector radius={radius} centerX={100 + 100 - a} centerY={100 + 100 - b} angle={angle1 * aa} rotation={angle2 * aa - 90} thickness={thickness} />
         <CircleSector radius={outerRadius} centerX={100 + (radius - outerRadius) * Math.sin(angle2) + 100 - a} centerY={100 - (radius - outerRadius) * Math.cos(angle2) + 100 - b} angle={angle2 * aa} rotation={-90} thickness={thickness} />
         <CircleSector radius={outerRadius} centerX={100 - (radius - outerRadius) * Math.sin(angle2) + 100 - a} centerY={100 - (radius - outerRadius) * Math.cos(angle2) + 100 - b} angle={angle2 * aa} rotation={-90 - aa * angle2} thickness={thickness} />

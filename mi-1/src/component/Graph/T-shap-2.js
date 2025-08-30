@@ -183,7 +183,7 @@ function T_shap_1_graph({ side11, side22, side33, side44, angle1, thickness1, ou
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
   
-        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <rect x={100 - side2/2 + 100 - a} y={50 + outerRadius1 + 100 - b} width={thickness} height={side3 - 2 * outerRadius1} fill="black" />

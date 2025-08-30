@@ -186,7 +186,7 @@ function Front_cross_member_graph({ side11, side22, side33, side44, angle, thick
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <rect x={50 + outerRadius*Math.tan(aa*angle/2) + 100 - a} y={150 - side2 + 100 - b} width={side3 - outerRadius*(Math.tan(aa*angle/2) + 1/Math.tan(aa*angle/2))} height={thickness} fill="black"/>

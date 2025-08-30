@@ -73,8 +73,6 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
     sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
   }, [Ix, Iy, sw, ol, acs]);
 
-  console.log({Ix, Iy, sw});
-
   const [viewBox, setViewBox] = useState(Props.title7);
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -198,7 +196,7 @@ function A_post_2_graph({ side11, side22, side33, side44, side55, side66, thickn
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-       {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+       {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <rect x={50 + outerRadius + side3 + 100 - a} y={150 - thickness + 100 - b} width={side4 - 2*outerRadius} height={thickness} fill="black"/>

@@ -155,7 +155,7 @@ const mx = 2*radius1;
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
         <CircleSector radius={radius} centerX={radius + 50} centerY={radius + 50} angle={360} rotation={0} thickness={thickness} />{/* Circle */}
         <Linez x1={50} y1={radius + 50} thickness={thickness} text={'t'} val={thickness1} textHeight={0}/>{/* Thickness Arrow */}
         <Linex x1={50} x2={2*radius + 50} y1={2.1 * radius + 50} y2={2.1 * radius + 50} text={'D'} val={2*radius1} textHeight={5}/>{/* Horizontal Arrow for Diameter */}

@@ -174,7 +174,7 @@ function C_channel_graph({ side1, side2,lip1, thickness1, outerRadius1, sendValu
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* L Shape */}
         <rect x={50 + (100 - sidex) / 2 + 100 - a} y={50 + outerRadius + 100 - b} width={thickness} height={sidey - 2 * outerRadius} fill="black" />

@@ -176,14 +176,14 @@ function Round_3_graph({side11, side22, diameter1, thickness1, outerRadius1, sen
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+        {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* Add X and Y axis ticks and labels */}
         <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + outerRadius - thickness + 100 - a} y={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
 
         <rect x={100 + (radius - outerRadius)*Math.sin(angle*aa) - outerRadius + 100 - a} y={100 - (radius - outerRadius)*Math.cos(angle*aa) + 100 - b} width={thickness} height={radius + (radius - outerRadius)*Math.cos(angle*aa) - side1 - (outerRadius - thickness)} fill="black"/>
 
-        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness + 100 - a} y={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness + 100 - b} width={side2 - 2*(outerRadius - thickness)} height={thickness} fill="black"/>
+        <rect x={100 - (radius - outerRadius)*Math.sin(angle*aa) + 2*outerRadius - thickness + 100 - a} y={100 + radius  - side1 - (outerRadius - thickness) + outerRadius - thickness + 100 - b} width={side2 - 2*(outerRadius - thickness)} height={thickness} fill="black"/>s
 
         <CircleSector radius={radius} centerX={100 + 100 - a} centerY={100 + 100 - b} angle={360 - 2*angle} rotation={angle - 90} thickness={thickness} />
 

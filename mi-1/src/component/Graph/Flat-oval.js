@@ -170,7 +170,7 @@ function Flat_oval_graph({ side1, thickness1, outerRadius1, sendValue}) {
         <line x1="-1000" y1={100} x2={svgWidth + 1000} y2={100} stroke="gray" strokeWidth="1" />
         <line x1={100} y1="-1000" x2={100} y2={svgHeight + 1000} stroke="gray" strokeWidth="1" />
 
-{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness}/>}
+{dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
         {/* flatoval Shape */}
         <rect x={50 + outerRadius + 100 - a} y={sidey - thickness + 50 + (100 - sidey) / 2 + 100 - b} width={sidex - 2 * outerRadius} height={thickness} fill="black" />

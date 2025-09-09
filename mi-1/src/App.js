@@ -45,10 +45,10 @@ import T_shap_3 from './component/shap/T-shap-3';
 import Round_4 from './component/shap/Round-4';
 import Stiffner_front_edge from './component/shap/Stiffner-front-edge';
 import Door_edge_profile from './component/shap/Door-edge-profile';
-import Thcm_m from './component/shap/THCM-M';
+import M from './component/shap/M';
 import D_section from './component/shap/D-section';
-import Al_h_section from './component/shap/Al-h-section';
-import Al_lip_channel from './component/shap/Al-lip-channel';
+import H_section from './component/shap/H-section';
+import Lip_channel from './component/shap/Lip-channel';
 import Cover_tray from './component/shap/Cover-tray';
 import Double_center_mullion from './component/shap/Double-center-mullion';
 import Beam_window_frame_1 from './component/shap/Beam-window-frame-1';
@@ -61,33 +61,34 @@ import Guide_rail from './component/shap/Guide-rail';
 import A_post from './component/shap/A-post';
 import Lower_frame from './component/shap/Lower-frame';
 import Support_tube from './component/shap/Support-tube';
-import Al_lip_cover from './component/shap/Al-lip-cover';
-import Niko_bts from './component/shap/Niko-bts';
+import Lip_cover from './component/shap/Lip-cover';
+import Bts from './component/shap/Bts';
 import M_diamond_tube from './component/shap/M-diamond-tube';
-import Al_c_section from './component/shap/Al-c-section';
-import L_t_cabin_section from './component/shap/L&t-cabin-section';
+import C_section from './component/shap/C-section';
+import Cabin_section from './component/shap/Cabin-section';
 import Bus_body_section from './component/shap/Bus-body-section';
 import Cabin_door_frame from './component/shap/Cabin-door-frame';
 import Crimped_rail from './component/shap/Crimped-rail';
 import C_post from './component/shap/C-post';
-import Al_skirt_rail from './component/shap/Al-skirt-rail';
+import Skirt_rail from './component/shap/Skirt-rail';
 import Monitou_lip_tube from './component/shap/Monitou-lip-tube';
 import Swiss_profile_section from './component/shap/Swiss-profile-section';
 import Hollow_guide_rail from './component/shap/Hollow-guide-rail';
 import Backhoe_a_piller from './component/shap/Backhoe-a-piller';
-import Cat_a_piller from './component/shap/Cat-a-piller';
+import A_piller from './component/shap/A-piller';
 import T_shape_6 from './component/shap/T-shape-6';
 import Trip_tube from './component/shap/Trip-tube';
 import Hand_rail_section from './component/shap/Hand-rail-section';
 import Door_profile from './component/shap/Door-profile';
 import Front_cross_member from './component/shap/Front-cross-member';
 import Frame_profile from './component/shap/Frame-profile';
-import Craftsman_c_rail from './component/shap/Craftsman-c-rail';
+import C_rail from './component/shap/C-rail';
 import Formwork from './component/shap/Formwork';
 import C_pillar from './component/shap/C-pillar';
 import A_post_2 from './component/shap/A-post-2';
 import Front_st_a_pillar from './component/shap/Front-st-a-pillar';
 import D_pillar_rear from './component/shap/D-pillar-rear';
+
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -114,7 +115,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Start/>}/>
           <Route exact path="/home" element={<PrivateRoute element={<Home/>}/>}/>
-          {permission && <Route exact path="/manager_dashboard" element={<ManagerDashboard/>}/>}
+          {permission && <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>}
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup" element={<Signup/>}/>
           <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
@@ -141,7 +142,7 @@ function App() {
           <Route exact path="/flat_oval" element={<PrivateRoute element={<Flat_oval/>}/>}/>
           <Route exact path="/triangular" element={<PrivateRoute element={<Triangular/>}/>}/>
           <Route exact path="/top_hat" element={<PrivateRoute element={<Top_hat/>}/>}/>
-          <Route exact path="/thcm_m" element={<PrivateRoute element={<Thcm_m/>}/>}/>
+          <Route exact path="/m" element={<PrivateRoute element={<M/>}/>}/>
           <Route exact path="/d_shap" element={<PrivateRoute element={<D_shap/>}/>}/>
           <Route exact path="/t_shap" element={<PrivateRoute element={<T_shap/>}/>}/>
           <Route exact path="/t_shap_2" element={<PrivateRoute element={<T_shap_2/>}/>}/>
@@ -155,8 +156,8 @@ function App() {
           <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
           <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner/>}/>}/>
           <Route exact path='/good-knight-tube' element={<PrivateRoute element={<Good_knight_tube/>}/>}/>
-          <Route exact path='/al-h-section' element={<PrivateRoute element={<Al_h_section/>}/>}/>
-          <Route exact path='/al-lip-channel' element={<PrivateRoute element={<Al_lip_channel/>}/>}/>
+          <Route exact path='/H-section' element={<PrivateRoute element={<H_section/>}/>}/>
+          <Route exact path='/Lip-channel' element={<PrivateRoute element={<Lip_channel/>}/>}/>
           <Route exact path='/cover_tray' element={<PrivateRoute element={<Cover_tray/>}/>}/>
           <Route exact path='/double_center_mullion' element={<PrivateRoute element={<Double_center_mullion/>}/>}/>
           <Route exact path='/beam-window-frame-1' element={<PrivateRoute element={<Beam_window_frame_1/>}/>}/>
@@ -164,33 +165,33 @@ function App() {
           <Route exact path='/z-section' element={<PrivateRoute element={<Z_section/>}/>}/>
           <Route exact path='/sole-bar-section' element={<PrivateRoute element={<Sole_bar_section/>}/>}/>
           <Route exact path='/sill-pressing' element={<PrivateRoute element={<Sill_pressing/>}/>}/>
-          <Route exact path='/trapiz-tube' element={<PrivateRoute element={<Trapiz_tube/>}/>}/> 
+          <Route exact path='/trapiz-tube' element={<PrivateRoute element={<Trapiz_tube/>}/>}/>
           <Route exact path='/guide-rail' element={<PrivateRoute element={<Guide_rail/>}/>}/>
           <Route exact path='/a-post' element={<PrivateRoute element={<A_post/>}/>}/>
           <Route exact path='/support-tube' element={<PrivateRoute element={<Support_tube/>}/>}/>
           <Route exact path='/lower-frame' element={<PrivateRoute element={<Lower_frame/>}/>}/>
-          <Route exact path='/al-lip-cover' element={<PrivateRoute element={<Al_lip_cover/>}/>}/>
-          <Route exact path='/niko-bts' element={<PrivateRoute element={<Niko_bts/>}/>}/>
+          <Route exact path='/Lip-cover' element={<PrivateRoute element={<Lip_cover/>}/>}/>
+          <Route exact path='/bts' element={<PrivateRoute element={<Bts/>}/>}/>
           <Route exact path='/m-diamond-tube' element={<PrivateRoute element={<M_diamond_tube/>}/>}/>
-          <Route exact path='/al-c-section' element={<PrivateRoute element={<Al_c_section/>}/>}/>
-          <Route exact path='/l&t-cabin-section' element={<PrivateRoute element={<L_t_cabin_section/>}/>}/>
+          <Route exact path='/C-section' element={<PrivateRoute element={<C_section/>}/>}/>
+          <Route exact path='/cabin-section' element={<PrivateRoute element={<Cabin_section/>}/>}/>
           <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section/>}/>}/>
           <Route exact path='/cabin-door-frame' element={<PrivateRoute element={<Cabin_door_frame/>}/>}/>
           <Route exact path='/crimped-rail' element={<PrivateRoute element={<Crimped_rail/>}/>}/>
           <Route exact path='/c-post' element={<PrivateRoute element={<C_post/>}/>}/>
-          <Route exact path='/al-skirt-rail' element={<PrivateRoute element={<Al_skirt_rail/>}/>}/>
+          <Route exact path='/Skirt-rail' element={<PrivateRoute element={<Skirt_rail/>}/>}/>
           <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube/>}/>}/>
           <Route exact path='/swiss-profile-section' element={<PrivateRoute element={<Swiss_profile_section/>}/>}/>
           <Route exact path='/t_shap_5' element={<PrivateRoute element={<Hollow_guide_rail/>}/>}/>
           <Route exact path='/backhoe-a-piller' element={<PrivateRoute element={<Backhoe_a_piller/>}/>}/>
-          <Route exact path='/cat-a-piller' element={<PrivateRoute element={<Cat_a_piller/>}/>}/>
+          <Route exact path='/a-piller' element={<PrivateRoute element={<A_piller/>}/>}/>
           <Route exact path='/t_shape_6' element={<PrivateRoute element={<T_shape_6/>}/>}/>
           <Route exact path='/trip-tube' element={<PrivateRoute element={<Trip_tube/>}/>}/>
           <Route exact path='/hand-rail-section' element={<PrivateRoute element={<Hand_rail_section/>}/>}/>
           <Route exact path='/door-profile' element={<PrivateRoute element={<Door_profile/>}/>}/>
           <Route exact path='/front-cross-member' element={<PrivateRoute element={<Front_cross_member/>}/>}/>
           <Route exact path='/frame-profile' element={<PrivateRoute element={<Frame_profile/>}/>}/>
-          <Route exact path='/craftsman-c-rail' element={<PrivateRoute element={<Craftsman_c_rail/>}/>}/>
+          <Route exact path='/c-rail' element={<PrivateRoute element={<C_rail/>}/>}/>
           <Route exact path='/Formwork' element={<PrivateRoute element={<Formwork/>}/>}/>
           <Route exact path='/c-pillar' element={<PrivateRoute element={<C_pillar/>}/>}/>
           <Route exact path='/a-post-2' element={<PrivateRoute element={<A_post_2/>}/>}/>

@@ -582,12 +582,12 @@ function FromTemp() {
           <ButtonText>M-Diamond Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/l&t-cabin-section">
+          <Link to="/cabin-section">
             <Button>
               <Image src={image52} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>L&T Cabin Section</ButtonText>
+          <ButtonText>Cabin Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/bus-body-section">
@@ -606,12 +606,12 @@ function FromTemp() {
           <ButtonText>C Post</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/al-skirt-rail">
+          <Link to="/skirt-rail">
             <Button>
               <Image src={image57} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Al-Skirt Rail</ButtonText>
+          <ButtonText>Skirt Rail</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/swiss-profile-section">
@@ -630,12 +630,12 @@ function FromTemp() {
           <ButtonText>Backhoe-A Piller</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/cat-a-piller">
+          <Link to="/a-piller">
             <Button>
               <Image src={image62} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Cat A-Piller</ButtonText>
+          <ButtonText>A-Piller</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/trip-tube">
@@ -718,7 +718,7 @@ function FromTemp() {
                         <Image src={image1} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>L Angle</ButtonText>
+                    <ButtonText>Angle-1</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/l-angle-1">
@@ -726,7 +726,7 @@ function FromTemp() {
                         <Image src={image16} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>U-Channel Profile</ButtonText>
+                    <ButtonText>Angle-2</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/l-angle-2">
@@ -734,7 +734,7 @@ function FromTemp() {
                         <Image src={image17} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>Double U-Channel</ButtonText>
+                    <ButtonText>Angle-3</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/l-angle-3">
@@ -742,7 +742,7 @@ function FromTemp() {
                         <Image src={image18} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>Step Beam</ButtonText>
+                    <ButtonText>Angle-4</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/l-angle-4">
@@ -750,7 +750,7 @@ function FromTemp() {
                         <Image src={image20} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>Track Profile</ButtonText>
+                    <ButtonText>Angle-5</ButtonText>
                   </ButtonWrapper>
                   <ButtonWrapper>
                     <Link to="/l-angle-5">
@@ -758,7 +758,7 @@ function FromTemp() {
                         <Image src={image22} alt="Description of Image" />
                       </Button>
                     </Link>
-                    <ButtonText>Z-Shape Profile</ButtonText>
+                    <ButtonText>Angle-6</ButtonText>
                   </ButtonWrapper>        
                 </ButtonWrapperContainer>
               </div>
@@ -774,7 +774,7 @@ function FromTemp() {
               <Image src={image5} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Lip Channel</ButtonText>
+          <ButtonText>C-Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/u-channel">
@@ -785,12 +785,12 @@ function FromTemp() {
           <ButtonText>U-Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/al-lip-channel">
+          <Link to="/lip-channel">
             <Button>
               <Image src={image35} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>AL-Lip Channel</ButtonText>
+          <ButtonText>C-Channel</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/triangular-slit">
@@ -841,20 +841,20 @@ function FromTemp() {
           <ButtonText>Cover Tray</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/thcm_m">
+          <Link to="/m">
             <Button>
               <Image src={image32} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>THCM-M Section</ButtonText>
+          <ButtonText>M Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/al-h-section">
+          <Link to="/h-section">
             <Button>
               <Image src={image34} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>AL H-Section</ButtonText>
+          <ButtonText>H-Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/sill-pressing">
@@ -881,28 +881,28 @@ function FromTemp() {
           <ButtonText>Support Tube</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/al-lip-cover">
+          <Link to="/lip-cover">
             <Button>
               <Image src={image48} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Al Lip-Cover Section</ButtonText>
+          <ButtonText>Lip-Cover Section</ButtonText>
         </ButtonWrapper>
          <ButtonWrapper>
-          <Link to="/niko-bts">
+          <Link to="/bts">
             <Button>
               <Image src={image49} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Niko BTS</ButtonText>
+          <ButtonText>BTS</ButtonText>
         </ButtonWrapper>
          <ButtonWrapper>
-          <Link to="/al-c-section">
+          <Link to="/c-section">
             <Button>
               <Image src={image51} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Al C-Section</ButtonText>
+          <ButtonText>C-Section</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
           <Link to="/cabin-door-frame">
@@ -929,12 +929,12 @@ function FromTemp() {
           <ButtonText>Door Profile</ButtonText>
         </ButtonWrapper>
         <ButtonWrapper>
-          <Link to="/craftsman-c-rail">
+          <Link to="/c-rail">
             <Button>
               <Image src={image69} alt="Description of Image" />
             </Button>
           </Link>
-          <ButtonText>Craftsman C-Rail</ButtonText>
+          <ButtonText>C-Rail</ButtonText>
         </ButtonWrapper>
       </ButtonWrapperContainer>
       </div>

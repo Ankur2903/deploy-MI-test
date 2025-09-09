@@ -1,24 +1,22 @@
 import { useState,useRef ,useEffect } from 'react';
 import * as THREE from 'three';
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
-import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import logo from '../Image/logo.192.jpg';
-import 'jspdf-autotable';
 import '../../App.css'
-import L_angle_3_graph from '../Graph/L-angle-3';
+import 'jspdf-autotable';
 import Result from './Result';
+import M_graph from '../Graph/M';
 import Feasibility from '../Feasibility';
 import * as Props from '../constant';
 
-function L_angle_3() {
+function M() {
   const [parameters, setParameters] = useState(0)
   const [length, setLength] = useState(1);
   const [thickness, setThickness] = useState(2);
-  const [side1, setSide1] = useState(60);
-  const [side2, setSide2] = useState(60);
-  const [side3, setSide3] = useState(30);
-  const [side4, setSide4] = useState(30);
+  const [side2, setSide2] = useState(50);
+  const [side3, setSide3] = useState(40);
   const [outerRadius, setOuterRadius] = useState(4);
 
   const [data, setData] = useState({});
@@ -51,12 +49,10 @@ function L_angle_3() {
   const lengthChange = (event) => setLength(parseFloat(event.target.value));
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
-    setOuterRadius(parseFloat(2*event.target.value));
+    setOuterRadius(2*parseFloat(event.target.value))
   }
-  const side1Change = (event) => setSide1(parseFloat(event.target.value));
   const side2Change = (event) => setSide2(parseFloat(event.target.value));
   const side3Change = (event) => setSide3(parseFloat(event.target.value));
-  const side4Change = (event) => setSide4(parseFloat(event.target.value));
   const outerRadiusChange = (event) => setOuterRadius(parseFloat(event.target.value));
 
   const submitClick = () => {
@@ -75,10 +71,8 @@ function L_angle_3() {
   const resetClick = () => {
     setLength(0);
     setThickness(0);
-    setSide1(0);
     setSide2(0);
     setSide3(0);
-    setSide4(0);
     setOuterRadius(0);
     setWeightPerLength(0);
     setTotalWeight(0);
@@ -94,22 +88,25 @@ function L_angle_3() {
     link.download = 'rectangles.stl';
     link.click();
   };
+  
   // Manually create 3D shapes to export, without displaying them
   const create3DShapes = () => {
     const shapes = [];
     const shape1 = new THREE.Shape();
-    shape1.moveTo(side3 - thickness ,side1 - side4);
-    shape1.lineTo(side3 ,side1 - side4);
-    shape1.absarc(side3 - outerRadius,side1 - outerRadius,outerRadius,0*Math.PI/2,1*Math.PI/2,false);
-    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius,1*Math.PI/2,2*Math.PI/2,false);
-    shape1.absarc(outerRadius,outerRadius,outerRadius,2*Math.PI/2,3*Math.PI/2,false);
+    shape1.moveTo(0,0);
+    shape1.lineTo(0,side3 - thickness)
+    shape1.absarc(thickness, side3 - thickness, thickness, Math.PI, 0, true);
+    shape1.absarc(thickness + outerRadius, outerRadius, outerRadius - thickness, Math.PI, 3*Math.PI/2, false)
+    shape1.absarc(side2 - thickness - outerRadius, outerRadius, outerRadius - thickness, 3*Math.PI/2,0, false)
+    shape1.absarc(side2 - thickness, side3 - thickness, thickness,Math.PI,0,true)
     shape1.lineTo(side2,0)
-    shape1.lineTo(side2,thickness)
-    shape1.absarc(outerRadius,outerRadius,outerRadius - thickness,3*Math.PI/2,2*Math.PI/2,true);
-    shape1.absarc(outerRadius,side1 - outerRadius,outerRadius - thickness,2*Math.PI/2,1*Math.PI/2,true);
-    shape1.absarc(side3 - outerRadius,side1 - outerRadius,outerRadius - thickness,1*Math.PI/2,0*Math.PI/2,true);
-    shape1.lineTo(side3 - thickness ,side1 - side4)
-    shapes.push(shape1)
+    shape1.lineTo(side2 - thickness, 0)
+    shape1.lineTo(side2 - thickness, side3 - thickness)
+    shape1.absarc(side2 - outerRadius - thickness, outerRadius, outerRadius, 0,3*Math.PI/2, true)
+    shape1.absarc(thickness + outerRadius, outerRadius, outerRadius, 3*Math.PI/2, Math.PI, true)
+    shape1.lineTo(thickness, side3 - thickness)
+    shape1.lineTo(thickness,0)
+    shapes.push(shape1)    
 
     shapes.forEach((shape) => {
       const geometry = new THREE.ExtrudeGeometry(shape, { depth: length*1000, bevelEnabled: false });
@@ -122,7 +119,7 @@ function L_angle_3() {
   useEffect(() => {
     groupRef.current.clear();
     create3DShapes();
-  }, [side1, side2,side3, side4, outerRadius, thickness, length]);
+  }, [side2,side3, outerRadius, thickness, length]);
 
   const GraphRef = useRef()
 
@@ -134,7 +131,7 @@ function L_angle_3() {
     doc.setFont('helvetica',"bold").setFontSize(16).setTextColor('blue').text('Section Characteristics Report', 70, 17);
     doc.setDrawColor("black").setLineWidth(.2).line(0,20,210,20);
     doc.setFont('helvetica',"bold").setFontSize(12).setTextColor('blue').text('Inputs: ', 6, 25);
-    doc.setFontSize(10).setTextColor('black').text(`Side(A): ${side1}   Side(B): ${side2}   Side(C): ${side3}   Side(D): ${side4}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
+    doc.setFontSize(10).setTextColor('black').text(`Width(w): ${side2}   Height(h): ${side3}   Thickness(t): ${thickness}   Length(L): ${length}`, 6, 30);
     doc.setFontSize(12).setTextColor('blue').text('Image: ', 6, 40);
     const imgData = canvas.toDataURL('image/png');
     doc.addImage(imgData, 'PNG', 70, 50, 70, 70); // Adjust dimensions as needed
@@ -181,7 +178,7 @@ function L_angle_3() {
           </div>
         </div>
       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">Angle-4</h1>
+      <h1 className="heading">M Section</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
         <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
         <i className="fa-solid fa-download"></i>
@@ -197,20 +194,12 @@ function L_angle_3() {
         <div className='box'>
           <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
           <div className="container1">
-            <lable className="label" htmlFor="side">Side (A) mm</lable>
-            <input className="input-field" id="side1" type="number" value={side1} onChange={side1Change} placeholder="Enter side" />
+            <lable className="label" htmlFor="side">Width (w) mm</lable>
+            <input className="input-field" id="side" type="number" value={side2} onChange={side2Change} placeholder="Enter side" />
           </div>
           <div className="container1">
-            <lable className="label" htmlFor="side2">Side (B) mm</lable>
-            <input className="input-field" id="side2" type="number" value={side2} onChange={side2Change} placeholder="Enter side" />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="side">Side (C) mm</lable>
-            <input className="input-field" id="side3" type="number" value={side3} onChange={side3Change} placeholder="Enter side" />
-          </div>
-          <div className="container1">
-            <lable className="label" htmlFor="side2">Side (D) mm</lable>
-            <input className="input-field" id="side4" type="number" value={side4} onChange={side4Change} placeholder="Enter side" />
+            <lable className="label" htmlFor="side">Height (h) mm</lable>
+            <input className="input-field" id="side" type="number" value={side3} onChange={side3Change} placeholder="Enter side" />
           </div>
           <div className="container1">
             <lable className="label" htmlFor="thickness">Thickness (t) mm</lable>
@@ -228,7 +217,7 @@ function L_angle_3() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><L_angle_3_graph side11={side1} thickness1={thickness} side22={side2} side33={side3} side44={side4} outerRadius1={outerRadius} sendValue={handleData}/></div>
+          <div ref={GraphRef}><M_graph side22 = {side3} side33 = {side2} outerRadius1 = {outerRadius} thickness1 = {thickness}  sendValue={handleData}/></div>
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
@@ -238,4 +227,4 @@ function L_angle_3() {
   );
 }
 
-export default L_angle_3;
+export default M;

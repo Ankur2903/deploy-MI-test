@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect,} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import CircleSector from './Shap/Circle';
 import * as Props from '../constant';
 import Linex from './Shap/Linex';
@@ -7,36 +7,25 @@ import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 import PredefinedPoints from '../PredefinedPoints';
 
-function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadius1, sendValue}) {
-  const mx = Math.max(side11,side22,side33, side44);
+function M_graph({ side22, side33, thickness1, outerRadius1, sendValue}) {
+  const mx = Math.max(side33,side22);
   const thickness = (thickness1/mx)*Props.ratio
-  const side1 = (side11/mx)*Props.ratio
   const side2 = (side22/mx)*Props.ratio
   const side3 = (side33/mx)*Props.ratio
-  const side4 = (side44/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
 
-  
-
- 
-
-
-  const [viewBox, setViewBox] = useState(Props.title7);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
-
-  const svgWidth = Props.x2
-  const svgHeight = Props.y2
-
   const predefinedPoints = [
-    { id: 1, type: 'line', x: 50 + outerRadius, y: 150 - side1, w: side3 - outerRadius, h: thickness, angle: 0 },
-    { id: 2, type: 'line', x: 50, y: 150 - side1 + outerRadius, w: thickness, h: side1 - 2 * outerRadius, angle: 0 },
-    { id: 3, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: side2 - 2 * outerRadius, h: thickness, angle: 0 },
-    { id: 4, type: 'line', x: 50 + side2 - thickness, y: 150 - side4, w: thickness, h: side4 - outerRadius, angle: 0 },
-    { id: 5, type: 'circle', x: 50 + outerRadius, y: 150 - side1 + outerRadius, r: outerRadius, angle: 90, rotation: 180, t: thickness },
-    { id: 6, type: 'circle', x: 50 + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
-    { id: 7, type: 'circle', x: 50 + side2 - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness }
+    { id: 1, type: 'line', x: 50, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness, angle: 0 },
+    { id: 2, type: 'line', x: 50 + thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness - outerRadius, angle: 0 },
+
+    { id: 3, type: 'line', x: 50 + thickness + outerRadius, y: 150 - thickness, w: side3 - 2 * outerRadius - 2 * thickness, h: thickness, angle: 0 },
+    { id: 4, type: 'line', x: 50 + side3 - thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness, angle: 0 },
+    { id: 5, type: 'line', x: 50 + side3 - 2 * thickness, y: 150 - side2 + thickness, w: thickness, h: side2 - thickness - outerRadius, angle: 0 },
+
+    { id: 6, type: 'circle', x: 50 + thickness + outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 90, t: thickness },
+    { id: 7, type: 'circle', x: 50 + thickness, y: 150 - side2 + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+    { id: 8, type: 'circle', x: 50 + side3 - thickness, y: 150 - side2 + thickness, r: thickness, angle: 180, rotation: 180, t: thickness },
+    { id: 9, type: 'circle', x: 50 + side3 - thickness - outerRadius, y: 150 - outerRadius, r: outerRadius, angle: 90, rotation: 0, t: thickness },
   ];
 
   const {a, b} = COM(predefinedPoints)
@@ -46,11 +35,20 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
     x: point.x + 100 - a,
     y: point.y + 100 - b
   }));
-  
   const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
-   useEffect(() => {
+
+  useEffect(() => {
     sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
   }, [Ix, Iy, sw, ol, acs]);
+
+
+  const [viewBox, setViewBox] = useState(Props.title7);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
+
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -102,6 +100,7 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
   const handleTouchEnd = () => {
     stopDrag();
   };
+
   useEffect(() => {
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('mouseup', handleMouseUp);
@@ -127,6 +126,7 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
     setScale(1); // Reset scale to initial state
     setViewBox(Props.title7);
   };
+
   const updateViewBox = () => {
     const newWidth = svgWidth / scale;
     const newHeight = svgHeight / scale;
@@ -149,18 +149,19 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
   
 
   return (
-      <div style={{ position: 'relative' }}>
-        <div  className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
+    <div style={{ position: 'relative' }}>
+      <div className="form-check form-switch" style={{color: 'white', backgroundColor: '#1b065c'}}>
             <input title={Props.title1} className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" >DIMENSIONING FUNCTION</label>
+            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
           </div>
-      <svg 
+      <svg
         viewBox={viewBox}
         style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }}
         onMouseDown={handleMouseDown}
         onTouchStart={handleTouchStart} 
       >
-         
+        
+
           {/* Define grid pattern */}
           <defs>
           <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -177,24 +178,28 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
 
 {dimensioning && <PredefinedPoints points={translatedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
-
-        {/* L Shape */}
-        <rect x={50 + outerRadius + 100 - a} y={150 - side1 + 100 - b} width={side3 - outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + 100 - a} y={150 - side1 + outerRadius + 100 - b} width={thickness} height={side1 - 2 * outerRadius} fill="black"/>
-        <rect x={50 + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side2 - 2 * outerRadius} height={thickness} fill="black"/>
-        <rect x={50 + side2 - thickness + 100 - a} y={150 - side4 + 100 - b} width={thickness} height={side4 - outerRadius} fill="black"/>
-
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - side1 + outerRadius + 100 - b} angle={90} rotation={180} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness}/>
-        <CircleSector radius={outerRadius} centerX={50 + side2 - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness}/>
-
-        <Linex x1={50 + 100 - a} x2={50 + side3 + 100 - a} y1={145 - side1 + 100 - b} y2={145 - side1 + 100 - b} text={'C'} val={side33} textHeight={-5}/>
-        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side1 + 100 - b} y2={150 + 100 - b} text={'A'} val={side11} textHeight={-17}/>
-        <Linex x1={50 + 100 - a} x2={50 + side2 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'B'} val={side22} textHeight={5}/>
-        <Liney x1={55 + side2 + 100 - a} x2={55 + side2 + 100 - a} y1={150 - side4 + 100 - b} y2={150 + 100 - b} text={'D'} val={side44} textHeight={17}/>
-
         
-        </svg>
+        {/* Top hat Shape */}
+        <rect x={50 + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness} fill="black" />
+        <rect x={50 + thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness - outerRadius} fill="black" />
+        <rect x={50 + thickness + outerRadius + 100 - a} y={150 - thickness + 100 - b} width={side3 - 2 * outerRadius - 2 * thickness} height={thickness} fill="black" />
+        <rect x={50 + side3 - thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness} fill="black" />
+        <rect x={50 + side3 - 2 * thickness + 100 - a} y={150 - side2 + thickness + 100 - b} width={thickness} height={side2 - thickness - outerRadius} fill="black" />
+
+        {/* outer radius */}
+        <CircleSector radius={outerRadius} centerX={50 + thickness + outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={90} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + thickness + 100 - a} centerY={150 - side2 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
+        <CircleSector radius={thickness} centerX={50 + side3 - thickness + 100 - a} centerY={150 - side2 + thickness + 100 - b} angle={180} rotation={180} thickness={thickness} />
+        <CircleSector radius={outerRadius} centerX={50 + side3 - thickness - outerRadius + 100 - a} centerY={150 - outerRadius + 100 - b} angle={90} rotation={0} thickness={thickness} />
+
+        {/* Horizontal Arrow for B */}
+        <Linex x1={50 + 100 - a} x2={50 + side3 + 100 - a} y1={155 + 100 - b} y2={155 + 100 - b} text={'w'} val={side33} textHeight={5} />
+
+        {/* Vertical Arrow for Height */}
+        <Liney x1={45 + 100 - a} x2={45 + 100 - a} y1={150 - side2 + 100 - b} y2={150 + 100 - b} text={'h'} val={side22} textHeight={-17} />
+
+
+      </svg>
       <button title={Props.title3} className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
       <button title={Props.title6} className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
       <button title={Props.title4} className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
@@ -202,4 +207,4 @@ function L_angle_1_graph({ thickness1, side11, side22, side33, side44, outerRadi
   );
 }
 
-export default L_angle_1_graph;
+export default M_graph;

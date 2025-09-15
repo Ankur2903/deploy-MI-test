@@ -109,7 +109,7 @@ function App() {
     <div>
       <Router>
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
-        <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
+        <CollectData setUsers = {setUsers} setPermission = {setPermission}/>{permission}
         <Navbar/>
         {!loading && 
         <Routes>

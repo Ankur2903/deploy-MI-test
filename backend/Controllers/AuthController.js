@@ -61,7 +61,6 @@ const signup = async (req, res) => {
             },
             saveToSentItems: true
         };
-        console.log(email)
         const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
         const response2 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email2);
 

@@ -115,7 +115,7 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Start/>}/>
           <Route exact path="/home" element={<PrivateRoute element={<Home/>}/>}/>
-          {permission && <Route exact path="/manager_deshboard" element={<ManagerDashboard/>}/>}
+          {permission && <Route exact path="/manager_dashboard" element={<ManagerDashboard/>}/>}
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup" element={<Signup/>}/>
           <Route exact path="/forgot-password" element={<ForgotPassword/>}/>

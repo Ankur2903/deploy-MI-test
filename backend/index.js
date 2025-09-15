@@ -81,7 +81,7 @@ app.post("/forgot-password", async(req, res)=>{
 
 app.get("/data",ensureAuthenticated,async (req, res) => {
     try { 
-        console.log("wellcome to data);
+        console.log("wellcome to data");
       const Users = await User.find();//{ status: "pending" }
       const user = await User.findOne({email: req.user.email})
       const permission = user.manager;

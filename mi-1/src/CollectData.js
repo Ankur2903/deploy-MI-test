@@ -15,7 +15,7 @@ function CollectData({setUsers, setPermission} ) {
               },
             });
             const data = await response.json();
-              console.log(data);
+              console.log("data: ", data);
             if(token || data){
               console.log("welcome")
               setUsers(data);

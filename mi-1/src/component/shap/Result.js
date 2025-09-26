@@ -33,7 +33,7 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
         <p className="output-text" ><b>Radius of gyration i(u):</b><p> ___ cm</p></p>
         <p className="output-text" ><b>Moment of inertia I(v):</b><p> ___ cm^4</p></p>
         <p className="output-text" ><b>Moment of resistance W(v):</b><p> ___ cm^3</p></p>
-        <p className="output-text" ><b>Radius of gyration i(v):</b> <p>___ cm</p></p></>*/}
+        <p className="output-text" ><b>Radius of gyration i(v):</b> <p>___ cm</p></p>*/}</>
     }
     </>
   )

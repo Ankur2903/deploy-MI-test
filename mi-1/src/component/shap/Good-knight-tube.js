@@ -257,7 +257,7 @@ function Good_knight_tube() {
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>
         <div className='box'>
-          <div ref={GraphRef}><Good_knight_tube_graph side11 = {side1} side22 = {side2} side33 = {side3} side44 = {side4} angle1 = {angle} thickness1={thickness} outerRadius1={outerRadius} sendValue={handleData}/></div>
+          
         </div>
         <div className='box'>
         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />

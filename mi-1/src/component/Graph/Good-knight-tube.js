@@ -19,21 +19,6 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
   const thickness = (thickness1/mx)*Props.ratio
   const outerRadius = (outerRadius1/mx)*Props.ratio
 
-  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
-
-  useEffect(() => {
-    sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
-  }, [Ix, Iy, sw, ol, acs]);
-
-
-  const [viewBox, setViewBox] = useState(Props.title7);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
-  const [scale, setScale] = useState(1);
-
-  const svgWidth = Props.x2
-  const svgHeight = Props.y2
-
   const predefinedPoints = [
     { id: 1, type: 'line', x: 50 + outerRadius, y: 150 - thickness, w: side1 - 2 * outerRadius, h: thickness, angle: 0 },
     { id: 2, type: 'line', x: 50 + side1 - thickness, y: 150 - side2 + side4 + outerRadius, w: thickness, h: side2 - side4 - 2 * outerRadius, angle: 0 },
@@ -56,6 +41,22 @@ function Good_knight_tube_graph({side11, side22, side33, side44, angle1, thickne
     x: point.x + 100 - a,
     y: point.y + 100 - b
   }));
+
+  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
+
+  useEffect(() => {
+    sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
+  }, [Ix, Iy, sw, ol, acs]);
+
+
+  const [viewBox, setViewBox] = useState(Props.title7);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
+  const [scale, setScale] = useState(1);
+
+  const svgWidth = Props.x2
+  const svgHeight = Props.y2
+
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
       const [x, y, w, h] = prevViewBox.split(' ').map(Number);

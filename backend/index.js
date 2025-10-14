@@ -178,6 +178,9 @@ app.put("/change-type", async (req, res) => {
 
 app.use(bodyParser.json());
 app.use('/auth', AuthRouter);
+app.use('/product', productRouter);
+app.use('/enquirie', enquiriRouter);
+app.use('/machine', MachineRouter);
 
 app.listen(PORT, () => {
 console.log(`Server is running on ${PORT}`)

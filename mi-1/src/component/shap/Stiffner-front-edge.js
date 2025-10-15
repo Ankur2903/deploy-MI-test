@@ -9,6 +9,7 @@ import Stiffner_front_edge_graph from '../Graph/Stiffner-front-edge'
 import 'jspdf-autotable';
 import Result from './Result';
 import Feasibility from '../Feasibility';
+import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
 function Stiffner_front_edge() {
@@ -189,11 +190,20 @@ function Stiffner_front_edge() {
 
   return (
     <div>
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
                 <Feasibility type={"Open"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              </div>  
+            </div>
+          </div>
+        </div>
+        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <FeasibilityL1 type={"Open"} stripWidth={stripWidth} thickness={thickness} parameters={parameters} length={length}/>
               </div>  
             </div>
           </div>
@@ -208,7 +218,13 @@ function Stiffner_front_edge() {
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
         </ul>
-        <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
+        <button title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}}>
+            Feasibility?
+          </button>
+          <ul className="dropdown-menu">
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal0" onClick={submitClick}>Feasibility L0</button></li>
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal1" onClick={submitClick}>Feasibility L1</button></li>
+          </ul>
       </div>
     </div>
       <div className = "container">

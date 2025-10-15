@@ -15,6 +15,7 @@ const allenquiries = async (req, res) => {
         const enquirie = await EnquirieModel.find();console.log("7");
         return res.json(enquirie);
     } catch (err){
+        console.log(err);
         res.status(500)
         .json({
             message: "Internal server error in materialController>>allmaterial",

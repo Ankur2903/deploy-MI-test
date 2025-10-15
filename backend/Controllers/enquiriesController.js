@@ -6,13 +6,13 @@ console.log("enquiriescontroller is working");
 
 const allenquiries = async (req, res) => {
     try {
-        console.log("all enquiriescontroller is working");
-        const { email } = req.body;
-        const user = await UserModel.findOne({ email });
-        if (!user) return res.status(403)
-        const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
-        const enquirie = await EnquirieModel.find();
+        console.log("1");
+        const { email } = req.body;console.log("2");
+        const user = await UserModel.findOne({ email });console.log("3");
+        if (!user) return res.status(403)console.log("4");
+        const permission = user.manager;console.log("5");
+        if(permission !== "Admin" && permission !== 'true') return res.status(403);console.log("6");
+        const enquirie = await EnquirieModel.find();console.log("7");
         return res.json(enquirie);
     } catch (err){
         res.status(500)

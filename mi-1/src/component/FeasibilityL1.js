@@ -80,7 +80,7 @@ function FeasibilityL1({ type, stripWidth, thickness, parameters, length }) {
           return handleError('Please fill out all fields.')
         }console.log("workingss--")
         try {
-          const url = "http://localhost:8080/enquirie/addenquirie";
+          const url = "https://deploy-mi-test-api.vercel.app/enquirie/addenquirie";
           const response = await fetch(url, {
             method: "POST",
             headers: {

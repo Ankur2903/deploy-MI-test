@@ -33,7 +33,7 @@ function Machine() {
     const fetchmachines = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await fetch("http://localhost:8080/machine/allmachine", {
+        const response = await fetch("https://deploy-mi-test-api.vercel.app/machine/allmachine", {
           method: "POST", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,

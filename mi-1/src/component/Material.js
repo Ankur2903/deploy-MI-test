@@ -49,7 +49,7 @@ function Material() {
   useEffect(() => {
         const fetchmaterials = async () => {
           try {
-            const response = await fetch("http://localhost:8080/product/allmaterials", {
+            const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
               method: "POST", // default method, can be omitted
               headers: {
                  'Authorization': `Bearer ${token}`,
@@ -107,7 +107,7 @@ function Material() {
         return handleError('Please fill out all fields.')
       }
       try {
-        const url = "http://localhost:8080/product/addmaterial";
+        const url = "https://deploy-mi-test-api.vercel.app/product/addmaterial";
         const response = await fetch(url, {
           method: "POST",
           headers: {
@@ -136,7 +136,7 @@ function Material() {
 
     const deleteMaterails = async (selectedMaterials) => {
     try {
-      const response = await fetch(`http://localhost:8080/product/deletematerial`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/product/deletematerial`, {
         method: "DELETE", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -165,7 +165,7 @@ function Material() {
 
   const editMaterial = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/product/editmaterial`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/product/editmaterial`, {
         method: "PUT", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,

@@ -2,19 +2,13 @@ const EnquirieModel = require('../Models/Enquiries')
 const UserModel = require('../Models/User')
 require('dotenv').config();
 
-console.log("enquiriescontroller is working");
-
 const allenquiries = async (req, res) => {
     try {
-        console.log("1");
-        const { email } = req.body;console.log("2");
-        const user = await UserModel.findOne({ email });console.log("3");
-        if (!user) return res.status(403);console.log("4");
-        const permission = user.manager;console.log(EnquirieModel);
-        if(permission !== "Admin" && permission !== true){
-            console.log(permission)
-            return res.status(403);
-        }
+        const { email } = req.body;
+        const user = await UserModel.findOne({ email });
+        if (!user) return res.status(403);
+        const permission = user.manager;c
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const enquirie = await EnquirieModel.find();console.log("7");
         return res.json(enquirie);
     } catch (err){
@@ -34,7 +28,7 @@ const addenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
@@ -64,7 +58,7 @@ const deleteenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         for(let i = 0;i<selectedEnquiries.length;i++){
             const enquirieId = selectedEnquiries[i];
             const deleteenquirie = await EnquirieModel.findByIdAndDelete(enquirieId);
@@ -89,7 +83,7 @@ const editenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const enquirie = await EnquirieModel.findById(id);
         if (!enquirie) {
             return res.status(409)

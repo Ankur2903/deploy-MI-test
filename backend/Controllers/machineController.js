@@ -8,7 +8,7 @@ const addmachine = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const no = await MachineModel.countDocuments() + 1;
         const machineModel = new MachineModel({no, machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations}) ;
         await machineModel.save();
@@ -33,7 +33,7 @@ const allmachines = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const machines = await MachineModel.find();
 
         return res.json(machines);
@@ -54,7 +54,7 @@ const deletemachines = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         for(let i = 0;i<selectedMachines.length;i++){
             const machineId = selectedMachines[i];
             const deleteMachine = await MachineModel.findByIdAndDelete(machineId);
@@ -78,7 +78,7 @@ const editmachine = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const machine = await MachineModel.findById(selectedMachines[0]);
         if (!machine) {
             return res.status(409)

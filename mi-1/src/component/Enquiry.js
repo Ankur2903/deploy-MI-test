@@ -80,7 +80,7 @@ function Inquiry() {
   useEffect(() => {
           const fetchenquiries = async () => {
             try {
-              const response = await fetch("http://localhost:8080/enquirie/allenquiries", {
+              const response = await fetch("https://deploy-mi-test-api.vercel.app/enquirie/allenquiries", {
                 method: "POST", // default method, can be omitted
                 headers: {
                    'Authorization': `Bearer ${token}`,
@@ -108,7 +108,7 @@ function Inquiry() {
 
     const deleteenquiries = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/enquirie/deleteenquirie`, {
+          const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/deleteenquirie`, {
             method: "DELETE", // default method, can be omitted
               headers: {
                 'Authorization': `Bearer ${token}`,
@@ -203,7 +203,7 @@ function Inquiry() {
 
         else setResult(2);
         try {
-              const response = await fetch(`http://localhost:8080/enquirie/editenquirie`, {
+              const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/editenquirie`, {
                 method: "PUT", // default method, can be omitted
                   headers: {
                     'Authorization': `Bearer ${token}`,

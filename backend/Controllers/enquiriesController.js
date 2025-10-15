@@ -2,8 +2,11 @@ const EnquirieModel = require('../Models/Enquiries')
 const UserModel = require('../Models/User')
 require('dotenv').config();
 
+console.log("enquiriescontroller is working");
+
 const allenquiries = async (req, res) => {
     try {
+        console.log("all enquiriescontroller is working");
         const { email } = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)

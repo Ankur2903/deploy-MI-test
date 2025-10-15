@@ -8,7 +8,7 @@ const addmaterial = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const count = await MaterialModel.countDocuments() + 1;
         let materialNo = "MIMS";
         const num = Math.log10(count) + 1;
@@ -37,7 +37,7 @@ const allmaterial = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const materials = await MaterialModel.find();
         return res.json(materials);
     } catch (err){
@@ -57,7 +57,7 @@ const deletematerial = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         for(let i = 0;i<selectedMaterials.length;i++){
             const materialId = selectedMaterials[i];
             const deleteMaterial = await MaterialModel.findByIdAndDelete(materialId);
@@ -81,7 +81,7 @@ const editmaterial = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const material = await MaterialModel.findById(selectedMaterials[0]);
         if (!material) {
             return res.status(409)

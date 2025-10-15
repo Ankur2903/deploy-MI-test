@@ -85,7 +85,7 @@ function Machine() {
     try {
       
       const token = localStorage.getItem('token')
-      const url = "http://localhost:8080/machine/addmachine";
+      const url = "https://deploy-mi-test-api.vercel.app/machine/addmachine";
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -114,7 +114,7 @@ function Machine() {
   const deleteMachines = async (selectedMachines) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:8080/machine/deletemachine`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/deletemachine`, {
         method: "DELETE", // default method, can be omitted
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -147,7 +147,7 @@ function Machine() {
       if (!newMachineId || !newType || !newUsableShaftLength || !newStripWidthMin || !newStripWidthMax || !newThicknessMin || !newThicknessMax || !newBoxPerimeter || !newGiCoating || !newNumberOfStations) {
         return handleError('Please fill out all fields.')
       }
-      const response = await fetch(`http://localhost:8080/machine/editmachine`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/editmachine`, {
         method: "PUT", // default method, can be omitted
         headers: {
           'Authorization': `Bearer ${token}`,

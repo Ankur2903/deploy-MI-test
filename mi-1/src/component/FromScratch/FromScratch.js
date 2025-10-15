@@ -10,6 +10,7 @@ import logo from '../Image/logo.192.png'
 import LineAtTheta from '../Graph/Shap/LineAtθ';
 import Result from '../shap/Result';
 import Feasibility from '../Feasibility';
+import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 import Image1 from '../Image/Anti-Clockwise.png'
 import Image2 from '../Image/Clockwise.png'
@@ -207,8 +208,6 @@ const FromScratch = () => {
     const newHeight = (endY - startY)/ scale;
     setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
   }, [startX, startY, endX, endY])
-
-  console.log(viewBox)
 
   useEffect(() => {
     const l = shapes.length;
@@ -596,7 +595,13 @@ const FromScratch = () => {
           <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
           <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li> 
         </ul>
-          <button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}} onClick={submitClick}>Feasibility?</button>
+          <button disabled ={shapes.length === 0 ? true : false} title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}}>
+            Feasibility?
+          </button>
+          <ul className="dropdown-menu">
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal0" onClick={submitClick}>Feasibility L0</button></li>
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal1" onClick={submitClick}>Feasibility L1</button></li>
+          </ul>
       </div>
     </div>
       <div className = "container">

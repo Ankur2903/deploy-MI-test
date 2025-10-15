@@ -10,7 +10,7 @@ const allenquiries = async (req, res) => {
         const { email } = req.body;console.log("2");
         const user = await UserModel.findOne({ email });console.log("3");
         if (!user) return res.status(403);console.log("4");
-        const permission = user.manager;console.log(permission);
+        const permission = user.manager;console.log(EnquirieModel);
         if(permission !== "Admin" && permission !== 'true') return res.status(403);console.log("6");
         const enquirie = await EnquirieModel.find();console.log("7");
         return res.json(enquirie);

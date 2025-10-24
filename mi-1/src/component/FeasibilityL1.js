@@ -49,6 +49,7 @@ function FeasibilityL1({ type, stripWidth, thickness, parameters, length }) {
   const [unit1, setUnit1] = useState("Num")
   const [unit2, setUnit2] = useState("Num")
   const [boxPerimeter, setBoxPerimeter] = useState(1)
+  const token = localStorage.getItem('token')
   
   useEffect(() => {
     if(unit1 === "Num" ) setVolumeMonthlyInTon(((stripWidth*thickness*length*7850*0.000000001)*volumeMonthly).toFixed(3));
@@ -84,6 +85,7 @@ function FeasibilityL1({ type, stripWidth, thickness, parameters, length }) {
           const response = await fetch(url, {
             method: "POST",
             headers: {
+              'Authorization': `Bearer ${token}`,
               'Content-Type' : 'application/json'
             },
             body: JSON.stringify({email, customerName, kAMName, profileName, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result})

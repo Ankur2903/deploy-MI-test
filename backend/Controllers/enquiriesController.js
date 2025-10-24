@@ -77,17 +77,17 @@ const deleteenquirie = async (req, res) => {
 }
 
 const editenquirie = async (req, res) => {
-    try {console.log("welcome");
+    try {
         let {email, id, customerName, kAMName, profileName, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result} = req.body;
-        const user = await UserModel.findOne({ email });console.log("welcome1")
-        if (!user) return res.status(403);console.log("welcome2")
-        const permission = user.manager;console.log("welcome3")
-        if(permission !== "Admin" && permission !== true) return res.status(403);console.log("welcome4")
-        const enquirie = await EnquirieModel.findById(id);console.log("welcome5")
+        const user = await UserModel.findOne({ email });
+        if (!user) return res.status(403);
+        const permission = user.manager;
+        if(permission !== "Admin" && permission !== true) return res.status(403);
+        const enquirie = await EnquirieModel.findById(id);
         if (!enquirie) {
             return res.status(409)
             .json({ message: 'Enquirie is not exist' , success: false } ) ;
-        };console.log("welcome");
+        };
         enquirie.customerName = customerName;
         enquirie.kAMName = kAMName;
         enquirie.profileName = profileName;
@@ -128,14 +128,14 @@ const editenquirie = async (req, res) => {
         enquirie.unstaredval = unstaredval;
         enquirie.risk = risk;
         enquirie.riskReason = riskReason;
-        enquirie.result = result;console.log("welcome6")
-
-        const editenquirie = await enquirie.save();console.log("welcome7");
+        enquirie.result = result;
+        const editenquirie = await enquirie.save();
         res.json({
         message: "enquirie updated successfully",
         success: true
       });
     } catch (err){
+        console.log(err);
         res.status(500)
         .json({
             message: "Internal server error in enquiriesController>>editenquirie",

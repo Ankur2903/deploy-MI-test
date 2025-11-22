@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { handleError, handleSuccess } from '../ulits';
+import { downloadExcel } from "./Download/ExcelGenerator";
 
 function Inquiry() {
   const email = localStorage.getItem('loggedINUserEmail')
+  const [enquirieNo, setEnquirieNo] = useState("");
   const [enquiries, setEnquiries] = useState([]);
   const [selectedEnquiries, setSelectedEnquiries] = useState([]);
   const location = useLocation();
   const [customerName, setCustomerName] = useState("");
+  const [customerRefNo, setCustomerRefNo] = useState("");
   const [kAMName, setKAMName] = useState("")
   const [profileName, setProfileName] = useState("");
+  const [profileNo, setProfileNo] = useState("");
   const [twoD, setTwoD] = useState("");
   const [threeD, setThreeD] = useState("");
   const [machine, setMachine] = useState("");
@@ -39,6 +43,7 @@ function Inquiry() {
   const [click6, setClick6] = useState(false)
   const [outsourceActivity, setOutsourceActivity] = useState("");
   const [material, setMaterial] = useState("");
+  const [materialIndianEquiv, setMaterialIndianEquiv] = useState("");
   const [tolerance, setTolerance] = useState("Greater than 0.5");
   const [customerSpecReq, setCustomerSpecReq] = useState("");
   const [packingSpc, setPackingSpc] = useState("");
@@ -61,6 +66,14 @@ function Inquiry() {
   const [id, setId] = useState("");
   const [result, setResult] = useState(-1)
   const token = localStorage.getItem('token')
+
+  const now = new Date();
+  const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
+  const d = String(ist.getDate()).padStart(2, "0");
+  const m = String(ist.getMonth() + 1).padStart(2, "0");
+  const y = ist.getFullYear();
+  const [reviewDate, setReviewDate] = useState("");
+  const [enquirieDate, setEnquirieDate] = useState("");
 
   const boolToText = (val) => (val ? "Yes" : "No");
 
@@ -135,14 +148,17 @@ function Inquiry() {
         }
       };
 
-      const handleModify = (customId) => {
-        setTab1(false);
+      const handleclick = (customId) => {
+        setTab1(true)
         setId(customId);
         for(let i = 0;i< enquiries.length;i++){
             if(enquiries[i]._id === customId){
+                setEnquirieNo(enquiries[i].iD);
                 setCustomerName(enquiries[i].customerName);
+                setCustomerRefNo(enquiries[i].customerRefNo);
                 setKAMName(enquiries[i].kAMName);
                 setProfileName(enquiries[i].profileName);
+                setProfileNo(enquiries[i].profileNo);
                 setTwoD(enquiries[i].twoD);
                 setThreeD(enquiries[i].threeD);
                 setMachine(enquiries[i].machine);
@@ -172,6 +188,7 @@ function Inquiry() {
                 setClick6(enquiries[i].click6);
                 setOutsourceActivity(enquiries[i].outsourceActivity);
                 setMaterial(enquiries[i].material);
+                setMaterialIndianEquiv(enquiries[i].materialIndianEquiv);
                 setTolerance(enquiries[i].tolerance);
                 setCustomerSpecReq(enquiries[i].customerSpecReq);
                 setPackingSpc(enquiries[i].packingSpc);
@@ -187,13 +204,20 @@ function Inquiry() {
                 setUnstaredval(enquiries[i].unstaredval);
                 setRisk(enquiries[i].risk);
                 setRiskReason(enquiries[i].riskReason);
+                setEnquirieDate(enquiries[i].enquirieDate);
+                setReviewDate(enquiries[i].reviewDate);
+                setResult(enquiries[i].result);
             }
         }
     };
 
+      const handleModify = (customId) => {
+        setTab1(false);
+    };
+
     const handleSaveChanges = async(e) => {
        e.preventDefault();
-        if(!customerName || !kAMName || !profileName || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk){
+       if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk){
           return handleError('Please fill out all fields.')
         }
 
@@ -202,6 +226,7 @@ function Inquiry() {
         else if(machine === "To be developed"|| tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") setResult(1);
 
         else setResult(2);
+        setReviewDate(`${d}-${m}-${y}`);
         try {
               const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/editenquirie`, {
                 method: "PUT", // default method, can be omitted
@@ -209,7 +234,7 @@ function Inquiry() {
                     'Authorization': `Bearer ${token}`,
                     "Content-Type": "application/json", // Ensure correct content type
                   },
-                 body: JSON.stringify({email, id, customerName, kAMName, profileName, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result})
+                 body: JSON.stringify({email, id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate})
                 });
                 const result1 = await response.json();
                 const {success, message, error} = result1;
@@ -282,7 +307,7 @@ function Inquiry() {
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.time}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px", backgroundColor:  enquirie.result == 2 ? "green" : enquirie.result == 1 ? "yellow" : "red" }}>{enquirie.result == 2 ? "FEASIBLE" : enquirie.result == 1 ? "FEASIBLE WITH MODIFICATION" : "NOT FEASIBLE"}</td>
           <td style={{textAlign: "center", border: "1px solid black",margin: "0", backgroundColor: "blue"}}>
-            <button type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-1${enquirie.iD}`} style={{ backgroundColor: "blue", color: "white", border: "none", borderRadius: "5px" }} onClick={() => setTab1(true)}>Click</button>
+            <button type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-1${enquirie.iD}`} style={{ backgroundColor: "blue", color: "white", border: "none", borderRadius: "5px" }} onClick={() => handleclick(enquirie._id)}>Click</button>
             <div className="modal fade-dark" id={`exampleModal-1${enquirie.iD}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog modal-xl">
                 {tab1 && 
@@ -294,8 +319,10 @@ function Inquiry() {
                           <h4 style={styles.subHeading}></h4><br/>
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Customer Name :   {enquirie.customerName}</label></div>
+                              <div style={styles.inputGroup}><label>Customer Ref No : {enquirie.customerRefNo}</label></div>
                               <div style={styles.inputGroup}><label>Key Account Manager Name : {enquirie.kAMName}</label></div>
                               <div style={styles.inputGroup}><label>Profile Name : {enquirie.profileName} </label></div>
+                              <div style={styles.inputGroup}><label>Profile No : {enquirie.profileNo}</label></div>
                           </div><br/>
                           <div style={styles.inputRow}><h5>1. Drawing Issued by Customer</h5></div>
                           <div style={styles.inputRow}>
@@ -314,7 +341,7 @@ function Inquiry() {
                               <div style={styles.inputGroup}><label style={{backgroundColor: (enquirie.stripWidth < 10 || enquirie.stripWidth > 570) ? "red" : "#00FF00", borderRadius: "5px"}}>Strip Width :   {enquirie.stripWidth} mm</label></div>
                               <div style={styles.inputGroup}><label>Profile Type : {enquirie.type} Profile</label></div>
                               <div style={styles.inputGroup}><label style={{backgroundColor: (enquirie.thickness < 0.6 || enquirie.thickness > 12) ? "red" : "#00FF00", borderRadius: "5px"}}>Thickness :  {enquirie.thickness} mm</label></div>
-                              <div style={styles.inputGroup}><label>Box Perimeter : {enquirie.parameters}1 mm</label></div>
+                              <div style={styles.inputGroup}><label>Box Perimeter : {enquirie.boxPerimeter}1 mm</label></div>
                           </div>
                           <div style={styles.inputRow}><h6>3.2. Post Forming Process</h6></div>
                           <div style={styles.inputRow}>
@@ -404,13 +431,14 @@ function Inquiry() {
                           </div>}<br/>
                           <div style={styles.inputRow}><h5>4. Can engineering specifications specified by customer be met?</h5></div>
                           <div style={styles.inputRow}>
-                            <div style={styles.inputRow}><h6>4.1 Material</h6></div>
+                              <div style={styles.inputRow}><h6>4.1 Material</h6></div>
                               <div style={styles.inputGroup}><label>{enquirie.material}</label></div>
-                              <div style={styles.inputGroup}><label></label></div>
-                              <div style={styles.inputGroup}><label></label></div>
+                              <div style={styles.inputRow}><label>4.2 Material Indian Equivalent</label></div>
+                              <div style={styles.inputGroup}><label>{enquirie.materialIndianEquiv}</label></div>
                           </div>
+                          
                           <div style={styles.inputRow}>
-                            <div style={styles.inputRow}><h6>4.2 Tolerance</h6></div>
+                            <div style={styles.inputRow}><h6>4.3 Tolerance</h6></div>
                               <div style={styles.inputGroup}><label>{enquirie.tolerance}</label></div>
                               <div style={styles.inputGroup}><label></label></div>
                               <div style={styles.inputGroup}><label></label></div>
@@ -460,6 +488,7 @@ function Inquiry() {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-success mx-4" onClick={() => {downloadExcel(enquirieNo, customerName,customerRefNo,kAMName,profileName,profileNo,twoD,threeD,machine,tools,fixture,click1,click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2,laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, boxPerimeter, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate)}}>Download</button>
                       <button type="button" className="btn btn-primary" onClick={() => handleModify(enquirie._id)}>Modify</button>
                     </div>
                   </div>
@@ -477,6 +506,12 @@ function Inquiry() {
                                 <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Type Customer Name..." style={styles.select}/>
                             </div>
                             <div style={styles.inputGroup}>
+                                <label>Customer Ref No.</label>
+                                <input type="text" value={customerRefNo} onChange={(e) => setCustomerRefNo(e.target.value)} placeholder="Type Customer Reference Number..." style={styles.select}/>
+                            </div>
+                        </div>
+                        <div style={styles.inputRow}>
+                            <div style={styles.inputGroup}>
                                 <label>Key Account Manager Name</label>
                                 <input type="text" value={kAMName} onChange={(e) => setKAMName(e.target.value)} placeholder="Type Key Account Manager Name..." style={styles.select}/>
                             </div>
@@ -485,6 +520,10 @@ function Inquiry() {
                             <div style={styles.inputGroup}>
                                 <label>Profile Name</label>
                                 <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Type Profile Name..." style={styles.select}/>
+                            </div>
+                            <div style={styles.inputGroup}>
+                                <label>Profile No.</label>
+                                <input type="text" value={profileNo} onChange={(e) => setProfileNo(e.target.value)} placeholder="Type Profile Number..." style={styles.select}/>
                             </div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>1. Drawing Issued by Customer</h5></div>

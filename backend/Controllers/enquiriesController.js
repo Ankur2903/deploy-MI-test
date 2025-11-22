@@ -6,13 +6,12 @@ const allenquiries = async (req, res) => {
     try {
         const { email } = req.body;
         const user = await UserModel.findOne({ email });
-        if (!user) return res.status(403);
+        if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
-        const enquirie = await EnquirieModel.find();console.log("7");
+        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        const enquirie = await EnquirieModel.find();
         return res.json(enquirie);
     } catch (err){
-        console.log(err);
         res.status(500)
         .json({
             message: "Internal server error in materialController>>allmaterial",
@@ -28,7 +27,7 @@ const addenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin" && permission !== 'true') return res.status(403);
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
@@ -53,12 +52,13 @@ const addenquirie = async (req, res) => {
 
 const deleteenquirie = async (req, res) => {
     try {
+        
         const selectedEnquiries = req.body.selectedEnquiries;
         const email = req.body.email;
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin" && permission !== 'true') return res.status(403);
         for(let i = 0;i<selectedEnquiries.length;i++){
             const enquirieId = selectedEnquiries[i];
             const deleteenquirie = await EnquirieModel.findByIdAndDelete(enquirieId);
@@ -81,14 +81,14 @@ const editenquirie = async (req, res) => {
     try {
         let {email, id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
         const user = await UserModel.findOne({ email });
-        if (!user) return res.status(403);
+        if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin" && permission !== 'true') return res.status(403);
         const enquirie = await EnquirieModel.findById(id);
         if (!enquirie) {
             return res.status(409)
             .json({ message: 'Enquirie is not exist' , success: false } ) ;
-        };
+        }
         enquirie.customerName = customerName;
         enquirie.customerRefNo = customerRefNo;
         enquirie.kAMName = kAMName;
@@ -133,22 +133,15 @@ const editenquirie = async (req, res) => {
         enquirie.risk = risk;
         enquirie.riskReason = riskReason;
         enquirie.result = result;
-<<<<<<< Updated upstream
-=======
         enquirie.reviewDate = reviewDate;
 
->>>>>>> Stashed changes
         const editenquirie = await enquirie.save();
         res.json({
         message: "enquirie updated successfully",
         success: true
       });
     } catch (err){
-<<<<<<< Updated upstream
-        console.log(err);
-=======
         console.log(err)
->>>>>>> Stashed changes
         res.status(500)
         .json({
             message: "Internal server error in enquiriesController>>editenquirie",

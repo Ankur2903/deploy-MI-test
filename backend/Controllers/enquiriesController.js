@@ -24,7 +24,7 @@ const allenquiries = async (req, res) => {
 const addenquirie = async (req, res) => {
     try {
         
-        let {email, customerName, kAMName, profileName, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result} = req.body;
+        let {email, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
@@ -33,10 +33,11 @@ const addenquirie = async (req, res) => {
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
         const time = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
-        const enquirieModel = new EnquirieModel({email, iD, customerName, kAMName, profileName, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, shortRadiusBendingThickness, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason}) ;
+        const enquirieModel = new EnquirieModel({email, iD, customerName, customerRefNo, kAMName, profileName, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, shortRadiusBendingThickness, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
         await enquirieModel.save();
         res.status(201)
         .json({
+            iD: enquirieModel.iD,
             message: "Enquirie added successfully.",
             success: true
         })
@@ -78,7 +79,7 @@ const deleteenquirie = async (req, res) => {
 
 const editenquirie = async (req, res) => {
     try {
-        let {email, id, customerName, kAMName, profileName, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result} = req.body;
+        let {email, id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403);
         const permission = user.manager;
@@ -89,8 +90,10 @@ const editenquirie = async (req, res) => {
             .json({ message: 'Enquirie is not exist' , success: false } ) ;
         };
         enquirie.customerName = customerName;
+        enquirie.customerRefNo = customerRefNo;
         enquirie.kAMName = kAMName;
         enquirie.profileName = profileName;
+        enquirie.profileNo = profileNo;
         enquirie.twoD = twoD;
         enquirie.threeD = threeD;
         enquirie.machine = machine;
@@ -115,6 +118,7 @@ const editenquirie = async (req, res) => {
         enquirie.click6 = click6;
         enquirie.outsourceActivity = outsourceActivity;
         enquirie.material = material;
+        enquirie.materialIndianEquiv = materialIndianEquiv;
         enquirie.tolerance = tolerance;
         enquirie.customerSpecReq = customerSpecReq;
         enquirie.packingSpc = packingSpc;
@@ -129,13 +133,22 @@ const editenquirie = async (req, res) => {
         enquirie.risk = risk;
         enquirie.riskReason = riskReason;
         enquirie.result = result;
+<<<<<<< Updated upstream
+=======
+        enquirie.reviewDate = reviewDate;
+
+>>>>>>> Stashed changes
         const editenquirie = await enquirie.save();
         res.json({
         message: "enquirie updated successfully",
         success: true
       });
     } catch (err){
+<<<<<<< Updated upstream
         console.log(err);
+=======
+        console.log(err)
+>>>>>>> Stashed changes
         res.status(500)
         .json({
             message: "Internal server error in enquiriesController>>editenquirie",

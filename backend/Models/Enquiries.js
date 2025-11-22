@@ -1,3 +1,4 @@
+const { string, required } = require('joi');
 const mongoose = require( 'mongoose');
 const Schema = mongoose.Schema;
 
@@ -5,8 +6,10 @@ const enquirySchema = new Schema({
     email: { type: String, required: true},
     iD: { type: Number, required: true },
     customerName: { type: String, required: true},
+    customerRefNo: { type: String, required: false},
     kAMName: { type: String, required: true},
     profileName: { type: String, required: true},
+    profileNo: { type: String, required: false},
     time: { type: String, required: false},
     result: { type: Number, required: true,},
     twoD: { type: String, required: true},
@@ -38,6 +41,7 @@ const enquirySchema = new Schema({
     click6: { type: Boolean, default: false,},
     outsourceActivity: { type: String, required: false,},
     material: { type: String, required: false,},
+    materialIndianEquiv: { type: String, required: false,},
     tolerance: { type: String, required: true,},
     customerSpecReq: { type: String, required: true,},
     packingSpc: { type: String, required: true,},
@@ -51,6 +55,8 @@ const enquirySchema = new Schema({
     unstaredval: { type: String, required: false,},
     risk: { type: String, required: true,},
     riskReason: { type: String, required: false,},
+    enquirieDate: { type: String, required: false },
+    reviewDate: { type: String, required: false }
 });
 
 

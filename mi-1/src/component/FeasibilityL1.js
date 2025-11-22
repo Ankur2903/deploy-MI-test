@@ -69,7 +69,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   useEffect(() => {
           const fetchmaterials = async () => {
             try {
-              const response = await fetch("http://localhost:8080/product/allmaterials", {
+              const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
                 method: "POST", // default method, can be omitted
                 headers: {
                    'Authorization': `Bearer ${token}`,

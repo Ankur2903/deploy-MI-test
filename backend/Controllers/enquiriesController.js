@@ -27,7 +27,7 @@ const addenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
@@ -58,7 +58,7 @@ const deleteenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         for(let i = 0;i<selectedEnquiries.length;i++){
             const enquirieId = selectedEnquiries[i];
             const deleteenquirie = await EnquirieModel.findByIdAndDelete(enquirieId);
@@ -83,7 +83,7 @@ const editenquirie = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (!user) return res.status(403)
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const enquirie = await EnquirieModel.findById(id);
         if (!enquirie) {
             return res.status(409)

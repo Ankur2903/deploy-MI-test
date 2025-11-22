@@ -13,7 +13,7 @@ import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
 function Round_2() {
-  const [parameters, setParameters] = useState(0)
+  const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [side1, setSide1] = useState(50);
   const side1Change = (event) => {
     setSide1(parseFloat(event.target.value));
@@ -205,7 +205,7 @@ function Round_2() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
               </div>  
             </div>
           </div>
@@ -214,7 +214,7 @@ function Round_2() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}  length={length}/>
+                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
               </div>  
             </div>
           </div>

@@ -13,7 +13,7 @@ import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
 function Hand_rail_section() {
-  const [parameters, setParameters] = useState(0)
+  const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [length, setLength] = useState(1);
   const lengthChange = (event) => {
     setLength(parseFloat(event.target.value));
@@ -209,7 +209,7 @@ function Hand_rail_section() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
               </div>  
             </div>
           </div>
@@ -218,7 +218,7 @@ function Hand_rail_section() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}  length={length}/>
+                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
               </div>  
             </div>
           </div>

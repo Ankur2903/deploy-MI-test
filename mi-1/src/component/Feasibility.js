@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function Feasibility({ type, stripWidth, thickness, parameters }) {
+function Feasibility({ type, stripWidth, thickness, boxPerimeter }) {
   const [method, setMethod] = useState('');
   const [band, setBand] = useState('');
   const [material, setMaterial] = useState('');
@@ -45,7 +45,7 @@ function Feasibility({ type, stripWidth, thickness, parameters }) {
           </div>
           <div style={styles.inputRow}>
             <div style={styles.inputGroup}><label>Thickness : {thickness} mm</label></div>
-            <div style={styles.inputGroup}><label>Box Perimeter : {parameters} mm</label></div>
+            <div style={styles.inputGroup}><label>Box Perimeter : {boxPerimeter} mm</label></div>
           </div>
         </section>
         {/* User Fields */}

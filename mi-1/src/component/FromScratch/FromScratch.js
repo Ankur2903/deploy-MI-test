@@ -20,7 +20,7 @@ import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 import PredefinedPoints from '../PredefinedPoints';
 
 const FromScratch = () => {
-  const [parameters, setParameters] = useState(0)
+  const [boxPerimeter, setBoxPerimeter] = useState(0)
   const aa = Math.PI/180;
   const [viewBox, setViewBox] = useState('0 0 200 200');
   const [isDragging, setIsDragging] = useState(false);
@@ -580,7 +580,7 @@ const FromScratch = () => {
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
-              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
             </div>  
           </div>
         </div>

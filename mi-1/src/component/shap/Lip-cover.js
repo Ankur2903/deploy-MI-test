@@ -13,7 +13,7 @@ import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
 function Lip_cover() {
-  const [parameters, setParameters] = useState(0)
+  const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [length, setLength] = useState(1);
   const lengthChange = (event) => {
     setLength(parseFloat(event.target.value));
@@ -210,7 +210,7 @@ function Lip_cover() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <Feasibility type={"Open"} stripWidth={stripWidth} thickness={thickness} parameters={parameters}/>
+                <Feasibility type={"Open"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
               </div>  
             </div>
           </div>
@@ -219,7 +219,7 @@ function Lip_cover() {
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
-                <FeasibilityL1 type={"Open"} stripWidth={stripWidth} thickness={thickness} parameters={parameters} length={length}/>
+                <FeasibilityL1 type={"Open"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter} length={length}/>
               </div>  
             </div>
           </div>

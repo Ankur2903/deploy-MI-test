@@ -9,7 +9,7 @@ const allenquiries = async (req, res) => {
         if (!user) return res.status(403)
         const permission = user.manager;
         console.log("--------", permission)
-        if(permission !== "Admin" && permission !== 'true') return res.status(403);
+        if(permission !== "Admin" && permission !== true) return res.status(403);
         const enquirie = await EnquirieModel.find();
         return res.json(enquirie);
     } catch (err){

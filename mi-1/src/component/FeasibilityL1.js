@@ -3,7 +3,7 @@ import { handleError, handleSuccess } from '../ulits';
 import { useLocation } from "react-router-dom";
 import { downloadExcel } from './Download/ExcelGenerator';
 
-function FeasibilityL1({ type, stripWidth, thickness, parameters, length }) {
+function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const email = localStorage.getItem('loggedINUserEmail')
   const location = useLocation();
   const [enquirieNo, setEnquirieNo] = useState(0);

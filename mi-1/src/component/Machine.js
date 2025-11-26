@@ -3,7 +3,6 @@ import { handleError, handleSuccess } from '../ulits';
 import { useLocation } from "react-router-dom";
 
 function Machine() {
-  const email = localStorage.getItem('loggedINUserEmail')
   const location = useLocation();
   const [machineId, setMachineId] = useState("");
   const [newMachineId, setNewMachineId] = useState("");
@@ -38,8 +37,7 @@ function Machine() {
           headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({email})
+          }
         });
         const data = await response.json();
         setMachines(data);console.log(data)
@@ -92,7 +90,7 @@ function Machine() {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({email, machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations })
+        body: JSON.stringify({ machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations })
       })
       const result = await response.json();
       const { success, message, error } = result;
@@ -120,7 +118,7 @@ function Machine() {
           'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json", // Ensure correct content type
         },
-        body: JSON.stringify({email, selectedMachines: selectedMachines })
+        body: JSON.stringify({ selectedMachines: selectedMachines })
       });
       const result = await response.json();
       const { success, message, error } = result;
@@ -153,7 +151,7 @@ function Machine() {
           'Authorization': `Bearer ${token}`,
           "Content-Type": "application/json", // Ensure correct content type
         },
-        body: JSON.stringify({email, selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations })
+        body: JSON.stringify({ selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations })
       });
       const result = await response.json();
       const { success, message, error } = result;

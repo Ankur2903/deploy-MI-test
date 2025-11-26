@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import {useState} from 'react'
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './component/Navbar'
 import Home from './component/Home'
@@ -31,7 +31,6 @@ import Signup from './component/Signup';
 import Login from './component/Login';
 import RefrshHandler from './RefrshHandler';
 import ManagerDashboard from './component/ManagerDeshboard';
-import CollectData from './CollectData';
 import ForgotPassword from './component/ForgotPassword';
 import ResetPassword from './component/ResetPassword';
 import PageNotFound from './component/PageNotFound';
@@ -94,8 +93,7 @@ import AdminPanel from './component/AdminPanel';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [users, setUsers] = useState([]);
-  const [permission,setPermission] = useState(false)
+  const permission = localStorage.getItem('role');
   const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{
@@ -111,7 +109,6 @@ function App() {
     <div>
       <Router>
         <RefrshHandler setIsAuthenticated={setIsAuthenticated} setLoading={setLoading}/>
-        <CollectData setUsers = {setUsers} setPermission = {setPermission}/>{permission}
         <Navbar/>
         {!loading && 
         <Routes>

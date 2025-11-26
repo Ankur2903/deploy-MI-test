@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import ManagerDashboard from "./ManagerDeshboard";
 import Machine from "./Machine";
 import Material from "./Material";

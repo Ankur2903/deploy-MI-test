@@ -4,7 +4,6 @@ import { handleError, handleSuccess } from '../ulits';
 import { downloadExcel } from "./Download/ExcelGenerator";
 
 function Inquiry() {
-  const email = localStorage.getItem('loggedINUserEmail')
   const [enquirieNo, setEnquirieNo] = useState("");
   const [enquiries, setEnquiries] = useState([]);
   const [selectedEnquiries, setSelectedEnquiries] = useState([]);
@@ -98,8 +97,7 @@ function Inquiry() {
                 headers: {
                    'Authorization': `Bearer ${token}`,
                   "Content-Type": "application/json", // Ensure correct content type
-                },
-                body: JSON.stringify({email})
+                }
               });
               const data = await response.json();
               setEnquiries(data); 
@@ -127,7 +125,7 @@ function Inquiry() {
                 'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json", // Ensure correct content type
               },
-              body: JSON.stringify({email, selectedEnquiries: selectedEnquiries })
+              body: JSON.stringify({ selectedEnquiries: selectedEnquiries })
             });
             const result = await response.json();
             const {success, message, error} = result;
@@ -211,7 +209,7 @@ function Inquiry() {
         }
     };
 
-      const handleModify = (customId) => {
+      const handleModify = () => {
         setTab1(false);
     };
 
@@ -234,7 +232,7 @@ function Inquiry() {
                     'Authorization': `Bearer ${token}`,
                     "Content-Type": "application/json", // Ensure correct content type
                   },
-                 body: JSON.stringify({email, id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate})
+                 body: JSON.stringify({ id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate})
                 });
                 const result1 = await response.json();
                 const {success, message, error} = result1;

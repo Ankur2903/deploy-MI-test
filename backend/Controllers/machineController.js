@@ -4,8 +4,8 @@ require('dotenv').config();
 
 const addmachine = async (req, res) => {
     try {
-        let {email,  machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations } = req.body;
-        const user = await UserModel.findOne({ email });
+        let {  machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations } = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -29,8 +29,7 @@ const addmachine = async (req, res) => {
 
 const allmachines = async (req, res) => {
     try {
-        const email = req.body.email;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -50,8 +49,7 @@ const allmachines = async (req, res) => {
 const deletemachines = async (req, res) => {
     try {
         const selectedMachines = req.body.selectedMachines;
-        const email = req.body.email;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -74,8 +72,8 @@ const deletemachines = async (req, res) => {
 
 const editmachine = async (req, res) => {
     try {
-        let {email, selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations } = req.body;
-        const user = await UserModel.findOne({ email });
+        let { selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations } = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);

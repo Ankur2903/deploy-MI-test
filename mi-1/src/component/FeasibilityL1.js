@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 import { downloadExcel } from './Download/ExcelGenerator';
 
 function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
-  const email = localStorage.getItem('loggedINUserEmail')
   const location = useLocation();
   const [enquirieNo, setEnquirieNo] = useState(0);
   const [materials, setMaterials] = useState([]);
@@ -74,8 +73,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 headers: {
                    'Authorization': `Bearer ${token}`,
                   "Content-Type": "application/json", // Ensure correct content type
-                },
-                body: JSON.stringify({email})
+                }
               });
               const data = await response.json();
               setMaterials(data)
@@ -118,7 +116,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
               'Authorization': `Bearer ${token}`,
               'Content-Type' : 'application/json'
             },
-            body: JSON.stringify({email, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
+            body: JSON.stringify({ customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
           });
           const result1 = await response.json();
           const {iD, success, message, error} = result1;

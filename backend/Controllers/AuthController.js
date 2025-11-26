@@ -117,7 +117,8 @@ const login = async (req, res) => {
             success: true,
             jwtToken,
             email,
-            name: user.name
+            name: user.name,
+            role: user.manager
         })
     } catch (err){
         res.status(500)

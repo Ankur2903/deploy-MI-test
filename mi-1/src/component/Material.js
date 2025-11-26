@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { handleError, handleSuccess } from '../ulits';
 import { useLocation } from "react-router-dom";
 
 function Material() {
-  const email = localStorage.getItem('loggedINUserEmail')
   const location = useLocation();
   const [materialName, setMaterialName] = useState("");
   const [newMaterialName, setNewMaterialName] = useState("");
@@ -54,8 +53,7 @@ function Material() {
               headers: {
                  'Authorization': `Bearer ${token}`,
                 "Content-Type": "application/json", // Ensure correct content type
-              },
-              body: JSON.stringify({email})
+              }
             });
             const data = await response.json();
             setMaterials(data)
@@ -115,7 +113,7 @@ function Material() {
             'Content-Type' : 'application/json',
             
           },
-          body: JSON.stringify({email, materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax})
+          body: JSON.stringify({ materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax})
         })
         const result = await response.json();
         const {success, message, error} = result;
@@ -142,7 +140,7 @@ function Material() {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-          body: JSON.stringify({email, selectedMaterials: selectedMaterials })
+          body: JSON.stringify({ selectedMaterials: selectedMaterials })
         });
         const result = await response.json();
         const {success, message, error} = result;
@@ -171,7 +169,7 @@ function Material() {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-          body: JSON.stringify({email, selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax })
+          body: JSON.stringify({ selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax })
         });
         const result = await response.json();
         const {success, message, error} = result;

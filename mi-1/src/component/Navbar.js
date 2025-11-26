@@ -1,27 +1,21 @@
-import React, {useEffect, useState} from 'react';
 import { Link, useNavigate, useLocation} from 'react-router-dom';
 import logo from './Image/logo.192.png';
 import { handleSuccess } from '../ulits';
 import { ToastContainer } from 'react-toastify';
-import CollectData from '../CollectData';
 
 function Navbar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const navigate = useNavigate();
-  const [loggedInUser, setLoggedInUser] = useState('');
-  const [users, setUsers] = useState([]);
-  const [permission,setPermission] = useState(false)
+  const permission = localStorage.getItem('role');
 
   const isResetPasswordRoute = location.pathname.includes("/reset-password");
 
-  useEffect(() => {
-    setLoggedInUser(localStorage.getItem('loggedInUser'))
-  },[])
-
   const handleLogout = (e) => {
     localStorage.removeItem('token');
-    localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('loggedInUserName');
+    localStorage.removeItem('loggedINUserEmail');
+    localStorage.removeItem('role');
     handleSuccess('User Loggout successfully')
     setTimeout(()=>{
       navigate('/login')
@@ -30,7 +24,6 @@ function Navbar() {
 
   return (
     <>
-      <CollectData setUsers = {setUsers} setPermission = {setPermission}/>
       <nav className="navbar navbar-white" style={{backgroundColor: "#1da1f2"}}>
         <div className="container-fluid d-flex align-items-center justify-content-between flex-lg-row flex-column text-lg-start text-center">
           {/* Links Section */}
@@ -44,7 +37,6 @@ function Navbar() {
             {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/admin-panel" style={{fontWeight: "bold"}}><i className="fa-solid fa-gear" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Admin Panel</Link>}
             {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/enquiry" style={{fontWeight: "bold"}}><i className="fa-solid fa-clipboard-question" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Enquiries</Link>}
           </div>
-          
           {/* Logo Section */}
           <img src={logo} style={{ width: '211px', height: '50px' }} alt="MI Logo" />
         </div>

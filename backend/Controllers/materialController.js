@@ -4,8 +4,8 @@ require('dotenv').config();
 
 const addmaterial = async (req, res) => {
     try {
-        let {email, materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax} = req.body;
-        const user = await UserModel.findOne({ email });
+        let { materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax} = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -33,8 +33,7 @@ const addmaterial = async (req, res) => {
 
 const allmaterial = async (req, res) => {
     try {
-        const email = req.body.email;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -53,8 +52,7 @@ const allmaterial = async (req, res) => {
 const deletematerial = async (req, res) => {
     try {
         const selectedMaterials = req.body.selectedMaterials;
-        const email = req.body.email;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -77,8 +75,8 @@ const deletematerial = async (req, res) => {
 
 const editmaterial = async (req, res) => {
     try {
-        let {email, selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax } = req.body;
-        const user = await UserModel.findOne({ email });
+        let { selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax } = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);

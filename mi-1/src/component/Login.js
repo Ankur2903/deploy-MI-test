@@ -36,13 +36,14 @@ function Login() {
         body: JSON.stringify(loginInfo)
       })
       const result = await response.json();
-      const {success, message, jwtToken, name, email,  error} = result;
+      const {success, message, jwtToken, name, email, role, error} = result;
       console.log(result)
       if(success){
         handleSuccess(message);
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('loggedInUserName', name)
         localStorage.setItem('loggedINUserEmail', email)
+        localStorage.setItem('role', role)
         setTimeout(()=>{
           navigate('/')
         },500)

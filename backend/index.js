@@ -94,10 +94,13 @@ app.get("/data",ensureAuthenticated,async (req, res) => {
     }
   });
 
-app.put("/update-status", async (req, res) => {
-   const status = req.body; // Get the new status from the request body
+app.put("/update-status", ensureAuthenticated, async (req, res) => {
+   const status = req.body.status; // Get the new status from the request body
    const selectedUsers = req.body.selectedUsers;
   try {
+     const user = await User.findOne({email: req.user.email});
+     const permission = user.manager;
+     if(permission !== "Admin" && permission !== 'true') res.json(false);
      // Find the user by ID and update the status
      for(let i=0; i<selectedUsers.length; i++){
       const userId = selectedUsers[i];
@@ -105,7 +108,7 @@ app.put("/update-status", async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      user.status = status.status;
+      user.status = status;
       const updatedUser = await user.save();
 
         let string;
@@ -139,8 +142,12 @@ app.put("/update-status", async (req, res) => {
     res.status(500).json({ message: "Error updating user status", error });
   }
 });
-app.delete("/delete", async (req, res) => {
+
+app.delete("/delete",ensureAuthenticated, async (req, res) => {
   try {
+      const user = await User.findOne({email: req.user.email});
+    const permission = user.manager;
+    if(permission !== "Admin" && permission !== 'true') res.json(false);
     const selectedUsers = req.body.selectedUsers;
     for(let i=0; i<selectedUsers.length; i++){
       const userId = selectedUsers[i];
@@ -157,9 +164,12 @@ app.delete("/delete", async (req, res) => {
   }
 })
 
-app.put("/change-type", async (req, res) => {
+app.put("/change-type",ensureAuthenticated, async (req, res) => {
   const users = req.body.selectedUsers;
   try {
+      const user = await User.findOne({email: req.user.email});
+    const permission = user.manager;
+    if(permission !== "Admin" && permission !== 'true') res.json(false);
     for(let i=0; i<users.length; i++){
       const userId = users[i];
       // Find the user by ID and update the status

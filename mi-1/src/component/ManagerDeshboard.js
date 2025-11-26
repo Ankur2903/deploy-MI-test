@@ -1,10 +1,32 @@
-import React, { useState, useEffect } from "react";
-import CollectData from "../CollectData";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import '../App.css'
 
 const ManagerDashboard = () => {
   const [users, setUsers] = useState([]);
   const [selectedUsers, setSelectedUsers] = useState([]);
+  const location = useLocation();
+  const token = localStorage.getItem('token')
+
+  useEffect(() => {
+      const fetchUsers = async () => {
+        try {
+          const response = await fetch("http://localhost:8080/data", {
+            method: "GET", // default method, can be omitted
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              "Content-Type": "application/json", // Ensure correct content type
+            },
+          });
+          const data = await response.json();
+          setUsers(data);
+        } catch (err) {
+          console.error("Error fetching users:", err.message);
+        }
+      };
+  
+      fetchUsers();
+    }, [location]);  // Runs only once on component mount
   
   const addUser = (id) => {
     if(selectedUsers.includes(id)){
@@ -19,6 +41,7 @@ const ManagerDashboard = () => {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status`, {
         method: "PUT", // default method, can be omitted
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
         body: JSON.stringify({ status: status, selectedUsers : selectedUsers }) // Send status in the request body
@@ -42,6 +65,7 @@ const ManagerDashboard = () => {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type`, {
         method: "PUT", // default method, can be omitted
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
         body: JSON.stringify({ selectedUsers: selectedUsers })
@@ -64,6 +88,7 @@ const ManagerDashboard = () => {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/delete`, {
         method: "DELETE", // default method, can be omitted
           headers: {
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
         body: JSON.stringify({ selectedUsers: selectedUsers })
@@ -81,7 +106,6 @@ const ManagerDashboard = () => {
 
   return (
     <div>
-      <CollectData setUsers = {setUsers}/>
       <div  style={{display: "flex", justifyContent: "space-between", alignItems: "center", margin: "5px" }}>
         {/* Centered Heading */}
         <h2 style={{ flex: 1, marginLeft: "40vw" }}>User Details</h2>

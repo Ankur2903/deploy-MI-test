@@ -4,8 +4,7 @@ require('dotenv').config();
 
 const allenquiries = async (req, res) => {
     try {
-        const { email } = req.body;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -23,8 +22,8 @@ const allenquiries = async (req, res) => {
 const addenquirie = async (req, res) => {
     try {
         
-        let {email, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
-        const user = await UserModel.findOne({ email });
+        let { customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -32,7 +31,7 @@ const addenquirie = async (req, res) => {
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
         const time = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
-        const enquirieModel = new EnquirieModel({email, iD, customerName, customerRefNo, kAMName, profileName, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, shortRadiusBendingThickness, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
+        const enquirieModel = new EnquirieModel({ iD, customerName, customerRefNo, kAMName, profileName, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, shortRadiusBendingThickness, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
         await enquirieModel.save();
         res.status(201)
         .json({
@@ -52,10 +51,8 @@ const addenquirie = async (req, res) => {
 
 const deleteenquirie = async (req, res) => {
     try {
-        
         const selectedEnquiries = req.body.selectedEnquiries;
-        const email = req.body.email;
-        const user = await UserModel.findOne({ email });
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);
@@ -79,8 +76,8 @@ const deleteenquirie = async (req, res) => {
 
 const editenquirie = async (req, res) => {
     try {
-        let {email, id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
-        const user = await UserModel.findOne({ email });
+        let { id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
+        const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
         const permission = user.manager;
         if(permission !== "Admin" && permission !== true) return res.status(403);

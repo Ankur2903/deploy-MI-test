@@ -121,8 +121,6 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
       else if(user.status === 'rejected'){
         string = `Dear ${user.name}\n\nThank you for signing up for MI Profile Generator.\nWe regret to inform you that your login request has not been approved at this time. If you believe this is an error or require further assistance, please contact us at ${process.env.USER_EMAIL}. \n\nThanks and regards,\nIT Team\nMother India Forming. \n\n************************************************************* The information contained in this message is intended only for use of the individual(s) named above and may contain confidential, proprietary, or legally privileged information. No confidentiality or privilege is waived or lost by any mistransmission. If you are not the intended recipient of this message you are hereby notified that you must not use, disseminate, copy it in any form or take any action in reliance of it. If you have received this message in error, please delete it and any copies of it and notify the sender immediately. ************************************************************`
       }
-
-         console.log(string);
       
       const email1 = {
         message: {

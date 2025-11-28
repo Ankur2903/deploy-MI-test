@@ -54,6 +54,7 @@ const ManagerDashboard = () => {
           user._id === id ? { ...user, status: status} : user
         ));
      }
+      setSelectedUsers([]);
       const message = await response.json();
     } catch (error) {
       alert("Failed to update status");
@@ -77,6 +78,7 @@ const ManagerDashboard = () => {
             user._id === id ? { ...user, manager: !user.manager } : user
           ));
       }
+      setSelectedUsers([]);
       const message = await response.json();
     } catch (error) {
       alert("Failed to change user type");
@@ -97,6 +99,7 @@ const ManagerDashboard = () => {
           const id = selectedUsers[i];
           setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
         }
+      setSelectedUsers([]);
       const message = await response.json();
     } catch (error) {
       alert("Failed to update status");
@@ -188,7 +191,7 @@ const ManagerDashboard = () => {
       {users.map((user) => (
         <tr key={user._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div class="form-check mx-3"><input class="form-check-input" type="checkbox" value="" id="checkDefault" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} onClick={() => addUser(user._id)}/></div>
+            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked={selectedUsers.includes(user._id)} onClick={() => addUser(user._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.name}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.email}</td>

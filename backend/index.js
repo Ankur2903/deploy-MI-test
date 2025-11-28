@@ -98,9 +98,9 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
    const status = req.body.status; // Get the new status from the request body
    const selectedUsers = req.body.selectedUsers;
   try {
-     const user = await User.findOne({email: req.user.email});
-     const permission = user.manager;
-     if(permission !== "Admin" && permission !== 'true') res.json(false);
+    const user = await User.findOne({email: req.user.email});
+    const permission = user.manager;
+    if(permission !== "Admin" && permission !== 'true') res.json(false);
      // Find the user by ID and update the status
      for(let i=0; i<selectedUsers.length; i++){
       const userId = selectedUsers[i];

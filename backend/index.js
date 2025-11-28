@@ -97,6 +97,7 @@ app.get("/data",ensureAuthenticated,async (req, res) => {
 app.put("/update-status", ensureAuthenticated, async (req, res) => {
    const status = req.body.status; // Get the new status from the request body
    const selectedUsers = req.body.selectedUsers;
+    console.log("checking" ,status, selectedUsers);
   try {
     const user = await User.findOne({email: req.user.email});
     const permission = user.manager;

@@ -134,6 +134,7 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
         saveToSentItems: true
     };
     const response1 = await client.api(`/users/${process.env.USER_EMAIL}/sendMail`).post(email1);
+         console.log(response1)
      }     
     res.json({
       message: "User status updated successfully",

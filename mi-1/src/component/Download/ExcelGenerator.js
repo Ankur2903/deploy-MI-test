@@ -40,7 +40,7 @@ export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAM
   worksheet.addRow(["", "", "", "", "", "Hole Punching", "", "", holePunching ? "Yes" : "No", "", "", "", ""]);
   worksheet.addRow(["", "", "", "", "", "Assembly process", "", "", assemblyProcess ? "Yes" : "No", "", "", "", ""]);
   worksheet.addRow(["", "¡¡) Any outsource activity required ,", "", "", "", "", "", outsourceActivity, "", "", "", "", ""]);
-  worksheet.addRow(["4", "Can engineering specifications specified by customer be met?", "", "", "", "Material", "", "", materialIndianEquiv, "", "", "", ""]);
+  worksheet.addRow(["4", "Can engineering specifications specified by customer be met?", "", "", "", "Material", "", "", material, materialIndianEquiv, "", "", ""]);
   worksheet.addRow(["", "", "", "", "", "Tolerance", "", "", tolerance, "", "", "", ""]);
   worksheet.addRow(["5", "Any additional documents required?", "", "", "", "on Customer Spc. Requirement ", "", "", customerSpecReq, "", "", "", ""]);
   worksheet.addRow(["", "", "", "", "", "on Packing Spc.", "", "", packingSpc, "", "", "", ""]);

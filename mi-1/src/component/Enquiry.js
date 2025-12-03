@@ -213,45 +213,69 @@ function Inquiry() {
         setTab1(false);
     };
 
-    const handleSaveChanges = async(e) => {
-       e.preventDefault();
-       if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk){
-          return handleError('Please fill out all fields.')
+   const handleSaveChanges = async () => {
+        // validation (unchanged)
+        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
+            return handleError('Please fill out all fields.');
         }
 
-        if(twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth >220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth >340 || thickness<= 0.8 || thickness >4)) || (click1 && ((click4 && (shortRadiusBendingRadius <=40 || shortRadiusBendingRadius > 400 || shortRadiusBendingThickness <= 0.8 || shortRadiusBendingThickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius >10000 || longRadiusBendingThickness <= 0.8 || longRadiusBendingThickness >6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || laserCuttingThickness <= 0.8 || laserCuttingThickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength >3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") setResult(0);
+        // compute result based on your conditions (use a local variable)
+        let computedResult;
+        if (twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth > 220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth > 340 || thickness <= 0.8 || thickness > 4)) || (click1 && ((click4 && (shortRadiusBendingRadius <= 40 || shortRadiusBendingRadius > 400 || shortRadiusBendingThickness <= 0.8 || shortRadiusBendingThickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius > 10000 || longRadiusBendingThickness <= 0.8 || longRadiusBendingThickness > 6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || laserCuttingThickness <= 0.8 || laserCuttingThickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength > 3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") {
+            computedResult = 0;
+        } else if (machine === "To be developed" || tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") {
+            computedResult = 1;
+        } else {
+            computedResult = 2;
+        }
 
-        else if(machine === "To be developed"|| tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") setResult(1);
+        // compute reviewDate locally
+        const computedReviewDate = `${d}-${m}-${y}`;
 
-        else setResult(2);
-        setReviewDate(`${d}-${m}-${y}`);
+        // optimistically update state (optional)
+        setResult(computedResult);
+        setReviewDate(computedReviewDate);
+
+        // optional: guard against setState after unmount
+        let isMounted = true;
+        // If your component unmounts during the async call, use this to avoid warnings.
+        // If this function is inside a component, you can set isMounted flag via a ref or effect.
+
         try {
-              const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/editenquirie`, {
-                method: "PUT", // default method, can be omitted
-                  headers: {
-                    'Authorization': `Bearer ${token}`,
-                    "Content-Type": "application/json", // Ensure correct content type
-                  },
-                 body: JSON.stringify({ id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate})
-                });
-                const result1 = await response.json();
-                const {success, message, error} = result1;
-                 if(success){
-                    setReload(!reload)
-                  handleSuccess(message)
-                }else if(error){
-                    const details = error?.details[0].message;
-                    handleError(details)
-                }else if(!success){
-                  handleError(message)
-                }
-                setReload(!reload);
-              // const message = await response.json();
-            } catch (error) {
-              alert(error.message || "Failed to update enquiries");
-            }
-    };
+            const response = await fetch(`http://localhost:8080/enquirie/editenquirie`, {
+            method: "PUT",
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            // use the computed values in the payload (not the state variables)
+            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult,        reviewDate: computedReviewDate 
+            }),
+            });
 
+            const result1 = await response.json();
+            const { success, message, error } = result1;
+
+            if (!isMounted) return; // avoid state updates if unmounted
+
+            if (success) {
+            setReload(prev => !prev);
+            handleSuccess(message);
+            } else if (error) {
+            const details = error?.details?.[0]?.message || message || "Unknown error";
+            handleError(details);
+            } else {
+            handleError(message || "Failed");
+            }
+
+            setReload(!reload);
+        } catch (err) {
+            alert(err.message || "Failed to update enquiries");
+        } finally {
+            // if you manage isMounted via ref/effect, cleanup there
+            isMounted = false;
+        }
+    };
   return (
     <>
       <div  style={{display: "flex", justifyContent: "space-between", alignItems: "center", margin: "5px" }}>
@@ -331,7 +355,7 @@ function Inquiry() {
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Machine : {enquirie.machine}</label></div>
                               <div style={styles.inputGroup}><label>Tools : {enquirie.tools}</label></div>
-                              <div style={styles.inputGroup}><label>Fixtures/Measuring Equipment : {enquirie.machine}</label></div>
+                              <div style={styles.inputGroup}><label>Fixtures/Measuring Equipment : {enquirie.fixture}</label></div>
                           </div><br/>
                           <div style={styles.inputRow}><h5>3. Process</h5></div>
                           <div style={styles.inputRow}><h6>3.1. Roll Forming Process</h6></div>

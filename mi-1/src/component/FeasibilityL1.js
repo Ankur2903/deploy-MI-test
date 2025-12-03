@@ -76,7 +76,21 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 }
               });
               const data = await response.json();
-              setMaterials(data)
+              setMaterials([]);
+              for(let i=0; i<data.length; i++){
+                if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10083-2" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10147" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10149-1/-2 S420MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10149-2 S355 MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10219 S275 J0H" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10219-1 S355 J2H" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10346" && data[i].materialName === "IS 277") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10346 Dx51D+Z100-N" && data[i].materialName === "IS 277" && data[i].grade === "GP250") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                else if(material === "EN 10346 Hx260 YD" && (data[i].materialName === "IS 513" || data[i].materialName === "IS 10748")) setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+              }
             } catch (err) {
               console.error("Error fetching materials:", err.message);
             }
@@ -120,7 +134,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
           });
           const result1 = await response.json();
           const {iD, success, message, error} = result1;
-          setEnquirieNo(iD);
+          setEnquirieNo(iD + 1);
           if(success){
             handleSuccess(message)
           }else if(error){
@@ -406,9 +420,18 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}>
                     <select className="form-select" aria-label="Default select example" value={material} onChange={(e) => setMaterial(e.target.value)}>
                         <option value="">Select Material</option>
-                        <option value="Material-One">Material-One</option>
-                        <option value="Material-Two">Material-Two</option>
-                        <option value="Material-Three">Material-Three</option> 
+                        <option value="EN 10025 S275 J2 G3">EN 10025 S275 J2 G3</option>
+                        <option value="EN 10025 S275 J2+Ar-CL1">EN 10025 S275 J2+Ar-CL1</option>
+                        <option value="EN 10029">EN 10029</option>
+                        <option value="EN 10083-2">EN 10083-2</option>
+                        <option value="EN 10147">EN 10147</option>
+                        <option value="EN 10149-1/-2 S420MC">EN 10149-1/-2 S420MC</option>
+                        <option value="EN 10149-2 S355 MC">EN 10149-2 S355 MC</option>
+                        <option value="EN 10219 S275 J0H">EN 10219 S275 J0H</option>
+                        <option value="EN 10219-1 S355 J2H">EN 10219-1 S355 J2H</option>
+                        <option value="EN 10346">EN 10346</option>
+                        <option value="EN 10346 Dx51D+Z100-N">EN 10346 Dx51D+Z100-N</option>
+                        <option value="EN 10346 Hx260 YD">EN 10346 Hx260 YD</option>
                     </select>
                 </div>
                 <div style={styles.inputGroup}>
@@ -584,7 +607,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                         {result === 2 && <p style={styles.outputBox1}>FEASIBLE : The product specification are well within the MI development range. </p>}
                     </div>
                     <div className='component' style={{textAlign: 'center', marginTop: '20px'}}>
-                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, boxPerimeter, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
+                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
                         <button type="button" className="btn btn-primary mx-4" onClick={() => setResult(-1)}>Modify</button>
                     </div>     
                 </section>

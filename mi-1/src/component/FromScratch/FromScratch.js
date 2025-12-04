@@ -576,15 +576,24 @@ const FromScratch = () => {
 
   return (
     <div>
-      <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content">
-            <div className="modal-body">
-              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
-            </div>  
+      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
+              </div>  
+            </div>
           </div>
         </div>
-      </div>
+        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
+              </div>  
+            </div>
+          </div>
+        </div>
        <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
       <h1 className="heading">From Scratch</h1>
       <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>

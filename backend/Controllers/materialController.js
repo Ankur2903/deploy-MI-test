@@ -35,8 +35,6 @@ const allmaterial = async (req, res) => {
     try {
         const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
-        const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
         const materials = await MaterialModel.find();
         return res.json(materials);
     } catch (err){

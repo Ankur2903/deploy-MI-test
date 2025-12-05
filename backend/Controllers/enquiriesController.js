@@ -25,8 +25,6 @@ const addenquirie = async (req, res) => {
         let { customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403)
-        const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)

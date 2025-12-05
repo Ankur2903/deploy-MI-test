@@ -6,8 +6,8 @@ import { ToastContainer } from 'react-toastify';
 function Navbar() {
   const location = useLocation();
   const currentPath = location.pathname;
+  const navigate = useNavigate();
   const permission = localStorage.getItem('role') === "true";
-  const permission = localStorage.getItem('role');
 
   const isResetPasswordRoute = location.pathname.includes("/reset-password");
 

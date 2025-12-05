@@ -97,7 +97,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             }
           };
           fetchmaterials();
-      }, [location] )
+      }, [location, material] )
   
   useEffect(() => {
     if(unit1 === "Num" ) setVolumeMonthlyInTon(((stripWidth*thickness*length*7850*0.000000001)*volumeMonthly).toFixed(3));

@@ -78,7 +78,6 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
               const data = await response.json();
               setMaterials([]);
               for(let i=0; i<data.length; i++){
-                setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
                 if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
                 else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
                 else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);

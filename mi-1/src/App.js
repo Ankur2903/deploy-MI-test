@@ -114,8 +114,8 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Start/>}/>
           <Route exact path="/home" element={<PrivateRoute element={<Home/>}/>}/>
-          {permission && <Route exact path="/admin-panel" element={<AdminPanel/>}/>}
-          {permission && <Route exact path="/manager_dashboard" element={<ManagerDashboard/>}/>}
+          {permission === "Admin" && <Route exact path="/admin-panel" element={<PrivateRoute element={<AdminPanel/>}/>}/>}
+          {permission === "Admin" && <Route exact path="/manager_dashboard" element={<PrivateRoute element={<ManagerDashboard/>}/>}/>}
           <Route exact path="/login" element={<Login/>}/>
           <Route exact path="/signup" element={<Signup/>}/>
           <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
@@ -197,7 +197,7 @@ function App() {
           <Route exact path='/a-post-2' element={<PrivateRoute element={<A_post_2/>}/>}/>
           <Route exact path='/front-st-a-pillar' element={<PrivateRoute element={<Front_st_a_pillar/>}/>}/>
           <Route exact path='/d-pillar-rear' element={<PrivateRoute element={<D_pillar_rear/>}/>}/>
-          <Route exact path='/enquiry' element={<PrivateRoute element={<Enquiry/>}/>}/>
+          {(permission === "Admin" || permission === "Super User") && <Route exact path='/enquiry' element={<PrivateRoute element={<Enquiry/>}/>}/>}
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

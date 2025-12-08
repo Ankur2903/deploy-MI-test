@@ -279,7 +279,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
                     <div className="form-check">
-                        <input className="form-check-input border border-dark" type="checkbox" checked={click1} onClick={() => {setClick1(!click1);setClick4(click1&&click4);setClick5(click1&&click5)}}/>
+                        <input className="form-check-input border border-dark" type="checkbox" checked={click1} onClick={() => {setClick1(!click1);setClick4(false);setClick5(false);setShortRadiusBendingRadius(0);setLongRadiusBendingRadius(0);}}/>
                         <label className="form-check-label">Bending</label>
                     </div>
                 </div>
@@ -288,7 +288,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputRow}>
                     <div style={styles.inputGroup}>
                         <div className="form-check">
-                            <input className="form-check-input border border-dark" type="checkbox" checked={click4} onClick={() => setClick4(!click4)}/>
+                            <input className="form-check-input border border-dark" type="checkbox" checked={click4} onClick={() => {setClick4(!click4);setShortRadiusBendingRadius(0);}}/>
                             <label className="form-check-label">Short Radius</label>
                         </div>
                     </div>
@@ -299,7 +299,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputRow}>
                     <div style={styles.inputGroup}>
                         <div className="form-check">
-                            <input className="form-check-input border border-dark" type="checkbox" checked={click5} onClick={() => setClick5(!click5)}/>
+                            <input className="form-check-input border border-dark" type="checkbox" checked={click5} onClick={() => {setClick5(!click5);setLongRadiusBendingRadius(0);}}/>
                             <label className="form-check-label">Long Radius</label>
                         </div>
                     </div>
@@ -314,7 +314,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
                     <div className="form-check">
-                        <input className="form-check-input border border-dark" type="checkbox" checked={click2} onClick={() => setClick2(!click2)}/>
+                        <input className="form-check-input border border-dark" type="checkbox" checked={click2} onClick={() => {setClick2(!click2);setLaserCuttingLength(0);}}/>
                         <label className="form-check-label">Laser Cutting Length</label>
                     </div>
                 </div>
@@ -328,7 +328,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
                     <div className="form-check">
-                        <input className="form-check-input border border-dark" type="checkbox" checked={click3} onClick={() => setClick3(!click3)}/>
+                        <input className="form-check-input border border-dark" type="checkbox" checked={click3} onClick={() => {setClick3(!click3);setPowderCoatingLength(0);}}/>
                         <label className="form-check-label">Powder Coating Length</label>
                     </div>
                 </div>

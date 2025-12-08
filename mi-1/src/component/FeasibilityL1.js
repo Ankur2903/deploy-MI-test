@@ -20,13 +20,10 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const [click1, setClick1] = useState(false)
   const [click4, setClick4] = useState(false)
   const [shortRadiusBendingRadius, setShortRadiusBendingRadius] = useState(0);
-  const [shortRadiusBendingThickness, setShortRadiusBendingThickness] = useState(0);
   const [click5, setClick5] = useState(false)
   const [longRadiusBendingRadius, setLongRadiusBendingRadius] = useState(0);
-  const [longRadiusBendingThickness, setLongRadiusBendingThickness] = useState(0);
   const [click2, setClick2] = useState(false)
   const [laserCuttingLength, setLaserCuttingLength] = useState(0);
-  const [laserCuttingThickness, setLaserCuttingThickness] = useState(0);
   const [click3, setClick3] = useState(false) 
   const [powderCoatingLength, setPowderCoatingLength] = useState(0);
   const [holePunching, setHolePunching] = useState(false);
@@ -112,9 +109,9 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   }, [volumeYearly, unit2]);
 
   const handleClickResult = () => {
-    if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+    if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !longRadiusBendingRadius) || (click5 && !shortRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
 
-    if(twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth >220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth >340 || thickness<= 0.8 || thickness >4)) || (click1 && ((click4 && (shortRadiusBendingRadius <=40 || shortRadiusBendingRadius > 400 || shortRadiusBendingThickness <= 0.8 || shortRadiusBendingThickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius >10000 || longRadiusBendingThickness <= 0.8 || longRadiusBendingThickness >6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || laserCuttingThickness <= 0.8 || laserCuttingThickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength >3000)) || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") setResult(0);
+    if(twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth >220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth >340 || thickness<= 0.8 || thickness >4)) || (click1 && ((click4 && (shortRadiusBendingRadius <=40 || shortRadiusBendingRadius > 400 || thickness <= 0.8 || thickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius >10000 || thickness <= 0.8 || thickness >6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || thickness <= 0.8 || thickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength >3000)) || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") setResult(0);
 
     else if(machine === "To be developed"|| tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") setResult(1);
 
@@ -122,7 +119,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   }
 
   const handleClickSave = async() => {
-        if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+        if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !longRadiusBendingRadius) || (click5 && !shortRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
         try {
           const url = "https://deploy-mi-test-api.vercel.app/enquirie/addenquirie";
           const response = await fetch(url, {
@@ -131,7 +128,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
               'Authorization': `Bearer ${token}`,
               'Content-Type' : 'application/json'
             },
-            body: JSON.stringify({ customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
+            body: JSON.stringify({ customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
           });
           const result1 = await response.json();
           const {iD, success, message, error} = result1;
@@ -166,12 +163,9 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
     setClick4(false);
     setClick5(false);
     setLongRadiusBendingRadius(0);
-    setLongRadiusBendingThickness(0);
     setShortRadiusBendingRadius(0);
-    setShortRadiusBendingThickness(0);
     setClick2(false);
     setLaserCuttingLength(0);
-    setLaserCuttingThickness(0);
     setClick3(false);
     setPowderCoatingLength(0);
     setHolePunching("");
@@ -291,13 +285,6 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 </div>
             </div>
             {click1 && <>
-                {(click4 || click5) && <>
-                    <div style={styles.inputRow}>
-                        <div style={styles.inputGroup}><label></label></div>
-                        <div style={styles.inputGroup}><label>Radius (mm)</label></div>
-                        <div style={styles.inputGroup}><label>Thickness (mm)</label></div>
-                    </div>
-                </>}
                 <div style={styles.inputRow}>
                     <div style={styles.inputGroup}>
                         <div className="form-check">
@@ -307,7 +294,6 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                     </div>
                     {click4 && <>
                         <div style={styles.inputGroup}><input type="number" value={shortRadiusBendingRadius} onChange={(e) => setShortRadiusBendingRadius(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/></div>
-                        <div style={styles.inputGroup}><input type="number" value={shortRadiusBendingThickness} onChange={(e) => setShortRadiusBendingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/></div>
                     </>}
                 </div>
                 <div style={styles.inputRow}>
@@ -321,33 +307,20 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                         <div style={styles.inputGroup}>
                             <input type="number" value={longRadiusBendingRadius} onChange={(e) => setLongRadiusBendingRadius(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                         </div>
-                        <div style={styles.inputGroup}>
-                            <input type="number" value={longRadiusBendingThickness} onChange={(e) => setLongRadiusBendingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
-                        </div>
                     </>}
                 </div>
             </>}
             <h4 style={styles.subHeading}></h4>
-            {(click2 || click3) && <>
-                <div style={styles.inputRow}>
-                    <div style={styles.inputGroup}><label></label></div>
-                    <div style={styles.inputGroup}><label>Length (mm)</label></div>
-                    <div style={styles.inputGroup}><label>Thickness (mm)</label></div>
-                </div>
-            </>}
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
                     <div className="form-check">
                         <input className="form-check-input border border-dark" type="checkbox" checked={click2} onClick={() => setClick2(!click2)}/>
-                        <label className="form-check-label">Laser Cutting</label>
+                        <label className="form-check-label">Laser Cutting Length</label>
                     </div>
                 </div>
                 {click2 && <>
                     <div style={styles.inputGroup}>
                         <input type="number" value={laserCuttingLength} onChange={(e) => setLaserCuttingLength(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <input type="number" value={laserCuttingThickness} onChange={(e) => setLaserCuttingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                     </div>
                 </>}
             </div>
@@ -356,15 +329,12 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}>
                     <div className="form-check">
                         <input className="form-check-input border border-dark" type="checkbox" checked={click3} onClick={() => setClick3(!click3)}/>
-                        <label className="form-check-label">Powder Coating</label>
+                        <label className="form-check-label">Powder Coating Length</label>
                     </div>
                 </div>
                 {click3 && <>
                     <div style={styles.inputGroup}>
                         <input type="number" value={powderCoatingLength} onChange={(e) => setPowderCoatingLength(e.target.value)} placeholder="Type Length..." style={styles.select} onFocus={(e) => e.target.select()}/>
-                    </div>
-                    <div style={styles.inputGroup}>
-                        <div style={styles.inputGroup}><label></label></div>
                     </div>
                 </>}
             </div>
@@ -608,7 +578,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                         {result === 2 && <p style={styles.outputBox1}>FEASIBLE : The product specification are well within the MI development range. </p>}
                     </div>
                     <div className='component' style={{textAlign: 'center', marginTop: '20px'}}>
-                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
+                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
                         <button type="button" className="btn btn-primary mx-4" onClick={() => setResult(-1)}>Modify</button>
                     </div>     
                 </section>

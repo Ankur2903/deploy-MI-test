@@ -686,9 +686,6 @@ function Inquiry() {
                                 <div style={styles.inputGroup}>
                                     <input type="number" value={powderCoatingLength} onChange={(e) => setPowderCoatingLength(e.target.value)} placeholder="Type Length..." style={styles.select} onFocus={(e) => e.target.select()}/>
                                 </div>
-                                <div style={styles.inputGroup}>
-                                    <div style={styles.inputGroup}><label></label></div>
-                                </div>
                             </>}
                         </div>
                         <h4 style={styles.subHeading}></h4>

@@ -199,7 +199,7 @@ const ManagerDashboard = () => {
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.department}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.designation}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.phoneNo}</td>
-          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.manager === true ? 'Admin' : 'User'}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.manager}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.status}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.signupTime}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.lastactivity}</td>

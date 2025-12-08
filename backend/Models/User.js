@@ -36,8 +36,7 @@ const UserSchema = new Schema({
         type: String, eum: ["pending", "approved",  "rejected"], default: "Pending"
     },
     manager: {
-        type: Boolean,
-        default: false,
+        type: String, eum: ["User", "Super User", "Admin"], default: "User"
     },
     signupTime: {
         type: String,

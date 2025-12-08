@@ -93,7 +93,7 @@ import AdminPanel from './component/AdminPanel';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const permission = localStorage.getItem('role') === "true";
+  const permission = localStorage.getItem('role');
   const [loading, setLoading] = useState(true);
 
   const PrivateRoute = ({ element }) =>{

@@ -7,7 +7,7 @@ function Navbar() {
   const location = useLocation();
   const currentPath = location.pathname;
   const navigate = useNavigate();
-  const permission = localStorage.getItem('role') === "true";
+  const permission = localStorage.getItem('role');
 
   const isResetPasswordRoute = location.pathname.includes("/reset-password");
 
@@ -34,8 +34,8 @@ function Navbar() {
             {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && currentPath!=='/forgot-password' && !isResetPasswordRoute &&  <button className="nav-link active me-3" onClick={handleLogout}  style={{fontWeight: "bold"}}><i className="fa-solid fa-user" style={{transform: 'translateY(-1px) translateX(-4px)'}}></i>Logout</button>}
             {(currentPath==='/login' || currentPath==='/' || currentPath === '/signup' || currentPath === '/forgot-password' || isResetPasswordRoute) && <Link className="nav-link active me-3" aria-current="page" to="/login"  style={{fontWeight: "bold"}}><i className="fa-solid fa-user" style={{transform: 'translateY(-1px) translateX(-4px)'}}></i>Login</Link>}
             {(currentPath==='/login' || currentPath==='/'  || currentPath === '/signup' || currentPath === '/forgot-password' || isResetPasswordRoute) && <Link className="nav-link active me-3" aria-current="page" to="/signup"  style={{fontWeight: "bold"}}><i className="fa-solid fa-user-plus"  style={{transform: 'translateY(-1px) translateX(-4px)'}}></i>Sign Up</Link>}
-            {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/admin-panel" style={{fontWeight: "bold"}}><i className="fa-solid fa-gear" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Admin Panel</Link>}
-            {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && permission && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/enquiry" style={{fontWeight: "bold"}}><i className="fa-solid fa-clipboard-question" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Enquiries</Link>}
+              {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && permission === "Admin" && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/admin-panel" style={{fontWeight: "bold"}}><i className="fa-solid fa-gear" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Admin Panel</Link>}
+            {currentPath!=='/login' && currentPath!=='/' && currentPath!=='/signup' && (permission === "Admin" || permission === "Super User") && currentPath!=='/forgot-password' && !isResetPasswordRoute && <Link className="nav-link active me-3" aria-current="page" to="/enquiry" style={{fontWeight: "bold"}}><i className="fa-solid fa-clipboard-question" style={{transform: 'translateY(0px) translateX(-4px)'}}></i>Enquiries</Link>}
           </div>
           {/* Logo Section */}
           <img src={logo} style={{ width: '211px', height: '50px' }} alt="MI Logo" />

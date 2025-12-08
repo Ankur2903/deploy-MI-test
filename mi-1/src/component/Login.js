@@ -43,7 +43,7 @@ function Login() {
         localStorage.setItem('token', jwtToken);
         localStorage.setItem('loggedInUserName', name)
         localStorage.setItem('loggedINUserEmail', email)
-        localStorage.setItem('role', (role === 'admin' || role === 'true' || role === true) ? "true" : "false")
+        localStorage.setItem('role', role)
         setTimeout(()=>{
           navigate('/')
         },500)

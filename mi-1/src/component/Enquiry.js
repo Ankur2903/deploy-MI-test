@@ -5,6 +5,7 @@ import { downloadExcel } from "./Download/ExcelGenerator";
 
 function Inquiry() {
   const [enquirieNo, setEnquirieNo] = useState("");
+  const [materials, setMaterials] = useState([]);
   const [enquiries, setEnquiries] = useState([]);
   const [selectedEnquiries, setSelectedEnquiries] = useState([]);
   const location = useLocation();
@@ -26,13 +27,10 @@ function Inquiry() {
   const [click1, setClick1] = useState(false)
   const [click4, setClick4] = useState(false)
   const [shortRadiusBendingRadius, setShortRadiusBendingRadius] = useState(0);
-  const [shortRadiusBendingThickness, setShortRadiusBendingThickness] = useState(0);
   const [click5, setClick5] = useState(false)
   const [longRadiusBendingRadius, setLongRadiusBendingRadius] = useState(0);
-  const [longRadiusBendingThickness, setLongRadiusBendingThickness] = useState(0);
   const [click2, setClick2] = useState(false)
   const [laserCuttingLength, setLaserCuttingLength] = useState(0);
-  const [laserCuttingThickness, setLaserCuttingThickness] = useState(0);
   const [click3, setClick3] = useState(false) 
   const [powderCoatingLength, setPowderCoatingLength] = useState(0);
   const [holePunching, setHolePunching] = useState(false);
@@ -75,6 +73,39 @@ function Inquiry() {
   const [enquirieDate, setEnquirieDate] = useState("");
 
   const boolToText = (val) => (val ? "Yes" : "No");
+
+    useEffect(() => {
+            const fetchmaterials = async () => {
+              try {
+                const response = await fetch("http://localhost:8080/product/allmaterials", {
+                  method: "POST", // default method, can be omitted
+                  headers: {
+                     'Authorization': `Bearer ${token}`,
+                    "Content-Type": "application/json", // Ensure correct content type
+                  }
+                });
+                const data = await response.json();
+                setMaterials([]);
+                for(let i=0; i<data.length; i++){
+                  if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10083-2" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10147" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10149-1/-2 S420MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10149-2 S355 MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10219 S275 J0H" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10219-1 S355 J2H" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10346" && data[i].materialName === "IS 277") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10346 Dx51D+Z100-N" && data[i].materialName === "IS 277" && data[i].grade === "GP250") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                  else if(material === "EN 10346 Hx260 YD" && (data[i].materialName === "IS 513" || data[i].materialName === "IS 10748")) setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+                }
+              } catch (err) {
+                console.error("Error fetching materials:", err.message);
+              }
+            };
+            fetchmaterials();
+        }, [location, material] )
 
   useEffect(() => {
       if(unit1 === "Num" ) setVolumeMonthlyInTon(((stripWidth*thickness*length*7850*0.000000001)*volumeMonthly).toFixed(3));
@@ -170,13 +201,10 @@ function Inquiry() {
                 setClick1(enquiries[i].click1);
                 setClick4(enquiries[i].click4);
                 setShortRadiusBendingRadius(enquiries[i].shortRadiusBendingRadius);
-                setShortRadiusBendingThickness(enquiries[i].shortRadiusBendingThickness);
                 setClick5(enquiries[i].click5);
                 setLongRadiusBendingRadius(enquiries[i].longRadiusBendingRadius);
-                setLongRadiusBendingThickness(enquiries[i].longRadiusBendingThickness);
                 setClick2(enquiries[i].click2);
                 setLaserCuttingLength(enquiries[i].laserCuttingLength);
-                setLaserCuttingThickness(enquiries[i].laserCuttingThickness);
                 setClick3(enquiries[i].click3);
                 setPowderCoatingLength(enquiries[i].powderCoatingLength);
                 setHolePunching(enquiries[i].holePunching);
@@ -215,13 +243,13 @@ function Inquiry() {
 
    const handleSaveChanges = async () => {
         // validation (unchanged)
-        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && (!longRadiusBendingRadius || !longRadiusBendingThickness)) || (click5 && (!shortRadiusBendingRadius || !shortRadiusBendingThickness)))) || (click2 && (!laserCuttingLength || !laserCuttingThickness)) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
+        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
             return handleError('Please fill out all fields.');
         }
 
         // compute result based on your conditions (use a local variable)
         let computedResult;
-        if (twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth > 220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth > 340 || thickness <= 0.8 || thickness > 4)) || (click1 && ((click4 && (shortRadiusBendingRadius <= 40 || shortRadiusBendingRadius > 400 || shortRadiusBendingThickness <= 0.8 || shortRadiusBendingThickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius > 10000 || longRadiusBendingThickness <= 0.8 || longRadiusBendingThickness > 6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || laserCuttingThickness <= 0.8 || laserCuttingThickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength > 3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") {
+        if (twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth > 220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth > 340 || thickness <= 0.8 || thickness > 4)) || (click1 && ((click4 && (shortRadiusBendingRadius <= 40 || shortRadiusBendingRadius > 400 || thickness <= 0.8 || thickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius > 10000 || thickness <= 0.8 || thickness > 6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || thickness <= 0.8 || thickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength > 3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") {
             computedResult = 0;
         } else if (machine === "To be developed" || tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") {
             computedResult = 1;
@@ -249,7 +277,7 @@ function Inquiry() {
                 'Content-Type': 'application/json',
             },
             // use the computed values in the payload (not the state variables)
-            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2, laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult,        reviewDate: computedReviewDate 
+            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult,        reviewDate: computedReviewDate 
             }),
             });
 
@@ -382,7 +410,6 @@ function Inquiry() {
                           {enquirie.click1 && enquirie.click4 &&
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Radius : {enquirie.shortRadiusBendingRadius} mm</label></div>
-                              <div style={styles.inputGroup}><label>Thickness : {enquirie.shortRadiusBendingThickness} mm</label></div>
                           </div>}
                           {enquirie.click1 && 
                           <div style={styles.inputRow}>
@@ -394,7 +421,6 @@ function Inquiry() {
                           {enquirie.click1 && enquirie.click5 &&
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Radius : {enquirie.longRadiusBendingRadius} mm</label></div>
-                              <div style={styles.inputGroup}><label>Thickness : {enquirie.longRadiusBendingThickness} mm</label></div>
                           </div>}
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Laser Cutting : {boolToText(enquirie.click2)}</label></div>
@@ -405,7 +431,6 @@ function Inquiry() {
                           {enquirie.click2 && 
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Length : {enquirie.laserCuttingLength} mm</label></div>
-                              <div style={styles.inputGroup}><label>Thickness : {enquirie.laserCuttingThickness} mm</label></div>
                           </div>}
                           <div style={styles.inputRow}>
                               <div style={styles.inputGroup}><label>Powder Coating : {boolToText(enquirie.click3)}</label></div>
@@ -510,7 +535,7 @@ function Inquiry() {
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button type="button" className="btn btn-success mx-4" onClick={() => {downloadExcel(enquirieNo, customerName,customerRefNo,kAMName,profileName,profileNo,twoD,threeD,machine,tools,fixture,click1,click4, shortRadiusBendingRadius, shortRadiusBendingThickness, click5, longRadiusBendingRadius, longRadiusBendingThickness, click2,laserCuttingLength, laserCuttingThickness, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate)}}>Download</button>
+                      <button type="button" className="btn btn-success mx-4" onClick={() => {downloadExcel(enquirieNo, customerName,customerRefNo,kAMName,profileName,profileNo,twoD,threeD,machine,tools,fixture,click1,click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2,laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate)}}>Download</button>
                       <button type="button" className="btn btn-primary" onClick={() => handleModify(enquirie._id)}>Modify</button>
                     </div>
                   </div>
@@ -610,13 +635,6 @@ function Inquiry() {
                             </div>
                         </div>
                         {click1 && <>
-                            {(click4 || click5) && <>
-                                <div style={styles.inputRow}>
-                                    <div style={styles.inputGroup}><label></label></div>
-                                    <div style={styles.inputGroup}><label>Radius (mm)</label></div>
-                                    <div style={styles.inputGroup}><label>Thickness (mm)</label></div>
-                                </div>
-                            </>}
                             <div style={styles.inputRow}>
                                 <div style={styles.inputGroup}>
                                     <div className="form-check">
@@ -626,7 +644,6 @@ function Inquiry() {
                                 </div>
                                 {click4 && <>
                                     <div style={styles.inputGroup}><input type="number" value={shortRadiusBendingRadius} onChange={(e) => setShortRadiusBendingRadius(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/></div>
-                                    <div style={styles.inputGroup}><input type="number" value={shortRadiusBendingThickness} onChange={(e) => setShortRadiusBendingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/></div>
                                 </>}
                             </div>
                             <div style={styles.inputRow}>
@@ -640,20 +657,10 @@ function Inquiry() {
                                     <div style={styles.inputGroup}>
                                         <input type="number" value={longRadiusBendingRadius} onChange={(e) => setLongRadiusBendingRadius(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                                     </div>
-                                    <div style={styles.inputGroup}>
-                                        <input type="number" value={longRadiusBendingThickness} onChange={(e) => setLongRadiusBendingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
-                                    </div>
                                 </>}
                             </div>
                         </>}
                         <h4 style={styles.subHeading}></h4>
-                        {(click2 || click3) && <>
-                            <div style={styles.inputRow}>
-                                <div style={styles.inputGroup}><label></label></div>
-                                <div style={styles.inputGroup}><label>Length (mm)</label></div>
-                                <div style={styles.inputGroup}><label>Thickness (mm)</label></div>
-                            </div>
-                        </>}
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
@@ -664,9 +671,6 @@ function Inquiry() {
                             {click2 && <>
                                 <div style={styles.inputGroup}>
                                     <input type="number" value={laserCuttingLength} onChange={(e) => setLaserCuttingLength(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
-                                </div>
-                                <div style={styles.inputGroup}>
-                                    <input type="number" value={laserCuttingThickness} onChange={(e) => setLaserCuttingThickness(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                                 </div>
                             </>}
                         </div>
@@ -738,17 +742,30 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><h6>4.1 Material</h6></div>
                             <div style={styles.inputGroup}>
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select className="form-select" aria-label="Default select example" value={material} onChange={(e) => setMaterial(e.target.value)}>
+                                    <option value="">Select Material</option>
+                                    <option value="EN 10025 S275 J2 G3">EN 10025 S275 J2 G3</option>
+                                    <option value="EN 10025 S275 J2+Ar-CL1">EN 10025 S275 J2+Ar-CL1</option>
+                                    <option value="EN 10029">EN 10029</option>
+                                    <option value="EN 10083-2">EN 10083-2</option>
+                                    <option value="EN 10147">EN 10147</option>
+                                    <option value="EN 10149-1/-2 S420MC">EN 10149-1/-2 S420MC</option>
+                                    <option value="EN 10149-2 S355 MC">EN 10149-2 S355 MC</option>
+                                    <option value="EN 10219 S275 J0H">EN 10219 S275 J0H</option>
+                                    <option value="EN 10219-1 S355 J2H">EN 10219-1 S355 J2H</option>
+                                    <option value="EN 10346">EN 10346</option>
+                                    <option value="EN 10346 Dx51D+Z100-N">EN 10346 Dx51D+Z100-N</option>
+                                    <option value="EN 10346 Hx260 YD">EN 10346 Hx260 YD</option>
                                 </select>
                             </div>
                             <div style={styles.inputGroup}>
-                                <select className="form-select" aria-label="Default select example">
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <select className="form-select" aria-label="Default select example" value={materialIndianEquiv} onChange={(e) => setMaterialIndianEquiv(e.target.value)}>
+                                    <option key={0} value="">Select Material</option>
+                                    {materials.map((item, index) => (
+                                        <option key={index + 1} value={item.materialName + " - " + item.grade}>
+                                            {item.materialName} - {item.grade}
+                                        </option>
+                                        ))}
                                 </select>
                             </div>
                         </div>
@@ -756,6 +773,7 @@ function Inquiry() {
                             <div style={styles.inputGroup}><h6>4.2 Tolerance</h6></div>
                             <div style={styles.inputGroup}>
                                 <select value={tolerance} onChange={(e) =>setTolerance(e.target.value)} className="form-select" aria-label="Default select example">
+                                    <option value="">Select Tolerance</option>
                                     <option value="Greater than 0.5">Greater than 0.5</option>
                                     <option value="0.1 - 0.5">0.1 - 0.5</option>
                                     <option value="Less than 0.1">Less than 0.1</option>

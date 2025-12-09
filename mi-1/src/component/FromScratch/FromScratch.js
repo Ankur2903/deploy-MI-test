@@ -18,6 +18,7 @@ import Image3 from '../Image/Line.png'
 import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 import PredefinedPoints from '../PredefinedPoints';
+import { evalToNumber, handleExpressionKeyDown } from '../AdvanceOutput/expressionUtils';
 
 const FromScratch = () => {
   const [boxPerimeter, setBoxPerimeter] = useState(0)
@@ -66,48 +67,12 @@ const FromScratch = () => {
   let x;
   let y;
 
-  // const handleSVGClick = (event) => {
-  //   if(!dimensioning) return;
-  //   const svg = event.target.closest('svg');
-  //   const { left, top, width, height } = svg.getBoundingClientRect();
-
-  //   const viewBox = svg.viewBox.baseVal;
-  //   const ratio = width/height;
-  //   let scale = 0;
-  //   let startX = 0;
-  //   let startY = 0;
-  //   if(ratio >200/160){
-  //     scale = viewBox.height / height;
-  //     startY = viewBox.y;
-  //     startX = viewBox.x - (width*scale - viewBox.width)/2;
-  //   }  
-  //   else{
-  //    scale = viewBox.width / width;
-  //    startX = viewBox.x;
-  //    startY = viewBox.y - (height*scale - viewBox.height)/2;
-  //   }
-
-  //   const newPoint = {
-  //     x: (event.clientX - left)*scale + startX,
-  //     y: (event.clientY - top)*scale + startY,
-  //   };
-  //   if (points.length === 1) {
-  //     const p1 = points[0];
-  //     const p2 = newPoint;
-  //     const dx = p2.x - p1.x;
-  //     const dy = p2.y - p1.y;
-  //     const calculatedDistance = Math.sqrt(dx * dx + dy * dy).toFixed(2);
-  //     setDistance(calculatedDistance);
-  //   }
-  //   setPoints((prevPoints) => prevPoints.length === 1 ? [prevPoints[0], newPoint] : [newPoint]);
-  // };
-
   const addShape = () => {
     const newShape = {
       id: shapes.length + 1,
       type: newShapeType,
-      length: newShapeLength,
-      radius: newShapeRadius,
+      length: Number(newShapeLength),
+      radius: Number(newShapeRadius),
       angle: newShapeAngle,
       color: "black",
 
@@ -326,10 +291,10 @@ const FromScratch = () => {
   const updateDimensions = () => {
     for(let i = 0;i < shapes.length;i++){
         shapes[i].length = 
-        (shapes[i].id === selectedShapeId) ? shapeLength : shapes[i].length;
+        (shapes[i].id === selectedShapeId) ? Number(shapeLength) : shapes[i].length;
 
         shapes[i].radius = 
-        (shapes[i].id === selectedShapeId) ? shapeRadius : shapes[i].radius;
+        (shapes[i].id === selectedShapeId) ? Number(shapeRadius) : shapes[i].radius;
 
         shapes[i].angle = 
         (shapes[i].id === selectedShapeId) ? shapeAngle : shapes[i].angle;
@@ -341,10 +306,10 @@ const FromScratch = () => {
         (shapes[i].id === selectedShapeId && i === 0) ? startAngle : shapes[i].anglefromx;
 
         predefinedPoints[i].w = 
-        (shapes[i].id === selectedShapeId) ? shapeLength : shapes[i].length;
+        (shapes[i].id === selectedShapeId) ? Number(shapeLength) : shapes[i].length;
 
         predefinedPoints[i].r = 
-        (shapes[i].id === selectedShapeId) ? shapeRadius : shapes[i].radius;
+        (shapes[i].id === selectedShapeId) ? Number(shapeRadius) : shapes[i].radius;
 
         predefinedPoints[i].angle = 
         (shapes[i].id === selectedShapeId && shapes[i] === 'Line') ? startAngle : (shapes[i].id === selectedShapeId) ? shapeAngle : shapes[i].angle;
@@ -620,11 +585,11 @@ const FromScratch = () => {
         <>
         <div className="container1">
           <lable className="label">Thickness: (t) mm</lable>
-          <input className="input-field" type="number" value={thickness} onChange={(e)=>setThickness(Number(e.target.value))}/>
+          <input className="input-field" type="number" value={thickness} onChange={(e)=>setThickness(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
         </div>
         <div className="container1">
           <lable className="label">Length: (L) m</lable>
-          <input className="input-field" type="number" value={length} onChange={(e) => setLength(Number(e.target.value))}/>
+          <input className="input-field" type="number" value={length} onChange={(e) => setLength(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
         </div>
         </>
         }
@@ -638,16 +603,16 @@ const FromScratch = () => {
           <>
             <div className="container1">
               <lable className="label">Outer Radius: (r) mm</lable>
-              <input className="input-field" type="number" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
+              <input className="input-field" type="text" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(e.target.value)} onFocus={(e) => e.target.select()} onKeyDown={(e) => handleExpressionKeyDown(e, setNewShapeRadius, newShapeRadius)}/>
              </div>
             <div className="container1">
               <lable className="label">Angle: (θ) degree</lable>
-              <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
+              <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
             </div>
             {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Clockwise Rotation: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
               </div>
             }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -657,12 +622,12 @@ const FromScratch = () => {
           <>
             <div className="container1">
               <lable className="label">Length: (l) mm</lable>
-              <input className="input-field" type="number" value={newShapeLength} step="1" onChange={(e) => setNewShapeLength(Number(e.target.value))}/>
+              <input className="input-field" type="text" value={newShapeLength} step="1" onChange={(e) => setNewShapeLength(e.target.value)} onFocus={(e) => e.target.select()} onKeyDown={(e) => handleExpressionKeyDown(e, setNewShapeLength, newShapeLength)}/>
             </div>
             {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Angle From X: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
               </div>
             }
             <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -672,16 +637,16 @@ const FromScratch = () => {
           <>
           <div className="container1">
             <lable className="label">Outer Radius: (r) mm</lable>
-            <input className="input-field" type="number" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(Number(e.target.value))}/>
+            <input className="input-field" type="text" value={newShapeRadius} step="1" onChange={(e) => setNewShapeRadius(e.target.value)} onFocus={(e) => e.target.select()} onKeyDown={(e) => handleExpressionKeyDown(e, setNewShapeRadius, newShapeRadius)}/>
            </div>
           <div className="container1">
             <lable className="label">Angle: (θ) degree</lable>
-            <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))}/>
+            <input className="input-field" type="number" value={newShapeAngle} step="1" onChange={(e) => setNewShapeAngle(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
           </div>
           {shapes.length === 0 &&
               <div className="container1">
                 <lable className="label">Clockwise Rotation: (θ) degree</lable>
-                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))}/>
+                <input className="input-field" type="number" value={startAngle} step="1" onChange={(e) => setStartAngle(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
               </div>
             }
           <button type='button' className="btn btn-dark mx-2 my-4" onClick={addShape} style={{color: 'white', backgroundColor: '#1b065c'}}>Add Shape</button>
@@ -695,7 +660,7 @@ const FromScratch = () => {
             <>
               <div className="container1">
               <lable className="label">Outer Radius: (r) mm</lable>
-              <input className="input-field" type="number" value={shapeRadius} step="1" onChange={(e) => setShapeRadius(Number(e.target.value))}/>
+              <input className="input-field" type="text" value={shapeRadius} step="1" onChange={(e) => setShapeRadius(e.target.value)} onFocus={(e) => e.target.select()} onKeyDown={(e) => handleExpressionKeyDown(e, setShapeRadius, shapeRadius)}/>
              </div>
             <div className="container1">
               <lable className="label">Angle: (θ) degree</lable>
@@ -712,7 +677,7 @@ const FromScratch = () => {
             <>
             <div className="container1">
               <lable className="label">Length: (l) mm</lable>
-              <input className="input-field" type="number" value={shapeLength} step="1" onChange={(e) => setShapeLength(Number(e.target.value))}/>
+              <input className="input-field" type="text" value={shapeLength} step="1" onChange={(e) => setShapeLength(e.target.value)} onFocus={(e) => e.target.select()} onKeyDown={(e) => handleExpressionKeyDown(e, setShapeLength, shapeLength)}/>
             </div>
             {selectedShapeId === 1 &&
               <div className="container1">
@@ -765,14 +730,6 @@ const FromScratch = () => {
             {shapes.map((shape) => (
               (shape.type ==="anticlockwise") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><CircleSector radius={shape.radius} centerX={shape.x} centerY={shape.y} angle={shape.angle} rotation={90 + shape.anglefromx - shape.angle} thickness={thickness}  color={shape.color}/></a>
             ))}
-
-            {/* {points.map((point, index) => (
-              <circle key={index} cx={point.x} cy={point.y} r={2} fill={index === 0 ? "blue" : "red"} />
-            ))}
-
-            {points.length === 2 && (<line x1={points[0].x} y1={points[0].y} x2={points[1].x} y2={points[1].y} stroke="black"/>)}
-
-            {points.length === 2 && <text  x={(points[0].x + points[1].x)/2 + 3} y={(points[0].y + points[1].y)/2 - 3} fontSize="4"> {distance} mm</text>} */}
 
             {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 

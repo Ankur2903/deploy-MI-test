@@ -11,7 +11,7 @@ const ManagerDashboard = () => {
   useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const response = await fetch("http://localhost:8080/data", {
+          const response = await fetch("https://deploy-mi-test-api.vercel.app/data", {
             method: "GET", // default method, can be omitted
             headers: {
               'Authorization': `Bearer ${token}`,

@@ -6,9 +6,9 @@ const addmaterial = async (req, res) => {
     try {
         let { materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const count = await MaterialModel.countDocuments() + 1;
         let materialNo = "MIMS";
         const num = Math.log10(count) + 1;
@@ -22,6 +22,7 @@ const addmaterial = async (req, res) => {
             success: true
         })
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in materialController>>addmaterial",
@@ -34,10 +35,11 @@ const addmaterial = async (req, res) => {
 const allmaterial = async (req, res) => {
     try {
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const materials = await MaterialModel.find();
         return res.json(materials);
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in materialController>>allmaterial",
@@ -51,9 +53,9 @@ const deletematerial = async (req, res) => {
     try {
         const selectedMaterials = req.body.selectedMaterials;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         for(let i = 0;i<selectedMaterials.length;i++){
             const materialId = selectedMaterials[i];
             const deleteMaterial = await MaterialModel.findByIdAndDelete(materialId);
@@ -63,6 +65,7 @@ const deletematerial = async (req, res) => {
         }
         res.json({message: "material(s) removed successfully", success: true});
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in materialController>>deletematerial",
@@ -75,9 +78,9 @@ const editmaterial = async (req, res) => {
     try {
         let { selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax } = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const material = await MaterialModel.findById(selectedMaterials[0]);
         if (!material) {
             return res.status(409)
@@ -107,6 +110,7 @@ const editmaterial = async (req, res) => {
         success: true
       });
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in materialController>>editmaterial",

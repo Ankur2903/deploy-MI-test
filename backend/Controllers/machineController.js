@@ -4,11 +4,11 @@ require('dotenv').config();
 
 const addmachine = async (req, res) => {
     try {
-        let {  machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations } = req.body;
+        let { machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations } = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const no = await MachineModel.countDocuments() + 1;
         const machineModel = new MachineModel({no, machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations}) ;
         await machineModel.save();
@@ -18,6 +18,7 @@ const addmachine = async (req, res) => {
             success: true
         })
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in machineController>>addmachine",
@@ -30,13 +31,13 @@ const addmachine = async (req, res) => {
 const allmachines = async (req, res) => {
     try {
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const machines = await MachineModel.find();
-
         return res.json(machines);
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in machineController>>allmachine",
@@ -50,9 +51,9 @@ const deletemachines = async (req, res) => {
     try {
         const selectedMachines = req.body.selectedMachines;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         for(let i = 0;i<selectedMachines.length;i++){
             const machineId = selectedMachines[i];
             const deleteMachine = await MachineModel.findByIdAndDelete(machineId);
@@ -62,6 +63,7 @@ const deletemachines = async (req, res) => {
         }
         res.json({message: "machine(s) removed successfully", success: true});
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in machineController>>deletemachines",
@@ -74,9 +76,9 @@ const editmachine = async (req, res) => {
     try {
         let { selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations } = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== true) return res.status(403);
+        if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const machine = await MachineModel.findById(selectedMachines[0]);
         if (!machine) {
             return res.status(409)
@@ -99,6 +101,7 @@ const editmachine = async (req, res) => {
         success: true
       });
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
             message: "Internal server error in machineController>>editmachine",

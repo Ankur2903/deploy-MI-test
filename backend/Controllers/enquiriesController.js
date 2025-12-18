@@ -5,15 +5,16 @@ require('dotenv').config();
 const allenquiries = async (req, res) => {
     try {
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } ) ;
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'Super User') return res.status(403);
+        if(permission === "User") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const enquirie = await EnquirieModel.find();
         return res.json(enquirie);
     } catch (err){
+        console.log(err)
         res.status(500)
         .json({
-            message: "Internal server error in materialController>>allmaterial",
+            message: "Internal server error in enquiresController>>allenquiries",
             success: false
         })
     }
@@ -21,10 +22,9 @@ const allenquiries = async (req, res) => {
 
 const addenquirie = async (req, res) => {
     try {
-        
-        let { customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
+        let {customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } ) ;
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
@@ -51,9 +51,9 @@ const deleteenquirie = async (req, res) => {
     try {
         const selectedEnquiries = req.body.selectedEnquiries;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } ) ;
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'Super User') return res.status(403);
+        if(permission === "User") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         for(let i = 0;i<selectedEnquiries.length;i++){
             const enquirieId = selectedEnquiries[i];
             const deleteenquirie = await EnquirieModel.findByIdAndDelete(enquirieId);
@@ -66,7 +66,7 @@ const deleteenquirie = async (req, res) => {
         console.log(err)
         res.status(500)
         .json({
-            message: "Internal server error in materialController>>delete enquirie",
+            message: "Internal server error in enquiresController>>delete enquirie",
             success: false
         })
     }
@@ -74,11 +74,11 @@ const deleteenquirie = async (req, res) => {
 
 const editenquirie = async (req, res) => {
     try {
-        let { id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
+        let {id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, reviewDate} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
-        if (!user) return res.status(403)
+        if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } ) ;
         const permission = user.manager;
-        if(permission !== "Admin" && permission !== 'Super User') return res.status(403);
+        if(permission === "User") return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const enquirie = await EnquirieModel.findById(id);
         if (!enquirie) {
             return res.status(409)

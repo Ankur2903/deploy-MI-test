@@ -211,7 +211,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100vh;
+  /* height: 100vh; */
   padding: 20px;
   box-sizing: border-box;
 }
@@ -276,3 +276,187 @@
   height: 40vmin;
   pointer-events: none;
 }
+
+
+/* css for mydrowing component */
+
+:root{
+  --bg:#f9fafb;          /* gray-50 */
+  --card-bg:#ffffff;     /* white */
+  --muted:#6b7280;       /* gray-500 */
+  --muted-2:#9ca3af;     /* gray-400 */
+  --border:#e5e7eb;      /* gray-200 */
+  --accent:#ef4444;      /* red-ish for delete */
+  --btn-bg:#ffffff;
+  --btn-border:#e5e7eb;
+  --shadow: 0 6px 18px rgba(15,23,42,0.06);
+  --radius-2xl:1rem;
+  --radius-md:0.5rem;
+}
+
+/* Page */
+.saved-image-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 24px;
+  box-sizing: border-box;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  color: #111827;
+}
+
+/* Container */
+.saved-image-page .container {
+  max-width: 1150px;
+  margin: 0 auto;
+}
+
+/* Header */
+.saved-image-page .header {
+  width: 100%;
+  text-align: center;   
+  margin-bottom: 24px;
+}
+
+.saved-image-page .title-wrap {
+  flex: 1 1 0%;
+  text-align: center;
+}
+.saved-image-page .title {
+  font-size: 1.25rem; 
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Buttons */
+.btn-sm  {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 8px 12px;
+  border-radius: .5rem;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  cursor: pointer;
+  font-size: 0.875rem;
+  box-shadow: var(--shadow);
+  transition: background .15s ease, transform .06s ease;
+}
+.btn-sm [disabled] { opacity:.5; cursor: not-allowed; transform:none; }
+.btn-sm :hover { transform: translateY(-1px); }
+
+/* Small utility button styles used in cards */
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  border-radius: .375rem;
+  box-shadow: none;
+}
+
+/* Delete */
+.btn-delete {
+  background: #fff6f6;
+  color: var(--accent);
+  border: 1px solid #fee2e2;
+}
+
+/* Grid for images */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 18px;
+}
+
+/* responsive columns */
+@media (min-width: 520px){
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 840px){
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 1100px){
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* Empty state */
+.empty-box {
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border);
+  padding: 48px;
+  text-align:center;
+  color: var(--muted-2);
+  background: #ffffff;
+}
+
+/* Card / Figure */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius-2xl);
+  padding: 12px;
+  box-shadow: var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  min-height: 220px;
+  box-sizing: border-box;
+}
+
+/* Image wrapper */
+.img-wrap {
+  flex:1 1 0%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  border-radius: .5rem;
+  border: 1px solid #f3f4f6; 
+  background: #f8fafc;
+  height: 192px;
+}
+.img-wrap img {
+  max-width:100%;
+  max-height:100%;
+  object-fit: contain;
+  display:block;
+}
+
+/* Figcaption area */
+.figcaption {
+  margin-top:4px;
+}
+.meta {
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.name {
+  font-size: 0.95rem;
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 190px;
+}
+.date {
+  font-size: 0.75rem;
+  color: var(--muted-2);
+  margin-top:6px;
+}
+
+/* Card actions */
+.card-actions {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:8px;
+}
+
+/* Small text button style override */
+.small-white {
+  background: #ffffff;
+  border: 1px solid #e6e6e6;
+}
+
+/* Utility */
+.text-red { color: var(--accent); }
+.truncate { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }

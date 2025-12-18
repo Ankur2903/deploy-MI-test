@@ -23,6 +23,7 @@ import SaveDrawing from '../SaveDrawing';
 import { useLocation } from "react-router-dom";
 
 const FromScratch = () => {
+  const { state } = useLocation();
   const [boxPerimeter, setBoxPerimeter] = useState(0)
   const aa = Math.PI/180;
   const [viewBox, setViewBox] = useState('0 0 200 200');

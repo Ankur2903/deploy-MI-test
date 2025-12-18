@@ -16,7 +16,7 @@ function SaveDrawing({ shapes, thickness, id, oldprofileName, oldprofileDescript
   const handleClickSave = async() => {
         if(!profileName) return handleError('Please fill out profile name.')
         try {
-          const url = "http://localhost:8080/drawing/adddrawing";
+          const url = "https://deploy-mi-test-api.vercel.app/drawing/adddrawing";
           const response = await fetch(url, {
             method: "POST",
             headers: {
@@ -45,7 +45,7 @@ function SaveDrawing({ shapes, thickness, id, oldprofileName, oldprofileDescript
       const handleSaveChanges = async () => {
         if(!profileName) return handleError('Please fill out profile name.')
         try {
-            const response = await fetch(`http://localhost:8080/drawing/editdrawing`, {
+            const response = await fetch(`https://deploy-mi-test-api.vercel.app/drawing/editdrawing`, {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`,

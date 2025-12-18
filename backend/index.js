@@ -7,6 +7,7 @@ const AuthRouter = require('./Routes/AuthRouter');
 const productRouter = require('./Routes/ProductRouter')
 const enquiriRouter = require('./Routes/EnquiriRouter')
 const MachineRouter = require('./Routes/MachineRouter')
+const DrawingRouter = require('./Routes/DrawingRouter')
 const User = require('./Models/User');
 const jwt = require('jsonwebtoken');
 const ensureAuthenticated = require('./Middlewares/Auth');
@@ -52,6 +53,7 @@ app.post('/reset-password/:id/:token', async (req, res) => {
     await User.findByIdAndUpdate(id, { password: hashedPassword });
     res.json({ success: true, message: "Password reset successful" });
   } catch (err) {
+    console.log(err)
     res.status(400).json({ success: false, message: "Invalid or expired token" });
   }
 });
@@ -84,12 +86,14 @@ app.post("/forgot-password", async(req, res)=>{
 
 app.get("/data",ensureAuthenticated,async (req, res) => {
     try { 
-      const Users = await User.find();//{ status: "pending" }
-      const user = await User.findOne({email: req.user.email});
+      const user = await User.findOne({ email: req.user.email });
+      if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
       const permission = user.manager;
-      if(permission === false) res.json(permission);
-      else return res.json(Users);
+      if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
+      const Users = await User.find();
+      res.json(Users);
     } catch (error) {
+      console.log(error)
       res.status(500).json({ message: "Error fetching pending users" });
     }
   });
@@ -100,8 +104,9 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
     console.log("checking" ,status, selectedUsers);
   try {
     const user = await User.findOne({email: req.user.email});
+    if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
     const permission = user.manager;
-    if(permission !== "Admin" && permission !== 'true') res.json(false);
+    if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
      // Find the user by ID and update the status
      for(let i=0; i<selectedUsers.length; i++){
       const userId = selectedUsers[i];
@@ -144,6 +149,7 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
+        console.log(error)
     res.status(500).json({ message: "Error updating user status", error });
   }
 });
@@ -151,8 +157,9 @@ app.put("/update-status", ensureAuthenticated, async (req, res) => {
 app.delete("/delete",ensureAuthenticated, async (req, res) => {
   try {
       const user = await User.findOne({email: req.user.email});
+    if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
     const permission = user.manager;
-    if(permission !== "Admin" && permission !== 'true') res.json(false);
+    if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
     const selectedUsers = req.body.selectedUsers;
     for(let i=0; i<selectedUsers.length; i++){
       const userId = selectedUsers[i];
@@ -165,6 +172,7 @@ app.delete("/delete",ensureAuthenticated, async (req, res) => {
       message: "User removed successfully",
     });
   } catch (error) {
+      console.log(error)
     res.status(500).json({ message: "Error delete user status", error });
   }
 })
@@ -173,8 +181,9 @@ app.put("/change-type",ensureAuthenticated, async (req, res) => {
   const users = req.body.selectedUsers;
   try {
       const user = await User.findOne({email: req.user.email});
+    if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
     const permission = user.manager;
-    if(permission !== "Admin" && permission !== 'true') res.json(false);
+    if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
     for(let i=0; i<users.length; i++){
       const userId = users[i];
       // Find the user by ID and update the status
@@ -190,6 +199,7 @@ app.put("/change-type",ensureAuthenticated, async (req, res) => {
         user: updatedUser,
       });
   } catch (error) {
+      console.log(error)
     res.status(500).json({ message: "Error in updating user Type", error });
   }
 });
@@ -199,6 +209,7 @@ app.use('/auth', AuthRouter);
 app.use('/product', productRouter);
 app.use('/enquirie', enquiriRouter);
 app.use('/machine', MachineRouter);
+app.use('/drawing', DrawingRouter);
 
 app.listen(PORT, () => {
 console.log(`Server is running on ${PORT}`)

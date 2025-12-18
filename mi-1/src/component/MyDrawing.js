@@ -13,7 +13,7 @@ export default function SavedImagePage() {
   useEffect(() => {
     const fetchdrawings = async () => {
       try {
-        const response = await fetch("http://localhost:8080/drawing/alldrawings", {
+        const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
           method: "POST", // default method, can be omitted
           headers: {
           'Authorization': `Bearer ${token}`,
@@ -31,7 +31,7 @@ export default function SavedImagePage() {
 
   const deletedrawing = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/drawing/deletedrawing`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/drawing/deletedrawing`, {
         method: "DELETE", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,

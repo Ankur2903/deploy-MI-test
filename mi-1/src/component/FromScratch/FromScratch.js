@@ -64,6 +64,9 @@ const FromScratch = () => {
   const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
   const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
   const [type, setType] = useState("Open"); 
+  const [morx, setMorx] = useState(0);
+  const [mory, setMory] = useState(0);
+  const [inertiaxy, setInertiaxy] = useState(0);
   let x;
   let y;
   const token = localStorage.getItem('token')
@@ -391,20 +394,23 @@ const FromScratch = () => {
 
   const mx = 100;
   const ratio = 100;
-  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, ratio, thickness);
+  const {Ix, Iy, sw, ol, acs, xmax, ymax, Ixy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, ratio, thickness);
 
   const submitClick = () => {
     if(shapes.length === 0) return;
-    setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3))
-    setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3))
+    setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3));
+    setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3));
     setStripWidth((sw));
     setOutLine(ol)
     setArea(acs);
     setInertiax(Ix);
     setInertiay(Iy);
-    setRogx((Math.sqrt(Ix/acs)*10).toFixed(3))
-    setRogy((Math.sqrt(Iy/acs)*10).toFixed(3))
+    setRogx((Math.sqrt(Ix/acs)*10).toFixed(3));
+    setRogy((Math.sqrt(Iy/acs)*10).toFixed(3));
     setPmoi((Number(Ix) + Number(Iy)).toFixed(3));
+    setMorx(Ix/ymax);
+    setMory(Iy/xmax);
+    setInertiaxy(Ixy);
   }
 
   const handlePan = useCallback((dx, dy) => {
@@ -858,7 +864,7 @@ const FromScratch = () => {
           </div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy}/>
         </div>
       </div>
     </div>

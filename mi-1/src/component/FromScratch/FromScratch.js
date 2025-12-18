@@ -19,6 +19,8 @@ import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 import PredefinedPoints from '../PredefinedPoints';
 import { evalToNumber, handleExpressionKeyDown } from '../AdvanceOutput/expressionUtils';
+import SaveDrawing from '../SaveDrawing';
+import { useLocation } from "react-router-dom";
 
 const FromScratch = () => {
   const [boxPerimeter, setBoxPerimeter] = useState(0)
@@ -29,8 +31,6 @@ const FromScratch = () => {
   const [scale, setScale] = useState(1);
   const [click,setClick] = useState(0);
   const [no, setno] = useState(0);
-  const [points, setPoints] = useState([]);
-  const [distance, setDistance] = useState(null);
   const [dimensioning, setDimensioning] = useState(false)
 
   const [startX, setStartX] = useState(30);
@@ -52,7 +52,6 @@ const FromScratch = () => {
   const [shapeRadius, setShapeRadius] = useState(50); // Circle shape edit state
   const [shapeAngle, setShapeAngle] = useState(90); // Used for circle radius
   const [stripWidth, setStripWidth] = useState(0);
-  const [crossSection, setCrossSection] = useState(0);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [length, setLength] = useState(1);
   const [totalWeight, setTotalWeight] = useState(0)
@@ -66,6 +65,62 @@ const FromScratch = () => {
   const [type, setType] = useState("Open"); 
   let x;
   let y;
+  const token = localStorage.getItem('token')
+  const [oldprofileName, setOldProfileName] = useState('');
+  const [oldprofileDescription, setOldProfileDescription] = useState('');
+  const [oldprofileReferenceNo, setOldProfileReferenceNo] = useState('');
+  const [gridVisible, setGridVisible] = useState(true);
+  
+  useEffect(() => {
+      const fetchmaterials = async () => {
+        try {
+          const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
+            method: "POST", // default method, can be omitted
+            headers: {
+            'Authorization': `Bearer ${token}`,
+            "Content-Type": "application/json", // Ensure correct content type
+            }
+          });
+          const data = await response.json();
+          const points = [];
+          for(let i=0; i<data.length; i++){
+            if(data[i]._id === state.drawingId){
+              setShapes(data[i].shapes);
+              setThickness(data[i].thickness);
+              setOldProfileName(data[i].profileName);
+              setOldProfileDescription(data[i].profileDescription);
+              setOldProfileReferenceNo(data[i].profileReferenceNo);
+              for(let j=0; j<data[i].shapes.length; j++){
+                setStartX(Math.min(startX,data[i].shapes[j].startx));
+                setStartY(Math.min(startY,data[i].shapes[j].starty));
+                setEndX(Math.max(endX , data[i].shapes[j].endx));
+                setEndY(Math.max(endY,data[i].shapes[j].endy))
+                setNewShapeType(null);
+
+                const newPoint = {
+                  id : data[i].shapes[j].id,
+                  type : (data[i].shapes[j].type === 'Line') ? 'line' : 'circle',
+                  x : data[i].shapes[j].x,
+                  y : data[i].shapes[j].y,
+                  w : data[i].shapes[j].length,
+                  h : thickness,
+                  r : data[i].shapes[j].radius,
+                  angle : (data[i].shapes[j].type === 'Line') ? data[i].shapes[j].anglefromx : data[i].shapes[j].angle,
+                  rotation : (data[i].shapes[j].type === 'clockwise') ? data[i].shapes[j].anglefromx + 270 : 90 + data[i].shapes[j].anglefromx - data[i].shapes[j].angle,
+                  t : thickness,
+                }
+                points.push(newPoint);
+                setno(0);
+            }
+          }
+        }
+        setPredefinedPoints(points);
+      } catch (err) {
+          console.error("Error fetching drawings:", err.message);
+          }
+      };
+      fetchmaterials();
+    }, [] )
 
   const addShape = () => {
     const newShape = {
@@ -328,11 +383,10 @@ const FromScratch = () => {
   const clickOndimensioning = ()=> {
     setSelectedShapeId(null)
     setDimensioning(!dimensioning);
-    setPoints([])
     if(selectedShapeId !==null) shapes[shapes.findIndex((shape) => shape.id === selectedShapeId)].color = "black"
   }
 
-  const {a, b} = COM(predefinedPoints)
+  const {a, b} = COM(predefinedPoints)  //a = x-coordinate of centroid, b = y-coordinate of centroid
 
   const mx = 100;
   const ratio = 100;
@@ -539,45 +593,99 @@ const FromScratch = () => {
     });
   };
 
+  const [image, setImage] = useState(null);
+  const handleSendImage = async () => {
+    const canvas = await html2canvas(cChannelGraphRef.current, {
+      scale: 2,
+      useCORS: true,
+    });
+    const imgData = canvas.toDataURL("image/png");
+    setImage(imgData);
+  };
+
   return (
     <div>
       <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-body">
-                <Feasibility type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
-              </div>  
-            </div>
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
+            </div>  
           </div>
         </div>
-        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog modal-xl">
-            <div className="modal-content">
-              <div className="modal-body">
-                <FeasibilityL1 type={"Close"} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
-              </div>  
-            </div>
-          </div>
-        </div>
-       <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
-      <h1 className="heading">From Scratch</h1>
-      <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
-        <button title={Props.title2} type="button"  className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{ color: 'white', backgroundColor: '#1b065c'}}>
-        <i className="fa-solid fa-download"></i>
-        </button>
-        <ul className="dropdown-menu">
-          <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
-          <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li> 
-        </ul>
-          <button disabled ={shapes.length === 0 ? true : false} title={Props.title2} type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}}>
-            Feasibility?
-          </button>
-          <ul className="dropdown-menu">
-            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal0" onClick={submitClick}>Feasibility L0</button></li>
-            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal1" onClick={submitClick}>Feasibility L1</button></li>
-          </ul>
       </div>
-    </div>
+      <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <FeasibilityL1 type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
+            </div>  
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <SaveDrawing shapes={shapes} thickness={thickness} id= {null} oldprofileName={""} oldprofileDescription={""} oldprofileReferenceNo={""} image={image}/>
+            </div>  
+          </div>
+        </div>
+      </div>
+      <div className="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-body">
+              <SaveDrawing shapes={shapes} thickness={thickness} id= {state.drawingId} oldprofileName={oldprofileName} oldprofileDescription={oldprofileDescription} oldprofileReferenceNo={oldprofileReferenceNo} image={image}/>
+            </div>  
+          </div>
+        </div>
+      </div>
+      
+      <div style={{ display: "flex", alignItems: "center", width: "100%", padding: "4px 20px" }}>
+      {/* LEFT EMPTY SPACE */}
+        <div style={{ flex: 1 }}></div>
+        {/* CENTER HEADING */}
+        <h2 style={{ margin: 0, textAlign: "center" }}>From Scratch</h2>
+        {/* RIGHT SIDE BUTTONS */}
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", alignItems: "center", gap: "10px"}}>
+        {/* SAVE OPTIONS */}
+        <div className="btn-group">
+          <button disabled={shapes.length === 0} className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" style={{ backgroundColor: "#1b065c" }}><i class="fa-regular fa-floppy-disk"></i></button>
+            <ul className="dropdown-menu">
+              <li><button className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal2" onClick={handleSendImage}>Save as new</button></li>
+              <li><button disabled={state.drawingId === null} className="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal3" onClick={handleSendImage}>Save</button></li>
+            </ul>
+          </div>
+          {/* EXPORT */}
+          <div className="btn-group">
+            <button className="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" style={{ backgroundColor: "#1b065c" }}>
+              <i className="fa-solid fa-download"></i>
+            </button>
+            <ul className="dropdown-menu">
+              <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
+              <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
+            </ul>
+          </div>
+          {/* FEASIBILITY */}
+          <div className="btn-group">
+            <button
+              disabled={shapes.length === 0}
+              title={Props.title2}
+              className="btn btn dropdown-toggle"
+              data-bs-toggle="dropdown"
+              style={{ color: "white", backgroundColor: "#1b065c", borderRadius: "5px" }}
+            >
+              Feasibility?
+            </button>
+            <ul className="dropdown-menu">
+              <li><button className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal0" onClick={submitClick}>Feasibility L0</button></li>
+              <li><button className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal1" onClick={submitClick}>Feasibility L1</button></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
       <div className = "container">
       <div className="box">
         <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
@@ -698,14 +806,21 @@ const FromScratch = () => {
       <button disabled={shapes.length===0 ? true : false}  type="button" onClick={resetClick} className="btn btn-dark mx-1 my-4"  style={{color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
       </div>   
       </div>
-
-        <div className='box'>
-        <div ref={cChannelGraphRef}>
+      <div className='box'>
         <div style={{ position: 'relative' }}>
-          <div className="form-check form-switch"  style={{color: 'white', backgroundColor: '#1b065c'}}>
-            <input title='Click to check dimensions' className="form-check-input" onClick={clickOndimensioning} type="checkbox" role="switch" id="flexSwitchCheckDefault" style={{color: '#1b065c', transform: 'translateY(0px) translateX(4px)'}}/>
-            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">DIMENSIONING FUNCTION</label>
+          <div style={{ color: "white", backgroundColor: "#1b065c", padding: "10px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%"}}>
+            {/* LEFT: DIMENSIONING SWITCH */}
+            <div className="form-check form-switch m-0">
+              <input className="form-check-input" type="checkbox" role="switch" id="dimensionSwitch" title="Click to check dimensions" onChange={clickOndimensioning}/>
+              <label className="form-check-label ms-2" htmlFor="dimensionSwitch">DIMENSIONING FUNCTION</label>
+            </div>
+            {/* RIGHT: GRID SWITCH */}
+            <div className="form-check form-switch m-0">
+              <input className="form-check-input" type="checkbox" role="switch" id="gridSwitch" title="Toggle grid" checked={gridVisible} onChange={() => setGridVisible(prev => !prev)}/>
+              <label className="form-check-label ms-2" htmlFor="gridSwitch">GRID</label>
+            </div>
           </div>
+          <div ref={cChannelGraphRef}>
           <svg viewBox={viewBox} style={{ width: '100%', height: '61vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown}  onTouchStart={handleTouchStart}> {/* onClick={handleSVGClick} */}
               {/* Define grid pattern */}
                
@@ -715,7 +830,7 @@ const FromScratch = () => {
               </pattern>
             </defs>
             {/* Apply grid pattern as background */}
-            <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />
+            {gridVisible && <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />}
 
             {shapes.length>0 && ((shapes[0].type === "Line") ? <LineAtTheta x={shapes[0].x + 5*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y - 5*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/> : (shapes[0].type === "clockwise") ? <LineAtTheta x={shapes[0].x + (5 + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y - (5 + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/>:<LineAtTheta x={shapes[0].x - (-5 + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y + (-5 + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={10 + thickness} angle={shapes[0].anglefromx} color={"black"}/>)}
 
@@ -734,10 +849,11 @@ const FromScratch = () => {
             {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
             </svg>
+            </div>
             <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
             <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
             <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
-          </div>
+          
           </div>
         </div>
         <div className='box'>

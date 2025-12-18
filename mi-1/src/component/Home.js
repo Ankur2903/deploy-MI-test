@@ -29,7 +29,7 @@ function Home() {
       <h1 className='mb-4'>MI Profile Generator</h1>
       <div className='button-wrapper-container'>
         <div className="button-wrapper mx-2">
-        <Link to="/from_scratch">
+        <Link to="/mydrawing">
           <button className='Button'>
             <img className='Image'
               src="https://i.pinimg.com/originals/11/7e/2e/117e2ed7ebe96dd0c3838cfa10f07311.jpg"

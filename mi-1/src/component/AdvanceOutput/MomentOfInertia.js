@@ -1,39 +1,66 @@
 export function ComputeMomentOfInertia(predefinedPoints,a, b, mx, ratio, thickness) {
-    console.log("===================")
     let Ix = 0;
     let Iy = 0;
     let sw = 0;
     let ol = 0;
     let acs = 0;
+    let ymax = 0;
+    let xmax = 0;
+    let Ixy = 0;
     const aa = Math.PI/180;
     for(let i = 0;i< predefinedPoints.length;i++){
-        if(predefinedPoints[i].type === 'line'){
-            Ix = Ix + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.pow(Math.sin(aa*predefinedPoints[i].angle), 2) + Math.pow(predefinedPoints[i].h, 2)*Math.pow(Math.cos(aa*predefinedPoints[i].angle), 2))/12 + Math.pow(predefinedPoints[i].y + predefinedPoints[i].h*Math.cos(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.sin(aa*predefinedPoints[i].angle)/2 - b, 2));
+        const id = predefinedPoints[i].id;
+        const type = predefinedPoints[i].type;
+        const x = predefinedPoints[i].x;
+        const y = predefinedPoints[i].y;
+        const w = predefinedPoints[i].w;
+        const h = predefinedPoints[i].h;
+        const r = predefinedPoints[i].r;
+        const angle = predefinedPoints[i].angle;
+        const rotation = predefinedPoints[i].rotation;
+        const t = predefinedPoints[i].t;
+        const mxangle = Math.atan((b - y)/(x - a));
 
-            Iy = Iy + (predefinedPoints[i].w*predefinedPoints[i].h)*((Math.pow(predefinedPoints[i].w, 2)*Math.pow(Math.cos(aa*predefinedPoints[i].angle), 2) + Math.pow(predefinedPoints[i].h, 2)*Math.pow(Math.sin(aa*predefinedPoints[i].angle), 2))/12 + Math.pow(predefinedPoints[i].x - predefinedPoints[i].h*Math.sin(aa*predefinedPoints[i].angle)/2 + predefinedPoints[i].w*Math.cos(aa*predefinedPoints[i].angle)/2 - a, 2));
+        if(type === 'line'){
+            Ix = Ix + (w*h)*((Math.pow(w, 2)*Math.pow(Math.sin(aa*angle), 2) + Math.pow(h, 2)*Math.pow(Math.cos(aa*angle), 2))/12 + Math.pow(y + h*Math.cos(aa*angle)/2 + w*Math.sin(aa*angle)/2 - b, 2));
 
-            if(predefinedPoints[i].w === thickness){
-                sw = sw + predefinedPoints[i].h;
-                ol = ol + 2*predefinedPoints[i].h;
+            Iy = Iy + (w*h)*((Math.pow(w, 2)*Math.pow(Math.cos(aa*angle), 2) + Math.pow(h, 2)*Math.pow(Math.sin(aa*angle), 2))/12 + Math.pow(x - h*Math.sin(aa*angle)/2 + w*Math.cos(aa*angle)/2 - a, 2));
+
+            if(w === thickness){
+                sw = sw + h;
+                ol = ol + 2*h;
             }
             else{
-                sw = sw + predefinedPoints[i].w;
-                ol = ol + 2*predefinedPoints[i].w;
+                sw = sw + w;
+                ol = ol + 2*w;
             }
 
-            acs = acs + predefinedPoints[i].w*predefinedPoints[i].h
+            acs = acs + w*h
+
+            ymax = Math.max(ymax, Math.abs(y - b), Math.abs(y + w*Math.sin(aa*angle) - b), Math.abs(y + w*Math.sin(aa*angle) + h*Math.cos(aa*angle) - b), Math.abs(y + h*Math.cos(aa*angle) - b));
+            xmax = Math.max(xmax, Math.abs(x - a), Math.abs(x + w*Math.cos(aa*angle) - a), Math.abs(x + w*Math.cos(aa*angle) - h*Math.sin(aa*angle) - a), Math.abs(x - h*Math.sin(aa*angle) - a));
+
+            Ixy = Ixy + ((w*w*w*h/3) - (w*h*h*h/3))*Math.sin(aa*angle)*Math.cos(aa*angle) + (w*w*h*h/4)*(Math.cos(aa*angle)*Math.cos(aa*angle) - Math.sin(aa*angle)*Math.sin(aa*angle))  - w*h*(w*Math.cos(aa*angle)/2 - h*Math.sin(aa*angle)/2)*(w*Math.sin(aa*angle)/2 + h*Math.cos(aa*angle)/2) + w*h*(x + w*Math.cos(aa*angle)/2 - h*Math.sin(aa*angle)/2 - a)*(y + w*Math.sin(aa*angle)/2 + h*Math.cos(aa*angle)/2 - b)
         }
         else{ 
-            Ix = Ix + ((Math.pow(predefinedPoints[i].r, 4)/4)*(aa*predefinedPoints[i].angle/2 - (Math.sin(aa*(4*predefinedPoints[i].rotation + 2*predefinedPoints[i].angle)) - Math.sin(aa*(4*predefinedPoints[i].rotation)))/4)) - (aa*predefinedPoints[i].angle*Math.pow(predefinedPoints[i].r, 2)/2)*(Math.pow((predefinedPoints[i].y + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - predefinedPoints[i].y, 2) - Math.pow((predefinedPoints[i].y + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - b,2))
-            - (((Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 4)/4)*(aa*predefinedPoints[i].angle/2 - (Math.sin(aa*(4*predefinedPoints[i].rotation + 2*predefinedPoints[i].angle)) - Math.sin(aa*(4*predefinedPoints[i].rotation)))/4)) - (aa*predefinedPoints[i].angle*Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 2)/2)*(Math.pow((predefinedPoints[i].y + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - predefinedPoints[i].y, 2) - Math.pow((predefinedPoints[i].y + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.sin(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - b,2)));
+            Ix = Ix + ((Math.pow(r, 4)/4)*(aa*angle/2 - (Math.sin(aa*(4*rotation + 2*angle)) - Math.sin(aa*(4*rotation)))/4)) - (aa*angle*Math.pow(r, 2)/2)*(Math.pow((y + (4*r*Math.sin(aa*angle/2)/(3*aa*angle))*Math.sin(aa*(rotation + angle/2))) - y, 2) - Math.pow((y + (4*r*Math.sin(aa*angle/2)/(3*aa*angle))*Math.sin(aa*(rotation + angle/2))) - b,2))
+            - (((Math.pow(r - t, 4)/4)*(aa*angle/2 - (Math.sin(aa*(4*rotation + 2*angle)) - Math.sin(aa*(4*rotation)))/4)) - (aa*angle*Math.pow(r - t, 2)/2)*(Math.pow((y + (4*(r - t)*Math.sin(aa*angle/2)/(3*aa*angle))*Math.sin(aa*(rotation + angle/2))) - y, 2) - Math.pow((y + (4*(r - t)*Math.sin(aa*angle/2)/(3*aa*angle))*Math.sin(aa*(rotation + angle/2))) - b,2)));
 
-            Iy = Iy +  ((Math.pow(predefinedPoints[i].r, 4)/4)*(aa*predefinedPoints[i].angle/2 + (Math.sin(aa*(4*predefinedPoints[i].rotation + 2*predefinedPoints[i].angle)) - Math.sin(aa*(4*predefinedPoints[i].rotation)))/4)) - (aa*predefinedPoints[i].angle*Math.pow(predefinedPoints[i].r, 2)/2)*(Math.pow((predefinedPoints[i].x + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - predefinedPoints[i].x, 2) - Math.pow((predefinedPoints[i].x + (4*predefinedPoints[i].r*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - a,2))
-            - (((Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 4)/4)*(aa*predefinedPoints[i].angle/2 + (Math.sin(aa*(4*predefinedPoints[i].rotation + 2*predefinedPoints[i].angle)) - Math.sin(aa*(4*predefinedPoints[i].rotation)))/4)) - (aa*predefinedPoints[i].angle*Math.pow(predefinedPoints[i].r - predefinedPoints[i].t, 2)/2)*(Math.pow((predefinedPoints[i].x + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - predefinedPoints[i].x, 2) - Math.pow((predefinedPoints[i].x + (4*(predefinedPoints[i].r - predefinedPoints[i].t)*Math.sin(aa*predefinedPoints[i].angle/2)/(3*aa*predefinedPoints[i].angle))*Math.cos(aa*(predefinedPoints[i].rotation + predefinedPoints[i].angle/2))) - a,2)));
+            Iy = Iy +  ((Math.pow(r, 4)/4)*(aa*angle/2 + (Math.sin(aa*(4*rotation + 2*angle)) - Math.sin(aa*(4*rotation)))/4)) - (aa*angle*Math.pow(r, 2)/2)*(Math.pow((x + (4*r*Math.sin(aa*angle/2)/(3*aa*angle))*Math.cos(aa*(rotation + angle/2))) - x, 2) - Math.pow((x + (4*r*Math.sin(aa*angle/2)/(3*aa*angle))*Math.cos(aa*(rotation + angle/2))) - a,2))
+            - (((Math.pow(r - t, 4)/4)*(aa*angle/2 + (Math.sin(aa*(4*rotation + 2*angle)) - Math.sin(aa*(4*rotation)))/4)) - (aa*angle*Math.pow(r - t, 2)/2)*(Math.pow((x + (4*(r - t)*Math.sin(aa*angle/2)/(3*aa*angle))*Math.cos(aa*(rotation + angle/2))) - x, 2) - Math.pow((x + (4*(r - t)*Math.sin(aa*angle/2)/(3*aa*angle))*Math.cos(aa*(rotation + angle/2))) - a,2)));
 
-            sw = sw + aa*predefinedPoints[i].angle*(predefinedPoints[i].r - 0.596*thickness)
-            ol = ol + aa*predefinedPoints[i].angle*(2*predefinedPoints[i].r - thickness);
-            acs = acs + (aa*predefinedPoints[i].angle)*(Math.pow(predefinedPoints[i].r, 2) - Math.pow(predefinedPoints[i].r - predefinedPoints[i].t,2))/2;
-           
+            sw = sw + aa*angle*(r - 0.596*thickness)
+            ol = ol + aa*angle*(2*r - thickness);
+            acs = acs + (aa*angle)*(Math.pow(r, 2) - Math.pow(r - t,2))/2;
+
+            if(mxangle >= rotation*aa && mxangle <= (rotation + angle)*aa){
+                xmax = Math.max(xmax, Math.abs(x + r*Math.cos(mxangle)) - a);
+                ymax = Math.max(ymax, Math.abs(y + r*Math.sin(mxangle)) - b);
+            }
+            else{
+                xmax = Math.max(xmax, Math.abs(x + r*Math.cos(aa*rotation) - a), Math.abs(x + r*Math.cos(aa*(rotation + angle)) - a), Math.cos(x + (r-t)*Math.cos(aa*rotation) - a), Math.abs(x + (r - t)*Math.cos(aa*(rotation + angle)) - a));
+                ymax = Math.max(ymax, Math.abs(y + r*Math.sin(aa*rotation) - b), Math.abs(y + r*Math.sin(aa*(rotation + angle)) - b), Math.abs(y + (r - t)*Math.sin(aa*rotation) - b), Math.abs(y + (r - t)*Math.sin(aa*(rotation + angle)) - b) );
+            }
         }
     }
     ol = ol + 2*thickness;
@@ -43,5 +70,8 @@ export function ComputeMomentOfInertia(predefinedPoints,a, b, mx, ratio, thickne
     sw = ((sw*mx)/ratio).toFixed(3);
     ol = ((ol*mx)/ratio).toFixed(3);
     acs = ((acs*Math.pow(mx, 2))/(Math.pow(ratio, 2))).toFixed(3);
-  return {Ix, Iy, sw, ol, acs};
+    xmax = (xmax*mx)/(10*ratio);
+    ymax = (ymax*mx)/(10*ratio);
+    Ixy = ((Ixy*Math.pow(mx, 4))/(10000*Math.pow(ratio, 4))).toFixed(3);
+  return {Ix, Iy, sw, ol, acs, xmax, ymax, Ixy};
 }

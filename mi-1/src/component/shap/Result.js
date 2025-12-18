@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import '../../App.css'
 
-function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area, inertiax, inertiay, rogx, rogy, pmoi}) {
-  const [click, setclick] =  useState(false)
+function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area, inertiax, inertiay, rogx, rogy, pmoi, morx, mory, inertiaxy}) {
+  const [click, setclick] =  useState(false);console.log("inertiaxy",inertiaxy)
   const handleClick = () => {
     setclick(click^true)
   }
@@ -20,12 +20,12 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
         click && <><p className="output-text" ><b>Center of mass (x):</b><p> 0.00 mm from origin</p></p>
         <p className="output-text" ><b>Center of mass (y):</b><p> 0.00 mm from origin</p></p>
         <p className="output-text" ><b>Moment of inertia I(x):</b><p> {inertiax} cm^4</p></p>
-        <p className="output-text" ><b>Moment of resistance W(x):</b><p> ___ cm^3</p></p>
+        <p className="output-text" ><b>Moment of resistance W(x):</b><p> {morx} cm^3</p></p>
         <p className="output-text" ><b>Radius of gyration i(x):</b><p> {rogx} cm</p></p>
         <p className="output-text" ><b>Moment of inertia I(y):</b><p> {inertiay} cm^4</p></p>
-        <p className="output-text" ><b>Moment of resistance W(y):</b><p> ___ cm^3</p></p>
+        <p className="output-text" ><b>Moment of resistance W(y):</b><p> {mory} cm^3</p></p>
         <p className="output-text" ><b>Radius of gyration i(y):</b><p>{rogy} cm</p> </p>
-        <p className="output-text" ><b>Centrifugal moment I(xy):</b><p> ___ cm^4</p></p>
+        <p className="output-text" ><b>Centrifugal moment I(xy):</b><p> {inertiaxy} cm^4</p></p>
         <p className="output-text" ><b>Polar moment of inertia Ip:</b><p> {pmoi} cm^4</p></p>
         <p className="output-text" ><b>Principal axis angle:</b><p> ___ deg</p></p>
         <p className="output-text" ><b>Moment of inertia I(u):</b><p> ___  cm^4</p></p>

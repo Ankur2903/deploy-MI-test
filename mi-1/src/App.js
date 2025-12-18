@@ -89,7 +89,7 @@ import Front_st_a_pillar from './component/shap/Front-st-a-pillar';
 import D_pillar_rear from './component/shap/D-pillar-rear';
 import Enquiry from './component/Enquiry';
 import AdminPanel from './component/AdminPanel';
-
+import MyDrawing from './component/MyDrawing';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -198,6 +198,7 @@ function App() {
           <Route exact path='/front-st-a-pillar' element={<PrivateRoute element={<Front_st_a_pillar/>}/>}/>
           <Route exact path='/d-pillar-rear' element={<PrivateRoute element={<D_pillar_rear/>}/>}/>
           {(permission === "Admin" || permission === "Super User") && <Route exact path='/enquiry' element={<PrivateRoute element={<Enquiry/>}/>}/>}
+           <Route exact path='/mydrawing' element={<PrivateRoute element={<MyDrawing/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

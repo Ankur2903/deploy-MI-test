@@ -88,7 +88,7 @@ export default function SavedImagePage() {
         {false ? (
           <div className="empty-box">No saved images found.</div>
         ) : (
-          <div className={`row row-cols-1 row-cols-md-${Math.min(drawings.length + 1, 4)} g-4`}>
+          <div className={`row row-cols-1 row-cols-md-${Math.min(drawings.length, 4)} g-4`}>
             {drawings.map((drawing) => (
               <div className="col">
                 <figure key={drawing.id} className="card">

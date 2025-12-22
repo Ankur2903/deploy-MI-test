@@ -403,23 +403,35 @@ const FromScratch = () => {
   const mx = 100;
   const ratio = 100;
   const {Ix, Iy, sw, ol, acs, xmax, ymax, Ixy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, ratio, thickness);
+  const Paa = Math.atan(2*Ixy/(Ix - Iy))*90/Math.PI
+  const Iu = (Paa <= 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
+  const Iv = (Paa > 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
+  const {umax, vmax} = ComputePrincipalAxisAngle(predefinedPoints, a, b, mx, ratio, thickness, Paa);
 
   const submitClick = () => {
     if(shapes.length === 0) return;
     setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3));
     setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3));
-    setStripWidth((sw));
-    setOutLine(ol)
-    setArea(acs);
-    setInertiax(Ix);
-    setInertiay(Iy);
+    setStripWidth((sw).toFixed(3));
+    setOutLine((ol).toFixed(3))
+    setArea((acs).toFixed(3));
+    setInertiax((Ix).toFixed(3));
+    setInertiay((Iy).toFixed(3));
     setRogx((Math.sqrt(Ix/acs)*10).toFixed(3));
     setRogy((Math.sqrt(Iy/acs)*10).toFixed(3));
     setPmoi((Number(Ix) + Number(Iy)).toFixed(3));
-    setMorx(Ix/ymax);
-    setMory(Iy/xmax);
-    setInertiaxy(Ixy);
+    setMorx((Ix/ymax).toFixed(3));
+    setMory((Iy/xmax).toFixed(3));
+    if(Ix !== Iy) setPaangle((Paa).toFixed(3));
+    setInertiaxy((-Ixy).toFixed(3))
+    setInertiau((Iu).toFixed(3))
+    setInertiav((Iv).toFixed(3));
+    setRogu((Math.sqrt(Iu/acs)*10).toFixed(3));
+    setRogv((Math.sqrt(Iv/acs)*10).toFixed(3));
+    setMoru((Iu/vmax).toFixed(3));
+    setMorv((Iv/umax).toFixed(3));
   }
+
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {

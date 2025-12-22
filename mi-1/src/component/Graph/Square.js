@@ -4,6 +4,7 @@ import * as Props from '../constant';
 import Liney from './Shap/Liney';
 import Linex from './Shap/Linex';
 import PredefinedPoints from '../PredefinedPoints';
+import { ComputePrincipalAxisAngle } from '../AdvanceOutput/PrincipalAxisAngle';
 import { COM } from '../AdvanceOutput/COM';
 import { ComputeMomentOfInertia } from '../AdvanceOutput/MomentOfInertia';
 
@@ -32,11 +33,16 @@ const {a, b} = COM(predefinedPoints)
     y: point.y + 100 - b
   }));
 
-  const {Ix, Iy, sw, ol, acs} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
+  const {Ix, Iy, sw, ol, acs, xmax, ymax, Ixy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, Props.ratio, thickness);
+  const Paa = Math.atan(2*Ixy/(Ix - Iy))*90/Math.PI
+  const Iu = (Paa <= 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
+  const Iv = (Paa > 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
+  const {umax, vmax} = ComputePrincipalAxisAngle(predefinedPoints, a, b, mx, Props.ratio, thickness, Paa);
+
 
   useEffect(() => {
-    sendValue({ Ix, Iy, sw, ol, acs});// Send all consts as an object when the component mounts
-  }, [Ix, Iy, sw, ol, acs]);
+    sendValue({ Ix, Iy, sw, ol, acs, xmax, ymax, Ixy, Paa, Iu, Iv, umax, vmax});// Send all consts as an object when the component mounts
+  }, [Ix, Iy, sw, ol, acs, xmax, ymax, Ixy, Paa, Iu, Iv, umax, vmax]);
 
 
   const [viewBox, setViewBox] = useState(Props.title7);

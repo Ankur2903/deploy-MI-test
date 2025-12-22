@@ -32,9 +32,9 @@ function Elliptical() {
   const [mory, setMory] = useState(0); // Moment of resistance W(y)
   const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
   const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
-  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [inertiaxy, setInertiaxy] = useState(0); // Centrifugal moment I(xy)
   const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
-  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [paangle, setPaangle] = useState(0); // Principal axis angle
   const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
   const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
   const [moru, setMoru] = useState(0); // Moment of resistance W(u)
@@ -236,7 +236,7 @@ function Elliptical() {
           <div ref={GraphRef}><Elliptical_graph side11={side1} side22 = {side2}  thickness1={thickness} sendValue={handleData}/></div>
         </div>
          <div className='box'>
-         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
+         <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
         </div>
       </div>
     </div>

@@ -27,13 +27,13 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
         <p className="output-text" ><b>Radius of gyration i(y):</b><p>{rogy} cm</p> </p>
         <p className="output-text" ><b>Centrifugal moment I(xy):</b><p> {inertiaxy} cm^4</p></p>
         <p className="output-text" ><b>Polar moment of inertia Ip:</b><p> {pmoi} cm^4</p></p>
-        <p className="output-text" ><b>Principal axis angle:</b><p> {paangle} deg</p></p>
+        {inertiax !== inertiay && <><p className="output-text" ><b>Principal axis angle:</b><p> {paangle} deg</p></p>
         <p className="output-text" ><b>Moment of inertia I(u):</b><p> {inertiau}  cm^4</p></p>
         <p className="output-text" ><b>Moment of resistance W(u):</b><p> {moru} cm^3</p></p>
         <p className="output-text" ><b>Radius of gyration i(u):</b><p> {rogu} cm</p></p>
         <p className="output-text" ><b>Moment of inertia I(v):</b><p> {inertiav} cm^4</p></p>
         <p className="output-text" ><b>Moment of resistance W(v):</b><p> {morv} cm^3</p></p>
-        <p className="output-text" ><b>Radius of gyration i(v):</b> <p>{rogv} cm</p></p></>
+        <p className="output-text" ><b>Radius of gyration i(v):</b> <p>{rogv} cm</p></p></>}</>
     }
     </>
   )

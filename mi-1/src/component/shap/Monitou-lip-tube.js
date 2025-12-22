@@ -73,9 +73,9 @@ function Monitou_lip_tube() {
   const [mory, setMory] = useState(0); // Moment of resistance W(y)
   const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
   const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
-  const [cmxy, setCmxy] = useState(0); // Centrifugal moment I(xy)
+  const [inertiaxy, setInertiaxy] = useState(0); // Centrifugal moment I(xy)
   const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
-  const [principalAngle, setPrincipalAngle] = useState(0); // Principal axis angle
+  const [paangle, setPaangle] = useState(0); // Principal axis angle
   const [inertiau, setInertiau] = useState(0); // Moment of inertia I(u)
   const [inertiav, setInertiav] = useState(0); // Moment of inertia I(v)
   const [moru, setMoru] = useState(0); // Moment of resistance W(u)
@@ -90,14 +90,24 @@ function Monitou_lip_tube() {
   const submitClick = () => {
     setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
     setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
-    setStripWidth((data.sw))
-    setOutLine(data.ol)
-    setArea(data.acs)
-    setInertiax(data.Ix);
-    setInertiay(data.Iy);
-    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3))
-    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3))
+    setStripWidth((data.sw).toFixed(3));
+    setOutLine((data.ol).toFixed(3))
+    setArea((data.acs).toFixed(3));
+    setInertiax((data.Ix).toFixed(3));
+    setInertiay((data.Iy).toFixed(3));
+    setRogx((Math.sqrt(data.Ix/data.acs)*10).toFixed(3));
+    setRogy((Math.sqrt(data.Iy/data.acs)*10).toFixed(3));
     setPmoi((Number(data.Ix) + Number(data.Iy)).toFixed(3));
+    setMorx((data.Ix/data.ymax).toFixed(3));
+    setMory((data.Iy/data.xmax).toFixed(3));
+    if(data.Ix !== data.Iy) setPaangle((data.Paa).toFixed(3));
+    setInertiaxy((-data.Ixy).toFixed(3))
+    setInertiau((data.Iu).toFixed(3))
+    setInertiav((data.Iv).toFixed(3));
+    setRogu((Math.sqrt(data.Iu/data.acs)*10).toFixed(3));
+    setRogv((Math.sqrt(data.Iv/data.acs)*10).toFixed(3));
+    setMoru((data.Iu/data.vmax).toFixed(3));
+    setMorv((data.Iv/data.umax).toFixed(3));
   };
 
   const resetClick = () => {
@@ -302,7 +312,7 @@ function Monitou_lip_tube() {
         <div ref={GraphRef}><Monitou_lip_tube_graph side11 = {side1} side22={side2} side33={side3} side44={side4} side55={side5} thickness1={thickness} outerRadius11={outerRadius1} outerRadius22={outerRadius2} sendValue={handleData}/></div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} />
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
         </div>
       </div>
     </div>

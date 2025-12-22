@@ -21,6 +21,7 @@ import PredefinedPoints from '../PredefinedPoints';
 import { evalToNumber, handleExpressionKeyDown } from '../AdvanceOutput/expressionUtils';
 import SaveDrawing from '../SaveDrawing';
 import { useLocation } from "react-router-dom";
+import { ComputePrincipalAxisAngle } from '../AdvanceOutput/PrincipalAxisAngle';
 
 const FromScratch = () => {
   const { state } = useLocation();
@@ -67,6 +68,13 @@ const FromScratch = () => {
   const [morx, setMorx] = useState(0);
   const [mory, setMory] = useState(0);
   const [inertiaxy, setInertiaxy] = useState(0);
+  const [paangle, setPaangle] = useState(0);
+  const [inertiau, setInertiau] = useState(0);
+  const [inertiav, setInertiav] = useState(0);
+  const [rogu, setRogu] = useState(0); // Radius of gyration i(u)
+  const [rogv, setRogv] = useState(0); // Radius of gyration i(v)
+  const [moru, setMoru] = useState(0);
+  const [morv, setMorv] = useState(0);
   let x;
   let y;
   const token = localStorage.getItem('token')
@@ -853,6 +861,8 @@ const FromScratch = () => {
               (shape.type ==="anticlockwise") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><CircleSector radius={shape.radius} centerX={shape.x} centerY={shape.y} angle={shape.angle} rotation={90 + shape.anglefromx - shape.angle} thickness={thickness}  color={shape.color}/></a>
             ))}
 
+             <circle key={0} cx={a} cy={b} r={1} fill={'green'}/>
+
             {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
             </svg>
@@ -864,7 +874,7 @@ const FromScratch = () => {
           </div>
         </div>
         <div className='box'>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy}/>
+       <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
         </div>
       </div>
     </div>

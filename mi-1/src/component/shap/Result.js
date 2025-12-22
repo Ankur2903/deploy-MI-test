@@ -17,8 +17,10 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
         <br/>
     <div style={{ fontWeight: 'bold', textAlign: 'center', color: 'white', backgroundColor: '#1b065c'}} onClick={handleClick}>Advanced Output  <i className="fa-solid fa-caret-down px-2"></i></div>
     { 
-        click && <><p className="output-text" ><b>Center of mass (x):</b><p> 0.00 mm from origin</p></p>
+        click && <>
+        <p className="output-text" ><b>Center of mass (x):</b><p> 0.00 mm from origin</p></p>
         <p className="output-text" ><b>Center of mass (y):</b><p> 0.00 mm from origin</p></p>
+        <p>Cross section values for the horizontal (x) and vertical (y) axes through the center of mass</p>
         <p className="output-text" ><b>Moment of inertia I(x):</b><p> {inertiax} cm^4</p></p>
         <p className="output-text" ><b>Moment of resistance W(x):</b><p> {morx} cm^3</p></p>
         <p className="output-text" ><b>Radius of gyration i(x):</b><p> {rogx} cm</p></p>
@@ -27,7 +29,9 @@ function Result({weightPerLength, length, totalWeight, stripWidth, outLine, area
         <p className="output-text" ><b>Radius of gyration i(y):</b><p>{rogy} cm</p> </p>
         <p className="output-text" ><b>Centrifugal moment I(xy):</b><p> {inertiaxy} cm^4</p></p>
         <p className="output-text" ><b>Polar moment of inertia Ip:</b><p> {pmoi} cm^4</p></p>
-        {inertiax !== inertiay && <><p className="output-text" ><b>Principal axis angle:</b><p> {paangle} deg</p></p>
+        {inertiax !== inertiay && <>
+        <p>Theoretical cross section values for the principal axes u and v from the center of mass</p>
+        <p className="output-text" ><b>Principal axis angle:</b><p> {paangle} deg</p></p>
         <p className="output-text" ><b>Moment of inertia I(u):</b><p> {inertiau}  cm^4</p></p>
         <p className="output-text" ><b>Moment of resistance W(u):</b><p> {moru} cm^3</p></p>
         <p className="output-text" ><b>Radius of gyration i(u):</b><p> {rogu} cm</p></p>

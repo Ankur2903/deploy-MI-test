@@ -2,7 +2,6 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
@@ -18,15 +17,11 @@
     "cloudinary": "^2.8.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "dxf-parser": "^1.1.2",
-    "express": "^4.22.1",
-    "form-data": "^4.0.5",
-    "formidable": "^3.5.4",
+    "express": "^4.21.1",
     "isomorphic-fetch": "^3.0.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.8.1",
-    "multer": "^2.0.2",
     "nodemailer": "^6.9.16"
   }
 }

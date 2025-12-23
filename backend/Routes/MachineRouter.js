@@ -1,19 +1,11 @@
-import express from "express";
+const { addmachine, allmachines, deletemachines, editmachine } = require('../Controllers/machineController');
+const ensureAuthenticated = require('../Middlewares/Auth');
 
-import {
-  addmachine,
-  allmachines,
-  deletemachines,
-  editmachine,
-} from "../Controllers/MachineController.js";
+const router = require('express').Router();
 
-import ensureAuthenticated from "../Middlewares/Auth.js";
+router.post('/addmachine', ensureAuthenticated, addmachine)
+router.post('/allmachine', ensureAuthenticated, allmachines)
+router.delete('/deletemachine', ensureAuthenticated, deletemachines)
+router.put('/editmachine', ensureAuthenticated, editmachine)
 
-const router = express.Router();
-
-router.post("/addmachine", ensureAuthenticated, addmachine);
-router.post("/allmachine", ensureAuthenticated, allmachines);
-router.delete("/deletemachine", ensureAuthenticated, deletemachines);
-router.put("/editmachine", ensureAuthenticated, editmachine);
-
-export default router;
+module.exports = router;

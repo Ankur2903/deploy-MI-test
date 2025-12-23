@@ -1,19 +1,11 @@
-import express from "express";
+const { addmaterial, allmaterial, deletematerial, editmaterial } = require('../Controllers/materialController');
+const ensureAuthenticated = require('../Middlewares/Auth');
 
-import {
-  addmaterial,
-  allmaterial,
-  deletematerial,
-  editmaterial,
-} from "../Controllers/MaterialController.js";
+const router = require('express').Router();
 
-import ensureAuthenticated from "../Middlewares/Auth.js";
+router.post('/addmaterial', ensureAuthenticated, addmaterial)
+router.post('/allmaterials', ensureAuthenticated, allmaterial)
+router.delete('/deletematerial', ensureAuthenticated, deletematerial)
+router.put('/editmaterial', ensureAuthenticated, editmaterial)
 
-const router = express.Router();
-
-router.post("/addmaterial", ensureAuthenticated, addmaterial);
-router.post("/allmaterials", ensureAuthenticated, allmaterial);
-router.delete("/deletematerial", ensureAuthenticated, deletematerial);
-router.put("/editmaterial", ensureAuthenticated, editmaterial);
-
-export default router;
+module.exports = router;

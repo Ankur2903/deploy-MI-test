@@ -1,22 +1,19 @@
-import express from "express";
-import bcrypt from "bcrypt";
-import bodyParser from "body-parser";
-import cors from "cors";
-import jwt from "jsonwebtoken";
-
-import AuthRouter from "./Routes/AuthRouter.js";
-import productRouter from "./Routes/ProductRouter.js";
-import enquiriRouter from "./Routes/EnquiriRouter.js";
-import MachineRouter from "./Routes/MachineRouter.js";
-import DrawingRouter from "./Routes/DrawingRouter.js";
-
-import User from "./Models/User.js";
-import ensureAuthenticated from "./Middlewares/Auth.js";
-
-import { Client } from "@microsoft/microsoft-graph-client";
-import { ClientSecretCredential } from "@azure/identity";
-
+const express = require( 'express' );
+const bcrypt = require('bcrypt');
 const app = express();
+const bodyParser = require('body-parser')
+const cors = require('cors')
+const AuthRouter = require('./Routes/AuthRouter');
+const productRouter = require('./Routes/ProductRouter')
+const enquiriRouter = require('./Routes/EnquiriRouter')
+const MachineRouter = require('./Routes/MachineRouter')
+const DrawingRouter = require('./Routes/DrawingRouter')
+const User = require('./Models/User');
+const jwt = require('jsonwebtoken');
+const ensureAuthenticated = require('./Middlewares/Auth');
+const { Client } = require("@microsoft/microsoft-graph-client");
+const { ClientSecretCredential } = require("@azure/identity");
+
 
 const credential = new ClientSecretCredential(process.env.TENANT_ID, process.env.CLIENT_ID, process.env.CLIENT_SECRET);
 
@@ -25,10 +22,8 @@ const client = Client.initWithMiddleware({ authProvider: { getAccessToken: async
     return tokenResponse.token;
 }}});
 
-import dotenv from "dotenv";
-import "./Models/db.js";
-
-dotenv.config();
+require('dotenv').config();
+require('./Models/db');
 const PORT = process.env.PORT || 8080;
 
 app.use(cors())

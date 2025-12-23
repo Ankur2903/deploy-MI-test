@@ -5,7 +5,7 @@ import {
   allmaterial,
   deletematerial,
   editmaterial,
-} from "../Controllers/MaterialController.js";
+} from "../Controllers/materialController.js";
 
 import ensureAuthenticated from "../Middlewares/Auth.js";
 

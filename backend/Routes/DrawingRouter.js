@@ -5,7 +5,7 @@ import {
   allDrawings,
   deleteDrawing,
   editDrawing,
-} from "../Controllers/DrawingController.js";
+} from "../Controllers/drawingController.js";
 
 import ensureAuthenticated from "../Middlewares/Auth.js";
 

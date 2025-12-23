@@ -5,7 +5,7 @@ import {
   allenquiries,
   deleteenquirie,
   editenquirie,
-} from "../Controllers/EnquiriesController.js";
+} from "../Controllers/enquiriesController.js";
 
 import ensureAuthenticated from "../Middlewares/Auth.js";
 

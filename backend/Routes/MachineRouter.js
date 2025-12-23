@@ -5,7 +5,7 @@ import {
   allmachines,
   deletemachines,
   editmachine,
-} from "../Controllers/MachineController.js";
+} from "../Controllers/machineController.js";
 
 import ensureAuthenticated from "../Middlewares/Auth.js";
 

@@ -212,7 +212,7 @@ app.put("/change-type",ensureAuthenticated, async (req, res) => {
 
 app.use(bodyParser.json());
 app.use('/auth', AuthRouter);
-app.use('/product', productRouter);
+// app.use('/product', productRouter);
 app.use('/enquirie', enquiriRouter);
 app.use('/machine', MachineRouter);
 app.use('/drawing', DrawingRouter);

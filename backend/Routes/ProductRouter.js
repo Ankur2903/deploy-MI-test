@@ -1,7 +1,7 @@
 const { addmaterial, allmaterial, deletematerial, editmaterial } = require('../Controllers/materialController');
 const ensureAuthenticated = require('../Middlewares/Auth');
 
-<<<<<<< HEAD
+
 const router = require('express').Router();
 
 router.post('/addmaterial', ensureAuthenticated, addmaterial)

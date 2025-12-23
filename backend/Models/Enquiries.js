@@ -1,61 +1,80 @@
-const { string, required } = require('joi');
-const mongoose = require( 'mongoose');
-const Schema = mongoose.Schema;
+import mongoose from "mongoose";
+
+const { Schema } = mongoose;
 
 const enquirySchema = new Schema({
-    email: { type: String, required: true},
-    iD: { type: Number, required: true},
-    customerName: { type: String, required: true},
-    customerRefNo: { type: String, required: true},
-    kAMName: { type: String, required: true},
-    profileName: { type: String, required: true},
-    profileNo: { type: String, required: true},
-    time: { type: String, required: false},
-    result: { type: Number, required: false},
-    twoD: { type: String, required: true},
-    threeD: { type: String, required: true},
-    machine: { type: String, required: true},
-    tools: { type: String, required: true},
-    fixture: { type: String, required: true},
-    stripWidth: { type: Number, required: true},
-    length: { type: Number, required: true},
-    type : { type: String, required: true},
-    thickness : { type: String, required: true},
-    boxPerimeter: { type: Number, required: false},
-    click1: { type: Boolean, default: false},
-    click4: { type: Boolean, default: false},
-    click5: { type: Boolean, default: false},
-    shortRadiusBendingRadius: { type: Number, required: false},
-    longRadiusBendingRadius: { type: Number, required: false},
-    click2: { type: Boolean, default: false},
-    laserCuttingLength: { type: Number, required: false},
-    click3: { type: Boolean, default: false},
-    powderCoatingLength: { type: Number, required: false},
-    holePunching: { type: Boolean, default: false},
-    holePunchingDetails: { type: String, required: false},
-    assemblyProcess: { type: Boolean, default: false},
-    assemblyProcessDetails: { type: String, required: false},
-    click6: { type: Boolean, default: false},   
-    outsourceActivity: { type: String, required: false},
-    material: { type: String, required: true},
-    materialIndianEquiv: { type: String, required: true},
-    tolerance: { type: String, required: true},
-    customerSpecReq: { type: String, required: true},
-    packingSpc: { type: String, required: true},
-    sample: { type: String, required: true},
-    volumeMonthlyInTon: { type: Number, required: true},
-    volumeYearlyInTon: { type: Number, required: true},
-    spare: { type: String, required: true},
-    reason: { type: String, required: false},
-    statuttery: { type: String, required: true},  
-    unstared: { type: String, required: true},
-    unstaredval: { type: String, required: false},
-    risk: { type: String, required: true},
-    riskReason: { type: String, required: false},
-    enquirieDate: { type: String, required: false},
-    reviewDate: { type: String, required: false}
+  email: { type: String, required: true },
+  iD: { type: Number, required: true },
+
+  customerName: { type: String, required: true },
+  customerRefNo: { type: String, required: true },
+  kAMName: { type: String, required: true },
+
+  profileName: { type: String, required: true },
+  profileNo: { type: String, required: true },
+
+  time: { type: String, required: false },
+  result: { type: Number, required: false },
+
+  twoD: { type: String, required: true },
+  threeD: { type: String, required: true },
+  machine: { type: String, required: true },
+  tools: { type: String, required: true },
+  fixture: { type: String, required: true },
+
+  stripWidth: { type: Number, required: true },
+  length: { type: Number, required: true },
+  type: { type: String, required: true },
+  thickness: { type: String, required: true },
+  boxPerimeter: { type: Number, required: false },
+
+  click1: { type: Boolean, default: false },
+  click4: { type: Boolean, default: false },
+  click5: { type: Boolean, default: false },
+
+  shortRadiusBendingRadius: { type: Number, required: false },
+  longRadiusBendingRadius: { type: Number, required: false },
+
+  click2: { type: Boolean, default: false },
+  laserCuttingLength: { type: Number, required: false },
+
+  click3: { type: Boolean, default: false },
+  powderCoatingLength: { type: Number, required: false },
+
+  holePunching: { type: Boolean, default: false },
+  holePunchingDetails: { type: String, required: false },
+
+  assemblyProcess: { type: Boolean, default: false },
+  assemblyProcessDetails: { type: String, required: false },
+
+  click6: { type: Boolean, default: false },
+  outsourceActivity: { type: String, required: false },
+
+  material: { type: String, required: true },
+  materialIndianEquiv: { type: String, required: true },
+
+  tolerance: { type: String, required: true },
+  customerSpecReq: { type: String, required: true },
+  packingSpc: { type: String, required: true },
+
+  sample: { type: String, required: true },
+  volumeMonthlyInTon: { type: Number, required: true },
+  volumeYearlyInTon: { type: Number, required: true },
+
+  spare: { type: String, required: true },
+  reason: { type: String, required: false },
+
+  statuttery: { type: String, required: true },
+  unstared: { type: String, required: true },
+  unstaredval: { type: String, required: false },
+
+  risk: { type: String, required: true },
+  riskReason: { type: String, required: false },
+
+  enquirieDate: { type: String, required: false },
+  reviewDate: { type: String, required: false },
 });
 
+const EnquiryModel = mongoose.model("enquiries", enquirySchema);
 
-const EnquiryModel = mongoose.model('enquiries' , enquirySchema);
-module.exports =  EnquiryModel;
+export default EnquiryModel;

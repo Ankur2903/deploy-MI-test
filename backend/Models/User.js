@@ -1,5 +1,4 @@
-const { required } = require('joi');
-const mongoose = require( 'mongoose');
+import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
@@ -33,7 +32,7 @@ const UserSchema = new Schema({
         required: false,
     },
     status: {
-        type: String, eum: ["pending", "approved",  "rejected"], default: "Pending"
+        type: String, eum: ["pending", "approved", "rejected"], default: "approved"
     },
     manager: {
         type: String, eum: ["User", "Super User", "Admin"], default: "User"
@@ -48,7 +47,6 @@ const UserSchema = new Schema({
     }
 });
 
-console.log("User is working...")
 
 const UserModel = mongoose.model('users' , UserSchema);
-module.exports =  UserModel;
+export default UserModel;

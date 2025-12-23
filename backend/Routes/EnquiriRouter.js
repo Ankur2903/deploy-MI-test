@@ -1,10 +1,19 @@
-const { addenquirie, allenquiries, deleteenquirie, editenquirie } = require('../Controllers/enquiriesController');
-const ensureAuthenticated = require('../Middlewares/Auth');
+import express from "express";
 
-const router = require('express').Router();
-router.post('/addenquirie', ensureAuthenticated, addenquirie);
-router.post('/allenquiries',ensureAuthenticated, allenquiries);
-router.delete('/deleteenquirie',ensureAuthenticated, deleteenquirie)
-router.put('/editenquirie',ensureAuthenticated, editenquirie)
+import {
+  addenquirie,
+  allenquiries,
+  deleteenquirie,
+  editenquirie,
+} from "../Controllers/EnquiriesController.js";
 
-module.exports = router;
+import ensureAuthenticated from "../Middlewares/Auth.js";
+
+const router = express.Router();
+
+router.post("/addenquirie", ensureAuthenticated, addenquirie);
+router.post("/allenquiries", ensureAuthenticated, allenquiries);
+router.delete("/deleteenquirie", ensureAuthenticated, deleteenquirie);
+router.put("/editenquirie", ensureAuthenticated, editenquirie);
+
+export default router;

@@ -6,3 +6,4 @@ router.post('/addenquirie', ensureAuthenticated, addenquirie);
 router.post('/allenquiries',ensureAuthenticated, allenquiries);
 router.delete('/deleteenquirie',ensureAuthenticated, deleteenquirie)
 router.put('/editenquirie',ensureAuthenticated, editenquirie)
+module.exports = router;

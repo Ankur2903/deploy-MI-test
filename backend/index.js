@@ -5,7 +5,7 @@ import cors from "cors";
 import jwt from "jsonwebtoken";
 
 import AuthRouter from "./Routes/AuthRouter.js";
-import productRouter from "./Routes/ProductRouter.js";
+// import productRouter from "./Routes/ProductRouter.js";
 import enquiriRouter from "./Routes/EnquiriRouter.js";
 import MachineRouter from "./Routes/MachineRouter.js";
 import DrawingRouter from "./Routes/DrawingRouter.js";

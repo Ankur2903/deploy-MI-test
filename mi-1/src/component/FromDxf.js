@@ -121,7 +121,7 @@ export default function FromDxf() {
         </div>
       <div style={{ marginTop: 20, border: "1px solid #999", height: 500,}}
       >
-        <svg viewBox= {`${a - 0.1*c} ${b - 0.1*d} ${c + c*0.2} ${d + d*0.2}`} width="100%" height="100%">
+        <svg viewBox= {`${a - 0.2*c} ${b - 0.2*d} ${c + c*0.4} ${d + d*0.4}`} width="100%" height="100%">
           {entities.map(renderEntity)}
           {dimensioning && <PredefinedPoints points={predefinedPoints} mx={100} thickness={2} scale={100}/>}
         </svg>

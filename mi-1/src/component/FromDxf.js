@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import DxfParser from "dxf-parser";
 import PredefinedPoints from "./PredefinedPoints";
 
@@ -6,9 +6,12 @@ const toRad = (deg) => (deg * Math.PI) / 180;
 
 export default function FromDxf() {
   const [entities, setEntities] = useState([]);
-  // const [predefinedPoints, setPredefinedPoints] = useState([]);
   const predefinedPoints =[]
   const [dimensioning, setDimensioning] = useState(false);
+  var mnx = Number.MAX_SAFE_INTEGER;
+  var mny = Number.MAX_SAFE_INTEGER;
+  var mxx = Number.MIN_SAFE_INTEGER;
+  var mxy = Number.MIN_SAFE_INTEGER;
 
   const clickOndimensioning = () => {
     setDimensioning(!dimensioning)
@@ -24,7 +27,13 @@ export default function FromDxf() {
   };
 
   const renderEntity = (e, i) => {
-    console.log(i, e);
+    if(i === 0){
+      mnx = Number.MAX_SAFE_INTEGER;
+      mny = Number.MAX_SAFE_INTEGER;
+      mxx = Number.MIN_SAFE_INTEGER;
+      mxy = Number.MIN_SAFE_INTEGER;
+    }
+    // console.log(i, e);
   /* ---------- LINE ---------- */
   if (e.type === "LINE" && Array.isArray(e.vertices) && e.vertices.length >= 2) {
     const p1 = e.vertices[0];
@@ -44,6 +53,11 @@ export default function FromDxf() {
       t : t1
     };
     predefinedPoints.push(newPoint)
+    mnx = (Math.min(mnx, p1.x, p2.x)).toFixed(0);
+    mny = (Math.min(mny, p1.y, p2.y)).toFixed(0);
+    mxx = (Math.max(mxx, p1.x, p2.x)).toFixed(0);
+    mxy = (Math.max(mxy, p1.y, p2.y)).toFixed(0);
+
     return (
       <line key={i} x1={p1.x } y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth={e.lineweight/100}/>
     );
@@ -75,15 +89,25 @@ export default function FromDxf() {
       t : t1
     };
     predefinedPoints.push(newPoint)
+    mnx = (Math.min(mnx, sx, ex)).toFixed(0);
+    mny = (Math.min(mny, sy, ey)).toFixed(0);
+    mxx = (Math.max(mxx, sx, ex)).toFixed(0);
+    mxy = (Math.max(mxy, sy, ey)).toFixed(0);
 
     return (
       <path key={i} d={`M ${sx} ${sy} A ${r} ${r} 0 ${largeArc} ${sweep} ${ex} ${ey}`} fill="none" stroke="black" strokeWidth={e.lineweight/100}/>
     );
   }
-
   return null;
 };
-
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+  const [c, setC] = useState(0);
+  const [d, setD] = useState(0);
+  
+  useEffect(() => {
+      setA(mnx);setB(mny);setC(mxx - mnx);setD(mxy - mny);
+    }, [mnx, mny, mxx, mxy,renderEntity])
 
 
   return (
@@ -97,7 +121,7 @@ export default function FromDxf() {
         </div>
       <div style={{ marginTop: 20, border: "1px solid #999", height: 500,}}
       >
-        <svg viewBox="0 -10 70 70" width="100%" height="100%">
+        <svg viewBox= {`${a - 0.1*c} ${b - 0.1*d} ${c + c*0.2} ${d + d*0.2}`} width="100%" height="100%">
           {entities.map(renderEntity)}
           {dimensioning && <PredefinedPoints points={predefinedPoints} mx={100} thickness={2} scale={100}/>}
         </svg>

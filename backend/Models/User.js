@@ -33,7 +33,7 @@ const UserSchema = new Schema({
         required: false,
     },
     status: {
-        type: String, eum: ["pending", "approved", "rejected"], default: "approved"
+        type: String, eum: ["pending", "approved", "rejected"], default: "pending"
     },
     manager: {
         type: String, eum: ["User", "Super User", "Admin"], default: "User"

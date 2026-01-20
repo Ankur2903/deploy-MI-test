@@ -750,7 +750,6 @@ const FromScratch = () => {
       <div className = "container">
       <div className="box">
         <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
-        {shapes.length !==0 && 
         <>
         <div className="container1">
           <lable className="label">Thickness: (t) mm</lable>
@@ -761,7 +760,6 @@ const FromScratch = () => {
           <input className="input-field" type="number" value={length} onChange={(e) => setLength(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
         </div>
         </>
-        }
         {selectedShapeId === null && 
         <><h5>Add a New Shape</h5>
         <button title='Add Clockwise Bend' className="btn btn mx-2 my-2" style={{backgroundColor: "#fff", border:no===1 ? "2px solid red": "2px solid black"}} type="button" onClick={()=>{setNewShapeType("clockwise"); setno(1)}}><img src={Image2} style={{height: "40px"}}/></button>

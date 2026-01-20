@@ -22,6 +22,8 @@ import { evalToNumber, handleExpressionKeyDown } from '../AdvanceOutput/expressi
 import SaveDrawing from '../SaveDrawing';
 import { useLocation } from "react-router-dom";
 import { ComputePrincipalAxisAngle } from '../AdvanceOutput/PrincipalAxisAngle';
+import { saveAs } from "file-saver";
+import { createDXF } from '../Download/createDXF';
 
 const FromScratch = () => {
   const { state } = useLocation();
@@ -522,6 +524,37 @@ const FromScratch = () => {
     updateViewBox();
   }, [scale]);
 
+  let DXFShapes = [];
+  const createDXFShapes = () => {
+    console.log("working")
+    for(let i = 0; i< predefinedPoints.length;i++){
+      const arr = predefinedPoints[i]
+      if(arr.type === 'line'){
+        DXFShapes.push({color : 16777215, colorIndex : 255, handle : "33", layer : "0", lineweight : thickness*100, type : "LINE", vertices : [{x: arr.x - (thickness/2)*Math.sin(arr.angle*aa), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa), z : 0}, {x : arr.x - (thickness/2)*Math.sin(arr.angle*aa) + arr.w*Math.cos(aa*arr.angle), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa) + arr.w*Math.sin(aa*arr.angle), z : 0}]})
+      }
+      else if(arr.type === 'circle'){
+        DXFShapes.push({center : {x: arr.x, y: arr.y, z: 0}, color : 16777215, colorIndex : 255, endAngle: arr.angle + arr.rotation, handle : "33", layer : "0", lineweight : thickness*100, radius: arr.r - thickness/2, startAngle: arr.rotation, type : "ARC"})
+      }
+    }
+  }
+
+  useEffect(() => {
+    DXFShapes = [];
+    createDXFShapes();
+  }, [predefinedPoints, thickness]);
+
+  const exportToDXF = () => {
+    let dxfData = createDXF(DXFShapes);
+    dxfData = dxfData.replace(
+      /(LINE|ARC)\s*\n/g,
+      `$1\n370\n120\n`
+    );
+    const blob = new Blob([dxfData], {
+      type: "application/dxf"
+    });
+    saveAs(blob, "drawing.dxf");
+  };
+
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
     const exporter = new STLExporter();
@@ -692,6 +725,7 @@ const FromScratch = () => {
             <ul className="dropdown-menu">
               <li><a className="dropdown-item" onClick={handleDownload}>Export as PDF</a></li>
               <li><a className="dropdown-item" onClick={exportToSTL}>Export as STL</a></li>
+              <li><a className="dropdown-item" onClick={exportToDXF}>Export as DXF</a></li>
             </ul>
           </div>
           {/* FEASIBILITY */}

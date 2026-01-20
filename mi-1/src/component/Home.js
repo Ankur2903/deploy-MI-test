@@ -26,7 +26,7 @@ function Home() {
     <>
     <div className='button-container' style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "95vh"}}>
       <div style={{backgroundColor: "white", padding: "10px 40px", borderRadius: "40px",  boxShadow: '10px 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)', border: "1px solid black"}}>
-      <h1 className='mb-4'>MI Profile Generator</h1>
+      <h1 className='mb-4' style={{textAlign: "center"}}>Mi Creator</h1>
       <div className='button-wrapper-container'>
         <div className="button-wrapper mx-2">
         <Link to="/mydrawing">

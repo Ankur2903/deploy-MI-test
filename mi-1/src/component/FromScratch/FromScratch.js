@@ -904,7 +904,7 @@ const FromScratch = () => {
               (shape.type ==="anticlockwise") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><CircleSector radius={shape.radius} centerX={shape.x} centerY={shape.y} angle={shape.angle} rotation={90 + shape.anglefromx - shape.angle} thickness={thickness}  color={shape.color}/></a>
             ))}
 
-             <circle key={0} cx={a} cy={b} r={1} fill={'green'}/>
+             // <circle key={0} cx={a} cy={b} r={1} fill={'green'}/>
 
             {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 

@@ -6,7 +6,7 @@ export function evalToNumber(expr) {
   try {
     const raw = Function("return " + expr)(); // evaluate simple math
     const n = Number(raw);
-    return Number.isFinite(n) ? n : null;
+    return Number.isFinite(n) ? n.toFixed(2) : null;
   } catch {
     return null;
   }

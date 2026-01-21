@@ -241,10 +241,11 @@ const FromScratch = () => {
   }
   
   useEffect(() => {
-    const newWidth =  (endX - startX)/ scale;
-    const newHeight = (endY - startY)/ scale;
-    setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
+    const newWidth =  (endX - startX + 40)/ scale;
+    const newHeight = (endY - startY + 40)/ scale;
+    setViewBox(`${a - Math.max(newWidth,newHeight)/2} ${b - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
   }, [startX, startY, endX, endY])
+
 
   useEffect(() => {
     const l = shapes.length;
@@ -512,15 +513,15 @@ const FromScratch = () => {
   };
   const resetZoom = () => {
     setScale(1); // Reset scale to initial state
-    const newWidth =  (endX - startX)/ scale;
-    const newHeight = (endY - startY)/ scale;
-    setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
+    const newWidth =  (endX - startX + 40)/ scale;
+    const newHeight = (endY - startY + 40)/ scale;
+    setViewBox(`${a - Math.max(newWidth,newHeight)/2} ${b - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
   };
   
   const updateViewBox = () => {
-    const newWidth =  (endX - startX)/ scale;
-    const newHeight = (endY - startY)/ scale;
-    setViewBox(`${startX - 30} ${startY - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
+    const newWidth =  (endX - startX + 40)/ scale;
+    const newHeight = (endY - startY + 40)/ scale;
+    setViewBox(`${a - Math.max(newWidth,newHeight)/2} ${b - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
   };
 
   useEffect(() => {

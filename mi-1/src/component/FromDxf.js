@@ -12,8 +12,11 @@ import CircleSector from "./Graph/Shap/Circle";
 export default function FromDxf() {
   const aa = 180/Math.PI;
   const shapes = [];
+  const shapeData = [];
+  const [selectedShapeData, setSelectedShapeData] = useState([])
+  const [changedShapeData, setChangedShapeData] = useState([]);
   const [entities, setEntities] = useState([]);
-  const predefinedPoints =[];
+  const [predefinedPoints, setPredefinedPoints] = useState([]);
   const [dimensioning, setDimensioning] = useState(false);
   let first = true
   let clockWise = true;
@@ -21,7 +24,11 @@ export default function FromDxf() {
   var mny = 0;
   var mxx = 40;
   var mxy = 40;
-  const [thickness, setThickness] = useState(0);
+  const [startX, setStartX] = useState(30);
+  const [startY, setStartY] = useState(30);
+  const [endX, setEndX] = useState(30);
+  const [endY, setEndY] = useState(30);
+  const [thickness, setThickness] = useState(2);
   const [viewBox, setViewBox] = useState('0 0 40 40');
   const [isDragging, setIsDragging] = useState(false);
   const [startCoords, setStartCoords] = useState({ x: 0, y: 0 });
@@ -69,165 +76,186 @@ export default function FromDxf() {
     setEntities(dxf.entities || []);
   };
 
-  const renderEntity = (e, i) => {
-    
-    if(i === 0){
-      shapes.length = 0;
-      count = 0;
-      mnx = Number.MAX_SAFE_INTEGER;
-      mny = Number.MAX_SAFE_INTEGER;
-      mxx = Number.MIN_SAFE_INTEGER;
-      mxy = Number.MIN_SAFE_INTEGER;
-    }
-    // console.log("entity ", i, "  ", e);
-  /* ---------- LINE ---------- */
-  if (e.type === "LINE" && Array.isArray(e.vertices) && e.vertices.length >= 2) {
-    const p1 = e.vertices[0];
-    const p2 = e.vertices[1];
-    const t1 = e.lineweight/100;
-    const angle1 = (p2.x - p1.x >=0) ? Math.atan((p2.y - p1.y)/(p2.x - p1.x)) : Math.atan((p2.y - p1.y)/(p2.x - p1.x)) + Math.PI;
-    const newPoint = {
-      id : i,
-      type : 'line',
-      x : p1.x + (t1/2)*Math.sin(angle1),
-      y : p1.y - (t1/2)*Math.cos(angle1),
-      w : Math.sqrt(Math.pow(p2.y - p1.y, 2) + Math.pow(p2.x - p1.x, 2)),
-      h : t1,
-      r : 0,
-      angle : angle1*180/Math.PI, 
-      rotation : 0,
-      t : t1
-    };
-    predefinedPoints.push(newPoint)
-    mnx = (Math.min(mnx, p1.x, p2.x)).toFixed(0);
-    mny = (Math.min(mny, p1.y, p2.y)).toFixed(0);
-    mxx = (Math.max(mxx, p1.x, p2.x)).toFixed(0);
-    mxy = (Math.max(mxy, p1.y, p2.y)).toFixed(0);
-
-    return (
-      <line key={i} x1={p1.x } y1={p1.y} x2={p2.x} y2={p2.y} stroke="black" strokeWidth={e.lineweight/100}/>
-    );
-  }
-  /* ---------- ARC (ANGLES ARE IN RADIANS) ---------- */
-  if (e.type === "ARC" && e.center && typeof e.radius === "number") {
-    const { x: cx, y: cy } = e.center;
-    const r = e.radius;
-    // angles are already in radians
-    const sx = cx + r * Math.cos(e.startAngle);
-    const sy = cy + r * Math.sin(e.startAngle);
-    const ex = cx + r * Math.cos(e.endAngle);
-    const ey = cy + r * Math.sin(e.endAngle);
-
-    const largeArc = e.angleLength > Math.PI ? 1 : 0;
-    const sweep = e.endAngle > e.startAngle ? 1 : 1;
-    const t1 = e.lineweight/100;
-
-    const newPoint = {
-      id : i,
-      type : 'circle',
-      x : cx,
-      y : cy,
-      w : 0,
-      h : t1,
-      r : r + t1/2,
-      angle : (e.endAngle - e.startAngle)*180/Math.PI, 
-      rotation : (e.startAngle)*180/Math.PI,
-      t : t1
-    };
-    predefinedPoints.push(newPoint)
-    mnx = (Math.min(mnx, sx, ex)).toFixed(0);
-    mny = (Math.min(mny, sy, ey)).toFixed(0);
-    mxx = (Math.max(mxx, sx, ex)).toFixed(0);
-    mxy = (Math.max(mxy, sy, ey)).toFixed(0);  
-
-    return (
-      <path key={i} d={`M ${sx} ${sy} A ${r} ${r} 0 ${largeArc} ${sweep} ${ex} ${ey}`} fill="none" stroke="black" strokeWidth={e.lineweight/100}/>
-    );
-  }
-  if(e.type === "LWPOLYLINE" && e.shape === true){
-    first = true;
-    predefinedPoints.length = 0;
-    const n = e.vertices.length;count++;
-    for(let j =0; j < n; j++){
-      const p1 = e.vertices[j];
-      if(p1.x > mxx && (i >= shapes.length/2 || count === 2)){
-        first = false;
+  useEffect(() => {
+    console.log("-------******* useEffect called ********-------");
+    setSelectedShapeData([])
+    setChangedShapeData([])
+    setPredefinedPoints([])
+    shapeData.length = 0;
+    let count = 0;
+    let LWPOLYLINE = false;
+    mnx = Number.MAX_SAFE_INTEGER;
+    mny = Number.MAX_SAFE_INTEGER;
+    mxx = Number.MIN_SAFE_INTEGER;
+    mxy = Number.MIN_SAFE_INTEGER;
+    for(let i =0; i < entities.length; i++){
+      if(entities[i].type === "LINE"){
+        const p1 = entities[i].vertices[0];
+        const p2 = entities[i].vertices[1];
+        const angle1 = (p2.x - p1.x >=0) ? Math.atan((p2.y - p1.y)/(p2.x - p1.x)) : Math.atan((p2.y - p1.y)/(p2.x - p1.x)) + Math.PI;
+        const thickness = entities[i].lineweight/100;
+        mnx = Math.min(mnx, p1.x, p2.x);
+        mny = Math.min(mny, p1.y, p2.y);
+        mxx = Math.max(mxx, p1.x, p2.y);
+        mxy = Math.max(mxy, p1.y, p2.y); 
+        setThickness(thickness);
+        const newPoint = {
+          id : i,
+          type : 'line',
+          x : p1.x + (thickness/2)*Math.sin(angle1),
+          y : p1.y - (thickness/2)*Math.cos(angle1),
+          w : Math.sqrt(Math.pow(p2.y - p1.y, 2) + Math.pow(p2.x - p1.x, 2)),
+          h : thickness,
+          r : 0,
+          angle : angle1*180/Math.PI, 
+          rotation : 0,
+          t : thickness
+        };
+        setPredefinedPoints(prev => [...prev, newPoint])
+        shapeData.push({angle: angle1, start: {x: p1.x + (thickness/2)*Math.sin(angle1), y: p1.y - (thickness/2)*Math.cos(angle1)}, end: {x: p2.x + (thickness/2)*Math.sin(angle1), y: p2.y - (thickness/2)*Math.cos(angle1)}, type: "LINE"})
       }
-      mnx = (Math.min(mnx, p1.x)).toFixed(0);
-      mny = (Math.min(mny, p1.y)).toFixed(0);
-      mxx = (Math.max(mxx, p1.x)).toFixed(0);
-      mxy = (Math.max(mxy, p1.y)).toFixed(0);
-    }
-    shapes.push(...convertDXFPolyline(e.vertices));
-    let sum = 0;
-    for(let i = (count - 1)*shapes.length/2;i< shapes.length; i++) if(shapes[i].type === "ARC") {
-      sum += (shapes[i].clockwise && shapes[i].endAngle - shapes[i].startAngle < 0) ? 360 - (shapes[i].startAngle - shapes[i].endAngle)*aa : (shapes[i].clockwise && shapes[i].endAngle - shapes[i].startAngle >= 0) ? (shapes[i].endAngle - shapes[i].startAngle)*aa : (!shapes[i].clockwise && shapes[i].endAngle - shapes[i].startAngle < 0) ? - (360 + (shapes[i].endAngle - shapes[i].startAngle)*aa) : - (shapes[i].endAngle - shapes[i].startAngle)*aa;
-    }
-    sum = sum.toFixed(2);
-    // console.log(count , "sum", sum);
-    if(sum > 0 ) clockWise = false;
-    else clockWise = true;
-    for(let i = 0;i< shapes.length; i++){
-      if((clockWise ^ first) ? i >= shapes.length/2 : i < shapes.length/2){
-        if(shapes[i].type === "LINE"){
-          const newPoint = {
-            id : i,
-            type : 'line',
-            x : shapes[i].start.x,
-            y : shapes[i].start.y,
-            w : Math.sqrt(Math.pow(shapes[i].end.y - shapes[i].start.y, 2) + Math.pow(shapes[i].end.x - shapes[i].start.x, 2)),
-            h : thickness,
-            r : 0,
-            angle : shapes[i].angle*aa, 
-            rotation : 0,
-            t : thickness
-          };
-          mnx = Math.min(mnx, shapes[i].start.x, shapes[i].end.x);
-          mny = Math.min(mny, shapes[i].start.y, shapes[i].end.y);
-          mxx = Math.max(mxx, shapes[i].start.x, shapes[i].end.x);
-          mxy = Math.max(mxy, shapes[i].start.y, shapes[i].end.y);
-          predefinedPoints.push(newPoint);
-        }
-        else{
-          const newPoint = {
+      if(entities[i].type === "ARC"){
+        const p = entities[i].center;
+        const thickness = entities[i].lineweight/100;
+        setThickness(thickness);
+        const newPoint = {
             id : i,
             type : 'circle',
-            x : shapes[i].center.x,
-            y : shapes[i].center.y,
+            x : p.x,
+            y : p.y,
             w : 0,
             h : thickness,
-            r : shapes[i].clockwise === true ? shapes[i].radius + thickness : shapes[i].radius,
-            angle : (shapes[i].endAngle - shapes[i].startAngle)*aa, 
-            rotation : (shapes[i].startAngle)*aa,
+            r : entities[i].radius + thickness/2,
+            angle : (entities[i].endAngle - entities[i].startAngle)*180/Math.PI, 
+            rotation : (entities[i].startAngle)*180/Math.PI,
             t : thickness
           };
-          predefinedPoints.push(newPoint)
-        }
+          setPredefinedPoints(prev => [...prev, newPoint])
+          shapeData.push({type: "ARC", center: {x: p.x, y: p.y}, clockWise: false, endAngle: entities[i].endAngle, radius: (entities[i].radius + thickness/2), startAngle: entities[i].startAngle})
       }
-    }
-  }
-  return null;
-};
-  const [newHeight, setNewHeight] = useState(0);
-  const [newWidth, setNewWidth] = useState(0);
-
-  useEffect(() => {
+      if(entities[i].type === "LWPOLYLINE" && entities[i].shape === true){
+        first = true;
+        LWPOLYLINE = true
+        for(let j = 0; j < entities[i].vertices.length; j++){
+          const p1 = entities[i].vertices[j];count++;
+          if(p1.x > mxx && (i >= shapes.length/2 || count === 2)) first = false;
+          mnx = Math.min(mnx, p1.x);
+          mny = Math.min(mny, p1.y);
+          mxx = Math.max(mxx, p1.x);
+          mxy = Math.max(mxy, p1.y); 
+        }
+        shapeData.push(...convertDXFPolyline(entities[i].vertices));
+      }
+    } 
+    setStartX(mnx);setStartY(mny);setEndX(mxx);setEndY(mxy);
     let innerradius = 0;
     let outerradius = 0;
-    for(let i = 0;i< shapes.length; i++){
+    let sum = 0;
+    for(let i = 0;i< shapeData.length; i++){
       if(count === 1){
-        if(shapes[i].type === "ARC" && outerradius === 0) outerradius = shapes[i].radius;
-        else if(shapes[i].type === "ARC") innerradius = shapes[i].radius;
+        if(shapeData[i].type === "ARC" && outerradius === 0) outerradius = shapeData[i].radius;
+        else if(shapeData[i].type === "ARC") innerradius = shapeData[i].radius;
       }
       else{
-        if(shapes[i].type === "ARC" && outerradius === 0) outerradius = shapes[i].radius;
-        else if(shapes[i].type === "ARC" && i>=shapes.length/2 && innerradius === 0) innerradius = shapes[i].radius;
+        if(shapeData[i].type === "ARC" && outerradius === 0) outerradius = shapeData[i].radius;
+        else if(shapeData[i].type === "ARC" && i>=shapeData.length/2 && innerradius === 0) innerradius = shapeData[i].radius;
+      }
+      if(i < shapeData.length/2 && shapeData[i].type === "ARC"){
+        sum += (shapeData[i].clockwise && shapeData[i].endAngle - shapeData[i].startAngle < 0) ? 360 - (shapeData[i].startAngle - shapeData[i].endAngle)*aa : (shapeData[i].clockwise && shapeData[i].endAngle - shapeData[i].startAngle >= 0) ? (shapeData[i].endAngle - shapeData[i].startAngle)*aa : (!shapeData[i].clockwise && shapeData[i].endAngle - shapeData[i].startAngle < 0) ? - (360 + (shapeData[i].endAngle - shapeData[i].startAngle)*aa) : - (shapeData[i].endAngle - shapeData[i].startAngle)*aa;
       }
     }
-    setThickness(Math.abs(outerradius - innerradius));
+    if(sum > 0 ) clockWise = false;
+    else clockWise = true;
+    if(LWPOLYLINE) setThickness(Math.abs(outerradius - innerradius)); 
+    for(let i = 0;i< shapeData.length; i++){
+      if(LWPOLYLINE){
+        if(!(clockWise ^ first) && i < shapeData.length/2){
+          if(shapeData[i].type === "LINE"){
+            const newPoint = {
+              id : i,
+              type : 'line',
+              x : shapeData[i].start.x,
+              y : shapeData[i].start.y,
+              w : Math.sqrt(Math.pow(shapeData[i].end.y - shapeData[i].start.y, 2) + Math.pow(shapeData[i].end.x - shapeData[i].start.x, 2)),
+              h : Math.abs(outerradius - innerradius),
+              r : 0,
+              angle : shapeData[i].angle*aa, 
+              rotation : 0,
+              t : Math.abs(outerradius - innerradius)
+            };
+            setPredefinedPoints(prev => [...prev, newPoint])
+          }
+          else{
+            const newPoint = {
+              id : i,
+              type : 'circle',
+              x : shapeData[i].center.x,
+              y : shapeData[i].center.y,
+              w : 0,
+              h : Math.abs(outerradius - innerradius),
+              r : shapeData[i].clockwise === true ? shapeData[i].radius + thickness : shapeData[i].radius,
+              angle : (shapeData[i].endAngle - shapeData[i].startAngle)*aa, 
+              rotation : (shapeData[i].startAngle)*aa,
+              t : Math.abs(outerradius - innerradius)
+            };
+            setPredefinedPoints(prev => [...prev, newPoint])
+          }
+          setSelectedShapeData(prev => [...prev, shapeData[i]]);
+        }
+        else if((clockWise ^ first) && i >= shapeData.length/2){
+          if(shapeData[i].type === "LINE"){
+            const newPoint = {
+              id : i,
+              type : 'line',
+              x : shapeData[i].start.x,
+              y : shapeData[i].start.y,
+              w : Math.sqrt(Math.pow(shapeData[i].end.y - shapeData[i].start.y, 2) + Math.pow(shapeData[i].end.x - shapeData[i].start.x, 2)),
+              h : Math.abs(outerradius - innerradius),
+              r : 0,
+              angle : shapeData[i].angle*aa, 
+              rotation : 0,
+              t : Math.abs(outerradius - innerradius)
+            };
+            setPredefinedPoints(prev => [...prev, newPoint])
+          }
+          else{
+            const newPoint = {
+              id : i,
+              type : 'circle',
+              x : shapeData[i].center.x,
+              y : shapeData[i].center.y,
+              w : 0,
+              h : Math.abs(outerradius - innerradius),
+              r : shapeData[i].clockwise === true ? shapeData[i].radius + thickness : shapeData[i].radius,
+              angle : (shapeData[i].endAngle - shapeData[i].startAngle)*aa, 
+              rotation : (shapeData[i].startAngle)*aa,
+              t : Math.abs(outerradius - innerradius)
+            };
+            setPredefinedPoints(prev => [...prev, newPoint])
+          }
+          setSelectedShapeData(prev => [...prev, shapeData[i]]);
+        }
+      }
+      else setSelectedShapeData(prev => [...prev, shapeData[i]]);
+    }
+  }, [entities]);
+
+  useEffect(() => {
+    // for(let i = 0;i<selectedShapeData.length;i++){
+    //   const newShape = {
+    //     id: i + 1,
+    //     type: selectedShapeData[i].type === "LINE" ? "Line" : selectedShapeData[i].clockWise === true ? "clockwise" : "anticlockwise", 
+    //     length: selectedShapeData[i].type === "LINE" ? Math.sqrt(Math.pow(selectedShapeData[i].end.x - selectedShapeData[i].start.x, 2) + Math.pow(selectedShapeData[i].end.y - selectedShapeData[i].start.y, 2)) : 0,
+    //     radius: selectedShapeData[i].type === "LINE" ? 0 : selectedShapeData[i].clockwise === true ? selectedShapeData[i].radius + thickness : selectedShapeData[i].radius,
+    //     angle: selectedShapeData[i].type === "LINE" ? 0 : aa*(selectedShapeData[i].endAngle - selectedShapeData[i].startAngle),
+    //     color: "black",
+    //     x: selectedShapeData[i].type === "LINE" ? selectedShapeData[i].start.x : selectedShapeData[i].center.x,
+    //     y: selectedShapeData[i].type === "LINE" ? selectedShapeData[i].start.y : selectedShapeData[i].center.y,
+    //   }
+    //   setChangedShapeData(prev => [...prev, newShape]);
+    // }
+    // console.log("changedshapedata", changedShapeData);
     ({a, b} = COM(predefinedPoints));
-    setNewHeight(Math.max(mxy - mny, 30)/ scale);
-    setNewWidth(Math.max(mxx - mnx, 30)/ scale);
     ({Ix, Iy, sw, ol, acs, xmax, ymax, Ixy} = ComputeMomentOfInertia(predefinedPoints, a, b, mx, ratio, thickness));
     const Paa = Math.atan(2*Ixy/(Ix - Iy))*90/Math.PI
     const Iu = (Paa <= 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
@@ -253,13 +281,13 @@ export default function FromDxf() {
     setRogv((Math.sqrt(Iv/acs)*10).toFixed(3));
     setMoru((Iu/vmax).toFixed(3));
     setMorv((Iv/umax).toFixed(3));
-  }, [renderEntity, dimensioning]);
+  }, [predefinedPoints]);
 
-  
-  
   useEffect(() => {
-    setViewBox(`${mnx - 30} ${mny - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
-  }, [newHeight, newWidth]);
+    const newWidth =  (endX - startX + 40)/ scale;
+    const newHeight = (endY - startY + 40)/ scale;
+    setViewBox(`${(startX + endX)/2 - Math.max(newWidth,newHeight)/2} ${(startY + endY)/2 - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
+  }, [startX, startY, endX, endY]);
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -335,15 +363,15 @@ export default function FromDxf() {
     };
     const resetZoom = () => {
       setScale(1); // Reset scale to initial state
-      const newWidth =  (mxx - mnx)/ scale;
-      const newHeight = (mxy - mny)/ scale;
-      setViewBox(`${mnx - 30} ${mny - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
+      const newWidth =  (endX - startX + 40)/ scale;
+      const newHeight = (endY - startY + 40)/ scale;
+      setViewBox(`${(startX + endX)/2 - Math.max(newWidth,newHeight)/2} ${(startY + endY)/2 - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
     };
     
     const updateViewBox = () => {
-      const newWidth =  (mxx - mnx)/ scale;
-      const newHeight = (mxy - mny)/ scale;
-      setViewBox(`${mnx - 30} ${mny - 30} ${Math.max(newWidth,newHeight) + 60} ${Math.max(newWidth,newHeight) + 60}`);
+      const newWidth =  (endX - startX + 40)/ scale;
+      const newHeight = (endY - startY + 40)/ scale;
+      setViewBox(`${(startX + endX)/2 - Math.max(newWidth,newHeight)/2} ${(startY + endY)/2 - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
     };
   
     useEffect(() => {
@@ -368,21 +396,15 @@ export default function FromDxf() {
               </pattern>
             </defs>
             <rect x='-10000' y='-10000' width="20000" height="20000" fill="url(#grid)" />
-            {entities.map(renderEntity)}
-            {shapes.map((shape, index) => (
+            {selectedShapeData.map((shape) => (
               <>
-              {!(clockWise ^ first) && index < shapes.length/2 && shape.type === "LINE" && <LineAtTheta x={shape.start.x} y={shape.start.y} w={Math.sqrt(Math.pow(shape.end.x - shape.start.x, 2) + Math.pow(shape.end.y - shape.start.y, 2))} h={thickness} angle={shape.angle*aa}/>}
-              {(clockWise ^ first) && index >= shapes.length/2 && shape.type === "LINE" && <LineAtTheta x={shape.start.x} y={shape.start.y} w={Math.sqrt(Math.pow(shape.end.x - shape.start.x, 2) + Math.pow(shape.end.y - shape.start.y, 2))} h={thickness}  angle={shape.angle*aa}/>}
+              {shape.type === "LINE" && <LineAtTheta x={shape.start.x} y={shape.start.y} w={Math.sqrt(Math.pow(shape.end.x - shape.start.x, 2) + Math.pow(shape.end.y - shape.start.y, 2))} h={thickness} angle={shape.angle*aa}/>}
 
-              {/* {shape.type === "LINE" && <circle cx={shape.start.x} cy={shape.start.y} r={0.5} fill="green"/>} */}
-              {/* {shape.type === "LINE" && <circle cx={shape.end.x} cy={shape.end.y} r={0.5} fill="red"/>} */}
-
-              {!(clockWise ^ first) && index < shapes.length/2 && shape.type === "ARC" && <CircleSector radius={shape.clockwise === true ? shape.radius + thickness : shape.radius} centerX={shape.center.x} centerY={shape.center.y} angle={(shape.endAngle - shape.startAngle)*aa} rotation={shape.startAngle*aa} thickness={thickness}/>}
-              {(clockWise ^ first) && index >= shapes.length/2 && shape.type === "ARC" && <CircleSector radius={shape.clockwise === true ? shape.radius + thickness : shape.radius} centerX={shape.center.x} centerY={shape.center.y} angle={(shape.endAngle - shape.startAngle)*aa} rotation={shape.startAngle*aa} thickness={thickness}/>}
+              {shape.type === "ARC" && <CircleSector radius={shape.clockwise === true ? shape.radius + thickness : shape.radius} centerX={shape.center.x} centerY={shape.center.y} angle={aa*(shape.endAngle - shape.startAngle)} rotation={shape.startAngle*aa} thickness={thickness}/>}
               </>
             ))}
             {dimensioning && (
-              <PredefinedPoints points={predefinedPoints} mx={100} thickness={2} scale={100}/>
+              <PredefinedPoints points={predefinedPoints} mx={100} thickness={thickness} scale={100}/>
             )}
           </svg>
           <div style={{display: "flex", justifyContent: "center"}}>

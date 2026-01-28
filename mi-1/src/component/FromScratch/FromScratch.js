@@ -524,10 +524,11 @@ const FromScratch = () => {
   }, [predefinedPoints, thickness]);
 
   const exportToDXF = () => {
-    let dxfData = createDXF(DXFShapes);
+    const dxfLineweight = Math.round(thickness * 100); 
+    let dxfData = createDXF(DXFShapes);console.log("dxfData", dxfData);
     dxfData = dxfData.replace(
       /(LINE|ARC)\s*\n/g,
-      `$1\n370\n120\n`
+      `$1\n370\n${dxfLineweight}\n`
     );
     const blob = new Blob([dxfData], {
       type: "application/dxf"

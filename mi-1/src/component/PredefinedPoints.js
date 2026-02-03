@@ -69,7 +69,7 @@ const PredefinedPoints = ({ points, mx, thickness, scale }) => {
   return (
     <>
         {predefinedPoints.map((point) => (
-          <circle key={point.id} cx={0 + point.x} cy={0 + point.y} r={thickness/2} fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
+          <circle key={point.id} cx={0 + point.x} cy={0 + point.y} r={Math.min(2*thickness/3, 4/3)} fill={selectedIds.includes(point.id) ? 'green' : 'red'} style={{ cursor: 'pointer' }} onClick={() => handlePointClick(point.id)}/>
         ))}
 
         {selectedIds.length === 2 && (() => {
@@ -78,15 +78,15 @@ const PredefinedPoints = ({ points, mx, thickness, scale }) => {
           const dist = calculateDistance(p1, p2);
           return (
             <>
-              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="green" strokeWidth={thickness/3}/>
-              <text x={(p1.x + p2.x)/2 + 2.5*thickness} y={(p1.y + p2.y)/2 - 2.5*thickness} fontSize="5" fill="green" transform={`rotate(${Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI)},  ${(p1.x + p2.x) / 2 + 2 * thickness}, ${(p1.y + p2.y) / 2 - 2 * thickness})`}>{(dist*mx/100).toFixed(2)} mm</text>
+              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="green" strokeWidth={Math.min(thickness/3, 2/3)} />
+              <text x={(p1.x + p2.x)/2 + 2.5*thickness} y={(p1.y + p2.y)/2 - 2.5*thickness} fontSize={Math.min(3*thickness, 6)} fill="green" transform={`rotate(${Math.atan2(p2.y - p1.y, p2.x - p1.x) * (180 / Math.PI)},  ${(p1.x + p2.x) / 2 + 2 * thickness}, ${(p1.y + p2.y) / 2 - 2 * thickness})`}>{(dist*mx/100).toFixed(2)} mm</text>
               {(p2.x).toFixed(2) != (p1.x).toFixed(2) && (p2.y).toFixed(2) !== (p1.y).toFixed(2) && <>
               {/* Horizontal line from p1 to aligned x of p2 */}
-              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p1.y} stroke="green" strokeWidth={thickness/3} />
-              <text x={(p1.x + p2.x)/2} y={p1.y + 5 + 2.5*thickness} fontSize="5" fill="green">{(Math.abs(p2.x - p1.x)*mx/100).toFixed(2)} mm</text>
+              <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p1.y} stroke="green" strokeWidth={Math.min(thickness/3, 2/3)} />
+              <text x={(p1.x + p2.x)/2} y={p1.y + 5 + 2.5*thickness} fontSize={Math.min(3*thickness, 6)} fill="green">{(Math.abs(p2.x - p1.x)*mx/100).toFixed(2)} mm</text>
               {/* Vertical line from p2 to aligned y of p1 */}
-              <line x1={p2.x} y1={p2.y} x2={p2.x} y2={p1.y} stroke="green" strokeWidth={thickness/3} />
-              <text x={p2.x - 2.5*thickness} y={(p1.y + p2.y) / 2} fontSize="5" fill="green" transform={`rotate(-90, ${p2.x - 2.5*thickness}, ${(p1.y + p2.y) / 2})`}>{(Math.abs(p2.y - p1.y)*mx/100).toFixed(2)} mm </text>
+              <line x1={p2.x} y1={p2.y} x2={p2.x} y2={p1.y} stroke="green" strokeWidth={Math.min(thickness/3, 2/3)} />
+              <text x={p2.x - 2.5*thickness} y={(p1.y + p2.y) / 2} fontSize={Math.min(3*thickness, 6)} fill="green" transform={`rotate(-90, ${p2.x - 2.5*thickness}, ${(p1.y + p2.y) / 2})`}>{(Math.abs(p2.y - p1.y)*mx/100).toFixed(2)} mm </text>
               </>}
              
             </>

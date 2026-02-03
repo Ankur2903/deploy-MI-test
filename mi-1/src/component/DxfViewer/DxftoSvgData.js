@@ -20,15 +20,16 @@ function arcFromBulge(p1, p2) {// ---------- ARC from bulge ----------
   const cx = mx + sign * h * nx;
   const cy = my + sign * h * ny;
 
-  const startAngle = Math.atan2(p1.y - cy, p1.x - cx);
-  const endAngle = Math.atan2(p2.y - cy, p2.x - cx);
+  const startAngle = Math.atan2(p1.y - cy, p1.x - cx) > 0 ? Math.atan2(p1.y - cy, p1.x - cx) : 2*Math.PI +  Math.atan2(p1.y - cy, p1.x - cx) ;
+  const endAngle = Math.atan2(p2.y - cy, p2.x - cx) > 0 ? Math.atan2(p2.y - cy, p2.x - cx) : 2*Math.PI + Math.atan2(p2.y - cy, p2.x - cx);
   return {type: "ARC", center: { x: cx, y: cy }, radius: R, startAngle: b > 0 ? startAngle : endAngle, endAngle: b > 0 ? endAngle : startAngle, clockwise: b < 0};
 }
 // ---------- Convert polyline ----------
-export function convertDXFPolyline(points) {
+export function convertDXFPolyline(points, shape) {
   const shapes = [];
-
-  for (let i = 0; i < points.length; i++) {
+  console.log("shape in convertDXFPolyline", shape);
+  const n = (shape) ? points.length : points.length - 1;
+  for (let i = 0; i < n; i++) {
     const p1 = points[i];
     const p2 = points[(i + 1) % points.length]; // closed polyline
     if (p1.bulge === undefined) {

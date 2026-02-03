@@ -506,14 +506,13 @@ const FromScratch = () => {
 
   let DXFShapes = [];
   const createDXFShapes = () => {
-    console.log("working")
     for(let i = 0; i< predefinedPoints.length;i++){
       const arr = predefinedPoints[i]
       if(arr.type === 'line'){
-        DXFShapes.push({color : 16777215, colorIndex : 255, handle : "33", layer : "0", lineweight : thickness*100, type : "LINE", vertices : [{x: arr.x - (thickness/2)*Math.sin(arr.angle*aa), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa), z : 0}, {x : arr.x - (thickness/2)*Math.sin(arr.angle*aa) + arr.w*Math.cos(aa*arr.angle), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa) + arr.w*Math.sin(aa*arr.angle), z : 0}]})
+        DXFShapes.push({lineweight : thickness*100, type : "LINE", vertices : [{x: arr.x - (thickness/2)*Math.sin(arr.angle*aa), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa), z : 0}, {x : arr.x - (thickness/2)*Math.sin(arr.angle*aa) + arr.w*Math.cos(aa*arr.angle), y: arr.y + (thickness/2)*Math.cos(arr.angle*aa) + arr.w*Math.sin(aa*arr.angle), z : 0}]})
       }
       else if(arr.type === 'circle'){
-        DXFShapes.push({center : {x: arr.x, y: arr.y, z: 0}, color : 16777215, colorIndex : 255, endAngle: arr.angle + arr.rotation, handle : "33", layer : "0", lineweight : thickness*100, radius: arr.r - thickness/2, startAngle: arr.rotation, type : "ARC"})
+        DXFShapes.push({center : {x: arr.x, y: arr.y, z: 0}, endAngle: (shapes[i].type === "clockwise") ? arr.angle + arr.rotation : arr.rotation - arr.angle, lineweight : thickness*100, radius: arr.r - thickness/2, startAngle: arr.rotation, type : "ARC"})
       }
     }
   }

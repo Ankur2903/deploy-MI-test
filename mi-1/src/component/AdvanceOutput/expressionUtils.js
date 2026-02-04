@@ -8,6 +8,7 @@ export function evalToNumber(expr) {
     const n = Number(raw);
     return Number.isFinite(n) ? n.toFixed(2) : null;
   } catch {
+    alert("Invalid expression or result is not a number");
     return null;
   }
 }
@@ -17,7 +18,6 @@ export function handleExpressionKeyDown(e, setter, currentValue) {
 
   const res = evalToNumber(currentValue);
   if (res === null) {
-    alert("Invalid expression or result is not a number");
     return;
   }
 

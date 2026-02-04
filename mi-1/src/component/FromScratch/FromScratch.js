@@ -137,37 +137,38 @@ const FromScratch = () => {
     }, [] )
 
   const addShape = () => {
+    const radi = evalToNumber(newShapeRadius);
     const newShape = {
       id: shapes.length + 1,
       type: newShapeType,
-      length: Number(newShapeLength),
-      radius: Number(newShapeRadius),
-      angle: newShapeAngle,
+      length: Number(evalToNumber(newShapeLength)),
+      radius: Number(radi),
+      angle: Number(newShapeAngle),
       color: "black",
-      
+
       anglefromx: (shapes.length === 0) ? startAngle%360 : (shapes[shapes.length - 1].type === "Line") ? shapes[shapes.length - 1].anglefromx : (shapes[shapes.length - 1].type === "clockwise") ? (360 + shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle)%360 : (360 + shapes[shapes.length - 1].anglefromx - shapes[shapes.length - 1].angle)%360,
 
       x: (shapes.length ===0 ) ? 30 : 
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "Line") ?  shapes[shapes.length - 1].x + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx))  - Number(newShapeRadius)*Math.sin(aa*(shapes[shapes.length - 1].anglefromx)):
-      (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx))  + (Number(newShapeRadius) - thickness)*Math.sin(aa*(shapes[shapes.length - 1].anglefromx)) : 
+      (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx))  - Number(radi)*Math.sin(aa*(shapes[shapes.length - 1].anglefromx)):
+      (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x  + shapes[shapes.length - 1].length*Math.cos(aa*(shapes[shapes.length - 1].anglefromx))  + (Number(radi) - thickness)*Math.sin(aa*(shapes[shapes.length - 1].anglefromx)) : 
       (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].x + shapes[shapes.length - 1].radius*Math.cos(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) :
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - Number(newShapeRadius))*Math.cos(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)):
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + Number(newShapeRadius) - thickness)*Math.cos(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) :
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - Number(radi))*Math.cos(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)):
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + Number(radi) - thickness)*Math.cos(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) :
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - thickness)*Math.cos(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + Number(newShapeRadius) - thickness)*Math.cos(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - Number(newShapeRadius))*Math.cos(aa*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius + Number(radi) - thickness)*Math.cos(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].x + (shapes[shapes.length - 1].radius - Number(radi))*Math.cos(aa*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
       
       y: (shapes.length ===0) ? 30 : 
       (shapes[shapes.length - 1].type === "Line" && newShapeType === "Line") ? shapes[shapes.length - 1].y + shapes[shapes.length - 1].length*Math.sin(aa*(shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin(aa*(shapes[shapes.length - 1].anglefromx))  + Number(newShapeRadius)*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin(aa*(shapes[shapes.length - 1].anglefromx))  - (Number(newShapeRadius) - thickness)*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
-     (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].y + shapes[shapes.length - 1].radius*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius - Number(newShapeRadius))*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
-      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius + Number(newShapeRadius) - thickness)*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
+      (shapes[shapes.length - 1].type === "Line" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin(aa*(shapes[shapes.length - 1].anglefromx))  + Number(radi)*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
+      (shapes[shapes.length - 1].type === "Line" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y  + shapes[shapes.length - 1].length*Math.sin(aa*(shapes[shapes.length - 1].anglefromx))  - (Number(radi) - thickness)*Math.cos(aa*(shapes[shapes.length - 1].anglefromx)) : 
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].y + shapes[shapes.length - 1].radius*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius - Number(radi))*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
+      (shapes[shapes.length - 1].type === "clockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius + Number(radi) - thickness)*Math.sin(aa*((shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle) - 90)) : 
       (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "Line") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius - thickness)*Math.sin(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius + Number(newShapeRadius) - thickness)*Math.sin(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
-      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - Number(newShapeRadius))*Math.sin(aa*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "clockwise") ? shapes[shapes.length - 1].y + (shapes[shapes.length - 1].radius + Number(radi) - thickness)*Math.sin(aa*(90 - shapes[shapes.length - 1].angle + shapes[shapes.length - 1].anglefromx)) : 
+      (shapes[shapes.length - 1].type === "anticlockwise" && newShapeType === "anticlockwise") ? shapes[shapes.length - 1].y - (shapes[shapes.length - 1].radius - Number(radi))*Math.sin(aa*(90 - (shapes[shapes.length - 1].anglefromx + shapes[shapes.length - 1].angle))): 0,
     };
 
     newShape.startx = 
@@ -189,7 +190,7 @@ const FromScratch = () => {
     (newShape.type === 'Line') ? Math.max(endY , newShape.y , newShape.y + newShape.length*Math.sin(aa*(newShape.anglefromx)), newShape.y + newShape.length*Math.sin(aa*(newShape.anglefromx)) + thickness*Math.cos(aa*(newShape.anglefromx)), newShape.y + thickness*Math.cos(aa*(newShape.anglefromx))) : 
     (newShape.type === 'clockwise') ?  Math.max(endY, newShape.y , newShape.y + newShape.radius*Math.sin(aa*(newShape.anglefromx - 90)), newShape.y + newShape.radius*Math.sin(aa*(newShape.anglefromx + newShape.angle - 90)), newShape.y + newShape.radius*Math.sin(aa*(newShape.anglefromx + newShape.angle/2 - 90))/Math.cos(aa*newShape.angle/2)) : 
     Math.max(endY , newShape.y , newShape.y + newShape.radius*Math.sin(aa*(90 - newShape.anglefromx)), newShape.y + newShape.radius*Math.sin(aa*(90 - newShape.anglefromx + newShape.angle)), newShape.y + newShape.radius*Math.sin(aa*(90 - newShape.anglefromx + newShape.angle/2)));
-
+    
     setShapes([...shapes, newShape]);
     setStartX(Math.min(startX,newShape.startx));
     setStartY(Math.min(startY,newShape.starty));
@@ -197,6 +198,7 @@ const FromScratch = () => {
     setEndY(Math.max(endY,newShape.endy))
     setNewShapeType(null);
 
+    console.log(newShape);
 
     const newPoint = {
       id : newShape.id,
@@ -340,13 +342,13 @@ const FromScratch = () => {
   const updateDimensions = () => {
     for(let i = 0;i < shapes.length;i++){
         shapes[i].length = 
-        (shapes[i].id === selectedShapeId) ? Number(shapeLength) : shapes[i].length;
+        (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeLength)) : shapes[i].length;
 
         shapes[i].radius = 
-        (shapes[i].id === selectedShapeId) ? Number(shapeRadius) : shapes[i].radius;
+        (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeRadius)) : shapes[i].radius;
 
         shapes[i].angle = 
-        (shapes[i].id === selectedShapeId) ? Number(shapeAngle) : shapes[i].angle;
+        (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeAngle)) : shapes[i].angle;
 
         shapes[i].color = 
         (shapes[i].id === selectedShapeId) ? "black" : shapes[i].color;
@@ -355,13 +357,12 @@ const FromScratch = () => {
         (shapes[i].id === selectedShapeId && i === 0) ? startAngle : shapes[i].anglefromx;
 
         predefinedPoints[i].w = 
-        (shapes[i].id === selectedShapeId) ? Number(shapeLength) : shapes[i].length;
-
+        (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeLength)) : shapes[i].length;
         predefinedPoints[i].r = 
-        (shapes[i].id === selectedShapeId) ? Number(shapeRadius) : shapes[i].radius;
+        (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeRadius)) : shapes[i].radius;
 
         predefinedPoints[i].angle = 
-        (shapes[i].id === selectedShapeId && shapes[i] === 'Line') ? startAngle : (shapes[i].id === selectedShapeId) ? Number(shapeAngle) : shapes[i].angle;;
+        (shapes[i].id === selectedShapeId && shapes[i] === 'Line') ? startAngle : (shapes[i].id === selectedShapeId) ? Number(evalToNumber(shapeAngle)) : shapes[i].angle;
 
         predefinedPoints[i].rotation = 
         (shapes[i].id === selectedShapeId && i === 0 && shapes[i].type === 'clockwise') ? startAngle + 270 : (shapes[i].id === selectedShapeId && i === 0 && shapes[i].type === 'clockwise') ? 90 + startAngle - shapes[i].angle: predefinedPoints[i].rotation;
@@ -373,7 +374,6 @@ const FromScratch = () => {
     setClick(1 - click)
     setSelectedShapeId(null)
   };
-
   const clickOndimensioning = ()=> {
     setSelectedShapeId(null)
     setDimensioning(!dimensioning);

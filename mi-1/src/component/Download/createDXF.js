@@ -8,8 +8,9 @@ export function createDXF(shapes = []) {
 
   shapes.forEach((shape,i) => {
     // ---------- LINE ----------
+    if(shape.layer === "Close") d.setActiveLayer("LINES");
+    else d.setActiveLayer("CIRCLES");
     if ( shape.type === "LINE" && shape.vertices && shape.vertices.length === 2) {
-      d.setActiveLayer("LINES");
       const line = d.drawLine(
         shape.vertices[0].x,
         shape.vertices[0].y,
@@ -21,7 +22,6 @@ export function createDXF(shapes = []) {
     // ---------- CIRCLE ----------
     if ( shape.type === "ARC" && shape.center !== undefined && shape.radius !== undefined) {
       const { x: x, y: y } = shape.center;
-      d.setActiveLayer("CIRCLES");
       const arc =  d.drawArc(
         x,
         y,

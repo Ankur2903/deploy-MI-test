@@ -49,7 +49,7 @@ export default function FromDxf() {
   const [rogx, setRogx] = useState(0); // Radius of gyration i(x)
   const [rogy, setRogy] = useState(0); // Radius of gyration i(y)
   const [pmoi, setPmoi] = useState(0); // Polar moment of inertia Ip
-  const [type, setType] = useState("Open"); 
+  const [type, setType] = useState("Close"); 
   const [morx, setMorx] = useState(0);
   const [mory, setMory] = useState(0);
   const [inertiaxy, setInertiaxy] = useState(0);
@@ -89,6 +89,7 @@ export default function FromDxf() {
   useEffect(() => {
     console.log("-------******* useEffect called ********-------");
     console.log("entities", entities)
+    setType("Close");
     setSelectedShapeData([])
     shapeData.length = 0;
     dxfData.length = 0;
@@ -107,6 +108,7 @@ export default function FromDxf() {
       if(entities[i].type === "LINE"){
         const p1 = entities[i].vertices[0];
         const p2 = entities[i].vertices[1];
+        if(entities[i].layer === "CIRCLES") setType("Open");
         const angle1 = (p2.x - p1.x >=0) ? Math.atan((p2.y - p1.y)/(p2.x - p1.x)) : Math.atan((p2.y - p1.y)/(p2.x - p1.x)) + Math.PI;
         thickness1 = entities[i].lineweight/100;
         mnx = Math.min(mnx, p1.x, p2.x);
@@ -117,6 +119,7 @@ export default function FromDxf() {
       }
       if(entities[i].type === "ARC"){
         const p = entities[i].center;
+        if(entities[i].layer === "CIRCLES") setType("Open");
         thickness1 = entities[i].lineweight/100;
         shapeData.push({type: "ARC", center: {x: p.x, y: p.y}, radius: entities[i].radius, clockwise: (entities[i].endAngle > entities[i].startAngle) ? false : true, endAngle: entities[i].endAngle, startAngle: entities[i].startAngle,})
       }
@@ -131,6 +134,7 @@ export default function FromDxf() {
           mxy = Math.max(mxy, p1.y); 
         }
         console.log("entities[i].shape", entities[i].shape);
+        if(entities[i].shape === false) setType("Open");
         dxfData.push(...convertDXFPolyline(entities[i].vertices, entities[i].shape));
       }
     } 
@@ -166,6 +170,7 @@ export default function FromDxf() {
             break;
           }
         }
+        setType("Open");
       }
       thickness1 = Math.sqrt(Math.pow(dxfData[s0].end.x - dxfData[s0].start.x, 2) + Math.pow(dxfData[s0].end.y - dxfData[s0].start.y, 2))
       let s1 = s0 + n;
@@ -181,7 +186,6 @@ export default function FromDxf() {
         }
       }
     }
-    console.log("shapedata", shapeData);
     setThickness(thickness1.toFixed(2));
     setInnerThickness((thickness1/2).toFixed(2));
     setOuterThickness((thickness1/2).toFixed(2));
@@ -213,7 +217,7 @@ export default function FromDxf() {
         r : (shape.type === 'LINE') ? 0 : (!shape.clockwise^clockWises) ? shape.radius + Number(innerThickness): shape.radius + Number(outerThickness),
         angle : (shape.type === 'LINE') ? shape.angle*aa : aa*Math.abs(shape.endAngle - shape.startAngle),
         rotation : (shape.type === 'LINE') ? 0 : shape.startAngle*aa,
-        t : thickness,
+        t : Number(outerThickness) + Number(innerThickness),
       }
       setPredefinedPoints(prev => [...prev, newPoint])
     }
@@ -409,13 +413,9 @@ export default function FromDxf() {
               {i >=0 && shape.type === "LINE" && <LineAtTheta x={clockWises ? shape.start.x + outerThickness*Math.sin(shape.angle) : shape.start.x + innerThickness*Math.sin(shape.angle)} y={clockWises ? shape.start.y - outerThickness*Math.cos(shape.angle) : shape.start.y - innerThickness*Math.cos(shape.angle)} w={Math.sqrt(Math.pow(shape.end.x - shape.start.x, 2) + Math.pow(shape.end.y - shape.start.y, 2))} h={Number(outerThickness) + Number(innerThickness)} angle={shape.angle*aa}/>}
 {/* 
               {i >=0 && shape.type === "LINE" && <circle cx={shape.start.x} cy={shape.start.y} r="" fill="none" stroke="black" />}
-
-
               {i >=0 && shape.type === "LINE" && <circle cx={shape.end.x} cy={shape.end.y} r="2" fill="black" stroke="black" />}
-
               {i >=0 && shape.type === "ARC" && <circle cx={shape.center.x} cy={shape.center.y} r="2" fill="black" stroke="black" />} */}
               
-
               {i >=0 && shape.type === "ARC" && <CircleSector radius={(!shape.clockwise^clockWises) ? shape.radius + Number(innerThickness): shape.radius + Number(outerThickness)} centerX={shape.center.x} centerY={shape.center.y} angle={aa*Math.abs(shape.endAngle - shape.startAngle)} rotation={shape.startAngle*aa} thickness={Number(outerThickness) + Number(innerThickness)}/>}
               </>
             ))}

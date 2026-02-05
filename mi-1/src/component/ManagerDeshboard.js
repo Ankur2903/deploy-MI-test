@@ -61,7 +61,7 @@ const ManagerDashboard = () => {
     }
   };
 
-  const changeType = async (selectedUsers) => {
+  const changeType = async (selectedUsers, type) => {
     try {
       const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type`, {
         method: "PUT", // default method, can be omitted
@@ -69,7 +69,7 @@ const ManagerDashboard = () => {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-        body: JSON.stringify({ selectedUsers: selectedUsers })
+        body: JSON.stringify({type: type, selectedUsers: selectedUsers })
         });
       for(let i=0;i<selectedUsers.length;i++){
           const id = selectedUsers[i];
@@ -115,56 +115,58 @@ const ManagerDashboard = () => {
         {/* Button Group */}
         <div className="btn-group" role="group" style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-1" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Change User Type</button>
-          <div class="modal fade-dark" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Change User Type</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div className="modal fade-dark" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">Change User Type</h1>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                    Are you sure you want to change this user's access Type to the website?
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers)}>Update</button>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "User")}>User</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "Super User")}>Super User</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "Admin")}>Admin</button>
                 </div>
               </div>
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-2" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Change Status</button>
-          <div class="modal fade-dark" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Change Status</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div className="modal fade-dark" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">Change Status</h1>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                    Are you sure you want to change this user's access status to the website?
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"approved")}>Approve</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"rejected")}>Reject</button>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"approved")}>Approve</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"rejected")}>Reject</button>
                 </div>
               </div>
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" style={{ backgroundColor: "red", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Remove</button>
-          <div class="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h1 class="modal-title fs-5" id="exampleModalLabel">Remove User</h1>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div className="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h1 className="modal-title fs-5" id="exampleModalLabel">Remove User</h1>
+                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div className="modal-body">
                   Are you sure you want to revoke this user's access to the website?
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteUser(selectedUsers)}>Remove</button>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteUser(selectedUsers)}>Remove</button>
                 </div>
               </div>
             </div>
@@ -174,17 +176,17 @@ const ManagerDashboard = () => {
       <table border="1" style={{ borderCollapse: "collapse", width: "10 0%" }}></table>
       <thead>
         <tr>
-          <th style={{ width: "2vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}></th>
-          <th style={{ width: "13vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Name</th>
-          <th style={{ width: "15vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Email</th>
-          <th style={{ width: "16vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Company</th>
-          <th style={{ width: "11vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Department</th>
-          <th style={{ width: "12vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Designation</th>
-          <th style={{ width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Mobile No.</th>
-          <th style={{ width: "5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>User Type</th>
-          <th style={{ width: "5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Status</th>
-          <th style={{ width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Time</th>
-          <th style={{ width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Last Activity</th>
+          <th style={{position: "sticky",top: "0", width: "2vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}></th>
+          <th style={{position: "sticky",top: "0", width: "13vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Name</th>
+          <th style={{position: "sticky",top: "0", width: "15vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Email</th>
+          <th style={{position: "sticky",top: "0", width: "16vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Company</th>
+          <th style={{position: "sticky",top: "0", width: "11vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Department</th>
+          <th style={{position: "sticky",top: "0", width: "12vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Designation</th>
+          <th style={{position: "sticky",top: "0", width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Mobile No.</th>
+          <th style={{position: "sticky",top: "0", width: "5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>User Type</th>
+          <th style={{position: "sticky",top: "0", width: "5vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Status</th>
+          <th style={{position: "sticky",top: "0", width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Time</th>
+          <th style={{position: "sticky",top: "0", width: "7vw", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Last Activity</th>
         </tr>
       </thead>
       <tbody>

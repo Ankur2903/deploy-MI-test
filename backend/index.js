@@ -180,8 +180,9 @@ app.delete("/delete",ensureAuthenticated, async (req, res) => {
 
 app.put("/change-type",ensureAuthenticated, async (req, res) => {
   const users = req.body.selectedUsers;
+  const userType = req.body.type;
   try {
-      const user = await User.findOne({email: req.user.email});
+    const user = await User.findOne({email: req.user.email});
     if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
     const permission = user.manager;
     if(permission !== "Admin") return res.status(403).json({ message: 'Unauthorized' , success: false } );
@@ -192,7 +193,7 @@ app.put("/change-type",ensureAuthenticated, async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      user.manager = !user.manager;
+      user.manager = userType;
       const updatedUser = await user.save();
     }
     res.json({
@@ -200,7 +201,7 @@ app.put("/change-type",ensureAuthenticated, async (req, res) => {
         user: updatedUser,
       });
   } catch (error) {
-      console.log(error)
+    console.log(error)
     res.status(500).json({ message: "Error in updating user Type", error });
   }
 });

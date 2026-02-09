@@ -345,12 +345,12 @@ function Inquiry() {
         </tr>
       </thead>
       <tbody>
-      {enquiries.map((enquirie) => (
+      {enquiries.map((enquirie, index) => (
         <tr key={enquirie._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
             <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedEnquiries.includes(enquirie._id)} onClick={() => add(enquirie._id)}/></div>
           </td>
-          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.iD}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{index + 1}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.customerName}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.profileName}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.kAMName}</td>

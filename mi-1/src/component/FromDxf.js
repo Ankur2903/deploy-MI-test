@@ -89,7 +89,6 @@ export default function FromDxf() {
   useEffect(() => {
     console.log("-------******* useEffect called ********-------");
     console.log("entities", entities)
-    setType("Close");
     setSelectedShapeData([])
     shapeData.length = 0;
     dxfData.length = 0;
@@ -98,6 +97,7 @@ export default function FromDxf() {
     let sum = 0;
     let LWPOLYLINE = false;
     let thickness1 = 0;
+    let newShape = "Close";
     if(entities.length>0){
       mnx = Number.MAX_SAFE_INTEGER;
       mny = Number.MAX_SAFE_INTEGER;
@@ -125,6 +125,14 @@ export default function FromDxf() {
       }
       if(entities[i].type === "LWPOLYLINE"){
         LWPOLYLINE = true;
+        if(count === 1){
+          console.log("====", entities[i].vertices.length-1 , dxfData.length, type)
+          if((newShape === "Open" && (entities[i].vertices.length-1 > dxfData.length)) || (newShape === "Close" && (entities[i].vertices.length > dxfData.length))) dxfData.length = 0;
+          else if((newShape === "Open" && (entities[i].vertices.length-1 < dxfData.length)) || (newShape === "Close" && (entities[i].vertices.length < dxfData.length))) continue;
+        }
+        if(count === 2){
+          if((newShape === "Open" && (entities[i].vertices.length-1 !== dxfData.length)) || (newShape === "Close" && (entities[i].vertices.length !== dxfData.length))) break;
+        }
         count++;
         for(let j = 0; j < entities[i].vertices.length; j++){
           const p1 = entities[i].vertices[j];
@@ -133,8 +141,8 @@ export default function FromDxf() {
           mxx = Math.max(mxx, p1.x);
           mxy = Math.max(mxy, p1.y); 
         }
-        console.log("entities[i].shape", entities[i].shape);
         if(entities[i].shape === false) setType("Open");
+        if(entities[i].shape === false) newShape = "Open";
         dxfData.push(...convertDXFPolyline(entities[i].vertices, entities[i].shape));
       }
     } 

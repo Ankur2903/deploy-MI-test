@@ -388,9 +388,9 @@ function Inquiry() {
                           <div style={styles.inputRow}><h5>3. Process</h5></div>
                           <div style={styles.inputRow}><h6>3.1. Roll Forming Process</h6></div>
                           <div style={styles.inputRow}>
-                              <div style={styles.inputGroup}><label style={{backgroundColor: (enquirie.stripWidth < 10 || enquirie.stripWidth > 570) ? "red" : "#00FF00", borderRadius: "5px"}}>Strip Width :   {enquirie.stripWidth} mm</label></div>
+                              <div style={styles.inputGroup}><label style={{backgroundColor: ((enquirie.type === "Open" && (enquirie.stripWidth>10 && enquirie.stripWidth <=220)) || (enquirie.type === "Close" && (enquirie.stripWidth > 10 && enquirie.stripWidth <= 340))) ? "#00FF00" : "red", borderRadius: "5px"}}>Strip Width :   {enquirie.stripWidth} mm</label></div>
                               <div style={styles.inputGroup}><label>Profile Type : {enquirie.type} Profile</label></div>
-                              <div style={styles.inputGroup}><label style={{backgroundColor: (enquirie.thickness < 0.6 || enquirie.thickness > 12) ? "red" : "#00FF00", borderRadius: "5px"}}>Thickness :  {enquirie.thickness} mm</label></div>
+                              <div style={styles.inputGroup}><label style={{backgroundColor: ((enquirie.type === "Open" && (enquirie.thickness > 0.4 && enquirie.thickness <= 4)) || (enquirie.type === "Close" && (enquirie.thickness > 0.8 && enquirie.thickness <= 4))) ? "#00FF00" : "red", borderRadius: "5px"}}>Thickness :  {enquirie.thickness} mm</label></div>
                               <div style={styles.inputGroup}><label>Box Perimeter : {enquirie.boxPerimeter}1 mm</label></div>
                           </div>
                           <div style={styles.inputRow}><h6>3.2. Post Forming Process</h6></div>

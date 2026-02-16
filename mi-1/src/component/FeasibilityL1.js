@@ -270,9 +270,9 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             <div style={styles.inputRow}><h5>3. Process</h5></div>
             <div style={styles.inputRow}><h6>3.1. Roll Forming Process</h6></div>
              <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label style={{backgroundColor: (stripWidth < 10 || stripWidth > 570) ? "red" : "#00FF00", borderRadius: "5px"}}>Strip Width :   {stripWidth} mm</label></div>
+                <div style={styles.inputGroup}><label style={{backgroundColor: ((type === "Open" && (stripWidth>10 && stripWidth <=220)) || (type === "Close" && (stripWidth > 10 && stripWidth <= 340))) ? "#00FF00" : "red", borderRadius: "5px"}}>Strip Width :   {stripWidth} mm</label></div>
                 <div style={styles.inputGroup}><label>Profile Type : {type} Profile</label></div>
-                <div style={styles.inputGroup}><label style={{backgroundColor: (thickness < 0.6 || thickness > 12) ? "red" : "#00FF00", borderRadius: "5px"}}>Thickness :  {thickness} mm</label></div>
+                <div style={styles.inputGroup}><label style={{backgroundColor: ((type === "Open" && (thickness > 0.4 && thickness <= 4)) || (type === "Close" && (thickness > 0.8 && thickness <= 4))), borderRadius: "5px"}}>Thickness :  {thickness} mm</label></div>
                 <div style={styles.inputGroup}><label>Box Perimeter : {boxPerimeter} mm</label></div>
             </div>
             <div style={styles.inputRow}><h6>3.2. Post Forming Process</h6></div>

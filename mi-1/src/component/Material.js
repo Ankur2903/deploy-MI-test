@@ -8,6 +8,8 @@ function Material() {
   const [newMaterialName, setNewMaterialName] = useState("");
   const [grade, setGrade] = useState("");
   const [newGrade, setNewGrade] = useState("");
+  const [material, setMaterial] = useState("");
+  const [newMaterial, setNewMaterial] = useState("");
   const [ysMin, setYSMin] = useState(0);
   const [newYSMin, setNewYSMin] = useState(0);
   const [ysMax, setYSMax] = useState(0);
@@ -20,6 +22,8 @@ function Material() {
   const [newElMin, setNewElMin] = useState(0);
   const [elMax, setElMax] = useState(0);
   const [newElMax, setNewElMax] = useState(0);
+  const [density, setDensity] = useState(0);
+  const [newDensity, setNewDensity] = useState(0);
   const [c, setC] = useState(0);
   const [newC, setNewC] = useState(0);
   const [mn, setMn] = useState(0);
@@ -78,12 +82,14 @@ function Material() {
             if(materials[i]._id === selectedMaterials[0]){
                 setNewMaterialName(materials[i].materialName);
                 setNewGrade(materials[i].grade);
+                setNewMaterial(materials[i].material);
                 setNewYSMin(materials[i].ysMin);
                 setNewYSMax(materials[i].ysMax);
                 setNewUTSMin(materials[i].utsMin);
                 setNewUTSMax(materials[i].utsMax);
                 setNewElMin(materials[i].elMin);
                 setNewElMax(materials[i].elMax);
+                setNewDensity(materials[i].density);
                 setNewC(materials[i].c);
                 setNewMn(materials[i].mn);
                 setNewS(materials[i].s);
@@ -101,7 +107,7 @@ function Material() {
     
   const addmaterial = async(e) => {
       e.preventDefault();
-      if(!materialName || !grade || !c || !mn || !s || !p || (zincCoating && (!zincCoatingMin || !zincCoatingMax))){
+      if(!materialName || !grade || !material || !density || !c || !mn || !s || !p || (zincCoating && (!zincCoatingMin || !zincCoatingMax))){
         return handleError('Please fill out all fields.')
       }
       try {
@@ -113,7 +119,7 @@ function Material() {
             'Content-Type' : 'application/json',
             
           },
-          body: JSON.stringify({ materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax})
+          body: JSON.stringify({ materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax})
         })
         const result = await response.json();
         const {success, message, error} = result;
@@ -169,7 +175,7 @@ function Material() {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-          body: JSON.stringify({ selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax })
+          body: JSON.stringify({ selectedMaterials, newMaterialName, newGrade, newMaterial, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newDensity, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax })
         });
         const result = await response.json();
         const {success, message, error} = result;
@@ -221,6 +227,10 @@ function Material() {
                         <label>Grade</label>
                         <input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} placeholder="Enter Material Grade..." style={styles.select}/>
                         </div>
+                        <div style={styles.inputGroup}>
+                        <label>Material</label>
+                        <input type="text" value={material} onChange={(e) => setMaterial(e.target.value)} placeholder="Enter Material..." style={styles.select}/>
+                        </div>
                     </div>
                     <div style={styles.inputRow}>
                         <div style={styles.inputGroup}>
@@ -264,6 +274,12 @@ function Material() {
                         <div style={styles.inputGroup}>
                         <label>Max</label>
                         <input type="number" value={elMax} onChange={(e) => setElMax(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
+                        </div>
+                    </div>
+                    <div style={styles.inputRow}>
+                        <div style={styles.inputGroup}>
+                        <h6>2.4 Density (Kg/m³)</h6>
+                        <input type="number" value={density} onChange={(e) => setDensity(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                         </div>
                     </div>
                     <div style={styles.inputRow}>
@@ -357,6 +373,10 @@ function Material() {
                         <label>Grade</label>
                         <input type="text" value={newGrade} onChange={(e) => setNewGrade(e.target.value)} placeholder="Enter Material Grade..." style={styles.select}/>
                         </div>
+                        <div style={styles.inputGroup}>
+                        <label>Material</label>
+                        <input type="text" value={newMaterial} onChange={(e) => setNewMaterial(e.target.value)} placeholder="Enter Material..." style={styles.select}/>
+                        </div>
                     </div>
                     <div style={styles.inputRow}>
                         <div style={styles.inputGroup}>
@@ -400,6 +420,12 @@ function Material() {
                         <div style={styles.inputGroup}>
                         <label>Max</label>
                         <input type="number" value={newElMax} onChange={(e) => setNewElMax(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
+                        </div>
+                    </div>
+                    <div style={styles.inputRow}>
+                        <div style={styles.inputGroup}>
+                        <h6>2.4. Density (Kg/m³)</h6>
+                        <input type="number" value={newDensity} onChange={(e) => setNewDensity(e.target.value)} style={styles.select} onFocus={(e) => e.target.select()}/>
                         </div>
                     </div>
                     <div style={styles.inputRow}>
@@ -493,49 +519,53 @@ function Material() {
       <table border="1" style={{ borderCollapse: "collapse", width: "10 0%" }}></table>
       <thead>
         <tr>
-          <th style={{width: "2%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}></th>
-          <th colSpan={3} style={{width: "23%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Material</th>
-          <th colSpan={6} style={{width: "30%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Mechanical Properties (Mpa, Mpa, %)<br/></th>
-          <th colSpan={7} style={{width: "35%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Chemical Composition (%max)</th>
-          <th colSpan={2} style={{width: "10%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Zinc Coating</th>
+          <th style={{width: "1%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}></th>
+          <th colSpan={4} style={{width: "30.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Material</th>
+          <th colSpan={7} style={{width: "32.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Mechanical Properties (Mpa, Mpa, %)<br/></th>
+          <th colSpan={7} style={{width: "28%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Chemical Composition (%max)</th>
+          <th colSpan={2} style={{width: "8%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Zinc Coating</th>
         </tr>
         <tr>
-            <th style={{position: "sticky",top: "0", width: "2%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}><br/></th>
-            <th style={{position: "sticky",top: "0", width: "8.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>No</th>
-            <th style={{position: "sticky",top: "0", width: "12%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Standard name</th>
-            <th style={{position: "sticky",top: "0", width: "10%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Grade</th>
+            <th style={{position: "sticky",top: "0", width: "1%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}><br/></th>
+            <th style={{position: "sticky",top: "0", width: "7%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>No</th>
+            <th style={{position: "sticky",top: "0", width: "5.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Name</th>
+            <th style={{position: "sticky",top: "0", width: "9%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Grade</th>
+            <th style={{position: "sticky",top: "0", width: "9%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Material</th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>YS(min)<br/></th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>YS(max)<br/></th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>UTS(min)<br/></th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>UTS(max)<br/></th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>e(min)<br/></th>
             <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>e(max)<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>C<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Mn<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>S<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>P<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Si<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Others<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>CE<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>min<br/></th>
-            <th style={{position: "sticky",top: "0", width: "4.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>max<br/></th>
+            <th style={{position: "sticky",top: "0", width: "5.5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Density(kg/m³)<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>C<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Mn<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>S<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>P<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Si<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>Others<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>CE<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>min<br/></th>
+            <th style={{position: "sticky",top: "0", width: "4%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "12px"}}>max<br/></th>
         </tr>
       </thead>
       <tbody>
       {materials.map((material) => (
         <tr key={material._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedMaterials.includes(material._id)} onClick={() => add(material._id)}/></div>
+            <div className="form-check mx-3" style={{marginInline: "0px", paddingInline: "0px"}}><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "1.5px", borderColor: "black", marginInline: "0px", paddingInline: "0px"}} checked ={selectedMaterials.includes(material._id)} onClick={() => add(material._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.materialNo}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.materialName}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.grade}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.material}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.ysMin <= 0) ? "_" : material.ysMin}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.ysMax <= 0) ? "_" : material.ysMax}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.utsMin <= 0) ? "_" : material.utsMin}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.utsMax <= 0) ? "_" : material.utsMax}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.elMin <= 0) ? "_" : material.elMin}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.elMax <= 0) ? "_" : material.elMax}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.density}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.c}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.mn}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.s}</td>

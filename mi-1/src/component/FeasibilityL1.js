@@ -110,7 +110,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   }, [volumeYearly, unit2]);
 
   const handleClickResult = () => {
-    if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !longRadiusBendingRadius) || (click5 && !shortRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+    if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
 
     if(twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth >220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth >340 || thickness<= 0.8 || thickness >4)) || (click1 && ((click4 && (shortRadiusBendingRadius <=40 || shortRadiusBendingRadius > 400 || thickness <= 0.8 || thickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius >10000 || thickness <= 0.8 || thickness >6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || thickness <= 0.8 || thickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength >3000)) || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") setResult(0);
 
@@ -120,7 +120,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   }
 
   const handleClickSave = async() => {
-        if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !longRadiusBendingRadius) || (click5 && !shortRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+        if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
         try {
           const url = "https://deploy-mi-test-api.vercel.app/enquirie/addenquirie";
           const response = await fetch(url, {

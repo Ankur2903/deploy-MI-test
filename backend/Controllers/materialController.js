@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const addmaterial = async (req, res) => {
     try {
-        let { materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax} = req.body;
+        let { materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
@@ -14,7 +14,7 @@ const addmaterial = async (req, res) => {
         const num = Math.log10(count) + 1;
         for(let i = 0;i<3-num;i++) materialNo = materialNo + "0";
         materialNo = materialNo + count.toString();
-        const materialModel = new MaterialModel({materialNo, materialName, grade, ysMin, ysMax, utsMin, utsMax, elMin, elMax, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax}) ;
+        const materialModel = new MaterialModel({materialNo, materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p, si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax}) ;
         await materialModel.save();
         res.status(201)
         .json({
@@ -76,7 +76,7 @@ const deletematerial = async (req, res) => {
 
 const editmaterial = async (req, res) => {
     try {
-        let { selectedMaterials, newMaterialName, newGrade, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax } = req.body;
+        let { selectedMaterials, newMaterialName, newGrade, newMaterial, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newDensity, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax } = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } );
         const permission = user.manager;
@@ -88,12 +88,14 @@ const editmaterial = async (req, res) => {
         }
         material.materialName = newMaterialName;
         material.grade = newGrade;
+        material.material = newMaterial;
         material.ysMin = newYSMin;
         material.ysMax = newYSMax;
         material.elMin = newElMin;
         material.elMax = newElMax;
         material.utsMin = newUTSMin;
         material.utsMax = newUTSMax;
+        material.density = newDensity;
         material.c = newC;
         material.mn = newMn;
         material.s = newS;

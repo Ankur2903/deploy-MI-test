@@ -392,6 +392,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}>
                     <select className="form-select" aria-label="Default select example" value={material} onChange={(e) => setMaterial(e.target.value)}>
                         <option value="">Select Material</option>
+                        <option value="NA">NA</option>
                         <option value="EN 10025 S275 J2 G3">EN 10025 S275 J2 G3</option>
                         <option value="EN 10025 S275 J2+Ar-CL1">EN 10025 S275 J2+Ar-CL1</option>
                         <option value="EN 10029">EN 10029</option>

@@ -90,7 +90,7 @@ const FromScratch = ({materials}) => {
   useEffect(() => {
       const fetchmaterials = async () => {
         try {
-          const response = await fetch("http://localhost:8080/drawing/alldrawings", {
+          const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
             method: "POST", // default method, can be omitted
             headers: {
             'Authorization': `Bearer ${token}`,

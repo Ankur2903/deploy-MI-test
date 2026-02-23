@@ -11,7 +11,7 @@ const ManagerDashboard = () => {
   useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const response = await fetch("http://localhost:8080/data", {
+          const response = await fetch("https://deploy-mi-test-api.vercel.app/data", {
             method: "GET", // default method, can be omitted
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -38,7 +38,7 @@ const ManagerDashboard = () => {
 
   const updateUserStatus = async (selectedUsers ,status) => {
     try {
-      const response = await fetch(`http://localhost:8080/update-status`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status`, {
         method: "PUT", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -63,7 +63,7 @@ const ManagerDashboard = () => {
 
   const changeType = async (selectedUsers, type) => {
     try {
-      const response = await fetch(`http://localhost:8080/change-type`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type`, {
         method: "PUT", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -87,7 +87,7 @@ const ManagerDashboard = () => {
 
   const deleteUser = async (selectedUsers) => {
     try {
-      const response = await fetch(`http://localhost:8080/delete`, {
+      const response = await fetch(`https://deploy-mi-test-api.vercel.app/delete`, {
         method: "DELETE", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,

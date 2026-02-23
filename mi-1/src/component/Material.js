@@ -1,80 +1,61 @@
 import { useEffect, useState } from "react";
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
 import { useLocation } from "react-router-dom";
+import { fetchmaterials, addMaterial, editMaterial, deleteMaterial } from "../services/Material";
 
 function Material() {
-  const location = useLocation();
-  const [materialName, setMaterialName] = useState("");
-  const [newMaterialName, setNewMaterialName] = useState("");
-  const [grade, setGrade] = useState("");
-  const [newGrade, setNewGrade] = useState("");
-  const [material, setMaterial] = useState("");
-  const [newMaterial, setNewMaterial] = useState("");
-  const [ysMin, setYSMin] = useState(0);
-  const [newYSMin, setNewYSMin] = useState(0);
-  const [ysMax, setYSMax] = useState(0);
-  const [newYSMax, setNewYSMax] = useState(0);
-  const [utsMin, setUTSMin] = useState(0);
-  const [newUTSMin, setNewUTSMin] = useState(0);
-  const [utsMax, setUTSMax] = useState(0);
-  const [newUTSMax, setNewUTSMax] = useState(0);
-  const [elMin, setElMin] = useState(0);
-  const [newElMin, setNewElMin] = useState(0);
-  const [elMax, setElMax] = useState(0);
-  const [newElMax, setNewElMax] = useState(0);
-  const [density, setDensity] = useState(0);
-  const [newDensity, setNewDensity] = useState(0);
-  const [c, setC] = useState(0);
-  const [newC, setNewC] = useState(0);
-  const [mn, setMn] = useState(0);
-  const [newMn, setNewMn] = useState(0);
-  const [s, setS] = useState(0);
-  const [newS, setNewS] = useState(0);
-  const [p, setP] = useState(0);
-  const [newP, setNewP] = useState(0);
-  const [si, setSi] = useState(0);
-  const [newSi, setNewSi] = useState(0);
-  const [others, setOthers] = useState(0);
-  const [newOthers, setNewOthers] = useState(0);
-  const [cE, setCE] = useState(0);
-  const [newCE, setNewCE] = useState(0);
-  const [zincCoating, setZincCoating] = useState(false);
-  const [newZincCoating, setNewZincCoating] = useState(false);
-  const [zincCoatingMin, setZincCoatingMin] = useState(0);
-  const [newZincCoatingMin, setNewZincCoatingMin] = useState(0);
-  const [zincCoatingMax, setZincCoatingMax] = useState(0);
-  const [newZincCoatingMax, setNewZincCoatingMax] = useState(0);
-  const [materials, setMaterials] = useState([]);
-  const [selectedMaterials, setSelectedMaterials] = useState([]);
-  const [reload, setReload] = useState(true);
-  const token = localStorage.getItem('token')
+    const location = useLocation();
+    const [materialName, setMaterialName] = useState("");
+    const [newMaterialName, setNewMaterialName] = useState("");
+    const [grade, setGrade] = useState("");
+    const [newGrade, setNewGrade] = useState("");
+    const [material, setMaterial] = useState("");
+    const [newMaterial, setNewMaterial] = useState("");
+    const [ysMin, setYSMin] = useState(0);
+    const [newYSMin, setNewYSMin] = useState(0);
+    const [ysMax, setYSMax] = useState(0);
+    const [newYSMax, setNewYSMax] = useState(0);
+    const [utsMin, setUTSMin] = useState(0);
+    const [newUTSMin, setNewUTSMin] = useState(0);
+    const [utsMax, setUTSMax] = useState(0);
+    const [newUTSMax, setNewUTSMax] = useState(0);
+    const [elMin, setElMin] = useState(0);
+    const [newElMin, setNewElMin] = useState(0);
+    const [elMax, setElMax] = useState(0);
+    const [newElMax, setNewElMax] = useState(0);
+    const [density, setDensity] = useState(0);
+    const [newDensity, setNewDensity] = useState(0);
+    const [c, setC] = useState(0);
+    const [newC, setNewC] = useState(0);
+    const [mn, setMn] = useState(0);
+    const [newMn, setNewMn] = useState(0);
+    const [s, setS] = useState(0);
+    const [newS, setNewS] = useState(0);
+    const [p, setP] = useState(0);
+    const [newP, setNewP] = useState(0);
+    const [si, setSi] = useState(0);
+    const [newSi, setNewSi] = useState(0);
+    const [others, setOthers] = useState(0);
+    const [newOthers, setNewOthers] = useState(0);
+    const [cE, setCE] = useState(0);
+    const [newCE, setNewCE] = useState(0);
+    const [zincCoating, setZincCoating] = useState(false);
+    const [newZincCoating, setNewZincCoating] = useState(false);
+    const [zincCoatingMin, setZincCoatingMin] = useState(0);
+    const [newZincCoatingMin, setNewZincCoatingMin] = useState(0);
+    const [zincCoatingMax, setZincCoatingMax] = useState(0);
+    const [newZincCoatingMax, setNewZincCoatingMax] = useState(0);
+    const [materials, setMaterials] = useState([]);
+    const [selectedMaterials, setSelectedMaterials] = useState([]);
+    const [reload, setReload] = useState(true);
 
-  useEffect(() => {
-        const fetchmaterials = async () => {
-          try {
-            const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
-              method: "POST", // default method, can be omitted
-              headers: {
-                 'Authorization': `Bearer ${token}`,
-                "Content-Type": "application/json", // Ensure correct content type
-              }
-            });
-            const data = await response.json();
-            setMaterials(data)
-          } catch (err) {
-            console.error("Error fetching materials:", err.message);
-          }
-        };
-    
-        fetchmaterials();
+    useEffect(() => {
+        fetchmaterials().then(data => setMaterials(data));
     }, [location, reload] )
 
     const add = (id) => {
-        if(selectedMaterials.includes(id)){
-        setSelectedMaterials((prevSelected) => prevSelected.filter((materialId) => materialId !== id));
-        } else {
-        setSelectedMaterials((prevSelected) => [...prevSelected, id]);
-        }
+        if(selectedMaterials.includes(id)) setSelectedMaterials((prevSelected) => prevSelected.filter((materialId) => materialId !== id));
+        else setSelectedMaterials((prevSelected) => [...prevSelected, id]);
     };
 
     const editclicked = () => {
@@ -105,97 +86,30 @@ function Material() {
         }
     };
     
-  const addmaterial = async(e) => {
-      e.preventDefault();
-      if(!materialName || !grade || !material || !density || !c || !mn || !s || !p || (zincCoating && (!zincCoatingMin || !zincCoatingMax))){
-        return handleError('Please fill out all fields.')
-      }
-      try {
-        const url = "https://deploy-mi-test-api.vercel.app/product/addmaterial";
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type' : 'application/json',
-            
-          },
-          body: JSON.stringify({ materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax})
-        })
-        const result = await response.json();
-        const {success, message, error} = result;
-        if(success){
-            setReload(!reload)
-            handleSuccess(message)
-        }else if(error){
-            const details = error?.details[0].message;
-            handleError(details)
-        }else if(!success){
-          handleError(message)
-        }
-      }
-      catch(err) {
-        handleError(err);
-      }
+    const handleClickAddmaterial = async(e) => { 
+        e.preventDefault();
+        if(!materialName || !grade || !material || !density || !c || !mn || !s || !p || (zincCoating && (!zincCoatingMin || !zincCoatingMax))) return handleError('Please fill out all fields.');
+        const result = await addMaterial({ materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax});
+        if(result) setReload(!reload);
     };
 
-    const deleteMaterails = async (selectedMaterials) => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/product/deletematerial`, {
-        method: "DELETE", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ selectedMaterials: selectedMaterials })
-        });
-        const result = await response.json();
-        const {success, message, error} = result;
-         if(success){
-            setReload(!reload)
-          handleSuccess(message)
-        }else if(error){
-            const details = error?.details[0].message;
-            handleError(details)
-        }else if(!success){
-          handleError(message)
+    const handleClickDeleteMaterails = async (selectedMaterials) => {
+        const result = await deleteMaterial(selectedMaterials);
+        if(result){
+          setReload(!reload)
+          setSelectedMaterials([]);
         }
-        setReload(!reload);
-        setSelectedMaterials([])
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
-    }
-  };
+    };
 
-  const editMaterial = async () => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/product/editmaterial`, {
-        method: "PUT", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ selectedMaterials, newMaterialName, newGrade, newMaterial, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newDensity, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax })
-        });
-        const result = await response.json();
-        const {success, message, error} = result;
-         if(success){
-            setReload(!reload)
-          handleSuccess(message)
-        }else if(error){
-            const details = error?.details[0].message;
-            handleError(details)
-        }else if(!success){
-          handleError(message)
-        }
+  const handleClickEditMaterial = async (e) => {
+      e.preventDefault();
+      if(!newMaterialName || !newGrade || !newMaterial || !newDensity || !newC || !newMn || !newS || !newP || (newZincCoating && (!newZincCoatingMin || !newZincCoatingMax))) return handleError('Please fill out all fields.') 
+      const result = await editMaterial({ selectedMaterials, newMaterialName, newGrade, newMaterial, newYSMin, newYSMax, newUTSMin, newUTSMax, newElMin, newElMax, newDensity, newC, newMn, newS, newP, newSi, newOthers, newCE, newZincCoating, newZincCoatingMin, newZincCoatingMax });
+      if(result){
         setReload(!reload);
-        setSelectedMaterials([])
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
-    }
+        setSelectedMaterials([]);
+      }
   };
-  
 
   return (
     <div style={{ padding: "0px" }}>
@@ -205,7 +119,7 @@ function Material() {
         {/* Button Group */}
         <div className="btn-group" role="group" style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-1" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Add Material</button>
-          <div className="modal fade-dark modal-xl" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark modal-xl" id="exampleModal-1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -324,7 +238,7 @@ function Material() {
                     <div style={styles.inputRow}>
                         <div style={styles.inputGroup}>
                             <div className="form-check">
-                                <input className="form-check-input border border-dark" type="checkbox" checked={zincCoating} onClick={() => setZincCoating(!zincCoating)}/>
+                                <input className="form-check-input border border-dark" type="checkbox" checked={zincCoating} onChange={() => setZincCoating(!zincCoating)}/>
                                 <h5 className="form-check-label">4. Zinc Coating (g/m*m)</h5>
                             </div>
                         </div>
@@ -345,13 +259,13 @@ function Material() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={addmaterial}>Add Material</button>
+                  <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={handleClickAddmaterial}>Add Material</button>
                 </div>
               </div>
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-2" style={{ backgroundColor: selectedMaterials.length === 1 ? "green" : "lightGreen", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }} disabled = {selectedMaterials.length !== 1} onClick={editclicked}>Edit Material</button>
-          <div className="modal fade-dark modal-xl" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark modal-xl" id="exampleModal-2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -470,7 +384,7 @@ function Material() {
                     <div style={styles.inputRow}>
                         <div style={styles.inputGroup}>
                             <div className="form-check">
-                                <input className="form-check-input border border-dark" type="checkbox" checked={newZincCoating} onClick={() => setNewZincCoating(!newZincCoating)}/>
+                                <input className="form-check-input border border-dark" type="checkbox" checked={newZincCoating} onChange={() => setNewZincCoating(!newZincCoating)}/>
                                 <h5 className="form-check-label">4. Zinc Coating (g/m*m)</h5>
                             </div>
                         </div>
@@ -490,14 +404,14 @@ function Material() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={editMaterial}>Edit Materials</button>
+                  <button type="button" className="btn btn-success" data-bs-dismiss="modal" onClick={handleClickEditMaterial}>Edit Materials</button>
                 </div>
               </div>
             </div>
           </div>
           
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" style={{ backgroundColor: "red", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>delete Material</button>
-          <div className="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -509,7 +423,7 @@ function Material() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteMaterails(selectedMaterials)}>delete Material</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => handleClickDeleteMaterails(selectedMaterials)}>delete Material</button>
                 </div>
               </div>
             </div>
@@ -553,7 +467,7 @@ function Material() {
       {materials.map((material) => (
         <tr key={material._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div className="form-check mx-3" style={{marginInline: "0px", paddingInline: "0px"}}><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "1.5px", borderColor: "black", marginInline: "0px", paddingInline: "0px"}} checked ={selectedMaterials.includes(material._id)} onClick={() => add(material._id)}/></div>
+            <div className="form-check mx-3" style={{marginInline: "0px", paddingInline: "0px"}}><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "1.5px", borderColor: "black", marginInline: "0px", paddingInline: "0px"}} checked ={selectedMaterials.includes(material._id)} onChange={() => add(material._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.materialNo}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{material.materialName}</td>
@@ -577,7 +491,6 @@ function Material() {
           {material.zincCoating && <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{(material.zincCoatingMax <= 0) ? "_" : material.zincCoatingMax}</td>}
           {!material.zincCoating && <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}> - </td>}
           {!material.zincCoating && <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}> - </td>}
-
         </tr>
       ))}
       </tbody>
@@ -586,10 +499,6 @@ function Material() {
 }
 
 const styles = {
-  
- 
-  
-  
   inputRow: {
     display: 'flex',
     gap: '20px',

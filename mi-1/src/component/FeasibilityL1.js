@@ -65,7 +65,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   useEffect(() => {
           const fetchmaterials = async () => {
             try {
-              const response = await fetch("http://localhost:8080/product/allmaterials", {
+              const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
                 method: "POST", // default method, can be omitted
                 headers: {
                    'Authorization': `Bearer ${token}`,
@@ -122,7 +122,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
         if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
 
         try {
-          const url = "http://localhost:8080/enquirie/addenquirie";
+          const url = "https://deploy-mi-test-api.vercel.app/enquirie/addenquirie";
           const response = await fetch(url, {
             method: "POST",
             headers: {

@@ -238,7 +238,7 @@ function FromTemp() {
           <ButtonText>Round Tube</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
-        <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">
@@ -361,7 +361,7 @@ function FromTemp() {
           </Button>
           <ButtonText>Guide Rail Sections</ButtonText>
         </ButtonWrapper>
-        <div className="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">
@@ -434,7 +434,7 @@ function FromTemp() {
           </Button>
           <ButtonText>Butterfly Section</ButtonText>
         </ButtonWrapper>
-        <div className="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal4" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">
@@ -703,7 +703,7 @@ function FromTemp() {
           <ButtonText>Angle Profile</ButtonText>
         </ButtonWrapper>
         {/* <!-- Modal --> */}
-        <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-header">

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import Navbar from './component/Navbar'
 import Home from './component/Home'
@@ -90,19 +90,32 @@ import D_pillar_rear from './component/shap/D-pillar-rear';
 import Enquiry from './component/Enquiry';
 import AdminPanel from './component/AdminPanel';
 import MyDrawing from './component/MyDrawing';
+import { fetchmaterials } from './services/Material';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const permission = localStorage.getItem('role');
   const [loading, setLoading] = useState(true);
+  const [materials, setMaterials] = useState({});
+
+  useEffect(() => {
+    const loadMaterials = async () => {
+      try {
+        const data = await fetchmaterials();
+        for(let i=0; i<data.length; i++){
+          const material = data[i];
+          setMaterials(prevMaterials => ({...prevMaterials, [material.density]: material.material}));
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+    loadMaterials();
+  }, []);
 
   const PrivateRoute = ({ element }) =>{
-    if(isAuthenticated){
-      return element;
-    }
-    else{
-      return <Navigate to='/login'/>
-    }
+    if(isAuthenticated) return element;
+    else return <Navigate to='/login'/>
   }
 
   return (
@@ -120,85 +133,85 @@ function App() {
           <Route exact path="/signup" element={<Signup/>}/>
           <Route exact path="/forgot-password" element={<ForgotPassword/>}/>
           <Route exact path="/reset-password/:id/:token" element={<ResetPassword/>}/>
-          <Route exact path="/from-temp" element={<PrivateRoute element={<FromTemp/>}/>}/>
-          <Route exact path="/from_scratch" element={<PrivateRoute element={<FromScratch/>}/>}/>
-          <Route exact path="/from-dxf" element={<PrivateRoute element={<FromDxf/>}/>}/>
-          <Route exact path="/rectangle" element={<PrivateRoute element={<Rectangle/>}/>}/>
-          <Route exact path="/d_section" element={<PrivateRoute element={<D_section/>}/>}/>
-          <Route exact path="/round" element={<PrivateRoute element={<Round/>}/>}/>
-          <Route exact path="/round-1" element={<PrivateRoute element={<Round_1/>}/>}/>
-          <Route exact path="/round-2" element={<PrivateRoute element={<Round_2/>}/>}/>
-          <Route exact path="/round-3" element={<PrivateRoute element={<Round_3/>}/>}/>
-          <Route exact path="/round-4" element={<PrivateRoute element={<Round_4/>}/>}/>
-          <Route exact path="/square" element={<PrivateRoute element={<Square/>}/>}/>
-          <Route exact path="/l-angle" element={<PrivateRoute element={<L_angle/>}/>}/>
-          <Route exact path="/c-channel" element={<PrivateRoute element={<C_channel/>}/>}/>
-          <Route exact path="/U-channel" element={<PrivateRoute element={<U_channel/>}/>}/>
-          <Route exact path="/triangular-slit" element={<PrivateRoute element={<Triangular_slit/>}/>}/>
-          <Route exact path="/door_channel" element={<PrivateRoute element={<Door_channel/>}/>}/>
-          <Route exact path="/stiffner_front_edge" element={<PrivateRoute element={<Stiffner_front_edge/>}/>}/>
-          <Route exact path="/door_edge_profile" element={<PrivateRoute element={<Door_edge_profile/>}/>}/>
-          <Route exact path="/elliptical" element={<PrivateRoute element={<Elliptical/>}/>}/>
-          <Route exact path="/flat_oval" element={<PrivateRoute element={<Flat_oval/>}/>}/>
-          <Route exact path="/triangular" element={<PrivateRoute element={<Triangular/>}/>}/>
-          <Route exact path="/top_hat" element={<PrivateRoute element={<Top_hat/>}/>}/>
-          <Route exact path="/m" element={<PrivateRoute element={<M/>}/>}/>
-          <Route exact path="/d_shap" element={<PrivateRoute element={<D_shap/>}/>}/>
-          <Route exact path="/t_shap" element={<PrivateRoute element={<T_shap/>}/>}/>
-          <Route exact path="/t_shap_2" element={<PrivateRoute element={<T_shap_2/>}/>}/>
-          <Route exact path="/t_shap_3" element={<PrivateRoute element={<T_shap_3/>}/>}/>
-          <Route exact path="/figure_of_eight" element={<PrivateRoute element={<Figure_of_eight/>}/>}/>
-          <Route exact path='/l-angle-1' element={<PrivateRoute element={<L_angle_1/>}/>}/>
-          <Route exact path='/l-angle-2' element={<PrivateRoute element={<L_angle_2/>}/>}/>
-          <Route exact path='/l-angle-3' element={<PrivateRoute element={<L_angle_3/>}/>}/>
-          <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4/>}/>}/>
-          <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5/>}/>}/>
-          <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame/>}/>}/>
-          <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner/>}/>}/>
-          <Route exact path='/good-knight-tube' element={<PrivateRoute element={<Good_knight_tube/>}/>}/>
-          <Route exact path='/H-section' element={<PrivateRoute element={<H_section/>}/>}/>
-          <Route exact path='/Lip-channel' element={<PrivateRoute element={<Lip_channel/>}/>}/>
-          <Route exact path='/cover_tray' element={<PrivateRoute element={<Cover_tray/>}/>}/>
-          <Route exact path='/double_center_mullion' element={<PrivateRoute element={<Double_center_mullion/>}/>}/>
-          <Route exact path='/beam-window-frame-1' element={<PrivateRoute element={<Beam_window_frame_1/>}/>}/>
-          <Route exact path='/waist-rail-section' element={<PrivateRoute element={<Waist_rail_section/>}/>}/>
-          <Route exact path='/z-section' element={<PrivateRoute element={<Z_section/>}/>}/>
-          <Route exact path='/sole-bar-section' element={<PrivateRoute element={<Sole_bar_section/>}/>}/>
-          <Route exact path='/sill-pressing' element={<PrivateRoute element={<Sill_pressing/>}/>}/>
-          <Route exact path='/trapiz-tube' element={<PrivateRoute element={<Trapiz_tube/>}/>}/>
-          <Route exact path='/guide-rail' element={<PrivateRoute element={<Guide_rail/>}/>}/>
-          <Route exact path='/a-post' element={<PrivateRoute element={<A_post/>}/>}/>
-          <Route exact path='/support-tube' element={<PrivateRoute element={<Support_tube/>}/>}/>
-          <Route exact path='/lower-frame' element={<PrivateRoute element={<Lower_frame/>}/>}/>
-          <Route exact path='/Lip-cover' element={<PrivateRoute element={<Lip_cover/>}/>}/>
-          <Route exact path='/bts' element={<PrivateRoute element={<Bts/>}/>}/>
-          <Route exact path='/m-diamond-tube' element={<PrivateRoute element={<M_diamond_tube/>}/>}/>
-          <Route exact path='/C-section' element={<PrivateRoute element={<C_section/>}/>}/>
-          <Route exact path='/cabin-section' element={<PrivateRoute element={<Cabin_section/>}/>}/>
-          <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section/>}/>}/>
-          <Route exact path='/cabin-door-frame' element={<PrivateRoute element={<Cabin_door_frame/>}/>}/>
-          <Route exact path='/crimped-rail' element={<PrivateRoute element={<Crimped_rail/>}/>}/>
-          <Route exact path='/c-post' element={<PrivateRoute element={<C_post/>}/>}/>
-          <Route exact path='/Skirt-rail' element={<PrivateRoute element={<Skirt_rail/>}/>}/>
-          <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube/>}/>}/>
-          <Route exact path='/swiss-profile-section' element={<PrivateRoute element={<Swiss_profile_section/>}/>}/>
-          <Route exact path='/t_shap_5' element={<PrivateRoute element={<Hollow_guide_rail/>}/>}/>
-          <Route exact path='/backhoe-a-piller' element={<PrivateRoute element={<Backhoe_a_piller/>}/>}/>
-          <Route exact path='/a-piller' element={<PrivateRoute element={<A_piller/>}/>}/>
-          <Route exact path='/t_shape_6' element={<PrivateRoute element={<T_shape_6/>}/>}/>
-          <Route exact path='/trip-tube' element={<PrivateRoute element={<Trip_tube/>}/>}/>
-          <Route exact path='/hand-rail-section' element={<PrivateRoute element={<Hand_rail_section/>}/>}/>
-          <Route exact path='/door-profile' element={<PrivateRoute element={<Door_profile/>}/>}/>
-          <Route exact path='/front-cross-member' element={<PrivateRoute element={<Front_cross_member/>}/>}/>
-          <Route exact path='/frame-profile' element={<PrivateRoute element={<Frame_profile/>}/>}/>
-          <Route exact path='/c-rail' element={<PrivateRoute element={<C_rail/>}/>}/>
-          <Route exact path='/Formwork' element={<PrivateRoute element={<Formwork/>}/>}/>
-          <Route exact path='/c-pillar' element={<PrivateRoute element={<C_pillar/>}/>}/>
-          <Route exact path='/a-post-2' element={<PrivateRoute element={<A_post_2/>}/>}/>
-          <Route exact path='/front-st-a-pillar' element={<PrivateRoute element={<Front_st_a_pillar/>}/>}/>
-          <Route exact path='/d-pillar-rear' element={<PrivateRoute element={<D_pillar_rear/>}/>}/>
+          <Route exact path="/from-temp" element={<PrivateRoute element={<FromTemp materials = {materials}/>}/>}/>
+          <Route exact path="/from_scratch" element={<PrivateRoute element={<FromScratch materials = {materials}/>}/>}/>
+          <Route exact path="/from-dxf" element={<PrivateRoute element={<FromDxf materials = {materials}/>}/>}/>
+          <Route exact path="/rectangle" element={<PrivateRoute element={<Rectangle materials = {materials}/>}/>}/>
+          <Route exact path="/d_section" element={<PrivateRoute element={<D_section materials = {materials}/>}/>}/>
+          <Route exact path="/round" element={<PrivateRoute element={<Round materials = {materials}/>}/>}/>
+          <Route exact path="/round-1" element={<PrivateRoute element={<Round_1 materials = {materials}/>}/>}/>
+          <Route exact path="/round-2" element={<PrivateRoute element={<Round_2 materials = {materials}/>}/>}/>
+          <Route exact path="/round-3" element={<PrivateRoute element={<Round_3 materials = {materials}/>}/>}/>
+          <Route exact path="/round-4" element={<PrivateRoute element={<Round_4 materials = {materials}/>}/>}/>
+          <Route exact path="/square" element={<PrivateRoute element={<Square materials = {materials}/>}/>}/>
+          <Route exact path="/l-angle" element={<PrivateRoute element={<L_angle materials = {materials}/>}/>}/>
+          <Route exact path="/c-channel" element={<PrivateRoute element={<C_channel materials = {materials}/>}/>}/>
+          <Route exact path="/U-channel" element={<PrivateRoute element={<U_channel materials = {materials}/>}/>}/>
+          <Route exact path="/triangular-slit" element={<PrivateRoute element={<Triangular_slit materials = {materials}/>}/>}/>
+          <Route exact path="/door_channel" element={<PrivateRoute element={<Door_channel materials = {materials}/>}/>}/>
+          <Route exact path="/stiffner_front_edge" element={<PrivateRoute element={<Stiffner_front_edge materials = {materials}/>}/>}/>
+          <Route exact path="/door_edge_profile" element={<PrivateRoute element={<Door_edge_profile materials = {materials}/>}/>}/>
+          <Route exact path="/elliptical" element={<PrivateRoute element={<Elliptical materials = {materials}/>}/>}/>
+          <Route exact path="/flat_oval" element={<PrivateRoute element={<Flat_oval materials = {materials}/>}/>}/>
+          <Route exact path="/triangular" element={<PrivateRoute element={<Triangular materials = {materials}/>}/>}/>
+          <Route exact path="/top_hat" element={<PrivateRoute element={<Top_hat materials = {materials}/>}/>}/>
+          <Route exact path="/m" element={<PrivateRoute element={<M materials = {materials}/>}/>}/>
+          <Route exact path="/d_shap" element={<PrivateRoute element={<D_shap materials = {materials}/>}/>}/>
+          <Route exact path="/t_shap" element={<PrivateRoute element={<T_shap materials = {materials}/>}/>}/>
+          <Route exact path="/t_shap_2" element={<PrivateRoute element={<T_shap_2 materials = {materials}/>}/>}/>
+          <Route exact path="/t_shap_3" element={<PrivateRoute element={<T_shap_3 materials = {materials}/>}/>}/>
+          <Route exact path="/figure_of_eight" element={<PrivateRoute element={<Figure_of_eight materials = {materials}/>}/>}/>
+          <Route exact path='/l-angle-1' element={<PrivateRoute element={<L_angle_1 materials = {materials}/>}/>}/>
+          <Route exact path='/l-angle-2' element={<PrivateRoute element={<L_angle_2 materials = {materials}/>}/>}/>
+          <Route exact path='/l-angle-3' element={<PrivateRoute element={<L_angle_3 materials = {materials}/>}/>}/>
+          <Route exact path='/l-angle-4' element={<PrivateRoute element={<L_angle_4 materials = {materials}/>}/>}/>
+          <Route exact path='/l-angle-5' element={<PrivateRoute element={<L_angle_5 materials = {materials}/>}/>}/>
+          <Route exact path='/beam-window-frame' element={<PrivateRoute element={<Beam_window_frame materials = {materials}/>}/>}/>
+          <Route exact path='/beam-window-frame-1' element={<PrivateRoute element={<Beam_window_frame_1 materials = {materials}/>}/>}/>
+          <Route exact path='/stiffner' element={<PrivateRoute element={<Stiffner materials = {materials}/>}/>}/>
+          <Route exact path='/good-knight-tube' element={<PrivateRoute element={<Good_knight_tube materials = {materials}/>}/>}/>
+          <Route exact path='/H-section' element={<PrivateRoute element={<H_section materials = {materials}/>}/>}/>
+          <Route exact path='/Lip-channel' element={<PrivateRoute element={<Lip_channel materials = {materials}/>}/>}/>
+          <Route exact path='/cover_tray' element={<PrivateRoute element={<Cover_tray materials = {materials}/>}/>}/>
+          <Route exact path='/double_center_mullion' element={<PrivateRoute element={<Double_center_mullion materials = {materials}/>}/>}/>
+          <Route exact path='/waist-rail-section' element={<PrivateRoute element={<Waist_rail_section materials = {materials}/>}/>}/>
+          <Route exact path='/z-section' element={<PrivateRoute element={<Z_section materials = {materials}/>}/>}/>
+          <Route exact path='/sole-bar-section' element={<PrivateRoute element={<Sole_bar_section materials = {materials}/>}/>}/>
+          <Route exact path='/sill-pressing' element={<PrivateRoute element={<Sill_pressing materials = {materials}/>}/>}/>
+          <Route exact path='/trapiz-tube' element={<PrivateRoute element={<Trapiz_tube materials = {materials}/>}/>}/>
+          <Route exact path='/guide-rail' element={<PrivateRoute element={<Guide_rail materials = {materials}/>}/>}/>
+          <Route exact path='/a-post' element={<PrivateRoute element={<A_post materials = {materials}/>}/>}/>
+          <Route exact path='/support-tube' element={<PrivateRoute element={<Support_tube materials = {materials}/>}/>}/>
+          <Route exact path='/lower-frame' element={<PrivateRoute element={<Lower_frame materials = {materials}/>}/>}/>
+          <Route exact path='/Lip-cover' element={<PrivateRoute element={<Lip_cover materials = {materials}/>}/>}/>
+          <Route exact path='/bts' element={<PrivateRoute element={<Bts materials = {materials}/>}/>}/>
+          <Route exact path='/m-diamond-tube' element={<PrivateRoute element={<M_diamond_tube materials = {materials}/>}/>}/>
+          <Route exact path='/C-section' element={<PrivateRoute element={<C_section materials = {materials}/>}/>}/>
+          <Route exact path='/cabin-section' element={<PrivateRoute element={<Cabin_section materials = {materials}/>}/>}/>
+          <Route exact path='/bus-body-section' element={<PrivateRoute element={<Bus_body_section materials = {materials}/>}/>}/>
+          <Route exact path='/cabin-door-frame' element={<PrivateRoute element={<Cabin_door_frame materials = {materials}/>}/>}/>
+          <Route exact path='/crimped-rail' element={<PrivateRoute element={<Crimped_rail materials = {materials}/>}/>}/>
+          <Route exact path='/c-post' element={<PrivateRoute element={<C_post materials = {materials}/>}/>}/>
+          <Route exact path='/Skirt-rail' element={<PrivateRoute element={<Skirt_rail materials = {materials}/>}/>}/>
+          <Route exact path='/t_shap_4' element={<PrivateRoute element={<Monitou_lip_tube materials = {materials}/>}/>}/>
+          <Route exact path='/swiss-profile-section' element={<PrivateRoute element={<Swiss_profile_section materials = {materials}/>}/>}/>
+          <Route exact path='/t_shap_5' element={<PrivateRoute element={<Hollow_guide_rail materials = {materials}/>}/>}/>
+          <Route exact path='/backhoe-a-piller' element={<PrivateRoute element={<Backhoe_a_piller materials = {materials}/>}/>}/>
+          <Route exact path='/a-piller' element={<PrivateRoute element={<A_piller materials = {materials}/>}/>}/>
+          <Route exact path='/t_shape_6' element={<PrivateRoute element={<T_shape_6 materials = {materials}/>}/>}/>
+          <Route exact path='/trip-tube' element={<PrivateRoute element={<Trip_tube materials = {materials}/>}/>}/>
+          <Route exact path='/hand-rail-section' element={<PrivateRoute element={<Hand_rail_section materials = {materials}/>}/>}/>
+          <Route exact path='/door-profile' element={<PrivateRoute element={<Door_profile materials = {materials}/>}/>}/>
+          <Route exact path='/front-cross-member' element={<PrivateRoute element={<Front_cross_member materials = {materials}/>}/>}/>
+          <Route exact path='/frame-profile' element={<PrivateRoute element={<Frame_profile materials = {materials}/>}/>}/>
+          <Route exact path='/c-rail' element={<PrivateRoute element={<C_rail materials = {materials}/>}/>}/>
+          <Route exact path='/Formwork' element={<PrivateRoute element={<Formwork materials = {materials}/>}/>}/>
+          <Route exact path='/c-pillar' element={<PrivateRoute element={<C_pillar materials = {materials}/>}/>}/>
+          <Route exact path='/a-post-2' element={<PrivateRoute element={<A_post_2 materials = {materials}/>}/>}/>
+          <Route exact path='/front-st-a-pillar' element={<PrivateRoute element={<Front_st_a_pillar materials = {materials}/>}/>}/>
+          <Route exact path='/d-pillar-rear' element={<PrivateRoute element={<D_pillar_rear materials = {materials}/>}/>}/>
           {(permission === "Admin" || permission === "Super User") && <Route exact path='/enquiry' element={<PrivateRoute element={<Enquiry/>}/>}/>}
-           <Route exact path='/mydrawing' element={<PrivateRoute element={<MyDrawing/>}/>}/>
+          <Route exact path='/mydrawing' element={<PrivateRoute element={<MyDrawing/>}/>}/>
           <Route exact path='*' element={<PrivateRoute element={<PageNotFound/>}/>}/>
         </Routes>}
       </Router>

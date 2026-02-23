@@ -7,14 +7,16 @@ import logo from '../Image/logo.192.jpg';
 import 'jspdf-autotable';
 import '../../App.css'
 import Result from './Result';
+import CommonInput from './Commonnput';
 import Hollow_guide_rail_graph from '../Graph/Hollow-guide-rail';
 import Feasibility from '../Feasibility';
 import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
-function Hollow_guide_rail() {
+function Hollow_guide_rail({materials}) {
   const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [length, setLength] = useState(1);
+  const [density, setDensity] = useState(7850);
   const [thickness, setThickness] = useState(2);
   const [side1, setSide1] = useState(50);
   const [side2, setSide2] = useState(30);
@@ -52,7 +54,7 @@ function Hollow_guide_rail() {
     setData(data); // Receive and store the object
   };
 
-  const lengthChange = (event) => setLength(parseFloat(event.target.value));
+  
   const thicknessChange = (event) =>{
     setThickness(parseFloat(event.target.value));
     setOuterRadius(2*parseFloat(event.target.value));
@@ -72,8 +74,8 @@ function Hollow_guide_rail() {
   const l1 = side1/2 - side2/2 + side5 - outerRadius + thickness - (outerRadius*Math.sin(aa*angle) - l*Math.cos(aa*angle) + (radius - thickness)*Math.sin(aa*angle) + radius)
 
   const submitClick = () => {
-    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
-    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((data.sw)*thickness*density*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*density*0.000001*length).toFixed(3));
     setStripWidth((data.sw).toFixed(3));
     setOutLine((data.ol).toFixed(3))
     setArea((data.acs).toFixed(3));
@@ -217,7 +219,7 @@ function Hollow_guide_rail() {
 
   return (
     <div>
-      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal0" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -226,7 +228,7 @@ function Hollow_guide_rail() {
             </div>
           </div>
         </div>
-        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -293,10 +295,7 @@ function Hollow_guide_rail() {
             <lable className="label" htmlFor="outerRadius">Outer Radius (r) mm</lable>
             <input className="input-field" id="outerRadius" type="number" value={outerRadius} onChange={outerRadiusChange} placeholder="Enter side" />
           </div>
-          <div className="container1">
-            <lable className="label" htmlFor="length">Length (L) m</lable>
-            <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Enter length" />
-          </div>
+          <CommonInput density={density} setDensity={setDensity} mat={materials} length={length} setLength={setLength}/>
           <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>

@@ -8,13 +8,15 @@ import Elliptical_graph from '../Graph/Elliptical';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
+import CommonInput from './Commonnput';
 import Feasibility from '../Feasibility';
 import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
-function Elliptical() {
+function Elliptical({materials}) {
   const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [length, setLength] = useState(1);
+  const [density, setDensity] = useState(7850);
   const [thickness, setThickness] = useState(2);
   const [side1, setside1] = useState(40);
   const [side2, setside2] = useState(20);
@@ -47,9 +49,9 @@ function Elliptical() {
   };
 
   const submitClick = () => {
-    setWeightPerLength((7850*(Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness))))*thickness* 0.000001).toFixed(3));
+    setWeightPerLength((density*(Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness))))*thickness* 0.000001).toFixed(3));
 
-    setTotalWeight((7850*(Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness))))*thickness* 0.000001*length).toFixed(3))
+    setTotalWeight((density*(Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness))))*thickness* 0.000001*length).toFixed(3))
 
     setStripWidth((Math.PI*(3*(side1/2 + side2/2 - thickness) - Math.sqrt((3*side1/2 + side2/2 - 2*thickness)*(side1/2 + 3*side2/2 - 2*thickness)))).toFixed(3));
 
@@ -173,7 +175,7 @@ function Elliptical() {
 
   return (
     <div>
-      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal0" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -182,7 +184,7 @@ function Elliptical() {
             </div>
           </div>
         </div>
-        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -225,10 +227,7 @@ function Elliptical() {
             <lable className="label" htmlFor="width">Thickness (t) mm</lable>
              <input className="input-field" id="width" type="number" value={thickness} onChange={(e) => setThickness(parseFloat(e.target.value))} placeholder="Type something..." />
           </div>
-         <div className="container1">
-            <lable className="label" htmlFor="length">Length (L) m</lable>
-             <input className="input-field" id="length" type="number" value={length} onChange={(e) => setLength(e.target.value)} placeholder="Type something..." />
-          </div>
+         <CommonInput density={density} setDensity={setDensity} mat={materials} length={length} setLength={setLength}/>
           <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>

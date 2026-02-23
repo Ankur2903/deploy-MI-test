@@ -7,17 +7,17 @@ import logo from '../Image/logo.192.jpg';
 import '../../App.css'
 import 'jspdf-autotable';
 import Result from './Result';
+import CommonInput from './Commonnput';
 import Bus_body_section_graph from '../Graph/Bus-body-section';
 import Feasibility from '../Feasibility';
 import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
 
-function Bus_body_section() {
+function Bus_body_section({materials}) {
   const [boxPerimeter, setBoxPerimeter] = useState(0)
   const [length, setLength] = useState(1);
-  const lengthChange = (event) => {
-    setLength(parseFloat(event.target.value));
-  };
+  const [density, setDensity] = useState(7850);
+  
 
   const [thickness, setThickness] = useState(2);
   const thicknessChange = (event) => {
@@ -87,8 +87,8 @@ function Bus_body_section() {
   const l = (side3 - side2 + thickness - thickness*Math.cos(angle))/Math.sin(angle) - 2*outerRadius*Math.tan(angle/2)
 
   const submitClick = () => {
-    setWeightPerLength(((data.sw)*thickness*7850*0.000001).toFixed(3));
-    setTotalWeight(((data.sw)*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((data.sw)*thickness*density*0.000001).toFixed(3));
+    setTotalWeight(((data.sw)*thickness*density*0.000001*length).toFixed(3));
     setStripWidth((data.sw).toFixed(3));
     setOutLine((data.ol).toFixed(3))
     setArea((data.acs).toFixed(3));
@@ -220,7 +220,7 @@ function Bus_body_section() {
 
   return (
     <div>
-      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal0" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -229,7 +229,7 @@ function Bus_body_section() {
             </div>
           </div>
         </div>
-        <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog modal-xl">
             <div className="modal-content">
               <div className="modal-body">
@@ -288,10 +288,7 @@ function Bus_body_section() {
             <lable className="label" htmlFor="outerRadius">Outer Radius (r) mm</lable>
             <input className="input-field" id="outerRadius" type="number" value={outerRadius} onChange={outerRadiusChange} placeholder="Type something..." />
           </div>
-          <div className="container1">
-            <lable className="label" htmlFor="length">Length (L) m</lable>
-            <input className="input-field" id="length" type="number" value={length} onChange={lengthChange} placeholder="Type something..." />
-          </div>
+          <CommonInput density={density} setDensity={setDensity} mat={materials} length={length} setLength={setLength}/>
           <button type="button" className="btn btn mx-2" onClick={submitClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Submit</button>
           <button type="button" className="btn btn mx-2" onClick={resetClick} style={{ color: 'white', backgroundColor: '#1b065c'}}>Reset</button>
         </div>

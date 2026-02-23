@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import DxfParser from "dxf-parser";
 import PredefinedPoints from "./PredefinedPoints";
 import Result from "./shap/Result";
+import CommonInput from "./shap/Commonnput";
 import { COM } from "./AdvanceOutput/COM";
 import { ComputeMomentOfInertia } from "./AdvanceOutput/MomentOfInertia";
 import { ComputePrincipalAxisAngle } from "./AdvanceOutput/PrincipalAxisAngle";
@@ -10,8 +11,9 @@ import LineAtTheta from "./Graph/Shap/LineAtθ";
 import CircleSector from "./Graph/Shap/Circle";
 import Feasibility from "./Feasibility";
 import FeasibilityL1 from "./FeasibilityL1";
+import '../App.css';
 
-export default function FromDxf() {
+export default function FromDxf({materials}) {
   const aa = 180/Math.PI;
   const shapeData = [];
   const dxfData = [];
@@ -41,6 +43,7 @@ export default function FromDxf() {
   const [stripWidth, setStripWidth] = useState(0);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [length, setLength] = useState(1);
+  const [density, setDensity] = useState(7850);
   const [totalWeight, setTotalWeight] = useState(0)
   const [outLine, setOutLine] = useState(0)
   const [area, setArea] = useState(0);
@@ -239,8 +242,8 @@ export default function FromDxf() {
     const Iu = (Paa <= 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
     const Iv = (Paa > 0) ? (Number(Ix) + Number(Iy))/2 - Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy) : (Number(Ix) + Number(Iy))/2 + Math.sqrt(Math.pow((Number(Ix) - Number(Iy))/2, 2) + Ixy*Ixy)
     const {umax, vmax} = ComputePrincipalAxisAngle(predefinedPoints, a, b, mx, ratio, thickness, Paa);
-    setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3));
-    setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((sw)*thickness*density*0.000001).toFixed(3));
+    setTotalWeight(((sw)*thickness*density*0.000001*length).toFixed(3));
     setStripWidth((sw).toFixed(3));
     setOutLine((ol).toFixed(3))
     setArea((acs).toFixed(3));
@@ -259,7 +262,7 @@ export default function FromDxf() {
     setRogv((Math.sqrt(Iv/acs)*10).toFixed(3));
     setMoru((Iu/vmax).toFixed(3));
     setMorv((Iv/umax).toFixed(3));
-  }, [predefinedPoints, length]);
+  }, [predefinedPoints, length, density]);
 
   useEffect(() => {
     const newWidth =  (endX - startX + 40)/ scale;
@@ -356,60 +359,59 @@ export default function FromDxf() {
     }, [scale]);
 
   return (
-    <div style={{ display: "flex", padding: 20, height: "88vh"}}>
-      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content">
-            <div className="modal-body">
-              <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
-            </div>  
+    <div>
+      <div className="modal fade" id="exampleModal0" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <Feasibility type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}/>
+              </div>  
+            </div>
           </div>
         </div>
-      </div>
-      <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-xl">
-          <div className="modal-content">
-            <div className="modal-body">
-              <FeasibilityL1 type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
-            </div>  
+        <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog modal-xl">
+            <div className="modal-content">
+              <div className="modal-body">
+                <FeasibilityL1 type={type} stripWidth={stripWidth} thickness={thickness} boxPerimeter={boxPerimeter}  length={length}/>
+              </div>  
+            </div>
           </div>
         </div>
+    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative'}}>
+      <h1 className="heading">DXF Viewer</h1>
+      <div className="btn-group" role="group" style={{marginLeft: 'auto', transform: 'translateX(-35%)'}}>
+        <button type="button"  className="btn btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style={{marginInline: "10px", color: 'white', backgroundColor: '#1b065c', borderRadius: "5px"}}> Feasibility?</button>
+          <ul className="dropdown-menu">
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal0">Feasibility L0</button></li>
+            <li><button type="button" className="btn btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">Feasibility L1</button></li>
+          </ul>
       </div>
-      {/* Left content */}
-      <div style={{ flex: 1, marginRight: 20 }}>
-        <table className="table align-middle" style={{margin: "0"}}>
-          <tbody>
-            <tr style={{ borderColor: "white", margin: "0", borderWidth: "0" }}>
-              <td><h2 style={{ margin: 0 }}>DXF Viewer</h2></td>
-              <td style={{paddingBottom: "0"}}>Thickness : {thickness}</td>
-              <td style={{paddingBottom: "0"}}>Length</td>
-              <td><input type="file" accept=".dxf" onChange={handleUpload} /></td>
-            </tr>
-            <tr style={{ borderColor: "white", margin: "0" ,borderWidth: "0" }}>
-              <td style={{margin: "0"}}><div className="form-check form-switch m-0">
-                  <input className="form-check-input" type="checkbox" role="switch" id="dimensionSwitch" title="Click to check dimensions" checked={dimensioning} onClick={clickOndimensioning}/>
-                  <label className="form-check-label ms-2" htmlFor="dimensionSwitch"> DIMENSIONING FUNCTION</label></div></td>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input type="number" value={thicknessIncreaseSide === "Inner" ? innerThickness : outerThickness} onChange={handleThicknessChange}  style={{padding: "8px", border: "1px solid #ccc", borderRight: "none", borderRadius: "6px 0 0 6px", outline: "none"}} onFocus={(e) => e.target.select()}/>
-                    {/* Unit Selector */}
-                    <select value={thicknessIncreaseSide} onChange={(e)=>setThicknessIncreaseSide(e.target.value)} style={{width:"75px",padding: "8px", border: "1px solid #ccc", borderRadius: "0 6px 6px 0", outline: "none", background: "#f9f9f9"}}>
-                        <option value="Inner">Inner </option>
-                        <option value="Outer">Outer </option>
-                    </select>
-                  </div>
-              <td><input type="number"className="form-control" value={length} onChange={(e)=>setLength(Number(e.target.value))}/></td>
-              <td><div className="btn-group">
-                  <button className="btn dropdown-toggle" data-bs-toggle="dropdown" style={{ color: "white", backgroundColor: "#1b065c", borderRadius: "5px"}}> Feasibility?</button>
-                  <ul className="dropdown-menu">
-                    <li><button className="btn" data-bs-toggle="modal" data-bs-target="#exampleModal0">Feasibility L0</button></li>
-                    <li><button className="btn" data-bs-toggle="modal" data-bs-target="#exampleModal1">Feasibility L1</button></li>
-                  </ul>
-                </div></td>
-            </tr>
-          </tbody>
-        </table>
-        <div style={{ marginTop: 10, border: "1px solid #999", height: "70%"}}>
-          <svg viewBox={viewBox} style={{ width: '100%', height: '58vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown}  onTouchStart={handleTouchStart}>
+    </div> 
+    <div className = "container">
+      <div className='box'>
+          <div style={{ color: 'white', backgroundColor: '#1b065c', fontWeight: 'bold'}}>Input</div>
+          <div className="container1">
+            <td><input type="file" accept=".dxf" onChange={handleUpload} /></td>
+          </div>
+          <div className="container1">
+            <lable htmlFor="width">Thickness: {thickness} mm</lable>
+              <select value={thicknessIncreaseSide} onChange={(e)=>setThicknessIncreaseSide(e.target.value)} style={{padding: "8px", border: "1px solid #ccc", borderRight: "none", borderRadius: "6px 0 0 6px", outline: "none"}}>
+                  <option value="Inner">Inner Thickness Increas</option>
+                  <option value="Outer">Outer Thickness Increas</option>
+              </select>
+          </div>
+          <div className="container1">
+            <lable className="label" htmlFor="width">Thickness (t) mm</lable>
+            <input type="number" value={thicknessIncreaseSide === "Inner" ? innerThickness : outerThickness} onChange={handleThicknessChange}  style={{padding: "8px", border: "1px solid #ccc", borderRight: "none", borderRadius: "6px 0 0 6px", outline: "none"}} onFocus={(e) => e.target.select()}/>
+          </div>
+          <CommonInput density={density} setDensity={setDensity} mat={materials} length={length} setLength={setLength}/>
+      </div>
+      <div className='box' >
+        <div className="form-check form-switch m-0">
+                  <input className="form-check-input" type="checkbox" role="switch" id="dimensionSwitch" title="Click to check dimensions" checked={dimensioning} onChange={clickOndimensioning}/>
+                  <label className="form-check-label ms-2" htmlFor="dimensionSwitch"> DIMENSIONING FUNCTION</label></div>
+        <svg viewBox={viewBox} style={{ width: '100%', height: '58vh', backgroundColor: '#f9f9f9', border: '1px solid #ccc' }} onMouseDown={handleMouseDown}  onTouchStart={handleTouchStart}>
             <defs>
               <pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse">
                 <path d="M 10 0 L 0 0 0 10" fill="none" stroke="gray" strokeWidth="0.5" />
@@ -431,17 +433,16 @@ export default function FromDxf() {
               <PredefinedPoints points={predefinedPoints} mx={100} thickness={thickness} scale={100}/>
             )}
           </svg>
-          <div style={{display: "flex", justifyContent: "center"}}>
+        <div style={{display: "flex", justifyContent: "center"}}>
             <button title='Zoom in' className='btn btn mx-2 my-2' onClick={zoomIn} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-magnifying-glass-plus"></i></button>
            <button title='Reset zoom' className='btn btn mx-2 my-2' onClick={resetZoom} style={{color: 'white', backgroundColor: '#1b065c'}}><i className="fa-solid fa-maximize"></i> </button>
            <button title='Zoom out' className='btn btn mx-2 my-2' onClick={zoomOut} style={{color: 'white', backgroundColor: '#1b065c'}}> <i className="fa-solid fa-magnifying-glass-minus"></i> </button>
           </div>
-        </div>
       </div>
-      {/* Right panel */}
-      <div style={{ width: "20vw", border: "1px solid #ccc", padding: 10, height: "100%", overflowY: "auto" }}>
-        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
+      <div className='box' >
+          <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
       </div>
-    </div>
+    </div>  
+  </div>
   );
 }

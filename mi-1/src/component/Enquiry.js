@@ -45,7 +45,7 @@ function Inquiry() {
   const [customerSpecReq, setCustomerSpecReq] = useState("");
   const [packingSpc, setPackingSpc] = useState("");
   const [sample, setSample] = useState("");
-   const [unit1, setUnit1] = useState("Ton")
+  const [unit1, setUnit1] = useState("Ton")
   const [unit2, setUnit2] = useState("Ton")
   const [volumeMonthly, setVolumeMonthly] = useState(0)
   const [volumeMonthlyInTon, setVolumeMonthlyInTon] = useState(0);
@@ -74,38 +74,38 @@ function Inquiry() {
 
   const boolToText = (val) => (val ? "Yes" : "No");
 
-    useEffect(() => {
-            const fetchmaterials = async () => {
-              try {
-                const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
-                  method: "POST", // default method, can be omitted
-                  headers: {
-                     'Authorization': `Bearer ${token}`,
-                    "Content-Type": "application/json", // Ensure correct content type
-                  }
-                });
-                const data = await response.json();
-                setMaterials([]);
-                for(let i=0; i<data.length; i++){
-                  if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10083-2" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10147" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10149-1/-2 S420MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10149-2 S355 MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10219 S275 J0H" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10219-1 S355 J2H" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10346" && data[i].materialName === "IS 277") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10346 Dx51D+Z100-N" && data[i].materialName === "IS 277" && data[i].grade === "GP250") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                  else if(material === "EN 10346 Hx260 YD" && (data[i].materialName === "IS 513" || data[i].materialName === "IS 10748")) setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
-                }
-              } catch (err) {
-                console.error("Error fetching materials:", err.message);
-              }
-            };
-            fetchmaterials();
-        }, [location, material] )
+  useEffect(() => {
+    const fetchmaterials = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/product/allmaterials", {
+          method: "POST", // default method, can be omitted
+          headers: {
+          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json", // Ensure correct content type
+          }
+        });
+        const data = await response.json();
+        setMaterials([]);
+        for(let i=0; i<data.length; i++){
+            if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10083-2" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10147" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10149-1/-2 S420MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10149-2 S355 MC" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10219 S275 J0H" && data[i].materialName === "IS 5986") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10219-1 S355 J2H" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10346" && data[i].materialName === "IS 277") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10346 Dx51D+Z100-N" && data[i].materialName === "IS 277" && data[i].grade === "GP250") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+            else if(material === "EN 10346 Hx260 YD" && (data[i].materialName === "IS 513" || data[i].materialName === "IS 10748")) setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
+        }
+    } catch (err) {
+        console.error("Error fetching materials:", err.message);
+        }
+    };
+    fetchmaterials();
+  }, [location, material] )
 
   useEffect(() => {
       if(unit1 === "Num" ) setVolumeMonthlyInTon(((stripWidth*thickness*length*7850*0.000000001)*volumeMonthly).toFixed(3));
@@ -123,10 +123,10 @@ function Inquiry() {
   useEffect(() => {
           const fetchenquiries = async () => {
             try {
-              const response = await fetch("https://deploy-mi-test-api.vercel.app/enquirie/allenquiries", {
+              const response = await fetch("http://localhost:8080/enquirie/allenquiries", {
                 method: "POST", // default method, can be omitted
                 headers: {
-                   'Authorization': `Bearer ${token}`,
+                  'Authorization': `Bearer ${token}`,
                   "Content-Type": "application/json", // Ensure correct content type
                 }
               });
@@ -150,7 +150,7 @@ function Inquiry() {
 
     const deleteenquiries = async () => {
         try {
-          const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/deleteenquirie`, {
+          const response = await fetch(`http://localhost:8080/enquirie/deleteenquirie`, {
             method: "DELETE", // default method, can be omitted
               headers: {
                 'Authorization': `Bearer ${token}`,
@@ -162,7 +162,7 @@ function Inquiry() {
             const {success, message, error} = result;
              if(success){
                 setReload(!reload)
-              handleSuccess(message)
+                handleSuccess(message)
             }else if(error){
                 const details = error?.details[0].message;
                 handleError(details)
@@ -241,9 +241,9 @@ function Inquiry() {
         setTab1(false);
     };
 
-   const handleSaveChanges = async () => {
+    const handleSaveChanges = async () => {
         // validation (unchanged)
-        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
+        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 & !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
             return handleError('Please fill out all fields.');
         }
 
@@ -277,8 +277,7 @@ function Inquiry() {
                 'Content-Type': 'application/json',
             },
             // use the computed values in the payload (not the state variables)
-            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult,        reviewDate: computedReviewDate 
-            }),
+            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult, reviewDate: computedReviewDate}),
             });
 
             const result1 = await response.json();
@@ -304,6 +303,8 @@ function Inquiry() {
             isMounted = false;
         }
     };
+
+
   return (
     <>
       <div  style={{display: "flex", justifyContent: "space-between", alignItems: "center", margin: "5px" }}>
@@ -312,7 +313,7 @@ function Inquiry() {
         {/* Button Group */}
         <div className="btn-group" role="group" style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>        
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" style={{ backgroundColor: "red", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Remove</button>
-          <div className="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -348,7 +349,7 @@ function Inquiry() {
       {enquiries.map((enquirie, index) => (
         <tr key={enquirie._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedEnquiries.includes(enquirie._id)} onClick={() => add(enquirie._id)}/></div>
+            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedEnquiries.includes(enquirie._id)} onChange={() => add(enquirie._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{index + 1}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.customerName}</td>
@@ -358,7 +359,7 @@ function Inquiry() {
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px", backgroundColor:  enquirie.result == 2 ? "green" : enquirie.result == 1 ? "yellow" : "red" }}>{enquirie.result == 2 ? "FEASIBLE" : enquirie.result == 1 ? "FEASIBLE WITH MODIFICATION" : "NOT FEASIBLE"}</td>
           <td style={{textAlign: "center", border: "1px solid black",margin: "0", backgroundColor: "blue"}}>
             <button type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-1${enquirie.iD}`} style={{ backgroundColor: "blue", color: "white", border: "none", borderRadius: "5px" }} onClick={() => handleclick(enquirie._id)}>Click</button>
-            <div className="modal fade-dark" id={`exampleModal-1${enquirie.iD}`} tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade-dark" id={`exampleModal-1${enquirie.iD}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog modal-xl">
                 {tab1 && 
                   <div className="modal-content">
@@ -582,15 +583,15 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>2D</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Available"} onClick={()=>setTwoD("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Not Required"} onClick={()=>setTwoD("Not Required")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Essential to proceed"} onClick={()=>setTwoD("Essential to proceed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Available"} onChange={()=>setTwoD("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Not Required"} onChange={()=>setTwoD("Not Required")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Essential to proceed"} onChange={()=>setTwoD("Essential to proceed")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>3D</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Available"} onClick={()=>setThreeD("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Not Required"} onClick={()=>setThreeD("Not Required")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Essential to proceed"} onClick={()=>setThreeD("Essential to proceed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Available"} onChange={()=>setThreeD("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Not Required"} onChange={()=>setThreeD("Not Required")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Essential to proceed"} onChange={()=>setThreeD("Essential to proceed")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>2. Availability of Equipments</h5></div>
                         <div style={styles.inputRow}>
@@ -601,21 +602,21 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>Machine</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Available"} onClick={()=>setMachine("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "To be developed"} onClick={()=>setMachine("To be developed")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Regret"} onClick={()=>setMachine("Regret")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Available"} onChange={()=>setMachine("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "To be developed"} onChange={()=>setMachine("To be developed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Regret"} onChange={()=>setMachine("Regret")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>Tools</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Available"} onClick={()=>setTools("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "To be developed"} onClick={()=>setTools("To be developed")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Regret"} onClick={()=>setTools("Regret")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Available"} onChange={()=>setTools("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "To be developed"} onChange={()=>setTools("To be developed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Regret"} onChange={()=>setTools("Regret")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>Fixtures/Measuring Equipment</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Available"} onClick={()=>setFixture("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "To be developed"} onClick={()=>setFixture("To be developed")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Regret"} onClick={()=>setFixture("Regret")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Available"} onChange={()=>setFixture("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "To be developed"} onChange={()=>setFixture("To be developed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Regret"} onChange={()=>setFixture("Regret")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>3. Process</h5></div>
                         <div style={styles.inputRow}><h6>3.1. Roll Forming Process</h6></div>
@@ -629,7 +630,7 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={click1} onClick={() => {setClick1(!click1);setClick4(false);setClick5(false);setShortRadiusBendingRadius(0);setLongRadiusBendingRadius(0);}}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={click1} onChange={() => {setClick1(!click1);setClick4(false);setClick5(false);setShortRadiusBendingRadius(0);setLongRadiusBendingRadius(0);}}/>
                                     <label className="form-check-label">Bending</label>
                                 </div>
                             </div>
@@ -638,7 +639,7 @@ function Inquiry() {
                             <div style={styles.inputRow}>
                                 <div style={styles.inputGroup}>
                                     <div className="form-check">
-                                        <input className="form-check-input border border-dark" type="checkbox" checked={click4} onClick={() => {setClick4(!click4);setShortRadiusBendingRadius(0);}}/>
+                                        <input className="form-check-input border border-dark" type="checkbox" checked={click4} onChange={() => {setClick4(!click4);setShortRadiusBendingRadius(0);}}/>
                                         <label className="form-check-label">Short Radius</label>
                                     </div>
                                 </div>
@@ -649,7 +650,7 @@ function Inquiry() {
                             <div style={styles.inputRow}>
                                 <div style={styles.inputGroup}>
                                     <div className="form-check">
-                                        <input className="form-check-input border border-dark" type="checkbox" checked={click5} onClick={() => {setClick5(!click5);setLongRadiusBendingRadius(0);}}/>
+                                        <input className="form-check-input border border-dark" type="checkbox" checked={click5} onChange={() => {setClick5(!click5);setLongRadiusBendingRadius(0);}}/>
                                         <label className="form-check-label">Long Radius</label>
                                     </div>
                                 </div>
@@ -664,7 +665,7 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={click2} onClick={() => {setClick2(!click2);setLaserCuttingLength(0);}}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={click2} onChange={() => {setClick2(!click2);setLaserCuttingLength(0);}}/>
                                     <label className="form-check-label">Laser Cutting</label>
                                 </div>
                             </div>
@@ -678,7 +679,7 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={click3} onClick={() => {setClick3(!click3);setPowderCoatingLength(0);}}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={click3} onChange={() => {setClick3(!click3);setPowderCoatingLength(0);}}/>
                                     <label className="form-check-label">Powder Coating</label>
                                 </div>
                             </div>
@@ -692,13 +693,13 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={holePunching} onClick={() => setHolePunching(!holePunching)}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={holePunching} onChange={() => setHolePunching(!holePunching)}/>
                                     <label className="form-check-label">Hole Punching</label>
                                 </div>
                             </div>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={assemblyProcess} onClick={() => setAssemblyProcess(!assemblyProcess)}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={assemblyProcess} onChange={() => setAssemblyProcess(!assemblyProcess)}/>
                                     <label className="form-check-label">Assembly Process</label>
                                 </div>
                             </div>
@@ -718,7 +719,7 @@ function Inquiry() {
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}>
                                 <div className="form-check">
-                                    <input className="form-check-input border border-dark" type="checkbox" checked={click6} onClick={() => setClick6(!click6)}/>
+                                    <input className="form-check-input border border-dark" type="checkbox" checked={click6} onChange={() => setClick6(!click6)}/>
                                     <h6 className="form-check-label">3.3. Any Outsource Activity Required</h6>
                                 </div>
                             </div>
@@ -788,9 +789,9 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>on Customer Spc. Requirement</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Achivable"} onClick={()=>setCustomerSpecReq("Achivable")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Need detailed study"} onClick={()=>setCustomerSpecReq("Need detailed study")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Not achievable"} onClick={()=>setCustomerSpecReq("Not achievable")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Achivable"} onChange={()=>setCustomerSpecReq("Achivable")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Need detailed study"} onChange={()=>setCustomerSpecReq("Need detailed study")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Not achievable"} onChange={()=>setCustomerSpecReq("Not achievable")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label></label></div>
@@ -800,9 +801,9 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label>on Packing Spc.</label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "MI Standard"} onClick={()=>setPackingSpc("MI Standard")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Customer Specific"} onClick={()=>setPackingSpc("Customer Specific")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Not achievable"} onClick={()=>setPackingSpc("Not achievable")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "MI Standard"} onChange={()=>setPackingSpc("MI Standard")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Customer Specific"} onChange={()=>setPackingSpc("Customer Specific")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Not achievable"} onChange={()=>setPackingSpc("Not achievable")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>6. Any sample required from the customer? </h5></div>
                         <div style={styles.inputRow}>
@@ -813,9 +814,9 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Available"} onClick={()=>setSample("Available")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Not Required"} onClick={()=>setSample("Not Required")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Essential to proceed"} onClick={()=>setSample("Essential to proceed")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Available"} onChange={()=>setSample("Available")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Not Required"} onChange={()=>setSample("Not Required")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={sample === "Essential to proceed"} onChange={()=>setSample("Essential to proceed")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><h5>7. Projected Volume</h5></div>
@@ -858,9 +859,9 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={spare === "Yes"} onClick={()=>setSpare("Yes")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={spare === "Yes"} onChange={()=>setSpare("Yes")}/></div>
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={spare === "No"} onClick={()=>setSpare("No")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={spare === "No"} onChange={()=>setSpare("No")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             {spare === "No" && <>
@@ -876,10 +877,10 @@ function Inquiry() {
                             <div style={styles.inputGroup}><label>Cannot comply</label></div>
                         </div>
                         <div style={styles.inputRow}>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "No"} onClick={()=>setStatuttery("No")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Yes, & Complied"} onClick={()=>setStatuttery("Yes, & Complied")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Yes, Will be complied"} onClick={()=>setStatuttery("Yes, Will be complied")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Cannot comply"} onClick={()=>setStatuttery("Cannot comply")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "No"} onChange={()=>setStatuttery("No")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Yes, & Complied"} onChange={()=>setStatuttery("Yes, & Complied")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Yes, Will be complied"} onChange={()=>setStatuttery("Yes, Will be complied")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Cannot comply"} onChange={()=>setStatuttery("Cannot comply")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>10. Any Un stated Requirements?</h5></div>
                         <div style={styles.inputRow}>
@@ -892,11 +893,11 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={unstared === "Yes"} onClick={()=>setUnstared("Yes")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={unstared === "Yes"} onChange={()=>setUnstared("Yes")}/></div>
                             {unstared === "Yes" && <div style={styles.inputGroup}><input type="text" value={unstaredval} onChange={(e) => setUnstaredval(e.target.value)} placeholder="Type Un stated required..." style={styles.select}/></div>}
                             {unstared !== "Yes" && <div style={styles.inputGroup}><label></label></div>}
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={unstared === "No"} onClick={()=>setUnstared("No")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={unstared === "No"} onChange={()=>setUnstared("No")}/></div>
                         </div><br/>
                         <div style={styles.inputRow}><h5>11. Business Risk  </h5></div>
                         <div style={styles.inputRow}>
@@ -907,9 +908,9 @@ function Inquiry() {
                         </div>
                         <div style={styles.inputRow}>
                             <div style={styles.inputGroup}><label></label></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "Low"} onClick={()=>setRisk("Low")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "Med"} onClick={()=>setRisk("Med")}/></div>
-                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "High"} onClick={()=>setRisk("High")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "Low"} onChange={()=>setRisk("Low")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "Med"} onChange={()=>setRisk("Med")}/></div>
+                            <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={risk === "High"} onChange={()=>setRisk("High")}/></div>
                         </div>
                         <div style={styles.inputRow}>
                             {(risk === "Med" || risk === "High") && <>

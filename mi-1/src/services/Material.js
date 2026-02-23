@@ -1,9 +1,9 @@
 import { handleError, handleSuccess } from "../ulits";
-const BASE_URL = "https://deploy-mi-test-api.vercel.app/product";
+const BASE_URL = "http://localhost:8080/product";
 const token = localStorage.getItem('token')
 
 // GET all materials
-export const fetchmaterials = async () => {
+export const fetchMaterials = async () => {
     try {
     const response = await fetch(`${BASE_URL}/allmaterials`, {
         method: "POST", // default method, can be omitted
@@ -22,8 +22,7 @@ export const fetchmaterials = async () => {
 // Add new material
 export const addMaterial = async ({ materialName, grade, material, ysMin, ysMax, utsMin, utsMax, elMin, elMax, density, c, mn, s, p , si, others, cE, zincCoating, zincCoatingMin, zincCoatingMax}) => {
     try {
-        const url = `${BASE_URL}/addmaterial`;
-        const response = await fetch(url, {
+        const response = await fetch(`${BASE_URL}/addmaterial`, {
           method: "POST",
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -78,7 +77,7 @@ export const editMaterial = async ({ selectedMaterials, newMaterialName, newGrad
 }
 
 // Delete material
-export const deleteMaterial = async (selectedMaterials) => {
+export const deleteMaterial = async ({selectedMaterials}) => {
     try {
       const response = await fetch(`${BASE_URL}/deletematerial`, {
         method: "DELETE", // default method, can be omitted

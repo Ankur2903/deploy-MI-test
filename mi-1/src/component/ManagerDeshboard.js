@@ -11,7 +11,7 @@ const ManagerDashboard = () => {
   useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const response = await fetch("https://deploy-mi-test-api.vercel.app/data", {
+          const response = await fetch("http://localhost:8080/data", {
             method: "GET", // default method, can be omitted
             headers: {
               'Authorization': `Bearer ${token}`,
@@ -27,7 +27,7 @@ const ManagerDashboard = () => {
   
       fetchUsers();
     }, [location]);  // Runs only once on component mount
-  
+
   const addUser = (id) => {
     if(selectedUsers.includes(id)){
       setSelectedUsers((prevSelected) => prevSelected.filter((userId) => userId !== id));
@@ -38,24 +38,24 @@ const ManagerDashboard = () => {
 
   const updateUserStatus = async (selectedUsers ,status) => {
     try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status`, {
+      const response = await fetch(`http://localhost:8080/update-status`, {
         method: "PUT", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-        body: JSON.stringify({ status: status, selectedUsers : selectedUsers }) // Send status in the request body
+          body: JSON.stringify({ status: status, selectedUsers : selectedUsers }) // Send status in the request body
         });
       // Update the user list after successful update
-     for(let i=0;i<selectedUsers.length;i++){
+      for(let i=0;i<selectedUsers.length;i++){
         const id = selectedUsers[i];
         setUsers((prevUsers) =>
         prevUsers.map((user) =>
           user._id === id ? { ...user, status: status} : user
         ));
-     }
+      }
       setSelectedUsers([]);
-      const message = await response.json();
+      // const message = await response.json();
     } catch (error) {
       alert("Failed to update status");
     }
@@ -63,22 +63,22 @@ const ManagerDashboard = () => {
 
   const changeType = async (selectedUsers, type) => {
     try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type`, {
+      const response = await fetch(`http://localhost:8080/change-type`, {
         method: "PUT", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-        body: JSON.stringify({type: type, selectedUsers: selectedUsers })
+          body: JSON.stringify({type: type, selectedUsers: selectedUsers })
         });
-      for(let i=0;i<selectedUsers.length;i++){
+        for(let i=0;i<selectedUsers.length;i++){
           const id = selectedUsers[i];
           setUsers((prevUsers) =>
           prevUsers.map((user) =>
-            user._id === id ? { ...user, manager: !user.manager } : user
+            user._id === id ? { ...user, manager: type } : user
           ));
-      }
-      setSelectedUsers([]);
+        }
+        setSelectedUsers([]);
       const message = await response.json();
     } catch (error) {
       alert("Failed to change user type");
@@ -87,25 +87,24 @@ const ManagerDashboard = () => {
 
   const deleteUser = async (selectedUsers) => {
     try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/delete`, {
+      const response = await fetch(`http://localhost:8080/delete`, {
         method: "DELETE", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json", // Ensure correct content type
           },
-        body: JSON.stringify({ selectedUsers: selectedUsers })
+          body: JSON.stringify({ selectedUsers: selectedUsers })
         });
         for(let i=0;i<selectedUsers.length;i++){
           const id = selectedUsers[i];
           setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
         }
-      setSelectedUsers([]);
-      const message = await response.json();
+        setSelectedUsers([]);
+      // const message = await response.json();
     } catch (error) {
       alert("Failed to update status");
     }
   };
-
 
   return (
     <div>
@@ -115,7 +114,7 @@ const ManagerDashboard = () => {
         {/* Button Group */}
         <div className="btn-group" role="group" style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-1" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Change User Type</button>
-          <div className="modal fade-dark" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -135,7 +134,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-2" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Change Status</button>
-          <div className="modal fade-dark" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -154,7 +153,7 @@ const ManagerDashboard = () => {
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" style={{ backgroundColor: "red", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Remove</button>
-          <div className="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -193,7 +192,7 @@ const ManagerDashboard = () => {
       {users.map((user) => (
         <tr key={user._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked={selectedUsers.includes(user._id)} onClick={() => addUser(user._id)}/></div>
+            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked={selectedUsers.includes(user._id)} onChange={() => addUser(user._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.name}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{user.email}</td>

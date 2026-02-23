@@ -171,27 +171,27 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             <h4 style={styles.subHeading}></h4>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
-                    <label>Customer Name</label>
+                    <label>Customer Name*</label>
                     <input type="text" value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Type Customer Name..." style={styles.select}/>
                 </div>
                 <div style={styles.inputGroup}>
-                    <label>Customer Ref. No.</label>
+                    <label>Customer Ref. No.*</label>
                     <input type="text" value={customerRefNo} onChange={(e) => setCustomerRefNo(e.target.value)} placeholder="Type Customer Ref. No..." style={styles.select}/>
                 </div>
             </div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
-                    <label>Key Account Manager Name</label>
+                    <label>Key Account Manager Name*</label>
                     <input type="text" value={kAMName} onChange={(e) => setKAMName(e.target.value)} placeholder="Type Key Account Manager Name..." style={styles.select}/>
                 </div>
             </div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
-                    <label>Profile Name</label>
+                    <label>Profile Name*</label>
                     <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Type Profile Name..." style={styles.select}/>
                 </div>
                 <div style={styles.inputGroup}>
-                    <label>Profile No.</label>
+                    <label>Profile No.*</label>
                     <input type="text" value={profileNo} onChange={(e) => setProfileNo(e.target.value)} placeholder="Type Profile No..." style={styles.select}/>
                 </div>
             </div><br/>
@@ -203,13 +203,13 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label>Essential to proceed</label></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>2D</label></div>
+                <div style={styles.inputGroup}><label>2D*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Available"} onChange={()=>setTwoD("Available")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Not Required"} onChange={()=>setTwoD("Not Required")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={twoD === "Essential to proceed"} onChange={()=>setTwoD("Essential to proceed")}/></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>3D</label></div>
+                <div style={styles.inputGroup}><label>3D*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Available"} onChange={()=>setThreeD("Available")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Not Required"} onChange={()=>setThreeD("Not Required")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={threeD === "Essential to proceed"} onChange={()=>setThreeD("Essential to proceed")}/></div>
@@ -222,19 +222,19 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label>Regret</label></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>Machine</label></div>
+                <div style={styles.inputGroup}><label>Machine*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Available"} onChange={()=>setMachine("Available")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "To be developed"} onChange={()=>setMachine("To be developed")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={machine === "Regret"} onChange={()=>setMachine("Regret")}/></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>Tools</label></div>
+                <div style={styles.inputGroup}><label>Tools*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Available"} onChange={()=>setTools("Available")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "To be developed"} onChange={()=>setTools("To be developed")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={tools === "Regret"} onChange={()=>setTools("Regret")}/></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>Fixtures/Measuring Equipment</label></div>
+                <div style={styles.inputGroup}><label>Fixtures/Measuring Equipment*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Available"} onChange={()=>setFixture("Available")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "To be developed"} onChange={()=>setFixture("To be developed")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={fixture === "Regret"} onChange={()=>setFixture("Regret")}/></div>
@@ -359,7 +359,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label>Indian Equivalent</label></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><h6>4.1 Material</h6></div>
+                <div style={styles.inputGroup}><h6>4.1 Material*</h6></div>
                 <div style={styles.inputGroup}>
                     <select className="form-select" aria-label="Default select example" value={material} onChange={(e) => setMaterial(e.target.value)}>
                         <option value="">Select Material</option>
@@ -390,7 +390,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 </div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><h6>4.2 Tolerance</h6></div>
+                <div style={styles.inputGroup}><h6>4.2 Tolerance*</h6></div>
                 <div style={styles.inputGroup}>
                     <select value={tolerance} onChange={(e) =>setTolerance(e.target.value)} className="form-select" aria-label="Default select example">
                         <option value="">Select Tolerance</option>
@@ -410,7 +410,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label>Not achievable</label></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>on Customer Spc. Requirement</label></div>
+                <div style={styles.inputGroup}><label>on Customer Spc. Requirement*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Achievable"} onChange={()=>setCustomerSpecReq("Achievable")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Need detailed study"} onChange={()=>setCustomerSpecReq("Need detailed study")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={customerSpecReq === "Not achievable"} onChange={()=>setCustomerSpecReq("Not achievable")}/></div>
@@ -422,12 +422,12 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label>Not achievable</label></div>
             </div>
             <div style={styles.inputRow}>
-                <div style={styles.inputGroup}><label>on Packing Spc.</label></div>
+                <div style={styles.inputGroup}><label>on Packing Spc.*</label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "MI Standard"} onChange={()=>setPackingSpc("MI Standard")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Customer Specific"} onChange={()=>setPackingSpc("Customer Specific")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={packingSpc === "Not achievable"} onChange={()=>setPackingSpc("Not achievable")}/></div>
             </div><br/>
-            <div style={styles.inputRow}><h5>6. Any sample required from the customer? </h5></div>
+            <div style={styles.inputRow}><h5>6. Any sample required from the customer?* </h5></div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label></label></div>
                 <div style={styles.inputGroup}><label>Available</label></div>
@@ -442,8 +442,8 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
             </div><br/>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><h5>7. Projected Volume</h5></div>
-                <div style={styles.inputGroup}><label>Monthly</label></div>
-                <div style={styles.inputGroup}><label>Yearly</label></div>
+                <div style={styles.inputGroup}><label>Monthly*</label></div>
+                <div style={styles.inputGroup}><label>Yearly*</label></div>
             </div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label></label></div>
@@ -472,7 +472,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                     <text>{volumeYearlyInTon} Ton</text>
                 </div>
             </div><br/>
-            <div style={styles.inputRow}><h5>8. Considering Project Volume, is spare capacity available?</h5></div>
+            <div style={styles.inputRow}><h5>8. Considering Project Volume, is spare capacity available?*</h5></div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label></label></div>
                 <div style={styles.inputGroup}><label>Yes</label></div>
@@ -491,7 +491,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                     <input type="name" value={reason} onChange={(e) => setReason(e.target.value)} placeholder="Type Reason..." style={styles.select}/></div>   
                 </>}
             </div><br/>
-            <div style={styles.inputRow}><h5>9. Statutory and Regulatory Requirement?</h5></div>
+            <div style={styles.inputRow}><h5>9. Statutory and Regulatory Requirement?*</h5></div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label>No</label></div>
                 <div style={styles.inputGroup}><label>Yes, & Complied</label></div>
@@ -504,7 +504,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Yes, Will be complied"} onChange={()=>setStatuttery("Yes, Will be complied")}/></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={statuttery === "Cannot comply"} onChange={()=>setStatuttery("Cannot comply")}/></div>
             </div><br/>
-            <div style={styles.inputRow}><h5>10. Any Un stated Requirements?</h5></div>
+            <div style={styles.inputRow}><h5>10. Any Un stated Requirements?*</h5></div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label></label></div>
                 <div style={styles.inputGroup}><label>Yes</label></div>
@@ -521,7 +521,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                 <div style={styles.inputGroup}><label></label></div>
                 <div style={styles.inputGroup}><input className="form-check-input border-dark" type="checkbox" checked={unstared === "No"} onChange={()=>setUnstared("No")}/></div>
             </div><br/>
-            <div style={styles.inputRow}><h5>11. Business Risk  </h5></div>
+            <div style={styles.inputRow}><h5>11. Business Risk*  </h5></div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}><label></label></div>
                 <div style={styles.inputGroup}><label>Low</label></div>

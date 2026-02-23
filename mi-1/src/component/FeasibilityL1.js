@@ -65,6 +65,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   useEffect(() => {
           const fetchmaterials = async () => {
             try {
+              const response = await fetch("http://localhost:8080/product/allmaterials", {
                 method: "POST", // default method, can be omitted
                 headers: {
                    'Authorization': `Bearer ${token}`,
@@ -74,7 +75,6 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
               const data = await response.json();
               setMaterials([]);
               for(let i=0; i<data.length; i++){
-                console.log(material, data[i].materialName, data[i].grade);
                 if(material === "NA") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
                 if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
                 else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
@@ -122,6 +122,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
         if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
 
         try {
+          const url = "http://localhost:8080/enquirie/addenquirie";
           const response = await fetch(url, {
             method: "POST",
             headers: {

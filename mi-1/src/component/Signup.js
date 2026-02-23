@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
 import Image from './Image/background.png'
-import ReCAPTCHA from "react-google-recaptcha"
+import {UserSign} from '../services/Auth'
 
 function Signup() {
   const [showPopup, setShowPopup] = useState(false);
   const closePopup = () => {
     setShowPopup(false);
-    navigate('/')
   };
   const [signupInfo, setSignupInfo] = useState({
     name: '',
@@ -21,59 +20,30 @@ function Signup() {
     designation: '',
   })
   const [confirmPassword, setConfirmPassword] = useState("");
+  // const height = document.documentElement.scrollHeight;
 
-  const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
     
     const copySignupInfo = {...signupInfo};
-    copySignupInfo[name] = value;
+   copySignupInfo[name] = value;
     setSignupInfo(copySignupInfo)
   };
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("working")
     const {name, email, phoneNo, password, company, department, designation} = signupInfo;
-   
-    console.log(signupInfo)
-    if(!name || !email || !password || !company){
-      return handleError('Name, Email, Company or, password are required')
-    }
-    if(password !== confirmPassword){
-      return handleError('password and confirm Password are not equal')
-    }
-    try {
-      const url = "https://deploy-mi-test-api.vercel.app/auth/signup";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(signupInfo)
-      })
-      const result = await response.json();
-      const {success, message, error} = result;
-      if(success){
-         setShowPopup(true);
-      }else if(error){
-          const details = error?.details[0].message;
-          handleError(details)
-      }else if(!success){
-        handleError(message)
-      }
-      console.log(result)
-    }
-    catch(err) {
-      handleError(err);
-    }
+    if(!name || !email || !password || !company) return handleError('Name, Email, Company or, password are required')
+    if(password !== confirmPassword) return handleError('password and confirm Password are not equil');
+    const result = await UserSign({signupInfo});
+    if(result) setShowPopup(true);
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center">
-     <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "1100px"}}/>
+       <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "1100px"}}/>
       <div className="card shadow-3d p-4" style={{position: 'absolute', top: '20vh', width: '100%', maxWidth: '400px',  backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)',}}>
-        <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}></text></h2>
+      <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}>(1.1)</text></h2>
         <h2 className="text-center mb-4">Signup</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -178,16 +148,16 @@ function Signup() {
           </fieldset>
         </form>
         <ToastContainer/>
-                  {showPopup && (
+        {showPopup && (
           <div style={ {position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', textAlign: 'center'}}>
-              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent.Approval process may take up to 24 hours.</p>
+              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent. Please note that the approval process may take up to 24 hours.</p>
               <button onClick={closePopup} style={{marginTop: '10px', padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', cursor: 'pointer'}}>Close</button>
             </div>
           </div>
         )}
         <p className="text-center mt-3">
-          Already have an account?(version-1) <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </p>
       </div>
     </div>
@@ -195,5 +165,3 @@ function Signup() {
 }
 
 export default Signup;
-
-

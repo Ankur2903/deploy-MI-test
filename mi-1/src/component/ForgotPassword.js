@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
+import { UserForgotPassword } from '../services/Auth'
 
 function ForgotPassword() {
     const [email,setEmail] = useState("");
@@ -9,30 +10,8 @@ function ForgotPassword() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(!email)  return handleError("Email is required");
-        console.log(email)
-        try{
-          const url = "https://deploy-mi-test-api.vercel.app/forgot-password";
-          const response = await fetch(url, {
-            method: "POST",
-            headers: {
-              'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({email})
-          }
-        )
-        const result = await response.json();
-        const {success, message} = result;
-        console.log(result)
-        if(success){
-          handleSuccess(message);
-        }
-        else{
-          handleError(message);
-        }
-        }
-        catch(err) {
-          handleError(err);
-        }
+        const result = await UserForgotPassword()
+        
     }
 
   return (

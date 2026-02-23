@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
+import { addDrawing, editDrawing } from '../services/Drawing'
 
 function SaveDrawing({ shapes, thickness, id, oldprofileName, oldprofileDescription, oldprofileReferenceNo, image }) {
   const [profileName, setProfileName] = useState("");
   const [profileDescription, setProfileDescription] = useState("");
   const [profileReferenceNo, setProfileReferenceNo] = useState("");
-  const token = localStorage.getItem('token')
 
   useEffect(() => {
     setProfileName(oldprofileName || "");
@@ -14,60 +14,14 @@ function SaveDrawing({ shapes, thickness, id, oldprofileName, oldprofileDescript
   }, [oldprofileName, oldprofileDescription, oldprofileReferenceNo]);
 
   const handleClickSave = async() => {
-        if(!profileName) return handleError('Please fill out profile name.')
-        try {
-          const url = "https://deploy-mi-test-api.vercel.app/drawing/adddrawing";
-          const response = await fetch(url, {
-            method: "POST",
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({ profileName, profileDescription, profileReferenceNo, shapes, thickness, image })
-          });
-          const result1 = await response.json();
-          const { success, message, error} = result1;
-          if(success){
-            handleSuccess(message)
-          }else if(error){
-              const details = error?.details[0].message;
-              handleError(details)
-          }else if(!success){
-            handleError(message)
-          }
-        }
-        catch(err) {
-          console.log(err)
-          handleError(err);
-        }
-      };
+    if(!profileName) return handleError('Please fill out profile name.')
+    const result = await addDrawing({profileName, profileDescription, profileReferenceNo, shapes, thickness, image})
+  };
 
-      const handleSaveChanges = async () => {
-        if(!profileName) return handleError('Please fill out profile name.')
-        try {
-            const response = await fetch(`https://deploy-mi-test-api.vercel.app/drawing/editdrawing`, {
-            method: "PUT",
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({id, profileName, profileDescription, profileReferenceNo, shapes, thickness, image}),
-            });
-
-            const result1 = await response.json();
-            const { success, message, error } = result1;
-            if (success) {
-              handleSuccess(message);
-            } else if (error) {
-                const details = error?.details?.[0]?.message || message || "Unknown error";
-                handleError(details);
-            } else {
-                handleError(message || "Failed");
-            }
-        } catch (err) {
-            alert(err.message || "Failed to update drawing.");
-        }
-    };
+  const handleSaveChanges = async () => {
+    if(!profileName) return handleError('Please fill out profile name.')
+    const result = await editDrawing({id, profileName, profileDescription, profileReferenceNo, shapes, thickness, image});
+  };
 
   return (
       <>

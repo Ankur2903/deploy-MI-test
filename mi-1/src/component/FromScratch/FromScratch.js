@@ -25,6 +25,7 @@ import { useLocation } from "react-router-dom";
 import { ComputePrincipalAxisAngle } from '../AdvanceOutput/PrincipalAxisAngle';
 import { saveAs } from "file-saver";
 import { createDXF } from '../Download/createDXF';
+import {fetchDrawings} from '../../services/Drawing'
 
 const FromScratch = ({materials}) => {
   const { state } = useLocation();
@@ -81,24 +82,15 @@ const FromScratch = ({materials}) => {
   const [morv, setMorv] = useState(0);
   let x;
   let y;
-  const token = localStorage.getItem('token')
   const [oldprofileName, setOldProfileName] = useState('');
   const [oldprofileDescription, setOldProfileDescription] = useState('');
   const [oldprofileReferenceNo, setOldProfileReferenceNo] = useState('');
   const [gridVisible, setGridVisible] = useState(true);
   
   useEffect(() => {
-      const fetchmaterials = async () => {
-        try {
-          const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
-            method: "POST", // default method, can be omitted
-            headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-            }
-          });
-          const data = await response.json();
-          const points = [];
+      const loadMaterials = async () => {
+        const data = await fetchDrawings()
+        const points = [];
           for(let i=0; i<data.length; i++){
             if(data[i]._id === state.drawingId){
               setShapes(data[i].shapes);
@@ -131,11 +123,8 @@ const FromScratch = ({materials}) => {
           }
         }
         setPredefinedPoints(points);
-      } catch (err) {
-          console.error("Error fetching drawings:", err.message);
-          }
       };
-      fetchmaterials();
+      loadMaterials();
     }, [] )
 
   const addShape = () => {

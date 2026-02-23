@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { handleError } from '../ulits';
 import { useLocation } from "react-router-dom";
-import { fetchmaterials, addMaterial, editMaterial, deleteMaterial } from "../services/Material";
+import { fetchMaterials, addMaterial, editMaterial, deleteMaterial } from "../services/Material";
 
 function Material() {
     const location = useLocation();
@@ -50,7 +50,7 @@ function Material() {
     const [reload, setReload] = useState(true);
 
     useEffect(() => {
-        fetchmaterials().then(data => setMaterials(data));
+        fetchMaterials().then(data => setMaterials(data));
     }, [location, reload] )
 
     const add = (id) => {
@@ -94,7 +94,7 @@ function Material() {
     };
 
     const handleClickDeleteMaterails = async (selectedMaterials) => {
-        const result = await deleteMaterial(selectedMaterials);
+        const result = await deleteMaterial({selectedMaterials});
         if(result){
           setReload(!reload)
           setSelectedMaterials([]);

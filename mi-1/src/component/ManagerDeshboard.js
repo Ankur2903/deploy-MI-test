@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { fetchUsers, deleteUser, updateUserStatus, changeType } from '../services/User';
 import '../App.css'
 
 const ManagerDashboard = () => {
@@ -9,23 +10,11 @@ const ManagerDashboard = () => {
   const token = localStorage.getItem('token')
 
   useEffect(() => {
-      const fetchUsers = async () => {
-        try {
-          const response = await fetch("https://deploy-mi-test-api.vercel.app/data", {
-            method: "GET", // default method, can be omitted
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              "Content-Type": "application/json", // Ensure correct content type
-            },
-          });
-          const data = await response.json();
-          setUsers(data);
-        } catch (err) {
-          console.error("Error fetching users:", err.message);
-        }
+      const loadUsers = async () => {
+        const data = await fetchUsers();
+        setUsers(data);
       };
-  
-      fetchUsers();
+      loadUsers();
     }, [location]);  // Runs only once on component mount
 
   const addUser = (id) => {
@@ -36,74 +25,37 @@ const ManagerDashboard = () => {
     }
   };
 
-  const updateUserStatus = async (selectedUsers ,status) => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/update-status`, {
-        method: "PUT", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ status: status, selectedUsers : selectedUsers }) // Send status in the request body
-        });
-      // Update the user list after successful update
-      for(let i=0;i<selectedUsers.length;i++){
+  const handleClickChangeStatus = async (selectedUsers ,status) => {
+    const result = await updateUserStatus({selectedUsers ,status});
+    for(let i=0;i<selectedUsers.length;i++){
+      const id = selectedUsers[i];
+      setUsers((prevUsers) =>
+      prevUsers.map((user) =>
+        user._id === id ? { ...user, status: status} : user
+      ));
+    }
+    setSelectedUsers([]);
+  };
+
+  const handleClickChangeUserType = async (selectedUsers, type) => {
+    const result = await changeType({selectedUsers, type});
+    for(let i=0;i<selectedUsers.length;i++){
         const id = selectedUsers[i];
         setUsers((prevUsers) =>
         prevUsers.map((user) =>
-          user._id === id ? { ...user, status: status} : user
+          user._id === id ? { ...user, manager: type } : user
         ));
       }
       setSelectedUsers([]);
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
-    }
-  };
-
-  const changeType = async (selectedUsers, type) => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/change-type`, {
-        method: "PUT", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({type: type, selectedUsers: selectedUsers })
-        });
-        for(let i=0;i<selectedUsers.length;i++){
-          const id = selectedUsers[i];
-          setUsers((prevUsers) =>
-          prevUsers.map((user) =>
-            user._id === id ? { ...user, manager: type } : user
-          ));
-        }
-        setSelectedUsers([]);
-      const message = await response.json();
-    } catch (error) {
-      alert("Failed to change user type");
-    }
   }
 
-  const deleteUser = async (selectedUsers) => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/delete`, {
-        method: "DELETE", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ selectedUsers: selectedUsers })
-        });
-        for(let i=0;i<selectedUsers.length;i++){
-          const id = selectedUsers[i];
-          setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
-        }
-        setSelectedUsers([]);
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
+  const handleClickRemove = async (selectedUsers) => {
+    const result = await deleteUser({selectedUsers});
+    for(let i=0;i<selectedUsers.length;i++){
+      const id = selectedUsers[i];
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== id));
     }
+    setSelectedUsers([]);
   };
 
   return (
@@ -126,9 +78,9 @@ const ManagerDashboard = () => {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "User")}>User</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "Super User")}>Super User</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => changeType(selectedUsers, "Admin")}>Admin</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => handleClickChangeUserType(selectedUsers, "User")}>User</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => handleClickChangeUserType(selectedUsers, "Super User")}>Super User</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => handleClickChangeUserType(selectedUsers, "Admin")}>Admin</button>
                 </div>
               </div>
             </div>
@@ -146,8 +98,8 @@ const ManagerDashboard = () => {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"approved")}>Approve</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => updateUserStatus(selectedUsers,"rejected")}>Reject</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => handleClickChangeStatus(selectedUsers,"approved")}>Approve</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal"  onClick={() => handleClickChangeStatus(selectedUsers,"rejected")}>Reject</button>
                 </div>
               </div>
             </div>
@@ -165,7 +117,7 @@ const ManagerDashboard = () => {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteUser(selectedUsers)}>Remove</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleClickRemove(selectedUsers)}>Remove</button>
                 </div>
               </div>
             </div>

@@ -1,58 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { handleError, handleSuccess } from '../ulits';
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import '../App.css';
 import { Link } from 'react-router-dom';
+import {fetchDrawings, deleteDrawing} from '../services/Drawing'
 
 export default function SavedImagePage() {
   const location = useLocation();
   const [drawings, setDrawings] = useState([]);
-  const token = localStorage.getItem('token')
   const [reload, setReload] = useState(0);
 
   useEffect(() => {
-    const fetchdrawings = async () => {
-      try {
-        const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
-          method: "POST", // default method, can be omitted
-          headers: {
-          'Authorization': `Bearer ${token}`,
-          "Content-Type": "application/json", // Ensure correct content type
-          }
-        });
-        const data = await response.json();
-        setDrawings(data);
-    } catch (err) {
-        console.error("Error fetching drawings:", err.message);
-        }
-    };
-    fetchdrawings();
+    const loadDrawings = async () => {
+      const data = await fetchDrawings()
+      setDrawings(data);
+    }
+    loadDrawings();
   }, [location, reload] )
 
   const deletedrawing = async (id) => {
-    try {
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/drawing/deletedrawing`, {
-        method: "DELETE", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          },
-          body: JSON.stringify({ id: id })
-        });
-        const result = await response.json();
-        const {success, message, error} = result;
-        if(success){
-          setReload(!reload)
-          handleSuccess(message)
-        }else if(error){
-          const details = error?.details[0].message;
-          handleError(details)
-        }else if(!success){
-          handleError(message)
-        }
-    } catch (error) {
-      alert("Failed to delete drawing:", error);
-    }
+    const result = await deleteDrawing({id});
+    if(result) setReload(!reload);
   };
 
   return (
@@ -88,7 +55,7 @@ export default function SavedImagePage() {
         {false ? (
           <div className="empty-box">No saved images found.</div>
         ) : (
-          <div className={`row row-cols-1 row-cols-md-${Math.min(drawings.length, 4)} g-4`}>
+          <div className={`row row-cols-1 row-cols-md-${Math.min(drawings.length + 1, 4)} g-4`}>
             {drawings.map((drawing) => (
               <div className="col">
                 <figure key={drawing.id} className="card">

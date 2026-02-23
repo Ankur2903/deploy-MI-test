@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
 import { useLocation } from "react-router-dom";
 import { downloadExcel } from './Download/ExcelGenerator';
+import { fetchMaterials } from '../services/Material';
+import { addEnquiries } from '../services/Enquiries';
 
 function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const location = useLocation();
@@ -52,7 +54,6 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const [result, setResult] = useState(-1)
   const [unit1, setUnit1] = useState("Ton")
   const [unit2, setUnit2] = useState("Ton")
-  const token = localStorage.getItem('token')
 
   const now = new Date();
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
@@ -63,16 +64,9 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const reviewDate = d + "-" + m + "-" + y;
   
   useEffect(() => {
-          const fetchmaterials = async () => {
+          const loadMaterials = async () => {
             try {
-              const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
-                method: "POST", // default method, can be omitted
-                headers: {
-                   'Authorization': `Bearer ${token}`,
-                  "Content-Type": "application/json", // Ensure correct content type
-                }
-              });
-              const data = await response.json();
+              const data = await fetchMaterials();
               setMaterials([]);
               for(let i=0; i<data.length; i++){
                 if(material === "NA") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
@@ -93,7 +87,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
               console.error("Error fetching materials:", err.message);
             }
           };
-          fetchmaterials();
+          loadMaterials();
       }, [location, material] )
   
   useEffect(() => {
@@ -120,33 +114,10 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
 
   const handleClickSave = async() => {
         if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+        
+        const iD = await addEnquiries({customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
 
-        try {
-          const url = "https://deploy-mi-test-api.vercel.app/enquirie/addenquirie";
-          const response = await fetch(url, {
-            method: "POST",
-            headers: {
-              'Authorization': `Bearer ${token}`,
-              'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({ customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
-          });
-          const result1 = await response.json();
-          const {iD, success, message, error} = result1;
-          setEnquirieNo(iD + 1);
-          if(success){
-            handleSuccess(message)
-          }else if(error){
-              const details = error?.details[0].message;
-              handleError(details)
-          }else if(!success){
-            handleError(message)
-          }
-        }
-        catch(err) {
-          console.log(err)
-          handleError(err);
-        }
+        setEnquirieNo(iD + 1);
       };
   
   const resetchange = () =>{

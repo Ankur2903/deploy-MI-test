@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { handleError, handleSuccess } from '../ulits';
 import { downloadExcel } from "./Download/ExcelGenerator";
+import { fetchMaterials } from '../services/Material';
+import { fetchEnquiries, editEnquiries, deleteEnquiries } from '../services/Enquiries';
 
 function Inquiry() {
   const [enquirieNo, setEnquirieNo] = useState("");
@@ -61,8 +63,7 @@ function Inquiry() {
   const [reload, setReload] = useState(true);
   const [tab1, setTab1] = useState(true);
   const [id, setId] = useState("");
-  const [result, setResult] = useState(-1)
-  const token = localStorage.getItem('token')
+  const [result, setResult] = useState(-1);
 
   const now = new Date();
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
@@ -75,18 +76,11 @@ function Inquiry() {
   const boolToText = (val) => (val ? "Yes" : "No");
 
   useEffect(() => {
-    const fetchmaterials = async () => {
-      try {
-        const response = await fetch("https://deploy-mi-test-api.vercel.app/product/allmaterials", {
-          method: "POST", // default method, can be omitted
-          headers: {
-          'Authorization': `Bearer ${token}`,
-          "Content-Type": "application/json", // Ensure correct content type
-          }
-        });
-        const data = await response.json();
+    const loadMaterials = async () => {
+        const data = await fetchMaterials();
         setMaterials([]);
         for(let i=0; i<data.length; i++){
+            if(material === "NA") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
             if(material === "EN 10025 S275 J2 G3" && data[i].materialName === "IS 2062" && data[i].grade === "E275C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
             else if(material === "EN 10025 S275 J2+Ar-CL1" && data[i].materialName === "IS 2062" && data[i].grade === "E350C") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
             else if(material === "EN 10029" && data[i].materialName === "IS 2062") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
@@ -100,12 +94,9 @@ function Inquiry() {
             else if(material === "EN 10346 Dx51D+Z100-N" && data[i].materialName === "IS 277" && data[i].grade === "GP250") setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
             else if(material === "EN 10346 Hx260 YD" && (data[i].materialName === "IS 513" || data[i].materialName === "IS 10748")) setMaterials((prevMaterials) => [...prevMaterials, data[i]]);
         }
-    } catch (err) {
-        console.error("Error fetching materials:", err.message);
-        }
     };
-    fetchmaterials();
-  }, [location, material] )
+    loadMaterials();
+    }, [location, material] )
 
   useEffect(() => {
       if(unit1 === "Num" ) setVolumeMonthlyInTon(((stripWidth*thickness*length*7850*0.000000001)*volumeMonthly).toFixed(3));
@@ -121,26 +112,14 @@ function Inquiry() {
   
 
   useEffect(() => {
-          const fetchenquiries = async () => {
-            try {
-              const response = await fetch("https://deploy-mi-test-api.vercel.app/enquirie/allenquiries", {
-                method: "POST", // default method, can be omitted
-                headers: {
-                  'Authorization': `Bearer ${token}`,
-                  "Content-Type": "application/json", // Ensure correct content type
-                }
-              });
-              const data = await response.json();
-              setEnquiries(data); 
-            } catch (err) {
-              console.error("Error fetching materials:", err.message);
-            }
-          };
-      
-          fetchenquiries();
-      }, [location, reload] )
+        const loadEnquiries = async () => {
+            const data = await fetchEnquiries();
+            setEnquiries(data); 
+        };
+        loadEnquiries();
+    }, [location, reload] )
 
-      const add = (id) => {
+    const add = (id) => {
         if(selectedEnquiries.includes(id)){
         setSelectedEnquiries((prevSelected) => prevSelected.filter((enquirieId) => enquirieId !== id));
         } else {
@@ -148,33 +127,11 @@ function Inquiry() {
         }
     };
 
-    const deleteenquiries = async () => {
-        try {
-          const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/deleteenquirie`, {
-            method: "DELETE", // default method, can be omitted
-              headers: {
-                'Authorization': `Bearer ${token}`,
-                "Content-Type": "application/json", // Ensure correct content type
-              },
-              body: JSON.stringify({ selectedEnquiries: selectedEnquiries })
-            });
-            const result = await response.json();
-            const {success, message, error} = result;
-             if(success){
-                setReload(!reload)
-                handleSuccess(message)
-            }else if(error){
-                const details = error?.details[0].message;
-                handleError(details)
-            }else if(!success){
-              handleError(message)
-            }
-            setReload(!reload);
-            setSelectedEnquiries([]);setTab1(true);
-          // const message = await response.json();
-        } catch (error) {
-          alert("Failed to update enquiries");
-        }
+    const handleClickRemove = async () => {
+        const result = await deleteEnquiries({selectedEnquiries});
+        if(result) setReload(!reload)
+        setSelectedEnquiries([]);
+        setTab1(true);
       };
 
       const handleclick = (customId) => {
@@ -237,25 +194,19 @@ function Inquiry() {
         }
     };
 
-      const handleModify = () => {
-        setTab1(false);
+    const handleModify = () => {
+    setTab1(false);
     };
 
     const handleSaveChanges = async () => {
         // validation (unchanged)
-        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 & !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) {
-            return handleError('Please fill out all fields.');
-        }
+        if (!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 & !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.');
 
         // compute result based on your conditions (use a local variable)
         let computedResult;
-        if (twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth > 220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth > 340 || thickness <= 0.8 || thickness > 4)) || (click1 && ((click4 && (shortRadiusBendingRadius <= 40 || shortRadiusBendingRadius > 400 || thickness <= 0.8 || thickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius > 10000 || thickness <= 0.8 || thickness > 6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || thickness <= 0.8 || thickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength > 3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") {
-            computedResult = 0;
-        } else if (machine === "To be developed" || tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") {
-            computedResult = 1;
-        } else {
-            computedResult = 2;
-        }
+        if (twoD === "Essential to proceed" || threeD === "Essential to proceed" || machine === "Regret" || tools === "Regret" || fixture === "Regret" || (type === "Open" && (stripWidth <= 10 || stripWidth > 220 || thickness <= 0.4 || thickness > 4)) || (type === "Close" && (stripWidth <= 10 || stripWidth > 340 || thickness <= 0.8 || thickness > 4)) || (click1 && ((click4 && (shortRadiusBendingRadius <= 40 || shortRadiusBendingRadius > 400 || thickness <= 0.8 || thickness > 6)) || (click5 && (longRadiusBendingRadius <= 400 || longRadiusBendingRadius > 10000 || thickness <= 0.8 || thickness > 6)))) || (click2 && (laserCuttingLength <= 10 || laserCuttingLength > 3000 || thickness <= 0.8 || thickness > 10)) || (click3 && (powderCoatingLength <= 200 || powderCoatingLength > 3000)) || material === "Cannot be sourced" || tolerance === "Less than 0.1" || customerSpecReq === "Not achievable" || packingSpc === "Not achievable" || statuttery === "Cannot comply" || risk === "High") computedResult = 0;
+        else if (machine === "To be developed" || tools === "To be developed" || fixture === "To be developed" || holePunching || assemblyProcess || click6 || tolerance === "0.1 - 0.5" || customerSpecReq === "Need detailed study" || packingSpc === "Customer Specific" || sample === "Essential to proceed" || spare === "No" || statuttery === "Yes, Will be complied" || unstared === "Yes" || risk === "Med") computedResult = 1;
+        else computedResult = 2;
 
         // compute reviewDate locally
         const computedReviewDate = `${d}-${m}-${y}`;
@@ -270,31 +221,22 @@ function Inquiry() {
         // If this function is inside a component, you can set isMounted flag via a ref or effect.
 
         try {
-            const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/editenquirie`, {
-            method: "PUT",
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            // use the computed values in the payload (not the state variables)
-            body: JSON.stringify({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result: computedResult, reviewDate: computedReviewDate}),
-            });
 
-            const result1 = await response.json();
+            const result1 = await editEnquiries({id, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, computedResult, computedReviewDate});
+
             const { success, message, error } = result1;
 
             if (!isMounted) return; // avoid state updates if unmounted
 
             if (success) {
-            setReload(prev => !prev);
-            handleSuccess(message);
-            } else if (error) {
-            const details = error?.details?.[0]?.message || message || "Unknown error";
-            handleError(details);
-            } else {
-            handleError(message || "Failed");
-            }
-
+                setReload(prev => !prev);
+                handleSuccess(message);
+            } 
+            else if (error) {
+                const details = error?.details?.[0]?.message || message || "Unknown error";
+                handleError(details);
+            } 
+            else handleError(message || "Failed");
             setReload(!reload);
         } catch (err) {
             alert(err.message || "Failed to update enquiries");
@@ -303,7 +245,6 @@ function Inquiry() {
             isMounted = false;
         }
     };
-
 
   return (
     <>
@@ -325,7 +266,7 @@ function Inquiry() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => deleteenquiries(selectedEnquiries)}>Remove</button>
+                  <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => handleClickRemove(selectedEnquiries)}>Remove</button>
                 </div>
               </div>
             </div>

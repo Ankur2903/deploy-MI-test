@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { handleError, handleSuccess } from '../ulits';
+import { useState, useEffect } from "react";
+import { handleError } from '../ulits';
 import { useLocation } from "react-router-dom";
+import { fetchMachines, addMachine, editMachine, deleteMachines } from "../services/Machine";
 
 function Machine() {
   const location = useLocation();
@@ -29,24 +30,11 @@ function Machine() {
   const [reload, setReload] = useState(true);
 
   useEffect(() => {
-    const fetchmachines = async () => {
-      const token = localStorage.getItem('token')
-      try {
-        const response = await fetch("https://deploy-mi-test-api.vercel.app/machine/allmachine", {
-          method: "POST", // default method, can be omitted
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            "Content-Type": "application/json", // Ensure correct content type
-          }
-        });
-        const data = await response.json();
-        setMachines(data);
-      } catch (err) {
-        console.error("Error fetching machines:", err.message);
-      }
+    const loadmachines = async () => {
+      const data = await fetchMachines();
+      setMachines(data);
     };
-
-    fetchmachines();
+    loadmachines();
   }, [location, reload])
 
   const add = (id) => {
@@ -75,101 +63,23 @@ function Machine() {
     }
   };
 
-  const addmachine = async (e) => {
+  const handleClickAddMachine = async (e) => {
     e.preventDefault();
-    if (!machineId || !type || !usableShaftLength || !stripWidthMin || !stripWidthMax || !thicknessMin || !thicknessMax || !boxPerimeter || !giCoating || !numberOfStations) {
-      return handleError('Please fill out all fields.')
-    }
-    try {
-      
-      const token = localStorage.getItem('token')
-      const url = "https://deploy-mi-test-api.vercel.app/machine/addmachine";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations })
-      })
-      const result = await response.json();
-      const { success, message, error } = result;
-      if (success) {
-        setReload(!reload)
-        handleSuccess(message)
-      } else if (error) {
-        const details = error?.details[0].message;
-        handleError(details)
-      } else if (!success) {
-        handleError(message)
-      }
-    }
-    catch (err) {
-      handleError(err);
-    }
+    if (!machineId || !type || !usableShaftLength || !stripWidthMin || !stripWidthMax || !thicknessMin || !thicknessMax || !boxPerimeter || !giCoating || !numberOfStations) return handleError('Please fill out all fields.')
+
+    const result = await addMachine({machineId, type, usableShaftLength, stripWidthMin, stripWidthMax, thicknessMin, thicknessMax, boxPerimeter, giCoating, numberOfStations});
+    if(result) setReload(!reload);
+    
   };
 
-  const deleteMachines = async (selectedMachines) => {
-    try {
-      const token = localStorage.getItem('token')
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/deletemachine`, {
-        method: "DELETE", // default method, can be omitted
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          "Content-Type": "application/json", // Ensure correct content type
-        },
-        body: JSON.stringify({ selectedMachines: selectedMachines })
-      });
-      const result = await response.json();
-      const { success, message, error } = result;
-      if (success) {
-        setReload(!reload)
-        handleSuccess(message)
-      } else if (error) {
-        const details = error?.details[0].message;
-        handleError(details)
-      } else if (!success) {
-        handleError(message)
-      }
-      setReload(!reload);
-      setSelectedMachines([])
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
-    }
+  const handleClickDeleteMachine = async (selectedMachines) => {
+    const result = await deleteMachines({selectedMachines});
+    if(result) setReload(!reload);
   };
 
-  const editMachine = async () => {
-    try {
-      const token = localStorage.getItem('token')
-      if (!newMachineId || !newType || !newUsableShaftLength || !newStripWidthMin || !newStripWidthMax || !newThicknessMin || !newThicknessMax || !newBoxPerimeter || !newGiCoating || !newNumberOfStations) {
-        return handleError('Please fill out all fields.')
-      }
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/editmachine`, {
-        method: "PUT", // default method, can be omitted
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          "Content-Type": "application/json", // Ensure correct content type
-        },
-        body: JSON.stringify({ selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations })
-      });
-      const result = await response.json();
-      const { success, message, error } = result;
-      if (success) {
-        setReload(!reload)
-        handleSuccess(message)
-      } else if (error) {
-        const details = error?.details[0].message;
-        handleError(details)
-      } else if (!success) {
-        handleError(message)
-      }
-      setReload(!reload);
-      setSelectedMachines([])
-      // const message = await response.json();
-    } catch (error) {
-      alert("Failed to update status");
-    }
+  const handleClickEditMachine = async () => {
+      const result = await editMachine({selectedMachines, newMachineId, newType, newUsableShaftLength, newStripWidthMin, newStripWidthMax, newThicknessMin, newThicknessMax, newBoxPerimeter, newGiCoating, newNumberOfStations});
+      if(result) setReload(!reload);
   };
 
   return (
@@ -244,7 +154,7 @@ function Machine() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-success" data-bs-dismiss="modal"  onClick={addmachine}>Add Machine</button>
+                  <button type="button" className="btn btn-success" data-bs-dismiss="modal"  onClick={handleClickAddMachine}>Add Machine</button>
                 </div>
               </div>
             </div>
@@ -314,7 +224,7 @@ function Machine() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={editMachine}>Edit Machine</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={handleClickEditMachine}>Edit Machine</button>
                 </div>
               </div>
             </div>
@@ -332,7 +242,7 @@ function Machine() {
                 </div>
                 <div className="modal-footer">
                   <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => deleteMachines(selectedMachines)}>delete Machine</button>
+                  <button type="button" className="btn btn-danger" data-bs-dismiss="modal" onClick={() => handleClickDeleteMachine(selectedMachines)}>delete Machine</button>
                 </div>
               </div>
             </div>

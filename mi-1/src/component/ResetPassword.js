@@ -1,41 +1,22 @@
-import React, { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { handleError, handleSuccess } from '../ulits';
+import {UserPasswordReset} from '../services/Auth'
 
 function ResetPassword() {
+  const navigate = useNavigate();
     const [password,setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const navigate = useNavigate()
     const {id, token} = useParams()
     
  
     const handleSubmit = async(e) => {
         e.preventDefault();
-        try{
-          const url = `https://deploy-mi-test-api.vercel.app/reset-password/${id}/${token}`;
-          const response = await fetch(url, {
-            method: "post",
-            headers: {
-              'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({password, confirmPassword})
-          }
-        )
-          const result = await response.json();
-          const {success, message} = result;
-          if(success){
-            handleSuccess("Password reset Successfully");
-            setTimeout(()=>{
+        const result = await UserPasswordReset({id, token, password, confirmPassword});
+        if(result){
+          setTimeout(()=>{
               navigate('/login')
-            },500)
-          }
-          else{
-            handleError(message);
-          }
-        }
-        catch(err) {
-          handleError(err);
+          },500)
         }
     }
 

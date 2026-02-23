@@ -90,7 +90,7 @@ import D_pillar_rear from './component/shap/D-pillar-rear';
 import Enquiry from './component/Enquiry';
 import AdminPanel from './component/AdminPanel';
 import MyDrawing from './component/MyDrawing';
-import { fetchmaterials } from './services/Material';
+import { fetchMaterials } from './services/Material';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -101,7 +101,7 @@ function App() {
   useEffect(() => {
     const loadMaterials = async () => {
       try {
-        const data = await fetchmaterials();
+        const data = await fetchMaterials();
         for(let i=0; i<data.length; i++){
           const material = data[i];
           setMaterials(prevMaterials => ({...prevMaterials, [material.density]: material.material}));

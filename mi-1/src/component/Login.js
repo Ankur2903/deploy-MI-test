@@ -1,18 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { handleError, handleSuccess } from '../ulits';
+import { handleError } from '../ulits';
 import Image from './Image/background.png'
-import ReCAPTCHA from "react-google-recaptcha"
+import {UserLogin} from '../services/Auth';
 
 function Login() {
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: ''
   })
-  const [capVal, setCapVal] = useState(null)
-
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     const copySignupInfo = {...loginInfo};
@@ -26,45 +25,19 @@ function Login() {
     if(!email || !password){
       return handleError('Email, or, password are required')
     }
-    try {
-      const url = "https://deploy-mi-test-api.vercel.app/auth/login";
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify(loginInfo)
-      })
-      const result = await response.json();
-      const {success, message, jwtToken, name, email, role, error} = result;
-      console.log(result)
-      if(success){
-        handleSuccess(message);
-        localStorage.setItem('token', jwtToken);
-        localStorage.setItem('loggedInUserName', name)
-        localStorage.setItem('loggedINUserEmail', email)
-        localStorage.setItem('role', role)
-        setTimeout(()=>{
-          navigate('/')
+    const result = await UserLogin({loginInfo});
+    if(result){
+      setTimeout(()=>{
+            navigate('/')
         },500)
-      }else if(error){
-          const details = error?.details[0].message;
-          handleError(details)
-      }else if(!success){
-        handleError(message)
-      }
-      console.log(result)
-    }
-    catch(err) {
-      handleError(err);
     }
   };
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-99">
-    <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "95vh"}}/>
-      <div className="card shadow-3d p-4" style={{position: 'absolute', top: '20vh', width: '100%', maxWidth: '400px', backgroundColor: 'white', borderRadius: '15px', boxShadow: '10 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)'}}>
-         <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}></text></h2>
+      <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "95vh"}}/>
+      <div className="card shadow-3d p-4" style={{position: 'absolute', top: '20vh', width: '100%', maxWidth: '400px', backgroundColor: 'white', borderRadius: '15px', boxShadow: '10px 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)'}}>
+        <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}>(1.1)</text></h2>
         <h2 className="text-center mb-4">Login</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -92,8 +65,7 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            <ReCAPTCHA sitekey='6Ld_MvMqAAAAAGVcZwC6VbsWSgAsO61kPvOGyQCa' onChange={val => setCapVal(val)}/>
-            <button type="submit" className="btn btn-dark w-40 my-4" disabled={!capVal}>Login</button>
+            <button type="submit" className="btn btn-dark w-40 my-4">Login</button>
           </fieldset>
         </form>
         <ToastContainer/>
@@ -101,7 +73,7 @@ function Login() {
           <Link to="/forgot-password">Forgot your password</Link>
         </p>
         <p className="text-center">
-          Don't have an account?(version-1) <Link to="/signup">Sign Up</Link>
+          Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>
       </div>
     </div>
@@ -109,4 +81,3 @@ function Login() {
 }
 
 export default Login;
-

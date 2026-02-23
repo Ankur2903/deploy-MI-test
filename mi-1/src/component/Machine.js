@@ -32,7 +32,7 @@ function Machine() {
     const fetchmachines = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await fetch("https://deploy-mi-test-api.vercel.app/machine/allmachine", {
+        const response = await fetch("http://localhost:8080/machine/allmachine", {
           method: "POST", // default method, can be omitted
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -40,7 +40,7 @@ function Machine() {
           }
         });
         const data = await response.json();
-        setMachines(data);console.log(data)
+        setMachines(data);
       } catch (err) {
         console.error("Error fetching machines:", err.message);
       }
@@ -83,7 +83,7 @@ function Machine() {
     try {
       
       const token = localStorage.getItem('token')
-      const url = "https://deploy-mi-test-api.vercel.app/machine/addmachine";
+      const url = "http://localhost:8080/machine/addmachine";
       const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -112,7 +112,7 @@ function Machine() {
   const deleteMachines = async (selectedMachines) => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/deletemachine`, {
+      const response = await fetch(`http://localhost:8080/machine/deletemachine`, {
         method: "DELETE", // default method, can be omitted
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -145,7 +145,7 @@ function Machine() {
       if (!newMachineId || !newType || !newUsableShaftLength || !newStripWidthMin || !newStripWidthMax || !newThicknessMin || !newThicknessMax || !newBoxPerimeter || !newGiCoating || !newNumberOfStations) {
         return handleError('Please fill out all fields.')
       }
-      const response = await fetch(`https://deploy-mi-test-api.vercel.app/machine/editmachine`, {
+      const response = await fetch(`http://localhost:8080/machine/editmachine`, {
         method: "PUT", // default method, can be omitted
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -180,7 +180,7 @@ function Machine() {
         {/* Button Group */}
         <div className="btn-group" role="group" style={{ display: "flex", gap: "10px", marginLeft: "auto" }}>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-1" style={{ backgroundColor: "green", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>Add Machine</button>
-          <div className="modal fade-dark modal-xl" id="exampleModal-1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark modal-xl" id="exampleModal-1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -250,7 +250,7 @@ function Machine() {
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-2" style={{ backgroundColor: selectedMachines.length === 1 ? "green" : "lightGreen", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}  disabled = {selectedMachines.length !== 1} onClick={editclicked}>Edit Machine</button>
-          <div className="modal fade-dark" id="exampleModal-2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -320,7 +320,7 @@ function Machine() {
             </div>
           </div>
           <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal-3" style={{ backgroundColor: "red", color: "white", padding: "8px 15px", border: "none", borderRadius: "5px" }}>delete Machine</button>
-          <div className="modal fade-dark" id="exampleModal-3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal fade-dark" id="exampleModal-3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog">
               <div className="modal-content">
                 <div className="modal-header">
@@ -372,7 +372,7 @@ function Machine() {
       {machines.map((machine) => (
         <tr key={machine._id}>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
-            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedMachines.includes(machine._id)} onClick={() => add(machine._id)}/></div>
+            <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedMachines.includes(machine._id)} onChange={() => add(machine._id)}/></div>
           </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{machine.no}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{machine.machineId}</td>

@@ -9,6 +9,7 @@ import 'jspdf-autotable';
 import logo from '../Image/logo.192.png'
 import LineAtTheta from '../Graph/Shap/LineAtθ';
 import Result from '../shap/Result';
+import CommonInput from '../shap/Commonnput';
 import Feasibility from '../Feasibility';
 import FeasibilityL1 from '../FeasibilityL1';
 import * as Props from '../constant';
@@ -25,7 +26,7 @@ import { ComputePrincipalAxisAngle } from '../AdvanceOutput/PrincipalAxisAngle';
 import { saveAs } from "file-saver";
 import { createDXF } from '../Download/createDXF';
 
-const FromScratch = () => {
+const FromScratch = ({materials}) => {
   const { state } = useLocation();
   const [boxPerimeter, setBoxPerimeter] = useState(0)
   const aa = Math.PI/180;
@@ -58,6 +59,7 @@ const FromScratch = () => {
   const [stripWidth, setStripWidth] = useState(0);
   const [weightPerLength, setWeightPerLength] = useState(0);
   const [length, setLength] = useState(1);
+  const [density, setDensity] = useState(7850);
   const [totalWeight, setTotalWeight] = useState(0)
   const [outLine, setOutLine] = useState(0)
   const [area, setArea] = useState(0);
@@ -88,7 +90,7 @@ const FromScratch = () => {
   useEffect(() => {
       const fetchmaterials = async () => {
         try {
-          const response = await fetch("https://deploy-mi-test-api.vercel.app/drawing/alldrawings", {
+          const response = await fetch("http://localhost:8080/drawing/alldrawings", {
             method: "POST", // default method, can be omitted
             headers: {
             'Authorization': `Bearer ${token}`,
@@ -233,9 +235,8 @@ const FromScratch = () => {
   useEffect(() => {
     const newWidth =  (endX - startX + 40)/ scale;
     const newHeight = (endY - startY + 40)/ scale;
-   setViewBox(`${(startX + endX)/2 - Math.max(newWidth,newHeight)/2} ${(startY + endY)/2 - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
+    setViewBox(`${(startX + endX)/2 - Math.max(newWidth,newHeight)/2} ${(startY + endY)/2 - Math.max(newWidth,newHeight)/2} ${Math.max(newWidth,newHeight)} ${Math.max(newWidth,newHeight)}`);
   }, [startX, startY, endX, endY])
-
 
   useEffect(() => {
     const l = shapes.length;
@@ -243,7 +244,7 @@ const FromScratch = () => {
       x = (shapes[l - 1].type === "Line" && shapes[0].type === "Line") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) :
         (shapes[l - 1].type === "Line" && shapes[0].type === "clockwise") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) - shapes[0].radius * Math.sin(aa * (shapes[l - 1].anglefromx)) :
         (shapes[l - 1].type === "Line" && shapes[0].type === "anticlockwise") ? shapes[l - 1].x + shapes[l - 1].length * Math.cos(aa * (shapes[l - 1].anglefromx)) + (shapes[0].radius - thickness) * Math.sin(aa * (shapes[l - 1].anglefromx)) :
-       (shapes[l - 1].type === "clockwise" && shapes[0].type === "Line") ? shapes[l - 1].x + shapes[l - 1].radius * Math.cos(aa * ((shapes[l - 1].anglefromx + shapes[l - 1].angle) - 90)) :
+        (shapes[l - 1].type === "clockwise" && shapes[0].type === "Line") ? shapes[l - 1].x + shapes[l - 1].radius * Math.cos(aa * ((shapes[l - 1].anglefromx + shapes[l - 1].angle) - 90)) :
         (shapes[l - 1].type === "clockwise" && shapes[0].type === "clockwise") ? shapes[l- 1].x + (shapes[l - 1].radius - shapes[0].radius)*Math.cos(aa*((shapes[l - 1].anglefromx + shapes[l - 1].angle) - 90)) :
         (shapes[l - 1].type === "clockwise" && shapes[0].type === "anticlockwise") ? shapes[l - 1].x + (shapes[l - 1].radius + shapes[0].radius - thickness) * Math.cos(aa * ((shapes[l - 1].anglefromx + shapes[l - 1].angle) - 90)) :
         (shapes[l - 1].type === "anticlockwise" && shapes[0].type === "Line") ? shapes[l - 1].x + (shapes[l - 1].radius - thickness) * Math.cos(aa * (90 - shapes[l - 1].angle + shapes[l - 1].anglefromx)) :
@@ -267,13 +268,13 @@ const FromScratch = () => {
 
   useEffect(() => {
     for (let i = 0; i < shapes.length; i++) {
-      shapes[i].anglefromx = (i === 0) ? shapes[i].anglefromx%360 : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
+      shapes[i].anglefromx = (i === 0) ? shapes[i].anglefromx : (shapes[i - 1].type === "Line") ? shapes[i - 1].anglefromx : (shapes[i - 1].type === "clockwise") ? (360 + shapes[i - 1].anglefromx + shapes[i - 1].angle)%360 : (360 + shapes[i - 1].anglefromx - shapes[i - 1].angle)%360;
 
       shapes[i].x = (i === 0) ? shapes[i].x :
         (shapes[i - 1].type === "Line" && shapes[i].type === "Line") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos(aa * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "clockwise") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos(aa * (shapes[i - 1].anglefromx)) - shapes[i].radius * Math.sin(aa * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "anticlockwise") ? shapes[i - 1].x + shapes[i - 1].length * Math.cos(aa * (shapes[i - 1].anglefromx)) + (shapes[i].radius - thickness) * Math.sin(aa * (shapes[i - 1].anglefromx)) :
-       (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].x + shapes[i - 1].radius * Math.cos(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
+        (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].x + shapes[i - 1].radius * Math.cos(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[i- 1].x + (shapes[i - 1].radius - shapes[i].radius)*Math.cos(aa*((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].x + (shapes[i - 1].radius + shapes[i].radius - thickness) * Math.cos(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "Line") ? shapes[i - 1].x + (shapes[i - 1].radius - thickness) * Math.cos(aa * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
@@ -284,7 +285,7 @@ const FromScratch = () => {
         (shapes[i - 1].type === "Line" && shapes[i].type === "Line") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin(aa * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "clockwise") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin(aa * (shapes[i - 1].anglefromx)) + shapes[i].radius * Math.cos(aa * (shapes[i - 1].anglefromx)) :
         (shapes[i - 1].type === "Line" && shapes[i].type === "anticlockwise") ? shapes[i - 1].y + shapes[i - 1].length * Math.sin(aa * (shapes[i - 1].anglefromx)) - (shapes[i].radius - thickness) * Math.cos(aa * (shapes[i - 1].anglefromx)) :
-       (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].y + shapes[i - 1].radius * Math.sin(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
+        (shapes[i - 1].type === "clockwise" && shapes[i].type === "Line") ? shapes[i - 1].y + shapes[i - 1].radius * Math.sin(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "clockwise") ? shapes[i - 1].y + (shapes[i - 1].radius - shapes[i].radius)*Math.sin(aa*((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90))  :
         (shapes[i - 1].type === "clockwise" && shapes[i].type === "anticlockwise") ? shapes[i - 1].y + (shapes[i - 1].radius + shapes[i].radius - thickness) * Math.sin(aa * ((shapes[i - 1].anglefromx + shapes[i - 1].angle) - 90)) :
         (shapes[i - 1].type === "anticlockwise" && shapes[i].type === "Line") ? shapes[i - 1].y + (shapes[i - 1].radius - thickness) * Math.sin(aa * (90 - shapes[i - 1].angle + shapes[i - 1].anglefromx)) :
@@ -338,7 +339,6 @@ const FromScratch = () => {
     }
   };
 
-
   const updateDimensions = () => {
     for(let i = 0;i < shapes.length;i++){
         shapes[i].length = 
@@ -374,6 +374,7 @@ const FromScratch = () => {
     setClick(1 - click)
     setSelectedShapeId(null)
   };
+
   const clickOndimensioning = ()=> {
     setSelectedShapeId(null)
     setDimensioning(!dimensioning);
@@ -392,8 +393,8 @@ const FromScratch = () => {
 
   const submitClick = () => {
     if(shapes.length === 0) return;
-    setWeightPerLength(((sw)*thickness*7850*0.000001).toFixed(3));
-    setTotalWeight(((sw)*thickness*7850*0.000001*length).toFixed(3));
+    setWeightPerLength(((sw)*thickness*density*0.000001).toFixed(3));
+    setTotalWeight(((sw)*thickness*density*0.000001*length).toFixed(3));
     setStripWidth((sw).toFixed(3));
     setOutLine((ol).toFixed(3))
     setArea((acs).toFixed(3));
@@ -413,7 +414,6 @@ const FromScratch = () => {
     setMoru((Iu/vmax).toFixed(3));
     setMorv((Iv/umax).toFixed(3));
   }
-
 
   const handlePan = useCallback((dx, dy) => {
     setViewBox((prevViewBox) => {
@@ -524,7 +524,7 @@ const FromScratch = () => {
 
   const exportToDXF = () => {
     const dxfLineweight = Math.round(thickness * 100); 
-    let dxfData = createDXF(DXFShapes);console.log("dxfData", dxfData);
+    let dxfData = createDXF(DXFShapes);
     dxfData = dxfData.replace(
       /(LINE|ARC)\s*\n/g,
       `$1\n370\n${dxfLineweight}\n`
@@ -534,6 +534,7 @@ const FromScratch = () => {
     });
     saveAs(blob, "drawing.dxf");
   };
+
 
   const groupRef = useRef(new THREE.Group()); // Create a new 3D group without rendering
   const exportToSTL = () => {
@@ -571,7 +572,6 @@ const FromScratch = () => {
         STLShape.lineTo(shapes[i].x + (shapes[i].radius - thickness)*Math.sin(shapes[i].angle*aa - shapes[i].anglefromx*aa), shapes[i].y + (shapes[i].radius - thickness)*Math.cos(shapes[i].angle*aa - shapes[i].anglefromx*aa))
         STLShape.absarc(shapes[i].x,shapes[i].y,shapes[i].radius - thickness,2*Math.PI - (2*Math.PI + 3*Math.PI/2 + shapes[i].angle*aa - shapes[i].anglefromx*aa)%(2*Math.PI),2*Math.PI - (2*Math.PI + 3*Math.PI/2 - shapes[i].anglefromx*aa)%(2*Math.PI),false)
         STLShape.lineTo(shapes[i].x - shapes[i].radius*Math.sin(shapes[i].anglefromx*aa), shapes[i].y + shapes[i].radius*Math.cos(shapes[i].anglefromx*aa));
-
       }
       STLShapes.push(STLShape) 
     }
@@ -643,9 +643,10 @@ const FromScratch = () => {
     setImage(imgData);
   };
 
+
   return (
     <div>
-      <div className="modal fade" id="exampleModal0" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal0" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
@@ -654,7 +655,7 @@ const FromScratch = () => {
           </div>
         </div>
       </div>
-      <div className="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal1" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
@@ -663,7 +664,7 @@ const FromScratch = () => {
           </div>
         </div>
       </div>
-      <div className="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal2" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
@@ -672,7 +673,7 @@ const FromScratch = () => {
           </div>
         </div>
       </div>
-      <div className="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal fade" id="exampleModal3" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body">
@@ -735,10 +736,7 @@ const FromScratch = () => {
           <lable className="label">Thickness: (t) mm</lable>
           <input className="input-field" type="number" value={thickness} onChange={(e)=>setThickness(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
         </div>
-        <div className="container1">
-          <lable className="label">Length: (L) m</lable>
-          <input className="input-field" type="number" value={length} onChange={(e) => setLength(Number(e.target.value))} onFocus={(e) => e.target.select()}/>
-        </div>
+        <CommonInput density={density} setDensity={setDensity} mat={materials} length={length} setLength={setLength}/>
         </>
         {selectedShapeId === null && 
         <><h5>Add a New Shape</h5>
@@ -872,7 +870,7 @@ const FromScratch = () => {
             {gridVisible && <rect x='-1000' y='-1000' width="2000" height="2000" fill="url(#grid)" />}
 
             {shapes.length>0 && ((shapes[0].type === "Line") ? <LineAtTheta x={shapes[0].x + thickness*Math.sin(shapes[0].anglefromx*aa)} y={shapes[0].y - thickness*Math.cos(shapes[0].anglefromx*aa)} w={thickness/3} h={3*thickness} angle={shapes[0].anglefromx} color={"black"}/> : (shapes[0].type === "clockwise") ? <LineAtTheta x={shapes[0].x + (thickness + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y - (thickness + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={3*thickness} angle={shapes[0].anglefromx} color={"black"}/>:<LineAtTheta x={shapes[0].x - (-2*thickness + shapes[0].radius)*Math.sin(Math.PI*shapes[0].anglefromx/180)} y={shapes[0].y + (-2*thickness + shapes[0].radius)*Math.cos(Math.PI*shapes[0].anglefromx/180)} w={0.5} h={3*thickness} angle={shapes[0].anglefromx} color={"black"}/>)}
-              
+
             {shapes.map((shape) => (
               (shape.type==="Line") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><LineAtTheta x={shape.x} y={shape.y} w={shape.length} h={thickness} angle={shape.anglefromx} color={shape.color}/></a>
             ))}
@@ -885,7 +883,7 @@ const FromScratch = () => {
               (shape.type ==="anticlockwise") && <a key = {shape.id} onClick={() => selectShape(shape.id)}><CircleSector radius={shape.radius} centerX={shape.x} centerY={shape.y} angle={shape.angle} rotation={90 + shape.anglefromx - shape.angle} thickness={thickness}  color={shape.color}/></a>
             ))}
 
-            
+            {/* <circle key={0} cx={a} cy={b} r={thickness} fill={'green'}/> */}
 
             {dimensioning && <PredefinedPoints points={predefinedPoints} mx={mx} thickness={thickness} scale={scale}/>}
 
@@ -898,7 +896,7 @@ const FromScratch = () => {
           </div>
         </div>
         <div className='box'>
-       <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
+        <Result weightPerLength={weightPerLength} length={length} totalWeight={totalWeight} stripWidth={stripWidth} outLine={outLine} area={area} inertiax={inertiax} inertiay={inertiay} rogx={rogx} rogy={rogy} pmoi={pmoi} morx={morx} mory={mory} inertiaxy={inertiaxy} paangle={paangle} inertiau={inertiau} inertiav={inertiav} rogu={rogu} rogv={rogv} moru={moru} morv={morv}/>
         </div>
       </div>
     </div>

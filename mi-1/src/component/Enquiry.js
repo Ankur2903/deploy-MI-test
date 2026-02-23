@@ -270,7 +270,7 @@ function Inquiry() {
         // If this function is inside a component, you can set isMounted flag via a ref or effect.
 
         try {
-            const response = await fetch(`http://localhost:8080/enquirie/editenquirie`, {
+            const response = await fetch(`https://deploy-mi-test-api.vercel.app/enquirie/editenquirie`, {
             method: "PUT",
             headers: {
                 'Authorization': `Bearer ${token}`,

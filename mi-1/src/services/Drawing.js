@@ -1,5 +1,5 @@
 import { handleError, handleSuccess } from "../ulits";
-const BASE_URL = "http://localhost:8080/drawing";
+const BASE_URL = "https://deploy-mi-test-api.vercel.app/drawing";
 const token = localStorage.getItem('token')
 
 // GET all Drawings

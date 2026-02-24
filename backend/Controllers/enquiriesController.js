@@ -1,6 +1,13 @@
 const EnquirieModel = require('../Models/Enquiries')
 const UserModel = require('../Models/User')
 require('dotenv').config();
+const cloudinary = require("cloudinary").v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 const allenquiries = async (req, res) => {
     try {
@@ -22,14 +29,20 @@ const allenquiries = async (req, res) => {
 
 const addenquirie = async (req, res) => {
     try {
-        let {customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
+        let {customerName, customerRefNo, kAMName, profileName, image, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter,  click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate} = req.body;
         const user = await UserModel.findOne({ email: req.user.email });
         if (!user) return res.status(403).json({ message: 'Unauthorized' , success: false } ) ;
         const iD = await EnquirieModel.countDocuments() + 1;
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
         const time = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
-        const enquirieModel = new EnquirieModel({email: req.user.email, iD, customerName, customerRefNo, kAMName, profileName, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
+        const results = await cloudinary.uploader.upload(image, {
+            folder: "MI-Enquiries",
+            resource_type: "image",
+            type: "private",          // private images
+            overwrite: true,
+        });
+        const enquirieModel = new EnquirieModel({email: req.user.email, iD, customerName, customerRefNo, kAMName, profileName, imageUrl: results.secure_url, publicId: results.public_id, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
         await enquirieModel.save();
         res.status(201)
         .json({
@@ -41,7 +54,7 @@ const addenquirie = async (req, res) => {
         console.log(err)
         res.status(500)
         .json({
-            message: "Internal server error in materialController>>addenquirie",
+            message: "Internal server error in enquirieController>>addenquirie",
             success: false
         })
     }

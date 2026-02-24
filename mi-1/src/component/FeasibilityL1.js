@@ -13,6 +13,8 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const [customerRefNo, setCustomerRefNo] = useState("");
   const [kAMName, setKAMName] = useState("")
   const [profileName, setProfileName] = useState("");
+  const [sampleImage, setSampleImage] = useState(null);
+  const [image, setImage] = useState(null);
   const [profileNo, setProfileNo] = useState(0);
   const [twoD, setTwoD] = useState("");
   const [threeD, setThreeD] = useState("");
@@ -54,6 +56,36 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
   const [result, setResult] = useState(-1)
   const [unit1, setUnit1] = useState("Ton")
   const [unit2, setUnit2] = useState("Ton")
+
+
+  
+  const handleImageChange = (file) => {
+    setSampleImage(URL.createObjectURL(file));
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const img = new Image();
+      img.src = e.target.result;
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.width;
+        canvas.height = img.height;
+
+        ctx.drawImage(img, 0, 0);
+
+        // Add text automatically
+        ctx.font = "40px Arial";
+        ctx.fillStyle = "red";
+        ctx.fillText("MI", 25, 25);
+
+        const newImage = canvas.toDataURL("image/png");
+        setImage(newImage);
+      };
+    };
+
+    reader.readAsDataURL(file);
+  };
 
   const now = new Date();
   const ist = new Date(now.toLocaleString("en-US", { timeZone: "Asia/Kolkata" }));
@@ -114,8 +146,10 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
 
   const handleClickSave = async() => {
         if(!customerName || !customerRefNo || !kAMName || !profileName || !profileNo || !twoD || !threeD || !machine || !tools || !fixture || (click1 && ((click4 && !shortRadiusBendingRadius) || (click5 && !longRadiusBendingRadius))) || (click2 && !laserCuttingLength) || (click3 && !powderCoatingLength) || !material || !materialIndianEquiv || !tolerance || !customerSpecReq || !packingSpc || !sample || !volumeMonthlyInTon || !volumeYearlyInTon || !spare || !statuttery || !unstared || !risk) return handleError('Please fill out all fields.')
+
+            
         
-        const iD = await addEnquiries({customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
+        const iD = await addEnquiries({customerName, customerRefNo, kAMName, profileName, image, profileNo, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, enquirieDate, reviewDate})
 
         setEnquirieNo(iD + 1);
       };
@@ -184,6 +218,10 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                     <label>Key Account Manager Name*</label>
                     <input type="text" value={kAMName} onChange={(e) => setKAMName(e.target.value)} placeholder="Type Key Account Manager Name..." style={styles.select}/>
                 </div>
+                <div style={styles.inputGroup}>
+                    <label>Profile No.*</label>
+                    <input type="text" value={profileNo} onChange={(e) => setProfileNo(e.target.value)} placeholder="Type Profile No..." style={styles.select}/>
+                </div>
             </div>
             <div style={styles.inputRow}>
                 <div style={styles.inputGroup}>
@@ -191,8 +229,8 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                     <input type="text" value={profileName} onChange={(e) => setProfileName(e.target.value)} placeholder="Type Profile Name..." style={styles.select}/>
                 </div>
                 <div style={styles.inputGroup}>
-                    <label>Profile No.*</label>
-                    <input type="text" value={profileNo} onChange={(e) => setProfileNo(e.target.value)} placeholder="Type Profile No..." style={styles.select}/>
+                    <label>Upload Image</label>
+                    <input type="file" accept="image/*" onChange={(e) => handleImageChange(e.target.files[0])} style={styles.select}/>
                 </div>
             </div><br/>
             <div style={styles.inputRow}><h5>1. Drawing Issued by Customer</h5></div>
@@ -551,7 +589,7 @@ function FeasibilityL1({ type, stripWidth, thickness, boxPerimeter, length }) {
                         {result === 2 && <p style={styles.outputBox1}>FEASIBLE : The product specification are well within the MI development range. </p>}
                     </div>
                     <div className='component' style={{textAlign: 'center', marginTop: '20px'}}>
-                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
+                        <button type="button" className="btn btn-success mx-4" onClick={() => {handleClickSave();downloadExcel(enquirieNo, customerName, customerRefNo, kAMName, profileName, sampleImage, profileNo, twoD, threeD, machine, tools, fixture, click1, click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate);}}>Download & Save</button>
                         <button type="button" className="btn btn-primary mx-4" onClick={() => setResult(-1)}>Modify</button>
                     </div>   
                 </section>

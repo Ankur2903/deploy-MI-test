@@ -2,7 +2,7 @@ import ExcelJS from "exceljs";
 import { saveAs } from "file-saver";
 import Image from "../Image/Excel-Image.png"; // your image
 
-export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAMName, profileName,profileNo, twoD,threeD,machine,tools,fixture,click1,click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2,laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate) => {
+export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAMName, profileName, sampleImage, profileNo, twoD,threeD,machine,tools,fixture,click1,click4, shortRadiusBendingRadius, click5, longRadiusBendingRadius, click2,laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthly, volumeMonthlyInTon, volumeYearly, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, result, unit1, unit2, type, stripWidth, thickness, boxPerimeter, length, enquirieDate, reviewDate) => {
   // Create a new workbook and add a worksheet
   const workbook = new ExcelJS.Workbook();
   const worksheet = workbook.addWorksheet("Feasibility-L1");
@@ -63,6 +63,7 @@ export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAM
   worksheet.addRow(["1", "FEASIBLE", "", "", "", "The product specification are well within the MI development range.", "", "", "", "", "", "", ""]);
   worksheet.addRow(["2", "FEASIBLE WITH MODIFICATION", "", "", "", "Specification are in the development range, the product development is feasible with development of tools/fixtures etc.", "", "", "", "", "", "", ""]);
   worksheet.addRow(["3", "NOT FEASIBLE", "", "", "", "The product specification are not MI development range.", "", "", "", "", "", "", ""]);
+  
 
   const merges = [
     // Merge top cells
@@ -280,6 +281,21 @@ export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAM
     br: { col: 3, row: 3 },   // bottom-right corner (covers 3 columns × 3 rows)
     editAs: 'oneCell', 
   });
+
+  // Second image (from URL)
+  const response1 = await fetch(sampleImage);
+  const imageBlob1 = await response1.blob();
+  const arrayBuffer1 = await imageBlob1.arrayBuffer();
+
+  const imageId2 = workbook.addImage({
+    buffer: arrayBuffer1,
+    extension: "png",
+  });
+
+  worksheet.addImage(imageId2, {
+    tl: { col: 1, row: 55 },
+    ext: { width: 500, height: 350 }
+  });
   
   worksheet.eachRow((Row, rowNumber) => {
     Row.eachCell((Cell, colNumber) => {
@@ -290,7 +306,7 @@ export const downloadExcel = async (enquirieNo, customerName, customerRefNo, kAM
         Cell.fill = {type: "pattern", pattern: "solid", fgColor: { argb: "FF93C572" },};
       }
       // Yellow (Feasible with Modification)
-     else if (value === "FEASIBLE WITH MODIFICATION" || value === "To be developed" || value === "Need detailed study" || value === "0.1 - 0.5" || (cell === "I39" && value === "Yes") || (cell === "I38" && value === "Yes, Will be complied") || (cell === "I37" && value === "No") || (cell === "I36" && value === "Essential to proceed") || value === "Customer Specific" || (cell === "I29" && value === "Yes") || (cell === "I30" && value === "Yes")) {
+      else if (value === "FEASIBLE WITH MODIFICATION" || value === "To be developed" || value === "Need detailed study" || value === "0.1 - 0.5" || (cell === "I39" && value === "Yes") || (cell === "I38" && value === "Yes, Will be complied") || (cell === "I37" && value === "No") || (cell === "I36" && value === "Essential to proceed") || value === "Customer Specific" || (cell === "I29" && value === "Yes") || (cell === "I30" && value === "Yes")) {
         Cell.fill = {type: "pattern", pattern: "solid", fgColor: { argb: "FFFFFF2E" },};
       }
       // Red (Not Feasible)

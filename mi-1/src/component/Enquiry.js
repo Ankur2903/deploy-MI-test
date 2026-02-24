@@ -15,6 +15,7 @@ function Inquiry() {
   const [customerRefNo, setCustomerRefNo] = useState("");
   const [kAMName, setKAMName] = useState("")
   const [profileName, setProfileName] = useState("");
+  const [image, setImage] = useState(null);
   const [profileNo, setProfileNo] = useState("");
   const [twoD, setTwoD] = useState("");
   const [threeD, setThreeD] = useState("");
@@ -471,6 +472,10 @@ function Inquiry() {
                           <div style={styles.inputRow}>
                               <div style={styles.inputRow}><h6>Reason</h6></div>
                               <div style={styles.inputGroup}><label> {enquirie.riskReason}</label></div>
+                          </div>}
+                          {enquirie.imageUrl && <div style={styles.inputRow}>
+                              <div style={styles.inputRow}><h5>12. Drawing</h5></div>
+                              <div style={styles.inputRow}><img src={enquirie.imageUrl} alt="Example image" style={{ width: "500px", height: "auto" }}/></div>
                           </div>}
                         </section>
                       </div>

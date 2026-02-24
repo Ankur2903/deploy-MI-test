@@ -9,6 +9,8 @@ const enquirySchema = new Schema({
     customerRefNo: { type: String, required: true},
     kAMName: { type: String, required: true},
     profileName: { type: String, required: true},
+    imageUrl: { type: String, required: false },
+    publicId: { type: String, required: false },
     profileNo: { type: String, required: true},
     time: { type: String, required: false},
     result: { type: Number, required: false},

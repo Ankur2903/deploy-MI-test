@@ -278,10 +278,10 @@ function Inquiry() {
       <thead>
         <tr>
           <th style={{ width: "2%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}></th>
-          <th style={{ width: "5%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>ID</th>
+          <th style={{ width: "10%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>ID</th>
           <th style={{ width: "17%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Customer Name</th>
           <th style={{ width: "17%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Profile Name</th>
-          <th style={{ width: "17%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>KAM Name</th>
+          <th style={{ width: "12%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>KAM Name</th>
           <th style={{ width: "17%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Date of Inquiry</th>
           <th style={{ width: "17%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>Enquiry Status</th>
           <th style={{ width: "8%", border: "1px solid black", backgroundColor: '#1b065c', color: 'white',textAlign: "center",fontSize: "15px"}}>View Details</th>
@@ -293,7 +293,7 @@ function Inquiry() {
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>
             <div className="form-check mx-3"><input className="form-check-input" type="checkbox" style={{borderRadius: "4px", borderWidth: "2px", borderColor: "black"}} checked ={selectedEnquiries.includes(enquirie._id)} onChange={() => add(enquirie._id)}/></div>
           </td>
-          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{index + 1}</td>
+          <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>EN{('0').repeat(10 - Math.floor(Math.log10(index+1) + 1))}{index + 1} </td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.customerName}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.profileName}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.kAMName}</td>

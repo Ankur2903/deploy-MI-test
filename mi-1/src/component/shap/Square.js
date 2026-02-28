@@ -169,15 +169,15 @@ function Square({materials}) {
     doc.setDrawColor("black").setLineWidth(.2).line(0,165,210,165);
     doc.setFontSize(12).setTextColor('blue').text('Complete Output: ', 90,175);
     const rows2 = [
-      ["Center of mass (x)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Center of mass (y)", "at Origin", "Moment of resistance W(y)", "___ cm^3"],
-      ["Moment of inertia I(x)", `${inertiax} cm^4`, "Polar moment of inertia Ip", "___ cm^4"],
-      ["Moment of inertia I(y)", `${inertiay} cm^4`, "Centrifugal moment I(xy)", "___ cm^4"],
-      ["Moment of resistance W(v)", `___ cm^3`,"Principal axis angle", "___ deg"],
-      ["Radius of gyration i(v)", `___ cm`, "Moment of resistance W(x)", "___ cm^3"],
-      ["Radius of gyration i(u)", `___ cm`, "Radius of gyration i(x)", "___ cm"],
-      ["Moment of inertia I(u)", `___ cm^4`, "Radius of gyration i(y)", "___ cm"],
-      ["Moment of inertia I(v)", `___ cm^4`, "Moment of resistance W(u)", "___ cm^3"],
+      ["Center of mass (x)", "at Origin", "Moment of resistance W(x)", `${morx} cm^3`],
+      ["Center of mass (y)", "at Origin", "Moment of resistance W(y)", `${mory} cm^3`],
+      ["Moment of inertia I(x)", `${inertiax} cm^4`, "Polar moment of inertia Ip", `${pmoi} cm^4`],
+      ["Moment of inertia I(y)", `${inertiay} cm^4`, "Centrifugal moment I(xy)", `${inertiaxy} cm^4`],
+      ["Moment of resistance W(v)", `${morv} cm^3`,"Principal axis angle", `${paangle} deg`],
+      ["Radius of gyration i(v)", `${rogv} cm`, "Moment of resistance W(x)", `${morx} cm^3`],
+      ["Radius of gyration i(u)", `${rogu} cm`, "Radius of gyration i(x)", `${rogx} cm`],
+      ["Moment of inertia I(u)", `${inertiau} cm^4`, "Radius of gyration i(y)", `${rogy} cm`],
+      ["Moment of inertia I(v)", `${inertiav} cm^4`, "Moment of resistance W(u)", `${moru} cm^3`],
     ];
     doc.autoTable({
       body: rows2,

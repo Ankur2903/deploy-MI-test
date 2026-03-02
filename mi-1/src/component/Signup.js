@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { handleError } from '../ulits';
 import Image from './Image/background.png'
+import ReCAPTCHA from "react-google-recaptcha"
 import {UserSign} from '../services/Auth'
 
 function Signup() {
@@ -43,7 +44,7 @@ function Signup() {
     <div className="d-flex justify-content-center align-items-center">
        <div style={{backgroundImage: `url(${Image})`,backgroundRepeat: 'repeat-y',backgroundSize: 'contain',width: '100%',height: "1100px"}}/>
       <div className="card shadow-3d p-4" style={{position: 'absolute', top: '20vh', width: '100%', maxWidth: '400px',  backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)',}}>
-      <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}>(1.1)</text></h2>
+      <h2 className="text-center mb-2">MI Profile Generator<text style={{fontSize: "12px"}}></text></h2>
         <h2 className="text-center mb-4">Signup</h2>
         <form onSubmit={handleSubmit}>
           <fieldset>
@@ -151,7 +152,7 @@ function Signup() {
         {showPopup && (
           <div style={ {position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <div style={{backgroundColor: 'white', padding: '20px', borderRadius: '8px', textAlign: 'center'}}>
-              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent. Please note that the approval process may take up to 24 hours.</p>
+              <p>Your signup request has been successfully submitted. You will first receive a confirmation email regarding your signup. Once your request is reviewed and approved, a second email will be sent. Aapproval process may take up to 24 hours.</p>
               <button onClick={closePopup} style={{marginTop: '10px', padding: '8px 16px', backgroundColor: '#f44336', color: 'white', border: 'none', cursor: 'pointer'}}>Close</button>
             </div>
           </div>

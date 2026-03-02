@@ -11,7 +11,7 @@ function Start() {
     {/* Background Image */}
     <img src={Image} alt="Background" style={{width: "100vw", objectFit: "cover" }}/>
     <Link to="/login" style={{position: 'absolute', objectFit: "cover", maxWidth: "80vw" , boxShadow: "20px 20px 40px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(0, 0, 0, 0.1)", borderRadius: "4vw", padding: "2vw", border: "0", backgroundColor: "rgba(255, 255, 255, 0.9)", textDecoration: "none"}}>
-      <h2 style={{fontSize: "clamp(1rem, 3vw, 3rem)", fontWeight: "bold", color: "black",textAlign: "center"}}>Welcome to MI Profile Generator</h2>
+      <h2 style={{fontSize: "clamp(1rem, 3vw, 3rem)", fontWeight: "bold", color: "black",textAlign: "center"}}>Welcome to Mi Creator</h2>
     <h3 style={{fontSize: "clamp(1rem, 3vw, 3rem)", color: "black",textAlign: "center"}}>Click here to Login</h3></Link>
    
     </div>

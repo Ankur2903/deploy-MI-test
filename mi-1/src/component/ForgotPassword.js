@@ -10,7 +10,7 @@ function ForgotPassword() {
     const handleSubmit = async(e) => {
         e.preventDefault();
         if(!email)  return handleError("Email is required");
-        const result = await UserForgotPassword()
+        const result = await UserForgotPassword({email})
         
     }
 

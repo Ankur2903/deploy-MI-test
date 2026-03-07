@@ -75,7 +75,7 @@ app.post("/forgot-password", async(req, res)=>{
           subject: "Reset your Password",
           body: {
               contentType: "Text",
-              content: `https://deploy-mi-test-ui.vercel.app/reset-password/${user._id}/${token}`
+              content: `https://miforming.com/reset-password/${user._id}/${token}`
           },
           toRecipients: [
               { emailAddress: { address: `${email}` } }

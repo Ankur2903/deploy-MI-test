@@ -36,13 +36,13 @@ const addenquirie = async (req, res) => {
         let now = new Date();
         now.setMinutes(now.getMinutes() + 330); // Convert UTC to IST (UTC+5:30)
         const time = now.toISOString().slice(0,10) + " " + now.toISOString().slice(11,16);
-        const results = await cloudinary.uploader.upload(image, {
+        const results = image ? await cloudinary.uploader.upload(image, {
             folder: "MI-Enquiries",
             resource_type: "image",
             type: "private",          // private images
             overwrite: true,
-        });
-        const enquirieModel = new EnquirieModel({email: req.user.email, iD, customerName, customerRefNo, kAMName, profileName, imageUrl: results.secure_url, publicId: results.public_id, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate}); ;
+        }) : null;
+        const enquirieModel = new EnquirieModel({email: req.user.email, iD, customerName, customerRefNo, kAMName, profileName, imageUrl: results ? results.secure_url : null, publicId: results ? results.public_id : null, profileNo, time, result, twoD, threeD, machine, tools, fixture, stripWidth, length, type, thickness, boxPerimeter, click1, click4, click5, shortRadiusBendingRadius, longRadiusBendingRadius, click2, laserCuttingLength, click3, powderCoatingLength, holePunching, holePunchingDetails, assemblyProcess, assemblyProcessDetails, click6, outsourceActivity, material, materialIndianEquiv, tolerance, customerSpecReq, packingSpc, sample, volumeMonthlyInTon, volumeYearlyInTon, spare, reason, statuttery, unstared, unstaredval, risk, riskReason, enquirieDate, reviewDate});
         await enquirieModel.save();
         res.status(201)
         .json({

@@ -300,8 +300,8 @@ function Inquiry() {
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px" }}>{enquirie.time}</td>
           <td style={{textAlign: "center", border: "1px solid black",fontSize: "13px", backgroundColor:  enquirie.result == 2 ? "green" : enquirie.result == 1 ? "yellow" : "red" }}>{enquirie.result == 2 ? "FEASIBLE" : enquirie.result == 1 ? "FEASIBLE WITH MODIFICATION" : "NOT FEASIBLE"}</td>
           <td style={{textAlign: "center", border: "1px solid black",margin: "0", backgroundColor: "blue"}}>
-            <button type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-1${enquirie.iD}`} style={{ backgroundColor: "blue", color: "white", border: "none", borderRadius: "5px" }} onClick={() => handleclick(enquirie._id)}>Click</button>
-            <div className="modal fade-dark" id={`exampleModal-1${enquirie.iD}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <button type="button" data-bs-toggle="modal" data-bs-target={`#exampleModal-1${enquirie._id}`} style={{ backgroundColor: "blue", color: "white", border: "none", borderRadius: "5px" }} onClick={() => handleclick(enquirie._id)}>Click</button>
+            <div className="modal fade-dark" id={`exampleModal-1${enquirie._id}`} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div className="modal-dialog modal-xl">
                 {tab1 && 
                   <div className="modal-content">
